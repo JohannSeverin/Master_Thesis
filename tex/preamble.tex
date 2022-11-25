@@ -5,15 +5,11 @@
 
 \let\cleardoublepage\clearpage
 
+
 \usepackage[utf8]{inputenc}
-
 \usepackage{subfiles}
-
-\title{Master Thesis}
-\author{Johann Bock Severin}
-\date{\today}
-
-
+\usepackage{nameref}
+\usepackage{lastpage}
 
 % Colors 
 % https://coolors.co/5f0f40-873b5e-af677c-ffbfb7-ffd447-48a9a6-243010
@@ -30,25 +26,39 @@
     linkcolor = color6
 }
 
+%\renewcommand{\chaptermark}[1]{\markleft{\thechapter}}
+
+% Header on pages
+\fancypagestyle{fancy}{
+  \fancyhf{} 
+  \fancyhead[L]{\leftmark}
+  \fancyhead[R]{\thepage}
+}
+
+% Header on Chapter Opening
+\fancypagestyle{plain}{
+  \fancyhf{} 
+   \fancyfoot[R]{\thepage}
+}
 
 % chapter format
 \titleformat{\chapter}%
   {\huge\bf\color{color1} }% format applied to label+text
-  {\llap{\colorbox{color1}{\parbox{1.5cm}{\hfill\huge\bf\color{white}\thechapter\hspace{1.5cm}}}}}% label
-  {0.25 cm}% horizontal separation between label and title body
+  {\llap{\colorbox{color1}{\parbox{1.5cm}{\hfill\huge\bf\color{white}\thechapter}}\hspace{0.2cm}}}% label
+  {0 cm}% horizontal separation between label and title body
   {}% before the title body
   []% after the title body
 
 \titleformat{\section}%
   {\LARGE\bf\color{color2} }% format applied to label+text
-  {\llap{\colorbox{color2}{\parbox{1.0cm}{\hfill\LARGE\bf\color{white}\thesection}}}}% label
-  {0.25 cm}% horizontal separation between label and title body
+  {\llap{\colorbox{color2}{\parbox{1.0cm}{\hfill\LARGE\bf\color{white}\thesection}}\hspace{0.2cm}}}% label
+  {0 cm}% horizontal separation between label and title body
   {}% before the title body
   []% after the title body
 
 \titleformat{\subsection}%
-  {\BIG\bf\color{color3} }% format applied to label+text
-  {\llap{{\hfill\BIG\bf\color{color3}\thesubsection}}}% label
-  {0.25 cm}% horizontal separation between label and title body
+  {\bf\color{color3}}% format applied to label+text
+  {\llap{{\hfill\bf\color{color3}\thesubsection}\hspace{0.2cm}}}% label
+  {0 cm}% horizontal separation between label and title body
   {}% before the title body
   []% after the title body

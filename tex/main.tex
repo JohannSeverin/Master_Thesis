@@ -1,10 +1,22 @@
 \input{tex/preamble.tex}
 
 
-\begin{document}
-\maketitle
-\tableofcontents
+\title{Master Thesis}
+\author{Johann Bock Severin}
+\date{\today}
 
+\begin{document}
+% Make title page
+\maketitle
+
+% Setup TOC and proper page numbers
+\setcounter{page}{0}
+\tableofcontents
+\thispagestyle{empty}
+
+%%% Include files
+% Introduction
+\pagestyle{fancy}
 \subfile{sections/introduction.tex}
 
 
