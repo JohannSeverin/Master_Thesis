@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from scipy.sparse import diags, csr_matrix
+from scipy.sparse.linalg import eigsh
 
 
 
@@ -18,23 +19,28 @@ class Transmon():
     gamma           - The EJ2 / EJ ratio    
     """
 
-    def __init__(self, define_dict):
+    def __init__(self, n_cutoff = 10, e = 1, EJ = 10, EJ_EC_ratio = 50, gamma = None):
         # Can be created either in charge or flux basis. 
-        self.n_cutoff = define_dict["n_cutoff"]
+        self.n_cutoff = n_cutoff
         self.n        = self.n_cutoff * 2 + 1 # Dimensions of hilbert space
-        self.e        = define_dict["e"]
+        self.e        = e
 
         # Hamiltonian parameters (from fabrication)
-        self.EJ       = define_dict["EJ"]
-        self.EC       = self.EJ / define_dict["EJ_EC_ratio"]
-        
+        self.EJ       = EJ
+
         # Define second Josephson junction
-        if "gamma" in define_dict.keys():
-            self.gamma      = define_dict["gamma"]
+        if gamma:
+            self.gamma      = gamma
             self.EJ2        = self.EJ * self.gamma
+            self.EC         = (self.EJ + self.EJ2) / EJ_EC_ratio
         else:
             self.gamma      = None
             self.EJ2        = None
+            self.EC         = self.EJ / EJ_EC_ratio
+
+    def eigen_basis(self, n = 2, charge_offset = 0, external_flux = 0):
+        H = self.Hamiltonian(charge_offset = charge_offset, external_flux = external_flux)
+        return eigsh(H, k = n, which = "SA")
 
     def charge(self):
         return np.arange(-self.n_cutoff, self.n_cutoff + 1, 1)
@@ -150,12 +156,23 @@ class GaussianPulseGenerator():
         self.drag   = drag
 
         # Envelopes:
-        self.epsilon_x, self.epsilon_y = self.envelopes()
+        self.epsilon_I, self.epsilon_Q = self.envelopes()
 
         # Pulses
         self.I_pulse, self.Q_pulse = self.pulses()
 
+
+    # Put together:
+    def output(self):
+        def I_pulse(t):
+            I_comp = self.I * self.epsilon_I(t) * self.I_pulse(t)
+            return I_comp
         
+        def Q_pulse(t):
+            Q_comp = self.Q * self.epsilon_Q(t) * self.Q_pulse(t)
+            return Q_comp
+        
+        return I_pulse, Q_pulse
 
 
     def pulses(self):
@@ -166,19 +183,19 @@ class GaussianPulseGenerator():
 
     def envelopes(self):
         
-        def epsilon_x(t):
+        def epsilon_I(t):
             A = 1 / np.sqrt(2 * np.pi) / self.width
-            return A * np.exp((t - self.T) ** 2 / self.width ** 2 / 2)
+            return A * np.exp(-(t - self.T) ** 2 / self.width ** 2 / 2)
         
         if self.drag:
-            def epsilon_y(t):
+            def epsilon_Q(t):
                 A = 1 / np.sqrt(2 * np.pi) / self.width
                 B = - 1 / (2 * self.width ** 2) 
-                return A * B * (2 * t) * np.exp((t - self.T) ** 2 / self.width ** 2 / 2)
+                return A * B * (2 * (t - self.T)) * np.exp(-(t - self.T) ** 2 / self.width ** 2 / 2)
         else:
-            epsilon_y = epsilon_x
+            epsilon_Q = epsilon_I
 
-        return epsilon_x, epsilon_y
+        return epsilon_I, epsilon_Q
 
 
 
@@ -188,5 +205,36 @@ class GaussianPulseGenerator():
 
 
 if __name__ == "__main__":
-    res = Resonator(omega = 1)
-    print(res.Hamiltonian().todense())
+    # res = Resonator(omega = 1)
+
+    pulse = GaussianPulseGenerator(
+        T       = 100,              # Center of envelope
+        width   = 10,               # Width of envelope
+        omega   = 1,                # Frequency
+        phase   = np.pi / 4,        # Phase
+        drag    = True
+    )
+
+    I, Q = pulse.output()
+
+    ts = np.linspace(0, 200, 1000)
+
+    plt.figure()
+    plt.plot(ts, I(ts) + Q(ts))
+
+    pulse = GaussianPulseGenerator(
+        T       = 100,              # Center of envelope
+        width   = 10,               # Width of envelope
+        omega   = 1,                # Frequency
+        phase   = 0,                # Phase
+        drag    = True
+    )
+
+    I, Q = pulse.output()
+
+    ts = np.linspace(0, 200, 1000)
+
+    # plt.figure()
+    plt.plot(ts, I(ts)+ Q(ts))
+    plt.show()
+
