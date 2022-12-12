@@ -248,7 +248,7 @@ class ResonatorProbePulse():
 
         def epsilon_I(t):
             if t >= self.duration[0] and t < self.duration[0] + self.rise_time:
-                return self.amplitude * np.sin((t - self.duration[0])/self.rise_time * 2 / np.pi ) ** 2 
+                return self.amplitude * np.sin((t - self.duration[0])/self.rise_time * np.pi / 2 ) ** 2 
             elif t >= self.duration[0] + self.rise_time and t < self.duration[1] - self.fall_time:
                 return self.amplitude
             elif t >= self.duration[1] - self.fall_time and t < self.duration[1]:
@@ -274,9 +274,9 @@ class ResonatorProbePulse():
 if __name__ == "__main__":
     # res = Resonator(omega = 1)
     ts    = np.linspace(0, 100, 1000)
-    probe = ResonatorProbePulse(duration = [25, 75], omega = 3, rise_time = 6, fall_time = 6, amplitude = 1, phase = 0)
+    probe = ResonatorProbePulse(duration = [20, 80], omega = 3, rise_time = 25, fall_time = 25, amplitude = 1, phase = 0)
 
-    I, Q = probe.output()
+    I, Q = np.vectorize(probe.epsilon_I), np.vectorize(probe.epsilon_Q)
 
     total_pulse = I(ts) + Q(ts)
 
