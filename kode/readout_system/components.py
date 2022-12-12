@@ -198,43 +198,88 @@ class GaussianPulseGenerator():
         return epsilon_I, epsilon_Q
 
 
+class ResonatorProbePulse():
+    """
+    This class creates a pulse that can be used to probe the resonator.
+    It is made by having a fast rise and fall time using a sin^2 envelope. Inbetween it is constant.
+    """
+
+    def __init__(self, duration, omega, rise_time = 1, fall_time = 1, amplitude = 1, phase = 0):
+        self.duration   = duration
+        self.rise_time  = rise_time
+        self.fall_time  = fall_time
+        self.amplitude  = amplitude
+        self.phase      = phase
+        self.omega      = omega
+
+        # Find I and Q
+        self.I      = np.cos(phase)
+        self.Q      = np.sin(phase)
+
+        # Envelopes:
+        self.epsilon_I, self.epsilon_Q = self.envelopes()
+
+        # Pulses
+        self.I_pulse, self.Q_pulse = self.pulses()
 
 
+    # Put together:
+    def output(self):
+        def I_pulse(t):
+            I_comp = self.I * self.epsilon_I(t) * self.I_pulse(t)
+            return I_comp
+        
+        def Q_pulse(t):
+            Q_comp = self.Q * self.epsilon_Q(t) * self.Q_pulse(t)
+            return Q_comp
+        
+        I_pulse, Q_pulse = np.vectorize(I_pulse), np.vectorize(Q_pulse)
 
+        return I_pulse, Q_pulse
+
+    # Get the pulses
+    def pulses(self):
+        I_pulse = lambda t: np.cos(self.omega * (t - self.duration[0]))
+        Q_pulse = lambda t: np.sin(self.omega * (t - self.duration[0]))
+        return I_pulse, Q_pulse
+
+    # Compute the envelopes
+    def envelopes(self):
+
+        def epsilon_I(t):
+            if t >= self.duration[0] and t < self.duration[0] + self.rise_time:
+                return self.amplitude * np.sin((t - self.duration[0])/self.rise_time * 2 / np.pi ) ** 2 
+            elif t >= self.duration[0] + self.rise_time and t < self.duration[1] - self.fall_time:
+                return self.amplitude
+            elif t >= self.duration[1] - self.fall_time and t < self.duration[1]:
+                return self.amplitude * np.sin((t - self.duration[1])/self.fall_time * 2 / np.pi ) ** 2
+            else:
+                return 0
+
+        epsilon_Q = epsilon_I
+
+        return epsilon_I, epsilon_Q
+
+
+    # Rotating frame
+    def rotating_frame(self, t, omega):
+        """
+        This function takes a time t and a frequency omega and returns the time in the rotating frame.
+        It is given as a unitary transformation counteracting the driving by the probe pulse.
+        """
+        return None
 
 
 
 if __name__ == "__main__":
     # res = Resonator(omega = 1)
+    ts    = np.linspace(0, 100, 1000)
+    probe = ResonatorProbePulse(duration = [25, 75], omega = 3, rise_time = 6, fall_time = 6, amplitude = 1, phase = 0)
 
-    pulse = GaussianPulseGenerator(
-        T       = 100,              # Center of envelope
-        width   = 10,               # Width of envelope
-        omega   = 1,                # Frequency
-        phase   = np.pi / 4,        # Phase
-        drag    = True
-    )
+    I, Q = probe.output()
 
-    I, Q = pulse.output()
+    total_pulse = I(ts) + Q(ts)
 
-    ts = np.linspace(0, 200, 1000)
-
-    plt.figure()
-    plt.plot(ts, I(ts) + Q(ts))
-
-    pulse = GaussianPulseGenerator(
-        T       = 100,              # Center of envelope
-        width   = 10,               # Width of envelope
-        omega   = 1,                # Frequency
-        phase   = 0,                # Phase
-        drag    = True
-    )
-
-    I, Q = pulse.output()
-
-    ts = np.linspace(0, 200, 1000)
-
-    # plt.figure()
-    plt.plot(ts, I(ts)+ Q(ts))
+    plt.plot(ts, total_pulse)
     plt.show()
 
