@@ -10,7 +10,7 @@ Classically\footnote{Following is from the Quantum engineers guide to Supercondu
 \end{equation}
 Now using this relations together with $V = L dI/dt$ and $I = C dV/dt$ it is possible to find the energy by:
 \marginnote[0.5 cm]{The lower integration limit comes from the assumption that the system was at rest at infinity}
-\begin{equation}
+\begin{equation}\label{eq: Energy from current and voltage}
     E(t) = \int_{-\infty}^t V(t')I(t')dt'
 \end{equation}
 Such that the energy of the components are:
@@ -62,3 +62,45 @@ While the harmonic oscillator has an abundance of nice properties for physics, i
 \subsection{The Josephson Junction}
 The solution lies in another component, which is accessible in the superconducting circuit. By separating two superconductors by a semiconducting material, the Cooper pairs will no longer travel through without resistance but will instead have a probability of tunneling through the insulator/superconductor. This probability is dependent on the phase difference between the two superconductors. 
 \marginnote[0.5 cm]{Probably an idea to derive the Josephson junction, maybe just for my own sake.}
+
+The probability for tunneling through the superconducting phase is given as $\sin[2e\phi(t) / \hbar]$, where $\phi(t)$ is the time-dependent difference in phase between the two superconductors which are separated by the junction. Using the flux-quantum $\phi_0 = h / 2e$ and adding an external flux, the current through the Josephson Junction is:
+\begin{equation}
+    I(t) = I_0 \sin \left[ \frac{\phi(t) + \phi_{ext}}{\phi_0} \right]
+\end{equation}
+Which can be integrated according to equation \ref{eq: Energy from current and voltage} to get an energy:
+\begin{equation}
+    E_{\text{Josephson Junction}} = - E_J \cos \left[ \frac{\phi(t) + \phi_{ext}}{\phi_0} \right]
+\end{equation}
+up to a constant, which can be neglected by setting the zero point of the energy. \cite{vool_introduction_2017}
+
+\subsection{The Cooper pair Island}
+Replacing the inductor with a Josephson Junction. We instead have a circuit with a non-quadratic energy term. We now have a Hamiltonian given by:
+
+\begin{equation}
+    H(t) =  4 E_C (n - n_g)^2 -  E_J \cos \left[ \frac{\phi(t) + \phi_{ext}}{\phi_0} \right]
+\end{equation}
+
+Which gives us an anharmonic potential.
+
+\begin{marginfigure}
+    \caption{An example of a circuit with a capacitor and a Josephson Junction}
+    \includegraphics[width = \textwidth]{tex/fig_for_text/CooperPairIsland.png}
+    \label{fig:cooper_pair_island}
+\end{marginfigure}
+\vspace{1 cm}
+This section could also include the following:
+\begin{itemize}
+    \item A view of the potential and how the eigenstates lie in the potential.
+    \item A comparison of the harmonic states with the states of the CPB. \\
+    This would further motivate, that we define the anharmonicity and tell why it is effective. Drive a pulse with a narrow energy band must be long in time because of the fourier transform. \\
+    \item In this narrative we can drive transitions between our computational subspace by using the mixing of our states in an avoided crossing. However, the energy states are here sensitive to the noise of our charge / applied voltage. 
+\end{itemize}
+
+\section{The Transmon}
+The section must have the following:
+\begin{itemize}
+    \item How does the energy spectrum behave, when we increase the $E_J / E_C$ ratio. From 1 to 10 and to 50 where the Transmon lives.
+    \begin{itemize}
+        \item Compare the susceptibility to charge noise with the anhorminicty. We want to protect the qubit as well as possible while keeping the anharmonicity large, such that we can perform fast operations on the qubit. 
+    \end{itemize}
+\end{itemize}
