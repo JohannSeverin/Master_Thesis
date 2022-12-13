@@ -138,7 +138,9 @@ class Resonator():
     def occupation(self):
         occupation = np.arange(1, self.n_cutoff + 1)
         return occupation
-
+    
+    def n_matrix(self):
+        return self.a_dagger() @ self.a()
 
 from scipy.stats import norm
 class GaussianPulseGenerator():
@@ -267,7 +269,7 @@ class ResonatorProbePulse():
         This function takes a time t and a frequency omega and returns the time in the rotating frame.
         It is given as a unitary transformation counteracting the driving by the probe pulse.
         """
-        return None
+        return np.exp(-1j * omega * (t - self.duration[0]))
 
 
 
