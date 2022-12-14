@@ -264,12 +264,15 @@ class ResonatorProbePulse():
 
 
     # Rotating frame
-    def rotating_frame(self, t, omega):
+    def rotating_frame(self, dims):
         """
         This function takes a time t and a frequency omega and returns the time in the rotating frame.
         It is given as a unitary transformation counteracting the driving by the probe pulse.
         """
-        return np.exp(-1j * omega * (t - self.duration[0]))
+        def U(t):
+            return np.eye(dims) * np.exp(1j * self.omega * (t - self.duration[0]))
+
+        return U
 
 
 

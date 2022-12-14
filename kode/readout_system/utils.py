@@ -1,5 +1,6 @@
 import numpy as np
 
+
 # Mathematical tools:
 
 # Define a function to take the partial trace of the density matrix
@@ -8,6 +9,7 @@ class System():
 
     def __init__(self, dimensions):
         self.dimensions = dimensions
+        self.hilbert_size = np.prod(dimensions)
 
 
     def partial_trace(self, density_matrix, trace_over = 0):
