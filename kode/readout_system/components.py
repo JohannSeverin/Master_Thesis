@@ -114,6 +114,107 @@ class Transmon():
     
 
 
+class Fluxonium():
+    """
+    Class to create a transmon with given parameters. Can be generalized through the PUK
+
+    We create from a dictionairy with the following:
+    n_cutoff        - To determine size of operators
+    e               - constant
+
+    EJ              - Josephson energy
+    EJ_EC_ratio     - Ratio to determine capacitance of the circuit
+    gamma           - The EJ2 / EJ ratio    
+    """
+
+    def __init__(self, n_cutoff = 10, e = 1, EJ = 10, EC = 0.2, EL = 10):
+        # Can be created either in charge or flux basis. 
+        self.n_cutoff = n_cutoff
+        self.n        = self.n_cutoff * 2 + 1 # Dimensions of hilbert space
+        self.e        = e
+
+        # Hamiltonian parameters (from fabrication)
+        self.EJ         = EJ
+        self.EL         = EL
+        self.EC         = EC
+
+
+    def eigen_basis(self, n = 2, charge_offset = 0, external_flux = 0):
+        H = self.Hamiltonian(charge_offset = charge_offset, external_flux = external_flux)
+        return eigsh(H, k = n, which = "SA")
+
+    def charge(self):
+        return np.arange(-self.n_cutoff, self.n_cutoff + 1, 1)
+
+    def Hamiltonian(self, charge_offset = 0, external_flux = 0):
+        # Get kinetic and potential term
+        kinetic     = self.kinetic(charge_offset = charge_offset, external_flux=external_flux)
+        potential   = self.V(charge_offset = charge_offset, external_flux = external_flux)
+
+        diag_potential = diags(potential)
+
+        return diag_potential + kinetic
+
+    def kinetic(self, charge_offset = 0, external_flux = 0):
+        return - self.EJ * self.create_cos_matrix() + self.EL / 2 * (self.phi_matrix() + external_flux) ** 2
+        
+    def V(self, charge_offset = 0, external_flux = 0):
+        # Combine circuit to get (22) from A Quantum Engineers Guide ... including charge
+        n_diag      = np.arange(- self.n_cutoff, self.n_cutoff + 1, 1)
+        V           = 4 * self.EC * (n_diag + charge_offset) ** 2
+        return V
+
+    def V_in_flux_basis(self, charge_offset = 0, external_flux = 0):
+        raise NotImplementedError()
+
+    def phi_matrix(self):
+        # Matrix to get the charge matrix
+        diagonal        = np.linspace(-np.pi, np.pi, self.n_cutoff * 2 + 1)
+        phi_matrix      = diags(diagonal)
+        return phi_matrix
+
+    def q_matrix(self):
+        # Matrix to get the charge matrix
+        diagonal    = np.arange(- self.n_cutoff, self.n_cutoff + 1, 1)
+        q_matrix    = diags(diagonal)
+        return 2 * self.e * q_matrix
+
+    def n_matrix(self):
+        # Matrix to get jumps. Equal to n_matrix / 2 e
+        diagonal    = np.arange(- self.n_cutoff, self.n_cutoff + 1, 1)
+        q_matrix    = diags(diagonal)
+        return q_matrix
+
+    def exp_i_flux(self, cyclic = True):
+        # Exponent of the flux. We implement it as sum_n |n><n+1|
+
+        n = self.n_cutoff * 2 + 1
+        off_diag = np.ones(n - 1)
+        off_diag_sparse = diags(off_diag, offsets = 1)
+        cos_matrix = off_diag_sparse
+
+        if cyclic:
+            cyclic_component = csr_matrix(([1], ([n-1], [0])), shape = (n, n))
+        
+        return (cos_matrix + cyclic_component)
+
+    def create_cos_matrix(self, cyclic = True):
+        # Combine exp_i_flux to get cos = exp(i []) + exp(- i [])
+        exp_flux    = self.exp_i_flux(cyclic = cyclic)
+        cos_matrix  = (exp_flux + exp_flux.getH()) / 2
+        return cos_matrix
+        
+    def fourier_transform_matrix(self):
+        n       = self.n_cutoff * 2 + 1
+        qs      = np.arange(-self.n_cutoff, self.n_cutoff + 1, 1)
+        phis    = np.linspace(- np.pi, np.pi, n)
+
+        return 1 / np.sqrt(n) * np.exp(1j * np.outer(qs, phis))
+    
+
+
+
+
 class Resonator():
     """
     This class creates an LC circuit, that we can couple to the Transmon
@@ -141,6 +242,16 @@ class Resonator():
     
     def n_matrix(self):
         return self.a_dagger() @ self.a()
+
+
+    def Q_function(self, density_matrix, resolution = 10):
+        # Get the Q function
+        xs = ys = np.linspace(-self.n_cutoff, self.n_cutoff, resolution)
+
+        xs, ys = np.meshgrid(xs, ys)
+
+        alphas = xs 
+
 
 from scipy.stats import norm
 class GaussianPulseGenerator():
@@ -273,6 +384,7 @@ class ResonatorProbePulse():
             return np.eye(dims) * np.exp(1j * self.omega * (t - self.duration[0]))
 
         return U
+
 
 
 
