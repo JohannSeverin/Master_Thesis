@@ -213,8 +213,6 @@ class Fluxonium():
     
 
 
-
-
 class Resonator():
     """
     This class creates an LC circuit, that we can couple to the Transmon
