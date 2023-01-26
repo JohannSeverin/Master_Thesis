@@ -1,0 +1,116 @@
+\chapter{Dynamics of Quantum Systems}
+This is a chapter to write notes on the quantum dynamics of a system.
+\begin{itemize}
+    \item We will simply start by having the wave equation whose dynamics follow the schödinger equation. Maybe add the interaction picture? 
+    \item Generalize the concept to include the density matrix formalism. This  is need to take care of decay and interaction with the environment. Important partial trace etc.
+\end{itemize}
+In quantum mechanics, we consider some configuration of the system as a state, $\ket{\psi}$. This can represent a wave-function in an continuous space or be discretized. The spin of an electron follows the SU(2)-symmetry and can be represented by a two-component, complex vector called a spinor.  
+
+\section{Density Matrix Formalism}
+\newthought{Basing this part on  \cite{manzano_short_2020}}\\ 
+Typically in Quantum Mechanics, a state of the system is represented by at state vector $\ket{\psi}$. Which could be in a superposition of multiple states \footnote{Which together is a basis. So {$\ket{\psi_i}$} has to be mutually orthonormal. It is also possible to have an overcomplete set, but more on that, when we talk about coherent states.} = $\ket{\psi} = \sum_i c_i\ket{\psi_i}$, where $c_i$ is the complex coefficient and the state is normalized such that $\sum |c_i|^2 = 1$. While this is a great formalism, when you have knowledge about the entire system, it is not great at handling interactions with an unknown environment. 
+\\
+In the density matrix formalism, we would represent a single state of a quantum system, not as a vector, but a matrix given by:
+\begin{equation}
+    \rho = \sum_i p_i \ket{i}\bra{i}
+\end{equation}
+where $p_i = |c_i|^2$ is the probability of finding the state $\ket{i}$ on measurement. With this definition, one can be convinced that:
+\begin{align}
+    \Tr{\rho} &= 1 \\
+    p_i &\geq 0
+\end{align}
+Now, if we have single state, for example the ground state $\ket{\psi} = \ket{0}$. We would have $p_0 = 1, p_i = 0, \text{for } i \neq 0$. This is called a pure state, and an easy check if the state is pure, is to trace the square of the density matrix:
+\begin{equation}
+    \Tr{\rho_{pure}^2} = 1
+\end{equation}
+
+\textbf{Fill in with proper transition...}
+
+While the pure states can easily be presented in the density matrix formalism. It gets more interesting, when we include the off-diagonal elements. If we were to have two coupled two level systems. We can have the entangled states\footnote{The $\otimes$ references to the product state of two Hilbert spaces: $\mathcal{H}^2 \otimes \mathcal{H}^2$. Sometimes the $\otimes$ will be omitted and the state $\ket{1 1}$ will represent $\ket{1} \otimes \ket{1}$.}:
+
+\begin{equation}
+    \ket{\phi_+} = \fracsqrttwo(\ket{0}\otimes \ket{0} + \ket{1}\otimes\ket{1})
+\end{equation}
+
+Which in density matrix formalism will be:
+\begin{equation}
+    \rho_{\phi+} = 
+    \begin{pmatrix}
+        \frac{1}{2} & 0 & 0 & \frac{1}{2} \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        \frac{1}{2} & 0 & 0 & \frac{1}{2}
+    \end{pmatrix}
+\end{equation}
+It can be seen that we now acquire non-diagonal terms. These are called coherences since they refer to the entanglement for the two states.  But this matrix is different from: 
+\begin{equation}
+    \rho = 
+    \begin{pmatrix}
+        \frac{1}{2} & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & 0 \\
+        0 & 0 & 0 & \frac{1}{2}
+    \end{pmatrix}
+\end{equation}
+where the coherences are 0. Thus this is not an entangled superposition, but rather mean that the in an ensemble of this state, half will be prepared in $\ket{00}$ and the other half in $\ket{11}$. \marginnote{This fact can not be represented in the bra-ket notation that we are used to, and here lies the true power of the density matrix formalism: we quantify entanglement versus a fraction of populations.}
+In general, we write the full density matrix as:
+\begin{equation}
+    \rho = \sum_{ij} \rho_{i,j} \ket{i}\bra{j}
+\end{equation}
+
+\subsection{Interactions with the environment}
+The properties of the of the density matrix allows us describe interaction with the environment. Start with considering the product state of two systems:
+\begin{equation}
+    \rho = \rho_1 \otimes \rho_2
+\end{equation}
+but we have no knowledge of the second system\footnote{Could be the environment while the first system is our lab.}. Now if a measurement is done in the second system, the whole system will with probability $p_i = \rho_{2, ii}$ collapse to $\ket{i}\bra{i}$ state. For this reason, we can find the leftover state in system 1 by tracing over the elements in $\rho_2$. This is called a "partial trace" or "tracing out system 2". Mathematically we can write it as:
+\begin{align}
+    \Tr_2 (\rho_1 \otimes \rho_2) &= \Tr_2 \left(\sum_{ijkl} \rho_{ij}\rho_{kl} \ket{i}\bra{j} \otimes \ket{k}\bra{l}\right) \nonumber \\
+    &= \sum_{ij} \rho_{ij} \ket{i}\bra{j} \sum_k \rho_{kk} 
+\end{align}
+\textbf{CHECK THIS! It does not seem completely right.} \\
+
+
+\textbf{Probably don't do entanglement above. Just show superpositions. }
+
+In the two two level systems, tracing out the second one would give us the density matrix for the first one:
+\begin{equation}
+    \Tr_2 \left(\ket{\phi_+}\bra{\phi_+}\right) = \begin{pmatrix}
+        \frac12 & 0 \\
+        0       & \frac12
+    \end{pmatrix}
+\end{equation}
+Meaning that half of our ensemble will be in $\ket{0}$ and the other half in $\ket{1}$.
+
+\subsection{Other Useful Things:}
+One could also show, that:
+\begin{itemize}
+    \item $\expval{O} = \Tr{O\rho}$
+    \item entagnled = unseperable
+    \item basis-change
+\end{itemize}
+
+\subsection{Quantum Maps}
+Allowing for loss of entanglement information in a quantum process allows us to relax the conditions of a quantum map. A mapping of a density matrix simply takes a density matrix and maps into another one:
+\begin{equation}
+    \Lambda(\rho) \to \rho'
+\end{equation}
+For it to have the desired physical properties, we want it to be a complete positive (CP) map, such that $\rho_{ii} \geq 0$ for all $i$. This requirement ensures that a map can not map a density matrix to something with negative probabilities. A CP map can be shown to satisfy \cite{greenbraum}:
+\begin{equation}
+    
+\end{equation}
+
+\section{Time Evolution of Density Matrices}
+The time-evolution of a single quantum state follows the schödinger equation: $i\partial_t\ket{\psi(t)} = H\ket{\psi(t)}$. Which can be solve with the time evolution operator $\unitary(t) = \exp{-iHt}$ to get $\ket{\psi(t)} = \unitary(t)\ket{\psi(0)}$. With this fact, the time dependence of a density matrix can easily be found as:
+\begin{align}
+    \rho(t) &= \sum_{ij} \ket{\psi_i(t)}\bra{\psi_j(t)} = \sum_{ij} \unitary(t) \ket{\psi_i(0)}\bra{\psi_j(0)} \unitary^\dagger(t) \nonumber \\
+    &= \unitary(t) \rho(0) \unitary^\dagger(t)
+\end{align}
+And the derivative:
+\begin{align}
+    \partial_t \rho(t) &= (\partial_t \unitary(t)) \rho(0)\unitary^\dagger(t) + \unitary(t)\rho(0)(\partial_t \unitary^\dagger) \nonumber \\
+    &= -iH \rho(t) +i \rho(t) H \nonumber \\
+    &= - i \comm{H}{\rho(t)}
+\end{align}
+
+\subsection{Loss, Decoherence etc. with Environment.}
