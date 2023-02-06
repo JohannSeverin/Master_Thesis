@@ -1,2 +1,251 @@
 \chapter{Qubit Control and Readout}
 \newthought{This chapter} will cover how a qubits can be controlled and measured by driving it with a (most commonly microwave) pulse. 
+
+
+\section{Qubit Control}
+While the cooper pair island can be controlled by controling the applied voltage to go in and out of the avoided crossing, the Transmon needs to be controlled by applying a (often) microwave pulse. After find the eigenstates of the Qubit, the system will be given as:
+\begin{equation}
+    H_Q = \sum_k \omega_k \ket{k}\bra{k}
+\end{equation}
+where $k$ refers to the k'th energy eigenstate of the transmon. Now, the transmon can be driven by applying a voltage. The hamiltonian of the qubit drive can be written with the hamiltonian:
+\begin{equation}
+    H_{QD} = 2 \Omega(t) \sum_k \lambda_k \big(\ket{k}\bra{k + 1} + \ket{k + 1}\bra{k} \big)
+\end{equation}
+where $\Omega(t)$ is the applied voltage as a function of time and $\lambda_k$ is given by the overlap of the energy eigenstates of the transmon with the number operator: $\matrixel{k}{\hat{n}}{k+1}$\marginnote{Something like this $\rightarrow$ derive rigiously.} 
+
+\textbf{Now it is possible to split the drive in an envelope and Cosine pulse to make Q I mixing and control the qubit. This can be used for controlling the qubit and making X, Y and Z rotations.}
+
+\section{Coupling to a Resonator}
+\textbf{This section is based on \cite{boissonneault_dispersive_2009} and \cite{boissonneault_improved_2010}.} 
+To determine the state of the qubit, we couple it to a resonator. This method is inspired by cavity QED, but since we only need an harmonics oscillator coupled to the system, we can use an LC circuit instead. As mentioned earlier the LC circuit gives rise to a harmonic potential:
+\begin{equation}
+    H_r = \omega_r \; a^\dagger a
+\end{equation}
+The resonator can now be coupled to the transmon by connecting them with a capacitor. Giving rise to a $C_g V_r V_t$ potential. Using that $V_{r/t} = 2e n_{t/r} / C_{t/r}$ the potential can be written as $4e^2C_g  n_t n_r / C_r C_t$ or by simply defining the coefficient as $g$, the coupling is given by:\marginnote{\textbf{Insert picture of the circuit here}}
+\begin{equation}
+    H_{int} = g n_c n_r 
+\end{equation}
+Or by using $n_c \propto a + a^\dagger$ and $n_t \propto \sigma_+ + sigma_-$ we obtain the Jaymes Cunning interaction:
+\begin{equation}
+    H_{int} = g (a + a^\dagger) (\sigma_- + \sigma_+)
+\end{equation}
+Where the proportions are absorbed into the coupling strength $g$. 
+
+
+\subsection{Rotating Wave Approximation}
+To optimize the computation time, it is beneficial to get rid of fast oscillating terms. First we choose to go into the interaction picture, where we try to cancel the time evolution of the non-interacting Hamiltonian.
+\begin{equation}
+    H_0 = \omega_r \; a^\dagger a + \omega_t\frac{\sigma_z}{2} 
+\end{equation}
+where the associated time evolution operator will be:
+\begin{equation}
+    U_0(t) = e^{-iH_0t}
+\end{equation}
+In the interaction picture, we will now have: $\ket{\psi} \rightarrow U^\dagger(t)\ket{\psi}$ to counteract the fast oscillations from the $H_0$ term. The Hamiltonian will transform as: $H \rightarrow U^\dagger(t) H \; U(t)$. This yields a Hamiltonian given by:
+\begin{align*}
+    H_{int}(t) = H_0 + g \left(e^{it(-\omega_r - \omega_t)} a \sigma_- + e^{it(\omega_r - \omega_t)} a^\dagger \sigma_-\right.  \\ 
+    \left.e^{it(-\omega_r + \omega_t)} a \sigma_+ + e^{it(\omega_r + \omega_t)} a^\dagger \sigma_+\right)
+\end{align*}
+We now perform the rotating wave approximation, where we drop fast oscillating terms:\marginnote{This works as the time-evolution operator is given by $U = \exp(i\int dt H)$ so fast oscillating term will cancel if the time interval is sufficiently large.}
+\begin{equation}
+    H_{int}(t) = H_0 + g \left(e^{it\Delta}a^\dagger\sigma_- +  e^{-it\Delta}a\sigma_+\right)
+\end{equation}
+where $\Delta = \omega_r - \omega_t$ is the detuning between the resonator and the transmon. Back in the Schödinger picture, we can simply write:
+\begin{equation}
+    H_{S} = H_0 + g \left(a^\dagger\sigma_- +  a\sigma_+\right)
+\end{equation}
+
+\subsection{Dispersive Regime}
+We will now focus on the dispersive limit. Here the coupling is much smaller than the detuning between the resonator and transmon. We introduce the parameter:
+\begin{equation}
+    \lambda = \frac{g}{\Delta} \ll 1
+\end{equation}
+In this regime, the Jaynes-Cummings Hamiltonian can be diagonalized to first order $\lambda$ by applying the transformation:
+\begin{equation}
+    \boldsymbol{D} = \exp\left[\lambda (a^\dagger \sigma_- - a \sigma_+) \right]
+\end{equation}
+The Hamiltonian transforms as: 
+\marginnote{Using $e^{-\lambda X}He^{\lambda X} = H + \lambda \comm{H}{X} + \lambda^2 / 2! \comm{\comm{H}{X}}{X} \dots$}
+
+\begin{align*}
+    H &\rightarrow \boldsymbol{D}^\dagger H \boldsymbol{D} \\
+      &= \exp\left(-\lambda (a^\dagger \sigma_- - a \sigma_+) \right) H \exp\left(\lambda (a^\dagger \sigma_- - a \sigma_+) \right) \\
+      &= H + \lambda\comm{H}{(a^\dagger \sigma_- - a \sigma_+)} + \mathcal{O}(\lambda^2)
+\end{align*}
+Where we calculate the commutator as:
+\begin{fullwidth}
+\begin{align*}
+    &= \comm{H_0 + g(a^\dagger \sigma_- + a \sigma_+)}{(a^\dagger \sigma_- - a \sigma_+)} & \\
+    &= \comm{\omega_r \; a^\dagger a + \omega_t\frac{\sigma_z}{2} }{(a^\dagger \sigma_- - a \sigma_+)} + g \comm{(a^\dagger \sigma_- + a \sigma_+)}{(a^\dagger \sigma_- - a \sigma_+)} \\
+    &= \omega_r \left(a^\dagger a a^\dagger \sigma_- - a^\dagger a a \sigma_+ - a^\dagger a^\dagger a \sigma_- + a a^\dagger a \sigma_+ \right) \\
+    &= \omega_r \left(n a^\dagger \sigma_- - n a \sigma_+ - a^\dagger n \sigma_- + a n \sigma_+ \right)
+\end{align*}
+\end{fullwidth}
+
+\vspace{0.5 cm}
+\textbf{Schrieffer Wolff transformation.} When dealing with a dressed state of the type $H = H_0 + V$ one can apply a transformation $\boldsymbol{D} = \exp(S)$ To get
+\begin{align*}
+    H' = \boldsymbol{D}^\dagger H \boldsymbol{D} &= e^{-S} (H_0 + V) e^{S} \\
+    &= H_0 + V + \comm{S}{H_0 + V} + \frac{1}{2!} \comm{S}{\comm{S}{H}} + \dots
+\end{align*}
+Thus we can diagonalize the Hamiltonian to first order in $V$ if we choose $S$ such that $V + \comm{S}{H_0} = 0$. In our case, where a transmon is dressed by a resonator, we choose our transformation by:
+\begin{equation}
+    S = \lambda (a^\dagger \sigma_- - a \sigma_+)
+\end{equation}
+Such that:\marginnote{Where we used the commutators $\comm{n}{a/a^\dagger}$ and $\comm{\sigma_z}{\sigma_ {+/-}}$}
+\begin{align*}
+    \comm{H_0}{S} &= \lambda\comm{\omega_r a^\dagger a + \omega_t \sigma_z / 2}{a^\dagger \sigma_- - a \sigma_+} \\
+    &= - \lambda \left(a^\dagger \sigma_- + a \sigma_+\right)
+\end{align*}
+\textbf{Giving??? What abouth the coefficients:}
+\begin{equation*}
+    V + \comm{S}{H_0} = 0
+\end{equation*}
+While we get a new contribution to the Hamiltonian by:
+\begin{align*}
+    \comm{S}{V} &= \lambda g \comm{a^\dagger \sigma_- - a \sigma_+}{a^\dagger \sigma_- + a \sigma_+} \\
+                &= \lambda g \left(a^\dagger a \sigma_- \sigma_+ - a a^\dagger \sigma_+ \sigma_-\right) \\
+                &= 2 \lambda g \left(a^\dagger a \sigma_z + \frac12 \lambda g \sigma_+\sigma_-\right)
+\end{align*}
+From here it is possible to find a shift of the resonator frequency depending on the state of the qubit. The dispersive shift is found as: $g^2 / \Delta$. 
+
+\textbf{I think we just absorb the energy switch $\sigma_+\sigma_- = \ket{1}\bra{1}$ into the energies of the qubit. Such that the frequencies also move slightly, not dependent on the photon count. This is the Lamb Shift. Write it in!} 
+
+\subsection{Generalization for Multi Level Qubit}
+\newthought{This section is based on the week 7 exercises in Superconducting-Course by Sven. Jacob helped with this weeks exercies.}\\
+In the above, we assumed that the qubit only have two states. In reality, this is not true, and we will have to consider multiple levels. As before we have energy for the resonator given by: $H_{res} = \omega_r a^\dagger a$ while the energy for an M-level qubit can be written generally as:
+\begin{equation}
+    H_{q} = \sum_{k = 0}^{M-1} \omega_k \ket{k}\bra{k}
+\end{equation}
+Where $\ket{k}$ is the k'th energy eigenstate of the qubit with corresponding energy of $\omega_k$. Allowing the M-level qubit to interact with the resonator by the Generalized Jaynes-Cumming model:
+\begin{equation}
+    H_1 =  \sum_{i,j} g_{ij} \ket{i}\bra{j} (a + a^\dagger ) 
+\end{equation}
+Where the jump strength $g_{ij}$ is related to the overlap of the eigenstates with the charge operator and the coupling energy ($g$): $g_{ij} = g \matrixel{i}{\hat{n}}{j}$. This gives the full Hamiltonian: 
+% \begin{align}
+%     H &= H_0 + H_1  \nonumber \\&= \omega_r a^\dagger a +  \sum_{k = 0}^{M-1} \omega_k \ket{k}\bra{k} + \sum_{i,j} g_{ij} \ket{i}\bra{j} (a + a^\dagger ) 
+% \end{align}
+\begin{fullwidth}
+    \begin{equation}
+        H = H_0 + H_1  = \omega_r a^\dagger a +  \sum_{k = 0}^{M-1} \omega_k \ket{k}\bra{k} + \sum_{i,j} g_{ij} \ket{i}\bra{j} (a + a^\dagger ) 
+    \end{equation}
+\end{fullwidth}
+As in the two-level-system, we can make  use of the Schreiffer-Wolff transformation to diagonalize the Hamiltonian to second order in the perturbation variable. We want to apply the transfomration: \marginnote{\textbf{Probably remove $\eta$ here and just make the dispersive argument later}}
+\begin{align}
+    H' &= e^{S} H e^{-S} = H + \comm{S}{H} + \frac{1}{2}\comm{S}{\comm{S}{H}} + \dots \nonumber\\
+                        &= H_0 + H_1 + \comm{S}{H_0 + H_1} + \frac{1}{2} \comm{S}{\comm{S}{H_0 + H_1}} + \dots
+\end{align}
+Where $S$ has to be an anti-hermitian operator to make this a unitary transformation. The goal is now to choose $S$ such that the linear terms in our perturbation disappear. This gives the condition $\comm{S}{H_0} = - H_1$. If we were to choose:
+\begin{equation}
+    S = \sum_{ij}g_{ij}\ket{i}\bra{j}\left(\frac{1}{\omega_{ij} - \omega_r}a + \frac{1}{\omega_{ij} + \omega_r} a^\dagger \right)
+\end{equation}
+with $\omega_{ij} = \omega_i - \omega_j$. The commutator gives:
+\begin{fullwidth}
+\begin{align*}
+    \comm{S}{H_0} &= \sum_{ijk}g_{ij}\comm{\ket{i}\bra{j}\left(\frac{1}{\omega_{ij} - \omega_r}a + \frac{1}{\omega_{ij} + \omega_r} a^\dagger \right)}{\omega_r a^\dagger a + \omega_k \ket{k}\bra{k}} \\
+    &= \sum_{ij} g_{ij}\ket{i}\bra{j} (\omega_j - \omega_i) \left(\frac{1}{\omega_{ij} - \omega_r}a + \frac{1}{\omega_{ij} + \omega_r} a^\dagger\right) \\
+    &+ \sum_{ij} g_{ij} \ket{i}\bra{j} \omega_r \left(\frac{1}{\omega_{ij} - \omega_r} \comm{a}{a^\dagger a}  + \frac{1}{\omega_{ij} + \omega_r} \comm{a^\dagger}{a^\dagger a} \right) 
+\end{align*}
+\end{fullwidth}
+And with $\comm{a^\dagger}{a^\dagger a} = - a^\dagger$ and $\comm{a^\dagger}{a a} = + a$. We obtain:
+\begin{align*}
+    &= \sum_{ij}g_{ij}\ket{i}\bra{j}\left(\frac{\omega_j - \omega_i - \omega_r}{\omega_{ij} + \omega_r} a + \frac{\omega_j - \omega_i - \omega_r}{\omega_{ij} + \omega_r} a^\dagger  \right) \\
+    &= -\sum_{ij}g_{ij}\ket{i}\bra{j}(a + a^\dagger) = - H_1
+\end{align*}
+With this result, our transformed Hamiltonian now becomes:
+\begin{align}
+    H' &= H_0 + \comm{S}{H_1} + \frac12\comm{S}{\comm{S}{H_0 + H_1}} \dots \nonumber \\
+       &= H_0 + \comm{S}{H_1} + \frac12\left( - \comm{S}{H_1} + \comm{S}{\comm{S}{H_1}}\right) \dots \\
+       &= H_0 + \frac12\comm{S}{H_1} + \dots
+\end{align}
+In the dispersive limit, the coupling strength is much weaker than the detuning: $g_{ij} \ll w_{ij}$. Since S contains $g_{ij} / w_{ij}$ terms, we only go to the linear term in the dispersive approximation, and drop everything with higher orders of S. 
+
+In this transformed basis, we find the "pertubation" entirely from: $H_{shift} = \frac12 \comm{S}{H_1}$ which can be calculated to:
+\begin{fullwidth}
+\begin{align*}
+    2 H_{shift}&= \comm{\sum_{ij}g_{ij}\ket{i}\bra{j}\left(\frac{1}{\omega_{ij} - \omega_r}a + \frac{1}{\omega_{ij} + \omega_r} a^\dagger \right)}{\sum_{kl} g_{kl} \ket{k}\bra{l} (a + a^\dagger ) } \\
+    &= \sum_{ijkl} g_{ij} g_{kl}\left[\ket{i}\delta_{jk}\bra{l}\left(\frac{1}{\omega_{ij} - \omega_r}a + \frac{1}{\omega_{ij} + \omega_r} a^\dagger \right)(a + a^\dagger)\right]\\
+    &- \sum_{ijkl} g_{ij} g_{kl}\left[\ket{k} \delta_{li}\bra{j} (a + a^\dagger)\left(\frac{1}{\omega_{ij} - \omega_r}a + \frac{1}{\omega_{ij} + \omega_r} a^\dagger\right)\right]
+\end{align*}
+\end{fullwidth}
+\textbf{Going into the rotating frame} terms proportional to $aa$ or $a^\dagger a^\dagger$ will be negligible. \textbf{Further, we only consider the diagonal elements of this matrix. Terms proportional to} $\ket{i}\bra{i}$. We find: \textbf{GO THROUGH THIS!}
+\begin{fullwidth}
+\begin{align*}
+    2 H_{shift} &= \sum_{ij} |g_{ij}|^2 \ket{i}\bra{i} \left[\frac{1}{\omega_{ij} - \omega_r}aa^\dagger - \frac{1}{\omega_{ji} + \omega_r} a^\dagger a + \frac{1}{\omega_{ij} - \omega_r}a^\dagger a - \frac{1}{\omega_{ji} + \omega_r}  a a^\dagger  \right]
+\end{align*}
+\end{fullwidth}
+
+\newthought{We will then end up with: (with a bit more work)}
+\begin{fullwidth}
+\begin{equation}
+    H_{shift} = \sum_{ij} \ket{i}\bra{i} |g_{ij}|^2 \left(\frac{1}{\omega_{ij} - \omega_r} + \left(\frac{1}{\omega_{ij} - \omega_r} + \frac{1}{\omega_{ij} + \omega_r} \right)a^\dagger a\right)
+\end{equation}
+\end{fullwidth}
+
+Defining the quantities:
+\begin{align}
+    \chi_{ij} &= |g_{ij}|^2 \left(\frac{1}{\omega_{ij} - \omega_r} + \frac{1}{\omega_{ij} + \omega_r} \right) \\
+    \delta_{ij} &= \frac{|g_{ij}|^2 }{\omega_{ij} - \omega_r} \\
+    \chi_{i} &= \sum_j \chi_{ij} \\
+    \delta_{i} &= \sum_j \delta_{ij} 
+\end{align}
+We can write the full Hamiltonian as:
+\begin{equation}
+    H' = \omega_r a^\dagger a + \sum_k \omega_k \ket{k}\bra{k} + \sum_{kl}\ket{k}\bra{k}(\delta_{kl} + \chi_{kl} a^\dagger a )
+\end{equation}
+Or in a more interpretable manner:
+\begin{equation} \label{eq:multi_qubit_dispersive_hamiltonian}
+    H' = \left(\omega_r + \sum_k \chi_k \ket{k}\bra{k} \right) a^\dagger a + \sum_k (\omega_k + \delta_k)\ket{k}\bra{k}
+\end{equation}
+This equation allows us to investigate the effect of the coupling between resonator and qubit. When coupled the qubit state shift the resonator frequency with $\chi_k$. While every qubit frequency is shifted slightly by $\delta_k$.
+
+
+
+\section{Applying a Drive }
+\newthought{Currently this note is primarily how to enter the rotating frame of the drive. There should probably be more physics included. Transformation is taken from \cite{krantz_quantum_2019}.} \\
+To do an actual measurement, we try to drive the resonator using a feed line. Now the photon count of the resonator can be readout using either the transmitted or reflected signal from the resonator. Driving the resonator gives rise to a Hamiltonian: $H_{drive} = \epsilon\cos(\omega_d t)(a + a^\dagger) = \epsilon\frac12 (e^{i\omega_d t} + e^{-i\omega_d t})(a + a^\dagger)$, where $\epsilon$ is the amplitude of the drive and $\omega_d$ is the drive frequency.
+
+\vspace{1 cm}
+We now want to enter the rotating frame of the resonator. To make sure we also cancel the fast oscillating terms of the qubit, we choose to do the time-dependent transformation:
+\begin{equation}
+    \ket{\psi} \to \ket{\tilde{\psi}} = \mathcal{U}(t)\ket{\psi}
+\end{equation}
+In this basis, the Schrödinger equation becomes:
+\begin{align*}
+    i\partial_t \ket{\tilde{\psi}(t)} &= i \partial_t (\mathcal{U}(t) \ket{{\psi}(t)}) \\
+    &= i \dot{\mathcal{U}}(t)\ket{\psi(t)} + i \mathcal{U}(t) {\ket{\Dot{{\psi}}(t)}}
+\end{align*}
+And using $\ket{\dot{\psi}(t)} = i H \ket{\psi}$ and $\ket{\psi(t)} = \mathcal{U}^\dagger(t) \ket{\tilde{\psi}(t)}$:
+\begin{equation}
+    i \partial_t \ket{\Tilde{\psi}(t)}= \left[(\dot{i \mathcal{U}}{(t)}\unitary^\dagger(t) + \unitary(t) H \unitary^\dagger(t)\right]\ket{\tilde{\psi}(t)}
+\end{equation}
+Such that the effective Hamiltonian in the rotating frame is given as:
+\begin{equation}
+    H_{eff} = \dot{i \mathcal{U}}{(t)}\unitary^\dagger(t)) + \unitary(t) H \unitary^\dagger(t)
+\end{equation}
+It is now possible, to use this fact to simultaneously remove the time-dependence from the drive and remove the fast oscillating terms from the Qubit states. We now want to transform the resonator driving hamiltonian and the dispersive hamiltonian from Eq. \ref{eq:multi_qubit_dispersive_hamiltonian}. We choose: 
+\begin{equation}
+    \unitary(t) = \exp\left(- i t \sum_k (\omega_k + \delta_k) \ket{k}\bra{k}\right) \otimes \exp \left(- i t \omega_d \;  a^\dagger a \right)
+\end{equation}
+Such that the effective Hamiltonian from the system gets the "centrifugal" contribution:
+\begin{equation}
+    \dot{i \mathcal{U}}{(t)}\unitary^\dagger(t)) = - i t \sum_k (\omega_k + \delta_k) \ket{k}\bra{k} - it \omega_d \;  a^\dagger a
+\end{equation}
+While the Hamiltonian stays constant, since $\comm{H_{sys}}{\unitary(t)} = 0$:
+\begin{equation}
+    \unitary(t) \; H_{sys} \; \unitary^\dagger(t) = H_{sys}
+\end{equation}
+Lastly, the drive transforms to:
+\begin{align*}
+    H_{drive} &\to \unitary(t) H_{} \unitary^\dagger{t} \\
+    &= \frac12 \epsilon (e^{i\omega_d t} + e^{-i\omega_d t}) \left[ \; \unitary(t)  (a + a^\dagger) \unitary^\dagger(t)\right] \\
+    &= \frac12 \epsilon (e^{i\omega_d t} + e^{-i\omega_d t}) \left[ \;a e^{i \omega_d t} + a^\dagger e^{-i \omega_d t} \right]
+\end{align*}
+Neglecting the fast rotating terms ($\propto e^{\pm 2i\omega_dt}$), we get the effective drive Hamiltonian:
+\begin{equation}
+    H_{d, eff} = \epsilon(a + a^\dagger)
+\end{equation}
+Such that the total effictive Hamiltonian now becomes:
+\begin{equation}
+    H_{eff} =  \left(\omega_r - \omega_d + \sum_k \chi_k \ket{k}\bra{k}\right)a^\dagger a + \epsilon(a + a^\dagger)
+\end{equation}
