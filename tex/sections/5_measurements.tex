@@ -1,0 +1,109 @@
+\chapter{Measurements}
+In the previous sections, we have covered how the quantum system of a qubit coupled to a resonator behaves. In this chapter, we will dive into the readout of the resonator and how it behaves while we are measuring.
+
+\section{I-Q Plane}
+\newthought{Based on Hastrup's phd thesis and Knight introduction to quantum optics.}
+To understand how a qubit is measured, we must first understand how to the state of the resonator coupled to it. As mentioned earlier, in the dispersive limit, the frequency of the resonator is shifted depending on the qubit. When driven in the proper way, this gives rise to two different kinds of behaviour. How these two are different will be the topic of this chapter. \\
+
+As a start, lets consider the quantum harmonic oscillator subject to $H = \omega^2  x^2 + p^2$ with proper definitions of $x$ and $p$ which properly satisfyes $\comm{x}{p} = i$. To properly diagonalize the Harmonic Oscillator, one usually introduces the raising and lowering operator by:
+\begin{align}
+    &a \propto x + ip \hfill &a^\dagger \propto x - ip \\
+    &x \propto a + a^\dagger \hfill &p\propto i (a - a^\dagger)
+\end{align}
+Now, one can consider the harmonic oscillator either discretely in the $n = a^\dagger a$ eigenspace or in the continuous basis of $x$ and $p$. The same can be done with photons in a resonator. Where we consider the "quadratures" of the electric field, which we define as Q and I and are defined by the photon creation and annihilation operator in a way quite like the $x$ and $p$ operators of the harmonic oscillator:
+\begin{equation}
+    Q = a + a^\dagger \hspace{2 cm} I = i(a^\dagger - a)
+\end{equation}
+
+\subsection{Coherent States}
+\newthought{This is based on Knight} \\ \noindent
+When considering a Harmonic Oscillator, the number states have expectation values $\expval{x} = \expval{p} = 0$. To get non-zero values of these expectation values, one is required to have superposition states with adjacent components. Example: $c_n\ket{n} + c_{n+1} \ket{n+1}$, which would satisfy $\expval{x} \propto \expval{a + a^\dagger} \neq 0$. The more natural states would be eigenstates to the annihilation operator:
+\begin{equation}
+    a \ket{\alpha} = \alpha \ket{\alpha}
+\end{equation}
+Expanding $\ket{\alpha}$ in the Fock states gives us:
+\begin{align}
+    a \sum_n C_n \ket{n} = \alpha \sum_{n = 0} C_n \ket{n} \\
+    \sum_{n = 1} C_n \sqrt{n} \ket{n - 1}
+\end{align}
+From where, we can compare the coefficients of the $\ket{n}$:
+\begin{equation}
+    \sqrt{n} C_n = \alpha C_{n - 1}
+\end{equation}
+Given $C_0$, we can now determine the rest of the series as:
+\begin{equation}
+    C_N = \frac{\alpha^n}{\sqrt{n!}} C_0 
+\end{equation}
+Such that $\ket{\alpha}$ can be found as: 
+\begin{equation}
+    \ket{\alpha} = C_0 \sum_n \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0} = C_0
+\end{equation}
+Where $C_0$ can be found from normalization as:
+\begin{align}
+    1 &= |C_0|^2 \bra{0}\sum_{n, m}\frac{(\alpha^*)^m} {\sqrt{m!}} a^m \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0} \\
+    1 &= |C_0|^2 \sum_n \frac{|\alpha|^{2n} }{n!} = |C_0|^2 e^{|\alpha|^2} \\
+    |C_0|^2 &= e^{-|\alpha|^2}
+\end{align}
+Which is satisfied by: $C_0 = e^{- |\alpha|^2 / 2}$. Thus a coherent state is given as:
+\begin{equation}
+    \ket{\alpha} = e^{-|\alpha|^2 / 2} \sum_n \frac{\alpha^n}{\sqrt{n!}} \ket{n}
+\end{equation}
+Where each complex $\alpha$ corresponds to a coherent state.
+
+\subsection{Overcompleteness / Properties of Coherent States}
+\textbf{This is probably relevant for the Q function} 
+
+\subsection{Phase Space Representations}
+When considering a way of representing a density matrix $\rho$ in phase space, we have the chance to define the properties we want. A natural way of thinking about this would be probability functions, which have certain properties. It would be useful to be able to express expectation values, $\expval{O} = \Tr{\rho O }$ in phase space. If we were to represent an operator in a coherent basis, it would take the form:
+\begin{equation}
+    O = \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} 
+\end{equation}
+The expectation value $\expval{O}$ will now take the form: 
+\begin{align*}
+    \expval{O} &= \Tr{O \rho} \\
+               &= \sum_n \bra{n} \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} \rho \ket{n} \\
+               &= \int d\alpha^2 O(\alpha, \alpha^*)\bra{\alpha} \rho \ket{\alpha}
+\end{align*}
+\marginnote[-1 cm]{Here we have used that $\mel{\alpha}{\rho}{n}$ is a scalar and commutes with the other operators while $\sum_n \ket{n}\bra{n} = \identity$.}
+Here $\mel{\alpha}{\rho}{\alpha}$ takes the role of a probability distribution in the coherent phase space. To further ensure that the function is properly normalized, we demand the expectation value of the identity to equal 1:
+\begin{align*}
+    1 = \expval{\identity} &= \int d\alpha^2 \frac{1}{\pi} \mel{\alpha}{\rho}{\alpha}
+\end{align*}
+Such that we find the Husimi $Q$-function as:
+\begin{equation}
+    Q(\alpha) =  \frac{1}{\pi} \mel{\alpha}{\rho}{\alpha}
+\end{equation}
+which will serve as our probability distribution of a density matrix $\rho$ in the coherent phase space.
+
+\textbf{Should we include the Wigner function in this section? }
+
+\subsection{Common States}
+Visualize som states to talk about
+\begin{itemize}
+    \item Fock
+    \item Coherent
+    \item Thermal
+\end{itemize}
+
+
+\section{Measuring the state of the Resonator}
+\newthought{Use A Quantum Engineers Guide in the beginning.}
+To measure the state of the system, one applies a pulse to the resonator as described in section ??. The pulses travels through / reflected by the resonator and gives rise to a signal. To determine this state one observes the flow of photons through the system. This can be done by either a Homodyne or Heterodyne measurement, where either one or two quadrature of the resonator is measured. 
+
+\subsection{Homodyne Measurement}
+
+
+\subsection{Heterodyne Measurement}
+
+\section{Dynamics of a Measured System}
+\newthought{This will be based on phd thesis by Philippe Campagne-Ibarcq and A straightforward introduction to conitnuous measurement by Kurt Jacobs.}
+What are we trying to achieve. The measurement of a system alters the system: Measurement Back Action. When measuring a state it is projected. Rise to interesting phenomena like the quantum Zeno effect were a stability of a state is enhances by frequent measurements. 
+
+\subsection{Inperfect Measurement}
+As a physicist, your first encounter with measurement in quantum physics is a strong measurement projecting the quantum state onto a certain eigenstate. In reality a measurement is not perfect, and measuring over a certain time just gives a good estimate. When considering this as a gaussian... 
+
+\subsection{Evolution of Quantum State during Measurement}
+Here we take the Schrödinger equation and shows how it behaves when subject to stochastic observations
+
+\subsection{The Stochastic Master Equation}
+With the knowledge from the previous sections, we are now in a position to show, how the Master Equation is altered when the system is measured.
