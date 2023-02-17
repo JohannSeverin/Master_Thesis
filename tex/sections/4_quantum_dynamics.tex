@@ -95,10 +95,15 @@ Allowing for loss of entanglement information in a quantum process allows us to 
 \begin{equation}
     \Lambda(\rho) \to \rho'
 \end{equation}
-For it to have the desired physical properties, we want it to be a complete positive (CP) map, such that $\rho_{ii} \geq 0$ for all $i$. This requirement ensures that a map can not map a density matrix to something with negative probabilities. A CP map can be shown to satisfy \cite{greenbraum}:
-\begin{equation}
-    
+For it to have the desired physical properties, we want it to be a complete positive (CP) map, such that $\rho_{ii} \geq 0$ for all $i$. This requirement ensures that a map can not map a density matrix to something with negative probabilities. A CP map can be shown to have a representation of the type: \cite{greenbaum_introduction_2015}:
+\begin{equation}\
+    \Lambda(\rho) = \sum_\alpha K_\alpha\rho K_\alpha^\dagger
 \end{equation}
+where $K_\alpha$ is an operator in our Hilbert space of interest\footnote{Which does not have to be Hermitian, Unitary or invertible.}. This representation is called the Kraus representation and $K_\alpha$ are called the Kraus operators. A further requirement for mapping density matrices to density matrices is that $\Tr{\rho} = \Tr{\rho'} = 1$. Thus the second requirement to a mapping is that it is trace preserving (TP). This is fulfilled if\marginnote{This is found by using sum-rules and the preservence of trace under circular permutation of the operators.}:
+\begin{equation}
+    \sum_\alpha K_\alpha^\dagger K_\alpha = \mathbb{1}
+\end{equation}
+Thus a physical quantum map is mathematically said to be a CPTP (complete positive trace preserving) map.  
 
 \section{Time Evolution of Density Matrices}
 The time-evolution of a single quantum state follows the schödinger equation: $i\partial_t\ket{\psi(t)} = H\ket{\psi(t)}$. Which can be solve with the time evolution operator $\unitary(t) = \exp{-iHt}$ to get $\ket{\psi(t)} = \unitary(t)\ket{\psi(0)}$. With this fact, the time dependence of a density matrix can easily be found as:
@@ -113,4 +118,80 @@ And the derivative:
     &= - i \comm{H}{\rho(t)}
 \end{align}
 
-\subsection{Loss, Decoherence etc. with Environment.}
+\subsection{Lindbladian / Master Equation}
+\newthought{Based on (Preskill Lecture Notes chap 3). More argumentation is probably required to satisfye the Markovian approximation}\\
+In the above, we have been looking at the scrödinger equation, where we consider a closed system with no loss of information/entanglement. For this reason the time evolution operator is fully unitary and invertable. However, a mapping of density matrices are more flexible and if we can relax the unitary mapping to a CPTP map, we can obtain a more general time evolution. \marginnote{Here the unitary word is used loosely. What I refer to is that the pureness is not conserved, so we don't have to conserve $\Tr{\rho^2}$, which would be conserved under unitary transformations. This would be the type: $\unitary \rho = U \rho U^\dagger$ (without the sum)} \\
+In our case, we consider a system which can interact with an environment. We now assume, that the time scale in which information exits our system to the environment \textbf{Information disappears faster than it can reenter.}. This means that the history of the state is neglible for the time derivative and we only need to consider the current density matrix. This gives us a markovian approximation for our time-evolution:
+\begin{equation}
+    \rho(t + dt) = \Lambda[\rho(t)]
+\end{equation}
+Expanding this map to first order gives us:
+\begin{equation}
+    \Lambda = \identity + dt \lindbladian
+\end{equation}
+Applying this map and cosidering linear terms of $dt$ we find:
+\begin{equation}
+    \dot{\rho}(t) = \lindbladian [\rho(t)]
+\end{equation}
+Where the map $\lindbladian$ is called the Lindbladian. \marginnote{Like the Hamiltonian we can solve this system by applying this operation many times: $\rho(t) = \lim_{n\to \infty} (\identity + \lindbladian t/n)^n\rho(t =0 )$ which can be written as an exponential: $\exp(\lindbladian t)\rho(t = 0)$} To find the lindbladian, we write out the map $\Lambda$ in the Krauss representation:
+\begin{equation}\label{eq:mapping_comparison}
+    \rho(t + dt) = \Lambda[\rho(t)] = \rho(t) + dt \lindbladian = \sum_\alpha M_\alpha \rho(t) M_\alpha^\dagger \
+\end{equation}
+We can now choose a representation of the matrices $M_\alpha$. To best represent the results from the closed system, we choose the representation to first order as:
+\begin{align}
+    M_0 &= \identity + (-iH + K)dt \\
+    M_\alpha &= \sqrt{dt} L_\alpha \quad \alpha \geq 0
+\end{align}
+Where $H, K$ are hermitian and $H, K, L_\alpha$ are independent of $dt$. Further introducing the trace preserving condition for the map, we find to first order in $dt$:
+\begin{fullwidth}
+\begin{align}
+    \identity &= \sum_\alpha M_\alpha M_\alpha^\dagger = \left(\identity + (-iH + K)dt\right)\left(\identity + (iH + K)dt\right) + dt \sum_{\alpha \geq 1} L_\alpha L_\alpha^\dagger \\
+    &= \identity + dt \left(2K +  \sum_{\alpha\geq 1} L_\alpha L_\alpha^\dagger\right) + \mathcal{O}(dt^2) 
+\end{align}
+\end{fullwidth}
+Which only holds for:
+\begin{equation}
+    K = - \frac12 \sum_a L_a L_a^\dagger
+\end{equation}
+where $a$ is reindexing of such that $a = \alpha - 1$. Introducing this back in Eq. \ref{eq:mapping_comparison} 
+
+\begin{fullwidth}
+\begin{align}
+    \rho(t) + dt \lindbladian &= \left(\identity + (-iH + K)dt\right)\rho(t)\left(\identity + (iH + K)dt\right) + dt \sum_{\alpha \geq 1} L_\alpha \rho(t) L_\alpha^\dagger \\
+    &= \rho(t) + dt \left(-i H \rho(t) + iH \rho(t)\right) + dt \left(\sum_a L_a \rho(t) L_a^\dagger + K \rho(t) + \rho(t) K\right) + \mathcal{O}(dt^2) \\
+    &= \rho(t) -i dt[H, \rho(t)] + dt \sum_a \left(L_a \rho(t) L_a^\dagger - \frac12 L_a L_a^\dagger \rho(t) - \frac12 \rho(t)L_a L_a^\dagger  \right) + \mathcal{O}(dt^2)
+\end{align}
+\end{fullwidth}
+
+Such that we end with:
+\begin{fullwidth}
+\begin{equation}
+    \dot{\rho}(t) = \lindbladian[\rho] = -i dt[H, \rho(t)] +  \sum_a \left(L_a \rho(t) L_a^\dagger - \frac12 L_a L_a^\dagger \rho(t) - \frac12 \rho(t)L_a L_a^\dagger  \right)
+\end{equation}
+\end{fullwidth}
+
+This is the evolution in the Schrödinger picture. In the Hamiltonian picture, we would have the time depence on the operators instead of the states. Since the operators will have to turn the opposite way of the states to get the same effect, we have: \textbf{We can insert argument here:}
+\begin{equation}
+    \Dot{A_H} = i dt[H, \rho(t)] +  \sum_a \left(L_a \rho(t) L_a^\dagger - \frac12 L_a L_a^\dagger \rho(t) - \frac12 \rho(t)L_a L_a^\dagger  \right)
+\end{equation}
+
+\subsection{Physical Derivation}
+\textbf{Might be better with an example.}
+To get a better feeling for the Lindblad operators, we sketch out a physical derivation. \footnote{Just taken from wikipedia} We consider a system which interact with the environment, such that the total hamiltonian becomes:
+\begin{equation}
+    H = H_S + H_E + H_{ES}
+\end{equation}
+In the interaction picture subject to the unitary transformation by: $\rho \to \unitary_0 \rho \unitary_0^\dagger$ and operators: $H_{BS} \to \unitary^\dagger_0 \rho \unitary_0$ with $\unitary_0 = \exp(-i(H_S + H_E)t)$. The total system evolves as:
+\begin{equation}\label{eq:rho_dot}
+    \dot{\rho} = -i \comm{H}{\rho} 
+\end{equation}
+Which is solves by:
+\begin{equation}
+    \rho = \rho(t = 0) - i \int_0^t dt' \comm{H_0(t')}{\rho(t)}
+\end{equation}
+Which can be substituted into Eq. \ref{eq:rho_dot}:
+\begin{equation}
+    \dot{\rho} = -i \comm{H_{ES}}{\rho(0)} - i \int_0^t dt' \comm{H_{ES}(t')}{\comm{H_{ES}(t')}{\rho(t)}}
+\end{equation}
+
+\newthought{The environment should just be traced out and we should be left with the same expression to first order.}
