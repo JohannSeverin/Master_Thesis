@@ -1,0 +1,57 @@
+\chapter{Calibration Methods}
+This sections for now serves to be a "dump", where I can put the methods/results that I made myself. 
+
+
+
+\section{In Plane Calibration - Single Shot Measurements}
+In this section the idea is, if one can calibrate some of the fundamental parts about our qubit by fitting distributions in the IQ-plane for readouts at different duration. We wait for the qubit to come to rest. Ideally in $\ket{0}$ but as the fridge is at non-zero temperature, we will also find a part of the population in $\ket{1}$. The experiment goes as follows.
+\begin{itemize}
+    \item Wait for equilibrium.
+    \item For 50\% of the experiments apply an $X$-gate. Label the flipped qubits for $\ket{1}$ and the rest $\ket{0}$
+    \item Measure for a set duration. This is done by applying a drive to the resonator at the dressed resonator frequency when the qubit is in state $\ket{0}$: $\omega_{drive} = \omega_r - \chi$
+\end{itemize}
+What we expect to see is that the qubit states of $\ket{1}$ will be pushed away. \footnote{This is beacuse we measure reflection/trasmission. We're free to perform displacement and rotations in the IQ plane since only magnitudes and phase \textbf{differences} have physical meaning.} 
+
+\subsection{Theoretical Assumptions}
+We now assume that the driving duration is so short that we will not see the qubits rotating back. Should not happen when driving in resonance with the one dressed frequency though. We will further assume, that a steady state is reached instantaneously. The state of the resonator in the IQ planer will then be constant unless the qubit decays/excites. 
+
+We further assume that the characteristic decay times are much longer that the readout durations. This means: we can neglect the possibilities of decaying twice. For example $\ket{1} \to \ket{0} \to \ket{1}$ is prohibited in this simple model and we can assume that the decay process is linear.
+
+These assumptions are a bit of a stretch but allow us a first analysis, where we only have to worry about doing a few linear fits.
+
+\subsection{The Data}
+
+
+
+\subsection{Compounded Gauss with Uniform Mean}
+For the T1 calibration, we need a distribution for the decayed state lying along the line between the two other distributions. Since every point comes with a Gaussian distribution around some mean, we will model this as a gaussian with a traveling mean.
+
+As a first approach and to first order, where the growth in population is constant during the whole travel distance, we can take the mean to be uniformly taken from between the two Gaussians. We are given the mean for the two distributions: $\boldsymbol{\mu_1} = (\mu_{x1}, \mu_{y1})$ and $\boldsymbol{\mu_2} = (\mu_{x2}, \mu_{y2})$. To create a uniformly distribution between them, we will rotate and translate to place $\boldsymbol{\mu_1}$ in the origin and have $\boldsymbol{\mu_2}$ extend outwards along the x-direction. We perform the translation:
+\begin{align*}
+    x' = (x - \mu_{1x}) \hspace{1 cm} y' = y - \mu_{1y}
+\end{align*}
+and the rotation:
+\begin{align*}
+    \Tilde{x} = \cos\theta \; x' - \sin\theta \; y' \hspace{1cm} \Tilde{y} =  \sin\theta \; x' + \cos\theta \; y' 
+\end{align*}
+Where the angle is decided by:
+\begin{equation}
+    \tan \theta = - \frac{\mu_{y2}'}{\mu_{x2}'} 
+\end{equation}
+such that  $\boldsymbol{\mu_{2}}$ is on the x axis with $\Tilde{x} = |\boldsymbol{\mu_{2}} - \boldsymbol{\mu_{1}}|$.
+
+In this new coordinate system, we have $\Tilde{\mu_{x2}}$ uniformly distributed from origin to $\mu_2$. If we now start with a 2d Gaussian in the new coordinates with $\sigma_x = \sigma_y = \sigma$, it will take the form:
+\begin{equation}
+    \frac{1}{2 \pi \sigma} \exp \left(- \frac{(\Tilde{x} - \Tilde{\mu_x})^2 + \Tilde{y^2}}{2 \; \sigma^2} \right)
+\end{equation}
+where the $\mu_y = 0$ in this frame. Now we have to take $\mu_x$ uniformly from the interval between $0$ and $r = |\boldsymbol{\mu_{2}} - \boldsymbol{\mu_{1}}|$. We get the following expression:
+
+\begin{align}
+    &\frac{1}{r} \int_0^r d\Tilde{\mu_x} \frac{1}{2 \pi \sigma^2} \exp \left(- \frac{(\Tilde{x} - \Tilde{\mu_x})^2 + \Tilde{y^2}}{2 \; \sigma^2} \right) \\
+    = &\frac{1}{r}\frac{1}{\sqrt{2 \pi} \sigma} \Big(\erf((r + \Tilde{x}) / \sigma) - \erf(\Tilde{x} / \sigma)\Big) \exp(-\frac{\Tilde{y}^2}{2 \sigma^2})
+\end{align}
+Where the integration of $\Tilde{\mu_x}$ gives the error function, defined by: 
+\begin{equation}
+    \erf(x/\sigma) = \frac{1}{\sqrt{2 \pi }\sigma} \int_0^x dt e^{-t^2/2\sigma^2}
+\end{equation}
+This distribution can now be transferred back to the original coordinates. 

@@ -1,4 +1,21 @@
 \chapter{Introduction}
-\lipsum[1-2]
-\section{Motivation}
-\lipsum[3]
+\newthought{My hope is that this project can be start with an introduction like this. It might end up being a bit more concrete, but nonetheless, I'll strive for having a general project.} \\
+\noindent
+With an increasing demand for ever scaling computational tasks and classical transistor nearing quantum effects at a nano scale it seems like the classical computer expansions is nearing its limits. Especially, in fields with quantum mechanical nature the phase space is exponential and classical computers can only provide limited information in simulations. To overcome this barrier, huge amounts of work, energy and means have been poured into the field of quantum computations. \\
+Quantum computers can take many forms and in its essence the mapping of quantum systems or algorithms onto something of quantum mechanical nature. This can be done on single atoms in ion traps, electron spin caugt in a spin-qubit or superconducting qubits which will be the focus of this project. \\
+In a constant search for improvements, it might be easy to forget, that superconducting quantum computers have already come far and is an excellent place to test the theory of quantum mechanics. In this project, we will step a bit back from the expansion and improvements of the qubits and simply see, how well we can understand a single qubit coupled to a resonator. 
+
+\vfill 
+\noindent
+Outline:  
+\begin{itemize}
+    \item In the first section, we will review the circuit quantum electrodynamics (cQED) which gives rise to the potentials we base our qubit and readout resonator on.
+    \item We will go into depth of how this system can be viewed in the light of the parameters and limits we impose on the system.
+    \item The thesis will the cover, how our system interacts with the environment. This will give rise to the Lindblad Master Equation and a discussion of decoherence of our quantum system. 
+    \item Then we will go through how the system is measured. For this we will need to go through the (1) the stochastic master equation which arises in continuous measurements, (2) the microwave field which we will see in the drive line and in the resonator, (3) the amplification chain that leads the resonator signal at 10 mK into the lab and (4) how the signal can be read out by either a homodyne or heterodyne measurement.
+    \item A section focusing on how the IQ plane of the resonator can be used to calibrate different errors. We will hopefully be able to separate State Preparation and Measurement errors using the physics happening in the two.
+    \item A part covering the simulations we can put together from the above. How can we use this to best distiguish the $\ket{0}$ and $\ket{1}$ state. 
+    \item Hopefully, this can be followed by a section where we fit the master equation or stochastic master equation to calibrate hamiltonian of the system while measured.
+\end{itemize}
+
+

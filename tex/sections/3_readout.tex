@@ -1,4 +1,4 @@
-\chapter{Qubit-Resonator System}
+\chapter{Qubit-Resonator System}\label{sec:qubit-resonator}
 \newthought{This chapter} will cover how a qubits can be controlled and measured by driving it with a (most commonly microwave) pulse. 
 
 
@@ -197,13 +197,18 @@ Or in a more interpretable manner:
 \begin{equation} \label{eq:multi_qubit_dispersive_hamiltonian}
     H' = \left(\omega_r + \sum_k \chi_k \ket{k}\bra{k} \right) a^\dagger a + \sum_k (\omega_k + \delta_k)\ket{k}\bra{k}
 \end{equation}
-This equation allows us to investigate the effect of the coupling between resonator and qubit. When coupled the qubit state shift the resonator frequency with $\chi_k$. While every qubit frequency is shifted slightly by $\delta_k$.
+This equation allows us to investigate the effect of the coupling between resonator and qubit. When coupled the qubit state shift the resonator frequency with $\chi_k$. While every qubit frequency is shifted slightly y $\delta_k$.
+Or by considering reducing the multi-level system to only the two lowest, we can write the equation in the simple form:
+\begin{equation}\label{eq:two_level_qubit_dispersive}
+    H = (\Tilde{\omega}_r + \chi \sigma_z) a^\dagger a + \frac12 \Tilde{\omega}_{01} \sigma_z
+\end{equation}
+where the shifts from the higher order terms have been absorbed into the new redefined frequencies.
 
 
 
 \section{Applying a Drive }
 \newthought{Currently this note is primarily how to enter the rotating frame of the drive. There should probably be more physics included. Transformation is taken from \cite{krantz_quantum_2019}.} \\
-To do an actual measurement, we try to drive the resonator using a feed line. Now the photon count of the resonator can be readout using either the transmitted or reflected signal from the resonator. Driving the resonator gives rise to a Hamiltonian: $H_{drive} = \epsilon\cos(\omega_d t)(a + a^\dagger) = \epsilon\frac12 (e^{i\omega_d t} + e^{-i\omega_d t})(a + a^\dagger)$, where $\epsilon$ is the amplitude of the drive and $\omega_d$ is the drive frequency.
+To do an actual measurement, we try to drive the resonator using a feed line. Now the photon count of the resonator can be readout using either the transmitted or reflected signal from the resonator. Driving the resonator gives rise to a Hamiltonian: $H_{drive} = \epsilon\cos(\omega_d t)(a + a^\dagger) = \epsilon\frac12 (e^{i\omega_d t} + e^{-i\omega_dO t})(a + a^\dagger)$, where $\epsilon$ is the amplitude of the drive and $\omega_d$ is the drive frequency.
 
 \vspace{1 cm}
 We now want to enter the rotating frame of the resonator. To make sure we also cancel the fast oscillating terms of the qubit, we choose to do the time-dependent transformation:
