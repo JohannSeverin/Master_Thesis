@@ -1,4 +1,4 @@
-\chapter{Dynamics of Quantum Systems}
+\chapter{Dynamics of Quantum Systems} \label{sec: Quantum Maps}
 This is a chapter to write notes on the quantum dynamics of a system.
 \begin{itemize}
     \item We will simply start by having the wave equation whose dynamics follow the schödinger equation. Maybe add the interaction picture? 
@@ -105,7 +105,7 @@ where $K_\alpha$ is an operator in our Hilbert space of interest\footnote{Which 
 \end{equation}
 Thus a physical quantum map is mathematically said to be a CPTP (complete positive trace preserving) map.  
 
-\section{Time Evolution of Density Matrices}
+\section{Time Evolution of Density Matrices} \label{sec: Time Evolution}
 The time-evolution of a single quantum state follows the schödinger equation: $i\partial_t\ket{\psi(t)} = H\ket{\psi(t)}$. Which can be solve with the time evolution operator $\unitary(t) = \exp{-iHt}$ to get $\ket{\psi(t)} = \unitary(t)\ket{\psi(0)}$. With this fact, the time dependence of a density matrix can easily be found as:
 \begin{align}
     \rho(t) &= \sum_{ij} \ket{\psi_i(t)}\bra{\psi_j(t)} = \sum_{ij} \unitary(t) \ket{\psi_i(0)}\bra{\psi_j(0)} \unitary^\dagger(t) \nonumber \\
