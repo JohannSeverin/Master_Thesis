@@ -19,8 +19,10 @@ Remembering that the qubit and resonator system has hamiltonian given by \ref{eq
 \end{equation}
 and we have two control lines, one for qubit and resonator respectively, which couples with the following interactions:
 \begin{align}
-    H_
+    H_d^Q(t) &= \varepsilon_Q(t) \hat{n} \\ 
+    H_d^R(t) &= \varepsilon_R(t) (a + a^\dagger) 
 \end{align}
+In regular dispersive readout as described in section \ref{sec: 5!} the resonator drive will take the form of a cosine pulse multiplied with an appropriate envelope function, while the qubit drive stands idly by. The idea behind cloaking is to use the qubit drive to cancel the interaction term $g\hat{n}(a + a^\dagger )$ of the hamiltonian effectively seperating the qubit and resonator. 
 
 
 \subsection{Improved Readout using Cloaking}
