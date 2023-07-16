@@ -1,0 +1,218 @@
+{
+  "main": {
+    "id": "4db141a0f169bf0f",
+    "type": "split",
+    "children": [
+      {
+        "id": "0cd31101ca5f3d4a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7ab713027ba1acc1",
+            "type": "leaf",
+            "state": {
+              "type": "make-folder-view",
+              "state": {
+                "contextPath": "Documentation - QuantumDeviceSimulation/Simulation"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f2979eed2d1e1125",
+    "type": "split",
+    "children": [
+      {
+        "id": "e64bb66530afdafc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b23faa03c05fd726",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "db3c54c6ae8899fc",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "956f114a26b67247",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          },
+          {
+            "id": "dcb9e1548e13f9fb",
+            "type": "leaf",
+            "state": {
+              "type": "mk-file-view",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 368.49999618530273
+  },
+  "right": {
+    "id": "dc82a3918f68c7c0",
+    "type": "split",
+    "children": [
+      {
+        "id": "209f4d5924eab508",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b0f701b9c6a1fefa",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "cbb506a2bd6d37bb",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "16091c448f9ba8c9",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "e9be83fe9c0d1689",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md"
+              }
+            }
+          },
+          {
+            "id": "b4aa06f057fcbd70",
+            "type": "leaf",
+            "state": {
+              "type": "calendar",
+              "state": {}
+            }
+          },
+          {
+            "id": "45ce0ebf9d330af1",
+            "type": "leaf",
+            "state": {
+              "type": "todo",
+              "state": {}
+            }
+          },
+          {
+            "id": "ac3bad354e86c5e2",
+            "type": "leaf",
+            "state": {
+              "type": "advanced-tables-toolbar",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 295.5
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "table-editor-obsidian:Advanced Tables Toolbar": false,
+      "obsidian-excalidraw-plugin:Create new drawing": false
+    }
+  },
+  "active": "c43a4e365c5b0a5e",
+  "lastOpenFiles": [
+    "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Systems.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Pulses.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Device.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Devices.md",
+    "Tasks - Overview.md",
+    "Documentation - QuantumDeviceSimulation/Analysis/Analysis.md",
+    "Documentation - QuantumDeviceSimulation/Documentation - QuantumDeviceSimulation.md",
+    "Idea - Brainstorming.md",
+    "Documentation.md",
+    "Docu,entatil.md",
+    "Systems.md",
+    "Devices/Devices.md",
+    "Devices/System.md",
+    "Documentation - QuantumDeviceSimulation/Devices/context.mdb",
+    "2023-07-15.md",
+    "Devices",
+    "Simulations.md",
+    "Main.md",
+    "Quantum Device/Quantum Device.md",
+    "Documentation - QuantumDeviceSimulation/Analysis",
+    "Documentation - QuantumDeviceSimulation/Simulation",
+    "Documentation - QuantumDeviceSimulation/Devices",
+    "Documentation - QuantumDeviceSimulation",
+    "Quantum Device",
+    "Context/#todo.mdb",
+    "context.mdb",
+    "Context/spacesLastSync.log",
+    "Ny Note.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
+    "anden_side.md",
+    "Theory.md"
+  ]
+}

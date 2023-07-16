@@ -29,7 +29,7 @@ qubit = Transmon(
 )
 
 resonator = Resonator(
-    frequency=6.00, levels=10, kappa=1 / 10
+    frequency=6.00, levels=15, kappa=1 / 10
 )  # 0.00125 * 2 * np.pi * 3)
 
 coupling_strength = 0.25 * 2 * np.pi
@@ -60,8 +60,8 @@ qubit_pulse_w_x = CloakedPulse_with_x_pulse(
     duration=100,
     start_time=0,
     kappa=resonator.kappa,
-    phase=phase,
-    x_frequency=(4.08677033 - 0.06209304333366096) * np.linspace(0.98, 1.01, 5),
+    phase=1.3957670341481216,  # this is from fit,
+    x_frequency=(4.08677033 - 0.06209304333366096) * np.linspace(0.98, 1.01, 10),
     x_duration=16,
     x_ampltiude=np.pi / 16 / 1.305,
 )
@@ -85,7 +85,7 @@ from simulation.experiment import (
 
 times = np.linspace(0, 100, 500)
 
-experiment = LindbladExperiment(
+experiment = MonteCarloExperiment(
     system=system,
     states=[system.get_states(0, 0)],
     times=times,
@@ -95,8 +95,8 @@ experiment = LindbladExperiment(
         system.photon_number_operator(),
         system.qubit_state_occupation_operator(1),
     ],
-    # ntraj=1,
-    # exp_val_method="average",
+    ntraj=10,
+    exp_val_method="average",
 )
 
 results = experiment.run()
