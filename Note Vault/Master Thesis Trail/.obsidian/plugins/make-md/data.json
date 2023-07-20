@@ -39,17 +39,19 @@
       "Quantum Device",
       "Devices",
       "Devices",
-      "Devices"
+      "Devices",
+      "/",
+      "Calibration Notes/Photon Calibration/attachments",
+      "Continuous Time Investigation"
     ],
     "QuantumDeviceSimulation": [
-      "Documentation - QuantumDeviceSimulation"
+      "Documentation - QuantumDeviceSimulation/Analysis"
     ]
   },
   "expandedSpaces": [
     "/",
     null,
     "Master Thesis Trail",
-    "QuantumDeviceSimulation",
     null
   ],
   "openFolders": [],
@@ -81,7 +83,7 @@
   "spacesSyncTimeoutSeconds": 10,
   "spacesAutoBackup": true,
   "spacesAutoBackupInterval": 10,
-  "spacesAutoBackupLast": 1689682829077,
+  "spacesAutoBackupLast": 1689848640721,
   "spacesUseAlias": false,
   "precreateVaultSpace": true,
   "fmKeyAlias": "alias",

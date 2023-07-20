@@ -4,16 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "0cd31101ca5f3d4a",
+        "id": "977929092d50a330",
         "type": "tabs",
         "children": [
           {
-            "id": "7ab713027ba1acc1",
+            "id": "e9bff6eb8549be5d",
             "type": "leaf",
             "state": {
-              "type": "make-folder-view",
+              "type": "markdown",
               "state": {
-                "contextPath": "Documentation - QuantumDeviceSimulation/Simulation"
+                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -92,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
+                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -109,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
+                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md"
+                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md"
               }
             }
           },
@@ -165,7 +167,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 295.5
+    "width": 200
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,17 +181,41 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "c43a4e365c5b0a5e",
+  "active": "e9bff6eb8549be5d",
   "lastOpenFiles": [
+    "Continuous Time Investigation/Idea - Brainstorming.md",
+    "Continuous Time Investigation/First Control of ADC Trace Data.md",
+    "Continuous Time Investigation/Continuous Time Investigation.md",
+    "Continuous Time Investigation",
+    "Calibration Notes/Photon Calibration/Data from Experiments.md",
+    "Calibration Notes/Photon Calibration/Data Exploration.md",
+    "Calibration Notes/Photon Calibration/attachments/photon_calibration_in_readout_164131.png",
+    "Calibration Notes/Photon Calibration/attachments/Photon_Count.png",
+    "Calibration Notes/Photon Calibration/attachments/Calculated_drift.png",
+    "Calibration Notes/Photon Calibration/attachments/dispersive_dips.png",
+    "Calibration Notes/Photon Calibration/attachments/dip_as_function_of_frequency.png",
+    "Calibration Notes/Photon Calibration/attachments/example_dip.png",
+    "Calibration Notes/Photon Calibration/attachments/difference.png",
+    "Calibration Notes/Photon Calibration/attachments/raw_data.png",
+    "Calibration Notes/Photon Calibration/attachments/Pasted image 20230720111936.png",
+    "Calibration Notes/Photon Calibration/attachments",
+    "Tasks - Overview.md",
+    "Excalidraw/Excalidraw.md",
+    "Excalidraw/Drawing 2023-07-19 11.20.35.excalidraw.md",
+    "Paste.md",
+    "Calibration Notes/Photon Calibration/Photon Calibration.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Device.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Devices.md",
+    "Documentation - QuantumDeviceSimulation/Documentation - QuantumDeviceSimulation.md",
+    "Calibration Notes/Photon Calibration/photon_calibration_155708.png",
+    "Excalidraw",
+    "Calibration Notes/Calibration Notes.md",
+    "Calibration Notes/Photon Calibration",
+    "Calibration Notes",
+    "Documentation - QuantumDeviceSimulation/Analysis/Analysis.md",
     "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
     "Documentation - QuantumDeviceSimulation/Devices/Systems.md",
     "Documentation - QuantumDeviceSimulation/Devices/Pulses.md",
-    "Documentation - QuantumDeviceSimulation/Devices/Device.md",
-    "Documentation - QuantumDeviceSimulation/Devices/Devices.md",
-    "Tasks - Overview.md",
-    "Documentation - QuantumDeviceSimulation/Analysis/Analysis.md",
-    "Documentation - QuantumDeviceSimulation/Documentation - QuantumDeviceSimulation.md",
-    "Idea - Brainstorming.md",
     "Documentation.md",
     "Docu,entatil.md",
     "Systems.md",
@@ -200,19 +226,10 @@
     "Devices",
     "Simulations.md",
     "Main.md",
-    "Quantum Device/Quantum Device.md",
     "Documentation - QuantumDeviceSimulation/Analysis",
     "Documentation - QuantumDeviceSimulation/Simulation",
     "Documentation - QuantumDeviceSimulation/Devices",
-    "Documentation - QuantumDeviceSimulation",
-    "Quantum Device",
-    "Context/#todo.mdb",
-    "context.mdb",
-    "Context/spacesLastSync.log",
-    "Ny Note.md",
     "Untitled 1.canvas",
-    "Untitled.canvas",
-    "anden_side.md",
-    "Theory.md"
+    "Untitled.canvas"
   ]
 }

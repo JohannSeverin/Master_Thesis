@@ -11,6 +11,7 @@ Bigger projects to focus on. This includes much coding and taking data from the 
 	- [ ] Relook the theory
 	- [ ] Start implementing in experiment
 - [ ] Datasets of continuous time. Many subtasks here will be demoted to large tasks when data is taken.
+	- [ ] **Explore the data.**
 	- [ ] Neural Network Readout Approach (add Qutrit maybe?)
 	- [ ] Overhead $\leftrightarrow$ Accuracy - tradeoff
 	- [ ] Redo in-measurement calibrations
@@ -21,7 +22,7 @@ Bigger projects to focus on. This includes much coding and taking data from the 
 Projects which is a bit larger. Hopefully the scope of much of this is around one day.
 - [ ] Find the proper dynamics between the two level system with decays. (maybe three?)
 - [ ] Write common operations on data to function in the analysis module
-- [ ] Do the photon calibration task with Malthe. Data should be easy, and then it is probably just one day to get proper analysis.
+- [ ] **Do the photon calibration task with Malthe. Data should be easy, and then it is probably just one day to get proper analysis.**
 - [ ] Writing Tasks 
 	- [ ] Introduction $\to$  Use Sakurai as inspiration to write quantum mechanics in the introduction
 	- [ ] Qubit Decoherence. Can probably be split in smaller tasks, but use a day to get going.
