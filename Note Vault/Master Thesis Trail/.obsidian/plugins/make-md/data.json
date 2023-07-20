@@ -41,8 +41,7 @@
       "Devices",
       "Devices",
       "/",
-      "Calibration Notes/Photon Calibration/attachments",
-      "Continuous Time Investigation"
+      "Calibration Notes/Photon Calibration/attachments"
     ],
     "QuantumDeviceSimulation": [
       "Documentation - QuantumDeviceSimulation/Analysis"
@@ -83,7 +82,7 @@
   "spacesSyncTimeoutSeconds": 10,
   "spacesAutoBackup": true,
   "spacesAutoBackupInterval": 10,
-  "spacesAutoBackupLast": 1689848640721,
+  "spacesAutoBackupLast": 1689851676143,
   "spacesUseAlias": false,
   "precreateVaultSpace": true,
   "fmKeyAlias": "alias",

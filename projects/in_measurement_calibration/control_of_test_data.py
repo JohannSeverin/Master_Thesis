@@ -21,12 +21,15 @@ data = xr.open_dataset(path)
 times = data.adc_timestamp.values * 1e9
 
 I_offset_ground = data.readout__ground_state__adc_I__ss.mean().compute().values
+Q_offset_ground = data.readout__ground_state__adc_Q__ss.mean().compute().values
 
+I_offset_excited = data.readout__excited_state__adc_I__ss.mean().compute().values
+Q_offset_excited = data.readout__excited_state__adc_Q__ss.mean().compute().values
 
-Q_offset = data.readout__final__adc_Q__ss.mean().compute().values
-
-I_offset = (-0.00581589 - 0.00580621) / 2  # Meaned ground state / excited state
-Q_offset = (-0.00616023 - 0.00615719) / 2  #
+I_offset = (
+    I_offset_ground + I_offset_excited
+) / 2  # Meaned ground state / excited state
+Q_offset = (Q_offset_ground + Q_offset_excited) / 2  #
 
 
 # Define the demodulation function
@@ -38,10 +41,10 @@ def demodulate_array(array_I, array_Q, intermediate_frequency, times):
     return zs_demodulated.real, zs_demodulated.imag
 
 
-demod_I, demod_Q = xr.apply_ufunc(
+demod_ground_I, demod_ground_Q = xr.apply_ufunc(
     lambda I, Q: demodulate_array(I, Q, intermediate_frequency, times),
-    data.readout__final__adc_I__ss,
-    data.readout__final__adc_Q__ss,
+    data.readout__ground_state__adc_I__ss,
+    data.readout__ground_state__adc_Q__ss,
     dask="parallelized",
     output_dtypes=(np.float32, np.float32),
     input_core_dims=[["adc_timestamp"], ["adc_timestamp"]],
@@ -49,19 +52,118 @@ demod_I, demod_Q = xr.apply_ufunc(
     keep_attrs=True,
 )
 
-if course_grain:
-    demod_I = demod_I.coarsen(adc_timestamp=course_grain).mean()
-    demod_Q = demod_Q.coarsen(adc_timestamp=course_grain).mean()
+demod_excited_I, demod_excited_Q = xr.apply_ufunc(
+    lambda I, Q: demodulate_array(I, Q, intermediate_frequency, times),
+    data.readout__excited_state__adc_I__ss,
+    data.readout__excited_state__adc_Q__ss,
+    dask="parallelized",
+    output_dtypes=(np.float32, np.float32),
+    input_core_dims=[["adc_timestamp"], ["adc_timestamp"]],
+    output_core_dims=[["adc_timestamp"], ["adc_timestamp"]],
+    keep_attrs=True,
+)
 
-output_data = xr.Dataset({"I": demod_I, "Q": demod_Q})
+## CHECK
+import matplotlib.pyplot as plt
 
-from IPython.display import display
+fig, ax = plt.subplots(ncols=2, nrows=2, figsize=(10, 10))
 
-display(output_data)
+ax = ax.flatten()
 
-write_job = output_data.to_netcdf(save_path, compute=False)
+ax[0].set(title="Full trajectories", xlabel="I", ylabel="Q")
 
-from dask.diagnostics import ProgressBar
+duration = 5000
+for i in range(demod_ground_I.sample.size):
+    ax[0].plot(
+        demod_ground_I.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        demod_ground_Q.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        color="C0",
+        ls="-",
+        alpha=0.25,
+    )
+    ax[0].plot(
+        demod_excited_I.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        demod_excited_Q.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        color="C1",
+        ls="-",
+        alpha=0.25,
+    )
 
-with ProgressBar():
-    write_job.compute()
+
+ax[1].set(title="First µs Trajectories", xlabel="I", ylabel="Q")
+duration = 1000
+for i in range(demod_ground_I.sample.size):
+    ax[1].plot(
+        demod_ground_I.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        demod_ground_Q.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        color="C0",
+        ls="-",
+        alpha=0.25,
+    )
+    ax[1].plot(
+        demod_excited_I.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        demod_excited_Q.isel({"sample": i})[:duration].cumsum("adc_timestamp"),
+        color="C1",
+        ls="-",
+        alpha=0.25,
+    )
+
+
+ax[2].set(title="Cumulative Meaned Trajectories", xlabel="I", ylabel="Q")
+duration = 5000
+warm_up = 100
+for i in range(demod_ground_I.sample.size):
+    ax[2].plot(
+        (demod_ground_I.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        (demod_ground_Q.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        color="C0",
+        ls="-",
+        alpha=0.25,
+    )
+    ax[2].plot(
+        (demod_excited_I.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        (demod_excited_Q.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        color="C1",
+        ls="-",
+        alpha=0.25,
+    )
+
+ax[3].set(title="Cumulative Meaned Trajectories First µs", xlabel="I", ylabel="Q")
+duration = 1000
+warm_up = 100
+for i in range(demod_ground_I.sample.size):
+    ax[3].plot(
+        (demod_ground_I.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        (demod_ground_Q.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        color="C0",
+        ls="-",
+        alpha=0.25,
+    )
+    ax[3].plot(
+        (demod_excited_I.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        (demod_excited_Q.isel({"sample": i}).cumsum("adc_timestamp") / (times + 1))[
+            warm_up:duration
+        ],
+        color="C1",
+        ls="-",
+        alpha=0.25,
+    )
+
+ax[1].plot([], [], color="C0", label="Ground", ls="-")
+ax[1].plot([], [], color="C1", label="Excited", ls="-")
+
+ax[1].legend(loc="upper right")

@@ -4,18 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "977929092d50a330",
+        "id": "affd1006bfda761c",
         "type": "tabs",
         "children": [
           {
-            "id": "e9bff6eb8549be5d",
+            "id": "1a2926efc20e6efd",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md",
-                "mode": "source",
-                "source": false
+                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png"
               }
             }
           }
@@ -94,7 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md",
+                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,7 +109,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md",
+                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -134,7 +132,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Continuous Time Investigation/First Control of ADC Trace Data.md"
+                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png"
               }
             }
           },
@@ -181,10 +179,13 @@
       "obsidian-excalidraw-plugin:Create new drawing": false
     }
   },
-  "active": "e9bff6eb8549be5d",
+  "active": "dcb9e1548e13f9fb",
   "lastOpenFiles": [
-    "Continuous Time Investigation/Idea - Brainstorming.md",
     "Continuous Time Investigation/First Control of ADC Trace Data.md",
+    "Continuous Time Investigation/Idea - Brainstorming.md",
+    "Continuous Time Investigation/attachments/attachments.md",
+    "Continuous Time Investigation/attachments/test_data_trajectories.png",
+    "Continuous Time Investigation/attachments",
     "Continuous Time Investigation/Continuous Time Investigation.md",
     "Continuous Time Investigation",
     "Calibration Notes/Photon Calibration/Data from Experiments.md",
@@ -207,7 +208,6 @@
     "Documentation - QuantumDeviceSimulation/Devices/Device.md",
     "Documentation - QuantumDeviceSimulation/Devices/Devices.md",
     "Documentation - QuantumDeviceSimulation/Documentation - QuantumDeviceSimulation.md",
-    "Calibration Notes/Photon Calibration/photon_calibration_155708.png",
     "Excalidraw",
     "Calibration Notes/Calibration Notes.md",
     "Calibration Notes/Photon Calibration",
@@ -225,10 +225,8 @@
     "2023-07-15.md",
     "Devices",
     "Simulations.md",
-    "Main.md",
     "Documentation - QuantumDeviceSimulation/Analysis",
     "Documentation - QuantumDeviceSimulation/Simulation",
-    "Documentation - QuantumDeviceSimulation/Devices",
     "Untitled 1.canvas",
     "Untitled.canvas"
   ]
