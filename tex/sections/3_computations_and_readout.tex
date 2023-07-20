@@ -1,4 +1,4 @@
-\chapter{Qubit-Resonator System}\label{sec:qubit-resonator}
+\chapter{Computations and Readout}\label{sec:qubit-resonator}
 \newthought{This chapter} will cover how a qubits can be controlled and measured by driving it with a (most commonly microwave) pulse. 
 
 
@@ -14,6 +14,9 @@ where $k$ refers to the k'th energy eigenstate of the transmon. Now, the transmo
 where $\Omega(t)$ is the applied voltage as a function of time and $\lambda_k$ is given by the overlap of the energy eigenstates of the transmon with the number operator: $\matrixel{k}{\hat{n}}{k+1}$\marginnote{Something like this $\rightarrow$ derive rigiously.} 
 
 \textbf{Now it is possible to split the drive in an envelope and Cosine pulse to make Q I mixing and control the qubit. This can be used for controlling the qubit and making X, Y and Z rotations.}
+
+\subsection{Rabi Oscillations}
+How does qubit driving work with a simple pulse?
 
 \section{Coupling to a Resonator}
 \textbf{This section is based on \cite{boissonneault_dispersive_2009} and \cite{boissonneault_improved_2010}.} 
@@ -206,7 +209,7 @@ where the shifts from the higher order terms have been absorbed into the new red
 
 
 
-\section{Applying a Drive }
+\section{Readout Drive}
 \newthought{Currently this note is primarily how to enter the rotating frame of the drive. There should probably be more physics included. Transformation is taken from \cite{krantz_quantum_2019}.} \\
 To do an actual measurement, we try to drive the resonator using a feed line. Now the photon count of the resonator can be readout using either the transmitted or reflected signal from the resonator. Driving the resonator gives rise to a Hamiltonian: $H_{drive} = \epsilon\cos(\omega_d t)(a + a^\dagger) = \epsilon\frac12 (e^{i\omega_d t} + e^{-i\omega_dO t})(a + a^\dagger)$, where $\epsilon$ is the amplitude of the drive and $\omega_d$ is the drive frequency.
 

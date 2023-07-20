@@ -5,9 +5,7 @@ With an increasing demand for ever scaling computational tasks and classical tra
 Quantum computers can take many forms and in its essence the mapping of quantum systems or algorithms onto something of quantum mechanical nature. This can be done on single atoms in ion traps, electron spin caugt in a spin-qubit or superconducting qubits which will be the focus of this project. \\
 In a constant search for improvements, it might be easy to forget, that superconducting quantum computers have already come far and is an excellent place to test the theory of quantum mechanics. In this project, we will step a bit back from the expansion and improvements of the qubits and simply see, how well we can understand a single qubit coupled to a resonator. 
 
-\vfill 
-\noindent
-Outline:  
+\section{Outline of Thesis}
 \begin{itemize}
     \item In the first section, we will review the circuit quantum electrodynamics (cQED) which gives rise to the potentials we base our qubit and readout resonator on.
     \item We will go into depth of how this system can be viewed in the light of the parameters and limits we impose on the system.
@@ -18,4 +16,76 @@ Outline:
     \item Hopefully, this can be followed by a section where we fit the master equation or stochastic master equation to calibrate hamiltonian of the system while measured.
 \end{itemize}
 
+\section{Qubits}
+Improvements in the hardware of classical computers come in many different ways: processing speed, size of memory, or faster buzz speed. Ultimately, these improvements increase our capability of storing, messaging or manipulating single entities called bits. Bits are an on/off switch representing a small piece of information normally represented as either being "1" or "0". Combining billions or even trillions of these bits, we can store data, media or even programs. \\ 
 
+While most everyday computing tasks can easily be done using these classical computers, some problems scale exponentially and unforgivably when the size of the problem is increased. Among other problems, we find prime factorization, the traveling salesman problem and even just simulating quantum mechanical systems, a challenge which will return multiple times through this thesis. \\
+
+Instead of building classical computers of exponentially increasing size, quantum mechanics provides a hope to solve these problems by not going up in size but instead changing the ideas of the bit. More specifically, the quantum bit (qubit) is not bound by the discreteness of the classical bit but can be in some combination of "0" and "1" at the same time. 
+
+\noindent
+\textbf{probably need citations for the above.}
+
+\subsection{A Quantum Mechanical State}
+\textbf{Maybe use sakurai as a reference to get this right} \\ \noindent
+
+
+\begin{itemize}
+    \item Introduce a quantum mechanical state: $\ket{\psi}$ that live in a hilbert space.
+    \item Introduce operators and the hamiltnonian
+\end{itemize}
+
+\subsection{The Two Level System}
+To achieve the goal of creating a qubit, we need a quantum mechanical two level system where one state can be the "0" and one be the "1". There is two ways of achieving this: first, we could take a two dimensional problem like a spin-half, where we contribute 1 to be spin up and 0 to be spin down. The other way is to limit ourselves to a subspace of a larger Hilbert space.
+
+Since the quantum mechanical states are subject to Boltzmann statistics \footnote{That is the relative probability of finding a qubit in two different states (say $\ket{1}$ and $\ket{0}$) can be found as the fraction between their Boltzmann factor: $e^{-E_1 / k_b  T} / e^{- E_0 / k_b  T}$.}, if we go to low enough temperatures (that is the difference in energy $\Delta E \gg k_b T$)  the system will primarily occupy the lowest energy states. 
+
+When the two states of the system are described as $\ket{0}, \ket{1}$, we can construct a superposition of these two:
+\begin{equation}
+    \ket{\psi} = a \ket{0} + b \ket{1}
+\end{equation}
+where a and b are complex numbers. Normalizing and using the freedom to choose a global phase, we can write the general state of a two level system up as:
+\begin{equation}\label{eq:general_2_state}
+    \ket{\psi} = \cos (\theta / 2) \ket{0} + e^{i\phi}\sin(\theta / 2)\ket{1}
+\end{equation}
+Where we end up with the two angles $\theta$ and $\phi$ which respectively determining the relative occupation in these two states and a phase between them. With these two angles, it is convenient to represent a qubit geometrically.
+
+\subsection{The Bloch Sphere}
+With the two angles $\theta$ and $\phi$ and a normalization requiring a length of 1, the two angles can be visualized as a vector pointing to a unit sphere. When representing a general two level state, we call it a Bloch Sphere.
+
+On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $\ket{1}$ in the negative direction. with this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively.
+
+The x-y plane is determined by the $\phi$ component and will be the phase difference between the two states. 
+
+\textbf{Pretty pictures please!}
+
+
+\section{Time Dependence and the Hamiltonian}
+\textbf{Very Drafty} \\ \noindent
+In the beginning of most physics careers, one is often met by Newtons second law, stating that acceleration equals force $\Vec{F} = m \Vec{a}$. Knowing the force asserted on an object thus gives the equations of motion. Often it is however more beneficial to represent the equations of motions in the Hamiltonian formalism. By getting an expression for the energy of the system (the Hamiltonian), the equation of motions are now given by a coordinate and the canonical momentum to that coordinate. 
+
+In this formalism the time dependence of the coordinate $q$ and canonical momentum $p$ is given by:
+
+\begin{align}
+    \dot{p} = - \pfrac{}{q} &H(p, q) \\
+    \dot{q} = \pfrac{}{p} &H(p, q)
+\end{align}
+
+Or for a general function $f(q, p, t)$, we can represent the time-dependence using poisson brackets:
+\marginnote{\textbf{Describe Poisson brackets here}}:
+
+\begin{equation}
+    \dot{f} = \{f, H\} + \pfrac{}{t} f 
+\end{equation}
+
+From the Hamiltonians formalism the bridge to quantum mechanics becomes significantly simpler. By promoting the Hamiltonian and other observables to operators and the Poisson brackets to commutators. 
+
+\begin{equation}
+    [p_i, q_j] = i \hbar \delta_{ij}
+\end{equation}
+Such that the time dependence of an operator is given by:
+\begin{equation}
+    \dot{A} = i \comm{A}{H} + \pfrac{}{t} A
+\end{equation}
+
+\textbf{Get to Schödingers Equation here}

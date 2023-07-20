@@ -1,5 +1,7 @@
-\chapter{The Transmon}
-\newthought{This chapter} is setup as notes to the transmon and to go through the theory leading to it. It is also training in writing in this format, so stuff might look a bit weird. 
+\begin{fullwidth}
+\chapter{Circuit Quantum Electrodynamics}
+\end{fullwidth}
+\newthought{This chapter} is setup as notes to the transmon and to go through the theory leading to it. It is also training in writing in this format, so stuff might look a bit weird.  \\
 
 \section{Circuit QED}
 The basis is superconducting qubits is to use circuits to form our potential. By choosing to make the qubits of superconducting material, the energy dissipation is removed from the system and at low enough energies/temperatures this system will behave quantized as a quantum system. 
@@ -38,7 +40,7 @@ To quantize these parameters, we replace the variables with the corresponding op
 
 
 
-\section{Cooper Pair Box}
+\section{Forming Qubits}
 As a start, we consider the LC-circuit which consist of a single capacitive element and one inducting. This exactly yields the Hamiltonian $\mathcal{H} = \mathcal{H} = \frac{1}{2C} Q^2 + \frac{1}{2L} \Phi^2$. When considering a flux basis, we need 
 \begin{marginfigure}[1 cm]
     \includegraphics[width = \linewidth]{tex/fig_for_text/LC_circuit.png}
@@ -73,7 +75,7 @@ Which can be integrated according to equation \ref{eq: Energy from current and v
 \end{equation}
 up to a constant, which can be neglected by setting the zero point of the energy. \cite{vool_introduction_2017}
 
-\subsection{The Cooper pair Island}
+\subsection{The Cooper Pair Island}
 Replacing the inductor with a Josephson Junction. We instead have a circuit with a non-quadratic energy term. We now have a Hamiltonian given by:
 
 \begin{equation}
@@ -96,6 +98,10 @@ This section could also include the following:
     \item In this narrative we can drive transitions between our computational subspace by using the mixing of our states in an avoided crossing. However, the energy states are here sensitive to the noise of our charge / applied voltage. 
 \end{itemize}
 
+\subsection{Drive Lines?}
+
+
+
 \section{The Transmon}
 The section must have the following:
 \begin{itemize}
@@ -104,6 +110,32 @@ The section must have the following:
         \item Compare the susceptibility to charge noise with the anhorminicty. We want to protect the qubit as well as possible while keeping the anharmonicity large, such that we can perform fast operations on the qubit. 
     \end{itemize}
 \end{itemize}
+
+\subsection{Solving the Transmon Numerically}
+\textbf{This could also be a numerical section between section 2.1 and 2.2 which we can base the cooper pair box on. }
+When using the transmon, we use the energy eigenstates as a computational basis. To figure out, how the energy splitting and reactions to charge are, we need to find these energy eigenenergies and states.
+
+\begin{itemize}
+    \item Start with charge basis
+    \item We can now represent the flux as a potential
+    \item Solving numerically gives lowest eigenenergy and states
+    \item Calculating certain matrix elements between the eigenstates givers us the charge-matrix, flux-matrix, etc.. 
+\end{itemize}
+
+
+\section{Experimental Setup}
+I should have this... Is this the right place? 
+
+\subsection{Cooling}
+
+\subsection{Amplication}
+
+\subsection{Specs}
+
+
+
+
+
 
 
 
