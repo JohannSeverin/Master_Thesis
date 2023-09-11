@@ -13,11 +13,15 @@
 % Setup TOC and proper page numbers
 \setcounter{page}{0}
 \tableofcontents
-\thispagestyle{empty}
+\pagestyle{empty}
+
+% To do notes
+\listoftodos
 
 %%% Include files
 % Introduction
 \pagestyle{fancy}
+\setcounter{page}{0}
 \subfile{sections/1_introduction.tex}
 
 \subfile{sections/2_cQED.tex}
@@ -28,17 +32,26 @@
 
 \subfile{sections/5_measurements.tex}
 
-\subfile{sections/6_calibration_from_IQ.tex}
+\subfile{sections/6_reaodut_strategies.tex}
 
-\subfile{sections/7_reaodut_strategies.tex}
+\subfile{sections/7_calibration_from_IQ.tex}
 
 \subfile{sections/8_complete_charactirization.tex}
 
 \subfile{sections/9_conclusion.tex}
 
+
+
 \begin{fullwidth}
 \bibliography{tex/Master_Thesis}
 \bibliographystyle{plain}
 \end{fullwidth}
+
+\appendix
+
+\subfile{tex/appendix/A1_code_documentation.tex}
+
+\subfile{tex/appendix/A2_cont_model_prior.tex}
+
 
 \end{document}

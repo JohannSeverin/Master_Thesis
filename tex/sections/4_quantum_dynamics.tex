@@ -1,34 +1,30 @@
-\chapter{Dynamics of Quantum Systems} \label{sec: Quantum Maps}
-This is a chapter to write notes on the quantum dynamics of a system.
-\begin{itemize}
-    \item We will simply start by having the wave equation whose dynamics follow the schödinger equation. Maybe add the interaction picture? 
-    \item Generalize the concept to include the density matrix formalism. This  is need to take care of decay and interaction with the environment. Important partial trace etc.
-\end{itemize}
-In quantum mechanics, we consider some configuration of the system as a state, $\ket{\psi}$. This can represent a wave-function in an continuous space or be discretized. The spin of an electron follows the SU(2)-symmetry and can be represented by a two-component, complex vector called a spinor.  
+\begin{fullwidth}
+\chapter{Dynamics of Open Quantum Systems} \label{sec: Quantum Maps}
+\end{fullwidth}
+With the Schrodinger equation, we can consider unitary transformation of a system. Ideally, this would be the case, that our qubit would not interact with the environment in any way. However, since the reality is that our devices interact with the environment, we will have to consider open quantum systems. \\
+
 
 \section{Density Matrix Formalism}
-\newthought{Basing this part on  \cite{manzano_short_2020}}\\ 
+\todo{Cite this part on  \cite{manzano_short_2020}}
 Typically in Quantum Mechanics, a state of the system is represented by at state vector $\ket{\psi}$. Which could be in a superposition of multiple states \footnote{Which together is a basis. So {$\ket{\psi_i}$} has to be mutually orthonormal. It is also possible to have an overcomplete set, but more on that, when we talk about coherent states.} = $\ket{\psi} = \sum_i c_i\ket{\psi_i}$, where $c_i$ is the complex coefficient and the state is normalized such that $\sum |c_i|^2 = 1$. While this is a great formalism, when you have knowledge about the entire system, it is not great at handling interactions with an unknown environment. 
-\\
-In the density matrix formalism, we would represent a single state of a quantum system, not as a vector, but a matrix given by:
+In the density matrix formalism, we represent a single state of a quantum system, not as a vector, but a matrix given by:
+
+To describe an open system, it no longer sufficient to represent a quantum state with a ket. Instead, we introduce the formalism of \textit{density matrices}. If we were to represent a ket-state this formalism, we would have a matrix of the form:
 \begin{equation}
     \rho = \sum_i p_i \ket{i}\bra{i}
 \end{equation}
-where $p_i = |c_i|^2$ is the probability of finding the state $\ket{i}$ on measurement. With this definition, one can be convinced that:
+where $p_i = |c_i|^2$ is the probability of finding the state $\ket{i}$ on measurement. Since the diagonal contains probabilities, we must have:
 \begin{align}
-    \Tr{\rho} &= 1 \\
+    \Tr(\rho) &= 1 \\
     p_i &\geq 0
 \end{align}
-Now, if we have single state, for example the ground state $\ket{\psi} = \ket{0}$. We would have $p_0 = 1, p_i = 0, \text{for } i \neq 0$. This is called a pure state, and an easy check if the state is pure, is to trace the square of the density matrix:
+However, this is just a representation of a ket state, meaning that there would be some basis, where $p_x = 1$ and $p_i = 0$ for $x\neq x$. A density matrix, which has this property in some basis is called \textit{pure} since it can be represented by a ket. Since the trace is independent of basis, this gives a property of a pure density matrix\footnote{If it is not pure, it is still diagonalizeable, but will in this representation have multiple diagonal elements $<1$, so $\sum_i p_i^2 \neq 1$}:
 \begin{equation}
-    \Tr{\rho_{pure}^2} = 1
+    \Tr(\rho_{pure}^2) = 1
 \end{equation}
+The power of the density matrices come, when we don't have a pure state. Let us take an example where we have two coupled two level systems. We can have the entangled states\footnote{The $\otimes$ references to the product state of two Hilbert spaces: $\mathcal{H}^2 \otimes \mathcal{H}^2$. Sometimes the $\otimes$ will be omitted and the state $\ket{1 1}$ will represent $\ket{1} \otimes \ket{1}$.}:
 
-\textbf{Fill in with proper transition...}
-
-While the pure states can easily be presented in the density matrix formalism. It gets more interesting, when we include the off-diagonal elements. If we were to have two coupled two level systems. We can have the entangled states\footnote{The $\otimes$ references to the product state of two Hilbert spaces: $\mathcal{H}^2 \otimes \mathcal{H}^2$. Sometimes the $\otimes$ will be omitted and the state $\ket{1 1}$ will represent $\ket{1} \otimes \ket{1}$.}:
-
-\begin{equation}
+\begin{equation}\label{eq:phi_plus}
     \ket{\phi_+} = \fracsqrttwo(\ket{0}\otimes \ket{0} + \ket{1}\otimes\ket{1})
 \end{equation}
 
@@ -52,46 +48,52 @@ It can be seen that we now acquire non-diagonal terms. These are called coherenc
         0 & 0 & 0 & \frac{1}{2}
     \end{pmatrix}
 \end{equation}
-where the coherences are 0. Thus this is not an entangled superposition, but rather mean that the in an ensemble of this state, half will be prepared in $\ket{00}$ and the other half in $\ket{11}$. \marginnote{This fact can not be represented in the bra-ket notation that we are used to, and here lies the true power of the density matrix formalism: we quantify entanglement versus a fraction of populations.}
-In general, we write the full density matrix as:
+where the coherences are $0$. Thus this is not an entangled superposition, but rather mean that the in an ensemble of this state, half will be prepared in $\ket{00}$ and the other half in $\ket{11}$. \footnote{This fact can not be represented in the bra-ket notation that we are used to, and here lies the true power of the density matrix formalism: we quantify entanglement versus a fraction of populations.}
+In general, we write the full density matrix as:\todo{This is not really a satisfying presentation, can we do anything else?}
 \begin{equation}
     \rho = \sum_{ij} \rho_{i,j} \ket{i}\bra{j}
 \end{equation}
+
+\subsection{Properties}
+In matrices, some properties take a different form. Firstly, the expectation value $\expval{\psi} = \mel{\psi}{A}{\psi}$ is in the density matrix formalism calculated by:
+\begin{equation}
+    \expval{A} = \Tr \left(A\rho\right)
+\end{equation}
+Comparing to the expectation value in the ket notation:
+\begin{equation}
+    \expval{A}= \sum_i |c_i|^2 \mel{\psi_i}{A}{\psi_i}
+\end{equation}
+where the sum is over a basis $\{\psi_i\}$. Applying $X = \Tr(\ket{j}X\bra{j})$ and using the cyclic property of the trace, we get:
+\begin{align}
+    \expval{A}  &= \sum_i \Tr\left(\ket{\psi_j}|c_i|^2 \mel{\psi_i}{A}{\psi_i}\bra{\psi_j}\right) \\
+                &= \sum_i \Tr\left(\ket{\psi_i}\bra{\psi_j}\ket{\psi_j}|c_i|^2 \bra{\psi_i}{A}\right) \\
+                &=  \Tr\left( \sum_i \ket{\psi_i}|c_i|^2 \bra{\psi_i}{A}\right) \\
+                &= \Tr\left(\rho A\right) \\
+\end{align}
+Coming back to the definition from above. 
+\todo{Write in other properties, which we are going to need.}
+
 
 \subsection{Interactions with the environment}
 The properties of the of the density matrix allows us describe interaction with the environment. Start with considering the product state of two systems:
 \begin{equation}
     \rho = \rho_1 \otimes \rho_2
 \end{equation}
-but we have no knowledge of the second system\footnote{Could be the environment while the first system is our lab.}. Now if a measurement is done in the second system, the whole system will with probability $p_i = \rho_{2, ii}$ collapse to $\ket{i}\bra{i}$ state. For this reason, we can find the leftover state in system 1 by tracing over the elements in $\rho_2$. This is called a "partial trace" or "tracing out system 2". Mathematically we can write it as:
+but we have no knowledge of the second system\footnote{Could be the environment while the first system is our lab.}. Now if a measurement is done in the second system, the whole system will with probability $p_i = \rho_{2, ii}$ collapse to $\ket{i}\bra{i}$ state. Averaging over these outcomes with their corresponding probability is obtained by doing a \textit{partial trace}. Writing the total density matrix, defined with four indicies: $\rho_{\text{total}} = \sum_{ijkl}\rho_{ijkl}\ket{i}\bra{j}\otimes\ket{k}\bra{l}$ \footnote{Often we will represent the four-index density matrix as a two dimensional by concatenating the dimensions. In this representation the four indices can be understood as indexes for block matrices. The $i, k$ indexes block matrices and $j, l$ takes the element from the given block matrix.}, tracing out system 2 would be written:
 \begin{align}
-    \Tr_2 (\rho_1 \otimes \rho_2) &= \Tr_2 \left(\sum_{ijkl} \rho_{ij}\rho_{kl} \ket{i}\bra{j} \otimes \ket{k}\bra{l}\right) \nonumber \\
-    &= \sum_{ij} \rho_{ij} \ket{i}\bra{j} \sum_k \rho_{kk} 
+    \Tr_2 (\rho_{\text{total}})   &= \Tr_2 \left(\sum_{ijkl} \rho_{ijklæ} \ket{i}\bra{j} \otimes \ket{k}\bra{l}\right) \nonumber \\
+                                    &= \sum_{ij}\sum_{kl} \rho_{ijkl} \ket{i}\bra{j} \otimes \sum_m \bra{m}  \ket{k}\bra{l}\ket{m} \nonumber \\
+    &= \sum_{ijk} \rho_{ijkk} \ket{i}\bra{j}
 \end{align}
-\textbf{CHECK THIS! It does not seem completely right.} \\
-
-
-\textbf{Probably don't do entanglement above. Just show superpositions. }
-
-In the two two level systems, tracing out the second one would give us the density matrix for the first one:
-\begin{equation}
-    \Tr_2 \left(\ket{\phi_+}\bra{\phi_+}\right) = \begin{pmatrix}
-        \frac12 & 0 \\
-        0       & \frac12
-    \end{pmatrix}
-\end{equation}
-Meaning that half of our ensemble will be in $\ket{0}$ and the other half in $\ket{1}$.
-
-\subsection{Other Useful Things:}
-One could also show, that:
-\begin{itemize}
-    \item $\expval{O} = \Tr{O\rho}$
-    \item entagnled = unseperable
-    \item basis-change
-\end{itemize}
+If we again consider the state $\ket{\rho_+}$ from eq. $\ref{eq:phi_plus}$ but only have access to control and measurement of the first two level system, then our effective density matrix, would be found as:\footnote{effectively we keep all the terms of the first part of the hilbert space where the second part is the same}
+\begin{align}
+    \rho_{1, eff}   &= \Tr_2 \left(\frac12 \left(\ket{00}\bra{00} + \ket{00}\bra{11} + \ket{11}\bra{00} + \ket{11}\bra{11} \right) \right) \\
+                    &= \frac12 \left(\ket{0}\bra{0} + \ket{1}\bra{1} \right)
+\end{align}
+This matrix can now be decomposed into a single ket state and is called a mixed state which could also be seen by $\Tr(\rho^2) = \frac12\neq1$. \todo{Need citation here.}
 
 \subsection{Quantum Maps}
-Allowing for loss of entanglement information in a quantum process allows us to relax the conditions of a quantum map. A mapping of a density matrix simply takes a density matrix and maps into another one:
+Allowing for loss of entanglement information in a quantum process, we can relax the unitary requirement which comes from requiring a state to keep its normalization. Instead we require the mapping of a density matrix to take it into another density matrix:
 \begin{equation}
     \Lambda(\rho) \to \rho'
 \end{equation}
@@ -99,14 +101,15 @@ For it to have the desired physical properties, we want it to be a complete posi
 \begin{equation}\
     \Lambda(\rho) = \sum_\alpha K_\alpha\rho K_\alpha^\dagger
 \end{equation}
-where $K_\alpha$ is an operator in our Hilbert space of interest\footnote{Which does not have to be Hermitian, Unitary or invertible.}. This representation is called the Kraus representation and $K_\alpha$ are called the Kraus operators. A further requirement for mapping density matrices to density matrices is that $\Tr{\rho} = \Tr{\rho'} = 1$. Thus the second requirement to a mapping is that it is trace preserving (TP). This is fulfilled if\marginnote{This is found by using sum-rules and the preservence of trace under circular permutation of the operators.}:
+where $K_\alpha$ is an operator in our Hilbert space of interest\footnote{Which does not have to be Hermitian, Unitary or invertible.}. This representation is called the Kraus representation and $K_\alpha$ are called the Kraus operators. A further requirement for mapping density matrices to density matrices is that $\Tr
+(\rho) = \Tr(\rho') = 1$. Thus the second requirement to a mapping is that it is trace preserving (TP). This is fulfilled if\footnote{This is seen when writing $1 = \Tr(\rho) = \Tr\left(\sum_\alpha K_\alpha\rho K_\alpha^\dagger \right) = \sum_\alpha\Tr\left(K_\alpha\rho K_\alpha^\dagger \right)= \sum_\alpha\Tr\left(K_\alpha^\dagger K_\alpha\rho  \right) = \Tr\left(\sum_\alpha K_\alpha^\dagger K_\alpha\rho  \right)$ which is true if the $\sum_\alpha K_\alpha^\dagger K_\alpha = \mathbb{1}$.}:
 \begin{equation}
     \sum_\alpha K_\alpha^\dagger K_\alpha = \mathbb{1}
 \end{equation}
-Thus a physical quantum map is mathematically said to be a CPTP (complete positive trace preserving) map.  
+Thus a physical quantum map is mathematically is one that is CPTP (complete positive trace preserving). \cite{greenbaum_introduction_2015}
 
 \section{Time Evolution of Density Matrices} \label{sec: Time Evolution}
-The time-evolution of a single quantum state follows the schödinger equation: $i\partial_t\ket{\psi(t)} = H\ket{\psi(t)}$. Which can be solve with the time evolution operator $\unitary(t) = \exp{-iHt}$ to get $\ket{\psi(t)} = \unitary(t)\ket{\psi(0)}$. With this fact, the time dependence of a density matrix can easily be found as:
+The time-evolution of a single quantum state follows the Schrodinger equation: $i\partial_t\ket{\psi(t)} = H\ket{\psi(t)}$. Which can be solved with the time evolution operator $\unitary(t) = \exp{-iHt}$ to get $\ket{\psi(t)} = \unitary(t)\ket{\psi(0)}$. With this fact, the time dependence of a density matrix can easily be found as:
 \begin{align}
     \rho(t) &= \sum_{ij} \ket{\psi_i(t)}\bra{\psi_j(t)} = \sum_{ij} \unitary(t) \ket{\psi_i(0)}\bra{\psi_j(0)} \unitary^\dagger(t) \nonumber \\
     &= \unitary(t) \rho(0) \unitary^\dagger(t)
@@ -117,25 +120,45 @@ And the derivative:
     &= -iH \rho(t) +i \rho(t) H \nonumber \\
     &= - i \comm{H}{\rho(t)}
 \end{align}
+is the differential equation for unitary evolution of a density matrix.\cite{manzano_short_2020}
 
-\subsection{Lindbladian / Master Equation}
-\newthought{Based on (Preskill Lecture Notes chap 3). More argumentation is probably required to satisfye the Markovian approximation}\\
-In the above, we have been looking at the scrödinger equation, where we consider a closed system with no loss of information/entanglement. For this reason the time evolution operator is fully unitary and invertable. However, a mapping of density matrices are more flexible and if we can relax the unitary mapping to a CPTP map, we can obtain a more general time evolution. \marginnote{Here the unitary word is used loosely. What I refer to is that the pureness is not conserved, so we don't have to conserve $\Tr{\rho^2}$, which would be conserved under unitary transformations. This would be the type: $\unitary \rho = U \rho U^\dagger$ (without the sum)} \\
-In our case, we consider a system which can interact with an environment. We now assume, that the time scale in which information exits our system to the environment \textbf{Information disappears faster than it can reenter.}. This means that the history of the state is neglible for the time derivative and we only need to consider the current density matrix. This gives us a markovian approximation for our time-evolution:
+\subsection{Random Unitary Transformation} \label{sec:random_unitary_transformation}
+\todo{This is probably not the best example}
+Before going into the derivation, we will consider an example: suppose our system interacts with the environment in such a way, that we see a random unitary transformation $e^{-iG\theta}$ where $\theta$ is drawn from a normal distribution with variance $\lambda \Delta t$, such that taking $\Delta t \to dt$:
+\begin{equation}
+    P(\theta) d\theta = \frac{d\theta}{\sqrt{4\pi\lambda dt}}\exp(-\frac{\theta^2}{4\lambda dt})
+\end{equation}\todo{Refer to the stochastic section if this is sketchy.}
+To first order in $dt$, the density matrix now evolves as:
+\begin{fullwidth}
+\begin{align}
+    \rho(t+dt)  &= \int_\infty^\infty d\theta P(\theta) e^{-iG\theta}\rho(t)e^{iG\theta}  \nonumber \\
+                &= \int_\infty^\infty d\theta P(\theta) (1 - iG\theta  - \frac12 G^2\theta^2 \dots)\rho(t) (1 + iG\theta - \frac12 G^2\theta^2 \dots)  \nonumber \\
+                &= \int_\infty^\infty d\theta P(\theta) \left(\rho_t - \frac12\theta^2(G^2\rho(t) + \rho(t)G^2 - 2 G\rho(t) G\right) + \mathcal{O}(dt^{3/2}) \nonumber \\
+                &= \rho(t) - \frac{\lambda dt}{2} \left(G^2\rho(t) + \rho(t)G^2 - 2 G\rho(t) G\right) \label{eq:lindblad_example}
+\end{align}
+\end{fullwidth}
+where we in the third line used, that $\theta P(\theta)$ is odd and its integral $0$. Equation \ref{eq:lindblad_example} is our first encounter with a Lindblad form where we see some hermitian operator, $G$ both altering the states by the $G\rho G$ term. But it also acts on the coherence terms by $G^2\rho(t)$ and $\rho(t) G^2$. \cite{pearle_simple_2012}
+
+\subsection{Lindblad Master Equation}
+\todo{cite Preskill Lecture Notes chap 3; More argumentation is probably required to satisfye the Markovian approximation}
+In the above examples, we have shown how unitary or a random unitary transformation looks in the Lindblad form. The actual equation is however much stronger and we will see that is generalizes both of these examples. We will here assume that the Lindblad equation follows a CPTP map, and by doing a Markovian assumption a proper choice of Krauss operators will lead us to the form.
+
+If we consider a system which can interact with an environment but information is lost in the environment on a much faster time scale that it exits the system. This means that recent lost information can not reenter the system and thus only the current state is needed to calculate the time derivative. This is the Markovian assumption and means that we can neglect the history of states and write the time-evolution as a mapping:
 \begin{equation}
     \rho(t + dt) = \Lambda[\rho(t)]
 \end{equation}
-Expanding this map to first order gives us:
+For a small timestep $dt$, we can consider the map to be linear in $dt$.
 \begin{equation}
-    \Lambda = \identity + dt \lindbladian
+    \Lambda(\rho) = \rho + dt \lindbladian[\rho]
 \end{equation}
+Where the Lindbladian $\lindbladian[\rho]$ is a superopreator.\todo{How do we introduce this in a nice way. Operator? Map? Superoperator? }
 Applying this map and cosidering linear terms of $dt$ we find:
 \begin{equation}
     \dot{\rho}(t) = \lindbladian [\rho(t)]
 \end{equation}
-Where the map $\lindbladian$ is called the Lindbladian. \marginnote{Like the Hamiltonian we can solve this system by applying this operation many times: $\rho(t) = \lim_{n\to \infty} (\identity + \lindbladian t/n)^n\rho(t =0 )$ which can be written as an exponential: $\exp(\lindbladian t)\rho(t = 0)$} To find the lindbladian, we write out the map $\Lambda$ in the Krauss representation:
+Where the map $\lindbladian$ is called the Lindbladian. \footnote{Like the Hamiltonian we can solve this system by applying this operation many times: $\rho(t) = \lim_{n\to \infty} (\identity + \lindbladian t/n)^n\rho(t =0 )$ which can be written as an exponential: $\exp(\lindbladian t)\rho(t = 0)$} To find the lindbladian, we write out the map $\Lambda$ in the Krauss representation:
 \begin{equation}\label{eq:mapping_comparison}
-    \rho(t + dt) = \Lambda[\rho(t)] = \rho(t) + dt \lindbladian = \sum_\alpha M_\alpha \rho(t) M_\alpha^\dagger \
+    \rho(t + dt) = \Lambda[\rho(t)] = \rho(t) + dt \lindbladian[\rho(t)] = \sum_\alpha M_\alpha \rho(t) M_\alpha^\dagger \
 \end{equation}
 We can now choose a representation of the matrices $M_\alpha$. To best represent the results from the closed system, we choose the representation to first order as:
 \begin{align}
@@ -169,51 +192,182 @@ Such that we end with:
     \dot{\rho}(t) = \lindbladian[\rho] = -i dt[H, \rho(t)] +  \sum_a \left(L_a \rho(t) L_a^\dagger - \frac12 L_a L_a^\dagger \rho(t) - \frac12 \rho(t)L_a L_a^\dagger  \right)
 \end{equation}
 \end{fullwidth}
+% Which is called the Lindblad Master Equation and gives us a differential equation determining how the density matrix evolves in time. As promised we can recover the unitary example by setting $L_\alpha = 0$ and the random unitary transformation is just a Lindblad form with one Lindblad operator $L_\alpha = \sqrt{\lambda} G$. \cite{preskill}
 
-This is the evolution in the Schrödinger picture. In the Hamiltonian picture, we would have the time depence on the operators instead of the states. Since the operators will have to turn the opposite way of the states to get the same effect, we have: \textbf{We can insert argument here:}
+While this is a purely mathematical construction, the naming of variables should indicate the physics in the equation. The $H$ is of course the Hamiltonian and the equation reduces to the unitary evolution if we set all $L_\alpha = 0$. The ${L_\alpha}$ are called Lindblad operators and can be interpreted as decoherence of or dissipation from the system. If we were to set $L_0 = \sqrt{\lambda} G$ and $L_\alpha$ for $\alpha \neq 0$, we recover the random unitary transformation which we saw in the example above. \cite{preskill_lecture_notes}
+
+% \subsection{Physical Derivation}
+% \todo{Write a more physical intuitive way of understanding the master equation. This might even come before. }
+% \textbf{Might be better with an example.}
+% To get a better feeling for the Lindblad operators, we sketch out a physical derivation. \footnote{Just taken from wikipedia} We consider a system which interact with the environment, such that the total hamiltonian becomes:
+% \begin{equation}
+%     H = H_S + H_E + H_{ES}
+% \end{equation}
+% In the interaction picture subject to the unitary transformation by: $\rho \to \unitary_0 \rho \unitary_0^\dagger$ and operators: $H_{BS} \to \unitary^\dagger_0 \rho \unitary_0$ with $\unitary_0 = \exp(-i(H_S + H_E)t)$. The total system evolves as:
+% \begin{equation}\label{eq:rho_dot}
+%     \dot{\rho} = -i \comm{H}{\rho} 
+% \end{equation}
+% Which is solves by:
+% \begin{equation}
+%     \rho = \rho(t = 0) - i \int_0^t dt' \comm{H_0(t')}{\rho(t)}
+% \end{equation}
+% Which can be substituted into Eq. \ref{eq:rho_dot}:
+% \begin{equation}
+%     \dot{\rho} = -i \comm{H_{ES}}{\rho(0)} - i \int_0^t dt' \comm{H_{ES}(t')}{\comm{H_{ES}(t')}{\rho(t)}}
+% \end{equation}
+
+% \newthought{The environment should just be traced out and we should be left with the same expression to first order.}
+
+\section{Numerical Lindblad Master Equation}
+To solve the Lindblad equation numerically, we need it in a form solveable by the methods covered in section \ref{sec:numerical_implementations}. In Qutip \cite{qutip} a 12th order Adams method is used to integrate the master equation. To numerical integrate the equation, one now introduces the super operator formalism which we will just cover briefly. The idea is to represent a density matrix as a vector by concatenating the axis. The super operators like the quantum maps which can multiply operators on both sides can now be represented as a matrix. The problem is now back to vectors and matrices, but since we also need to keep track of the coherences the size of the vectors are now $n^2$ and $n^2\times n^2$ respectively.
+
+\subsection{Monte Carlo Approximation}
+While the Lindblad Equation is a very strong mathematical tool for describing quantum mechanics, numerically simulating it scales heavily with the size of our hilbert space. Another approximation is do a Monte Carlo Approximation. Since the Lindblad operators \todo{Make sure the reader knows this} $\sqrt{\gamma}L$ happen with the rate $\gamma$ we can instead of simulating the whole density matrix simulate the state vector many times and at every time step apply the Lindblad operator with probability $\gamma dt$. In between application of the Lindblad Operators the system will just be integrated by the normal schödinger equation.\todo{This is actually more sophisticated, the time of the collapse is chosen from the distribution and we integrate to that point. } One can then take the average over either the states or the expectation values of interest.\cite{qutip}
+
+\section{Dissipation and Decoherence in Qubits}
+We will now take a look, at how the decoherence show in the qubits and in the resonators. While a lot of interesting physics is associated with the interaction with the environment, we will with the Lindblad equation at hand only look at the qubit-resonator system as an open system and consider the environment unchangeable. With this, we will focus in particular on a few parameters describing the interaction: the temperature $T$, characteristic time of qubit decay $T_1$ characteristic time of qubit dephasing $T_2$ and lastly the rate of photon decay from the resonator $\kappa$.
+
+\subsection{Density Matrix of a Qubit}
+First, it will be beneficial to expand the representation of a qubit to its density matrix. If we take an arbitrary two level state as described in section \ref{sec:tls}, we find an example of a pure state density matrix by just taking its product with itself: $\ket{\psi} = \cos (\theta / 2) \ket{0} + e^{i\phi}\sin(\theta / 2)\ket{1}$
+% \begin{fullwidth}
+\begin{align}
+    \rho_{\text{qubit}} = \ket{\psi}\bra{\psi} &= \begin{pmatrix}
+        \cos^2(\theta/2)                        & e^{-i\phi}\cos(\theta/2)\sin(\theta/2) \\
+        e^{i\phi}\cos(\theta/2)\sin(\theta/2)  & \sin^2(\theta/2)
+    \end{pmatrix} \nonumber \\
+    &= \frac12 + \begin{pmatrix}
+        \cos(\theta)                       & e^{-i\phi}\sin(\theta) \\
+        e^{i\phi}\sin(\theta)  & -\cos(\theta)   
+    \end{pmatrix} \nonumber \\
+    &= \frac12 (\identity + \Vec{a} \cdot \Vec{\sigma}) \label{eq:density_of_qubit}
+\end{align}
+% \end{fullwidth}
+Where $\Vec{\sigma} = [\sigma_x, \sigma_y, \sigma_z]$ and $\Vec{a} = [\sin{\theta}\cos{\phi}, \sin{\theta}\sin{\phi}, \cos{\theta}]$ is the coefficients. \cite{krantz_quantum_2019} The resemblens to cartesian coordinates allow us to think about $\Vec{a}$ as vector pointing to the state.
+
+\begin{marginfigure}
+    \centering
+    \missingfigure{Pure State}
+    \missingfigure{Mixed state}
+    \caption{Pure state and mixed state visualized on the Bloch Sphere. }
+    \label{fig:bloch_sphere_density_matrix}
+\end{marginfigure}
+
+The representation in equation \ref{eq:density_of_qubit} is more flexible however. When we have a pure state, $|\Vec{a}| = 1$, and the vector points to the unit sphere. However $\rho = \frac12 \identity$ is also a valid density matrix, the fully mixed matrix. Here $|\Vec{a}|=0$. Thus, if we think about the bloch sphere, we can think of pure states as living on the surface while mixed states will have $|\Vec{a}|<1\Leftrightarrow \Tr(\rho^2) < 1$.
+
+\subsection{The Temperature of the System}
+Even at low temperatures, one should expect to see the temperature have an effect on the qubit. If we consider it part of its environment, statistical physics would indicate, that the qubit is distributed due to Boltzmann statistics. Limiting us self to a two level system, we would find the qubit in $\ket{0}$ with $\text{prob}(\ket{0}) = 1 / (1 + e^{-\beta\omega_{01}})$ and $\text{prob}(\ket{1}) = e^{-\beta\omega_{01}} / (1 + e^{-\beta\omega_{01}}).$ While the idea is to initialize the qubit in $\ket{0}$, this fact means that waiting untill equlibrium our qubit would be in:
+\begin{equation}\label{eq:equilibrium_qubit_density_matrix}
+    \rho_{\text{equilibrium}} = \frac{1}{1 + e^{-\beta\omega_{01}}}\begin{pmatrix}
+        1 & 0 \\
+        0 & e^{-\beta\omega_{01}}
+    \end{pmatrix}
+\end{equation}\todo{check!}
+
+\subsection{Longitudinal Relaxation} 
+If the qubit exchanges energy with the environment it could do transition $\ket{1} \leftrightarrow \ket{0}$. While the low temperature also decreases the rate of energy absorbtion by the system from the environment, it is still necesarry to consider... \todo{Not satisfyed with this start}. If we want to describe the relaxation from $\ket{0}\to\ket{1}$ at a rate $\Gamma_\downarrow$ in the Lindblad equation, it would be described with the Lindblad operator $L_{\downarrow} = \sqrt{\Gamma_{\downarrow}} \ket{0}\bra{1}$ and correspondingly $L{_\uparrow} = \sqrt{\Gamma_{\uparrow}} \ket{1}\bra{0}$ describe the excitement. Thus a qubit subject to these decays would follow the Lindblad equation: \todo{make sure this notation is covered above.}
+\begin{align*}
+    \dot{\rho}(t) &= \mathcal{D}[L_{\downarrow}]\rho(t)) \\
+    \dot{\rho}(t) &= \Gamma_\downarrow\left(\ket{0}\bra{1} \rho(t) \ket{1}\bra{0} - \frac12 \{\ket{1}\bra{0}\ket{0}\bra{1}, \rho(t)\}\right) \\
+    \dot{\rho}(t) &= \Gamma_\downarrow\left(\rho_{11}\ket{0}\bra{0} - \rho_{11} \ket{1}\bra{1} - \frac12\left(\rho_{01}\ket{1}\bra{0} + \rho_{10}\ket{0}\bra{1}\right)\right)
+\end{align*}
+Or looking at the components, we find:
+\begin{align*}
+    &\dot{\rho}_{00}(t) = \Gamma_\downarrow\rho_{11}(t)  &\dot{\rho}_{10}(t) = -\frac12\Gamma_\downarrow\rho_{10}(t)\; \\   
+    &\dot{\rho}_{01}(t) = \frac12 \Gamma_\downarrow\rho_{01}(t)   &\dot{\rho}_{11}(t) = -\Gamma_\downarrow\rho_{11}(t)\;
+\end{align*}
+% \end{align*}
+When adding the contribution from $\mathcal{D}[L_\uparrow]\rho(t)$ and introducing $\Gamma_1 = \Gamma_\downarrow + \Gamma_\uparrow$, we find the diagonal elements to:
 \begin{equation}
-    \Dot{A_H} = i dt[H, \rho(t)] +  \sum_a \left(L_a \rho(t) L_a^\dagger - \frac12 L_a L_a^\dagger \rho(t) - \frac12 \rho(t)L_a L_a^\dagger  \right)
+    \dot{\rho}_{00}(t) = \Gamma_\downarrow\rho_{11}(t) - \Gamma_\uparrow\rho_{00}(t), \quad \dot{\rho}_{11}(t) = \Gamma_\uparrow\rho_{00}(t)-\Gamma_\downarrow\rho_{11}(t)\; \\   
 \end{equation}
-
-\subsection{Physical Derivation}
-\textbf{Might be better with an example.}
-To get a better feeling for the Lindblad operators, we sketch out a physical derivation. \footnote{Just taken from wikipedia} We consider a system which interact with the environment, such that the total hamiltonian becomes:
+and the off-diagonal to:
 \begin{equation}
-    H = H_S + H_E + H_{ES}
+    \dot{\rho}_{01}(t) = -\frac12 \Gamma_1\rho_{01}(t),  \quad \dot{\rho}_{10}(t) = -\frac12\Gamma_1\rho_{10}(t) \;
 \end{equation}
-In the interaction picture subject to the unitary transformation by: $\rho \to \unitary_0 \rho \unitary_0^\dagger$ and operators: $H_{BS} \to \unitary^\dagger_0 \rho \unitary_0$ with $\unitary_0 = \exp(-i(H_S + H_E)t)$. The total system evolves as:
-\begin{equation}\label{eq:rho_dot}
-    \dot{\rho} = -i \comm{H}{\rho} 
-\end{equation}
-Which is solves by:
+\todo{Describe a bit more here.}
+The diagonal elements make up a set of coupled differential equation, solving for these two\footnote{This is done by writing the differential equation in matrix representation, by diagonalizing the coefficient we find a basis were the differential equation are decoupled. Solving here and returning to back gives the solution. }.  gives and using $\Tr(\rho) = \rho_{00} + \rho_{11} = 1$:
+
 \begin{equation}
-    \rho = \rho(t = 0) - i \int_0^t dt' \comm{H_0(t')}{\rho(t)}
+\rho_{00}(t) = \frac{\Gamma_\downarrow}{\Gamma_\uparrow + \Gamma_\downarrow} + \left(\rho_{00}(t=0) -  \frac{\Gamma_\downarrow}{\Gamma_\uparrow + \Gamma_\downarrow}\right)e^{-t(\Gamma_\uparrow + \Gamma_\downarrow)}
 \end{equation}
-Which can be substituted into Eq. \ref{eq:rho_dot}:
+
+and 
+\begin{equation}    
+\rho_{11}(t) = \frac{\Gamma_\uparrow}{\Gamma_\uparrow + \Gamma_\downarrow}+\left( \rho_{11}(t=0) -\frac{ \Gamma_\uparrow}{\Gamma_\uparrow + \Gamma_\downarrow}\right) e^{-t(\Gamma_\uparrow + \Gamma_\downarrow)}
+\end{equation}
+
+while the off-diagonals are simply solved by exponential decay:
 \begin{equation}
-    \dot{\rho} = -i \comm{H_{ES}}{\rho(0)} - i \int_0^t dt' \comm{H_{ES}(t')}{\comm{H_{ES}(t')}{\rho(t)}}
+    \rho_{01}(t) = e^{-\Gamma_1 t/2}\rho_{01}(t=0), \quad \rho_{10}(t) = e^{-\Gamma_1 t/2}\rho_{10}(t=0)
+\end{equation}
+From this we see the effects of energy exchange: excitations and relaxations effect the occupation of $\ket{0}$ and $\ket{1}$ until they are in an equilibrium. Further, the energy exchange also leads to decoherence on the diagonal with a rate of $\Gamma_1/2$. 
+
+\begin{marginfigure}
+    \centering
+    \missingfigure{T1 Figure}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{marginfigure}
+
+
+We can also compare the equilibrium position $t\to\infty$ with the equilibrium state described by the Boltzmann statistics in equation \ref{eq:equilibrium_qubit_density_matrix}. Here we find that the rates should satisfy:
+\begin{equation}
+    \frac{\Gamma_\downarrow}{\Gamma_\uparrow + \Gamma_\downarrow} = \frac{1}{1 + e^{-\beta\omega_{01}}} \Rightarrow \frac{\Gamma_\uparrow}{\Gamma_\downarrow} =e^{-\beta\omega_{01}} 
+\end{equation}
+For low temperaturs, this means that $\Gamma_1 \approx \Gamma_\downarrow$. The characteristic time of the decay from an arbitrary density matrix to the equilibrium is described by $T_1 = \frac{1}{\Gamma_1}$.
+
+\subsection{Dephasing}
+If the environment connect to the energy splitting and alters it, the we will experience dephasing of the qubit. Mostly, dephasing is split into two parts: 
+
+\textbf{A slow part} that compared to the experiment we run, such that we can consider it a constant shift of the qubit frequency $\omega \to \omega + \delta_\omega$. We can look at the consequences of this by simply evolving the equations unitarily. 
+
+\begin{marginfigure}
+    \centering
+    \missingfigure{Slow dephasing}
+    \missingfigure{Fast dephasing}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{marginfigure}
+
+\textbf{A faster part} which changes multiple times during the experiment. If we consider this a normal distributed contribution to $\sigma_z$ at each small timestep, we can model this like the random unitary example, we considered in section \ref{sec:random_unitary_transformation} in which we would have the operator $L_\phi = \sqrt{\Gamma_\phi}\sigma_z$. If we apply this Lindblad operator, the time evolution would look like:
+\begin{equation}
+    \dot{\rho}(t) = \mathcal{D}[L_{\phi}]\rho(t)) = \Gamma_\phi\left(\sigma_z \rho(t) \sigma_z -\frac12( \sigma_z^2 \rho(t) + \rho(t) \sigma_z^2)\right)
+\end{equation}
+Since $\sigma_z^2 = \identity$ and $\sigma_z \rho(t) \sigma_z$ flips the sign of the diagonals, we get:
+\begin{equation}
+    \dot{\rho}(t) = - \Gamma_\phi \left(\ket{0}\bra{1}\rho_{01} - \ket{0}\bra{1}\rho_{01}\right)
+\end{equation}
+Thus giving us an extra contribution to the decoherence terms, which are simply solved by:
+\begin{equation}
+    \rho_{01}(t) = e^{-\Gamma_\phi t}\rho_{01}(t=0), \quad \rho_{10}(t) = e^{-\Gamma_\phi t}\rho_{10}(t=0)
+\end{equation}
+So if were to combine the decays from this section and the last, the total dephasing rate would come out to be:
+\begin{equation}
+    \Gamma_2 = \Gamma_\phi + \frac12\Gamma_1 
+\end{equation}
+This is often described by the characteristic time of decoherence:
+\begin{equation}
+    T_2 = \frac{1}{\Gamma_2} = \frac{1}{\Gamma_\phi + \frac12\Gamma_1 } 
 \end{equation}
 
-\newthought{The environment should just be traced out and we should be left with the same expression to first order.}
 
-\section{Qubit Decoherence}
-In the density matrix formalism, we can use the Lindblad Master equation to describe the decoherence of the qubit-resonator system. In this section, we will consider the two level system coupled to a resonator and describe the main challenges with regards to decoherence.
 
-\subsection{Qubit Decay}
-One of the main challenges is the qubit interacting with the environment to either decay from $\ket{1}$ to $\ket{0}$ or less commonly absorb energy from the environment to get excited. 
-\begin{itemize}
-    \item Boltzmann - low temperature effect
-    \item Other forms of decay?
-\end{itemize}
 
-\subsection{Qubit Dephasing}
-When the qubit is not in either $\ket{0}$ or $\ket{1}$ it has a phase. Due to the energy splitting between the two levels, the state will precess around the z-axis with frequency give as $\Delta E / \hbar$. To combat this, one typically enters a rotating frame, such that the x-y plane rotates around the z-axis with the qubit frequency. However, many interactions can alter the qubit frequency by a little making it impossible to keep track of the proper rotating frame. This leads to dephasing ... 
+% note:
+% \begin{itemize}
+%     \item This can probably be formulated better with the use of "Simple Derivation of the Lindblad Equation" where they introduce the random unitary operator to start phases change . Lindblad operator is $L = \sqrt{\Gamma_\phi}\sigma_z$
+%     \item Maybe we can extract this from writing out the random unitary with the $\sigma_z$
+% \end{itemize}
 
-\paragraph{Low Frequency Noise} can be filtered out by using echo style experiments.
+% If qubits instead connect longitudinally (along the $z-axis$) they can alter the qubit frequency $\omega_{01}$ which setts us at a disadvantage. Since we normally think about the $x-$ and $y-$axis in the rotating frame with the frequency $\omega_{01}$ any changes to the qubit frequency would speed up / slow down the actual rotation, and ultimately we lose information about the actual phase of the qubit. 
 
-\paragraph{High Frequency Noise} is problemtic ...  
+% Since there is no energy exchange with the environment this is a unitary process, and it is theory possible to reverse the effect and place the qubit back in the reference frame we know. However, this would assume that we have complete information about the time-dependence of the effective qubit frequency which is not realistic. With a clever use of gates, we can however decouple the pulse by using dynamical decoupling schemes which we will shortly return to in the section about calibrating the characteristic dephasing time $T_2$. *The concept is simply to apply $X_{\pi}$ pulses frequently to refocus the noise. Thus if some qubit initializations precess faster or slower adding a $X_\pi$ gate would flip the order allowing the fast ones to cast up and the slow ones to fall back to the actual qubit frequency
+
+% The rate of dephasing has two components, one from the stochastic "pure" dephasing time described above. This rate is given as $\Gamma_\phi$. The second contribution comes from energy relaxation since any superposition would lose all phase information once collapsed. Think of the $\frac{1}{\sqrt(2)}\left(\ket{0} + e^{i\phi}\ket{1}\right)$ superposition. If $\ket{1}$ were to decay to $\ket{0}$ the phase of the qubit state would also be lost. The total dephasing rate can be found by:
+% $$\Gamma_{2}=\Gamma_\phi+\frac{\Gamma_{1}}{2}$$
+% and the characteristic dephasing time is given by:
+% $$T_2=\frac{1}{\Gamma_{2}}$$
 
 \subsection{Resonator Decays}
-
-\subsection{Pucell Effect}
+A resonator also decays photons. This happens with a much higher rate since it is connected directly to the feedout line, where we also want to "see" the photons. One could follow the same calculations and arguments as with the qubit $T_1$ and would find the Lindblad operator $\sqrt{\kappa}a$. Ultimately this also gives a decay of resonator towards its equlibrium which we can assume to be ground state if it is cold enough. The rate $\kappa$ described the rate at which photons escape the resonator.
 
