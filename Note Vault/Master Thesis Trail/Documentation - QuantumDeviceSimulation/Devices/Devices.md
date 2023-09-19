@@ -1,14 +1,11 @@
-#todo 
-- [ ] Write the entire table of contents
 
 All the physical devices and pulses are written as children to the <code>Device</code>-class. 
 
 All devices are collected in three main categories:
 
 - **[[Device]]** store the physical devices with Hamiltonian, decays and other parameters
-- **[[Systems]]** are connections of physical devices. 
-- **[[Pulses]]** are different time dependent pulses which can be coupled at the appropriate keyword in a [System](Systems)
-
+- **[[Systems]]** are connecting physical devices from the [[Device]] class. This can be to combine multiple qubits, qubit and a resonator, or drive them with pulses. 
+- **[[Pulses]]** are different time dependent functions which can be coupled at the appropriate keyword in a [System](Systems).
 
 ## List of Devices:
 A running list of devices, systems and pulses are found here:
@@ -18,9 +15,9 @@ A running list of devices, systems and pulses are found here:
 	- [Transmon](Device#Transmon)
 	- [Resonator](Device#Resonator)
 - [[Systems]]
-	- [Qubit System]
-	- [Qubit Resonator System]
-	- [Approximated Systems]
+	- [Qubit System](Systems#QubitSystem)
+	- [Qubit Resonator System](Systems#QubitResonatorSystem)
+	- [Approximated Systems](Systems#Approximated Systems)
 - [[Pulses]]
 	- [GaussianPulse](Pulses#GaussianPulse)
 	- [SquareCosinePulse](Pulses#SquareCosinePulse)
@@ -41,7 +38,7 @@ Device(ABC):
 
 is an abstract class made to keep track of static and sweepable parameters. It has the following methods. When subclassed it should have a new version which creates a new init calling the parent and overwriting the <code>Device.set_operators</code> method. 
 
-The <code>__init__(self)</code> should define a <code>self.sweepable_parameters</code> a list with strings referring to the defined parameters which should have the ability to be swept in an [[Experiment]]. Furthermore, it should also include <code>self.update_methods<//code> 
+The <code>__init__(self)</code> should define a <code>self.sweepable_parameters</code> a list with strings referring to the defined parameters which should have the ability to be swept in an [[.md]]. Furthermore, it should also include <code>self.update_methods<//code> 
 
 An example could be the following:
 
@@ -51,7 +48,7 @@ An example could be the following:
 def NewDevice(Device):
 
 	def __init__(self, ...):
-		DEFINE NEW PARAMETERS HERE FOR 
+		DEFINE NEW PARAMETERS HERE FOR THE CLASS
 		self.sweepable_parameters = ["PARAM1", "PARAM2"]
 		self.update_methods = [self.set_operators]
 		super().__init__()

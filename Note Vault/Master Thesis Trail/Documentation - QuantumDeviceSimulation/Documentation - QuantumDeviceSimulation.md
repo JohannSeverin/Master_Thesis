@@ -1,5 +1,5 @@
 ---
-sticker: ""
+sticker: lucide//codepen
 tag: frontmatter
 ---
 This is the documentation for a simulation tool created as part of my Master Thesis.  Ultimately, this module is built as a wrapper for [QuTiP](https://qutip.org/) in an attempt to ease simulation of routine tasks in Superconducting Qubits. 
@@ -18,7 +18,7 @@ To built up the devices and quantum chips, we have all statics in the device par
 * Different pulses which can be send in to the devices to interact with them
 
 ---
-## [[Simulation]]
+## [[Experiment]]
 
 When devices are designed, the time evolution can be calculated at different degrees of complexity. These simulation strategies are found in this part of the module. And currently support the following:
 - Unitary Evolutions using the Schrodinger Equation

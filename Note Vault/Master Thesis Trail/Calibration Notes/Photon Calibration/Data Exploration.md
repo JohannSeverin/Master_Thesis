@@ -48,4 +48,5 @@ Will probably be better when taking the following data:
 	- [ ] Are we in steady state
 	- [ ] Vacuum Rabi Oscillations for second opinion on the coupling
 - [ ] Probably longer pulses in the measurement data
-- [ ] 
+- [ ]Drive power .> $\sqrt{A}$
+- 

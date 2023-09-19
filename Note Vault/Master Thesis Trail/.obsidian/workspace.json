@@ -4,16 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "affd1006bfda761c",
+        "id": "0fec3880998eefa5",
         "type": "tabs",
         "children": [
           {
-            "id": "1a2926efc20e6efd",
+            "id": "4c44c0f70f1f32f6",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "markdown",
               "state": {
-                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png"
+                "file": "Calibration Notes/Efficiency Calibration/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -64,7 +66,7 @@
             }
           },
           {
-            "id": "dcb9e1548e13f9fb",
+            "id": "c7a7cac6976392dd",
             "type": "leaf",
             "state": {
               "type": "mk-file-view",
@@ -76,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 368.49999618530273
+    "width": 284.50288009643555
   },
   "right": {
     "id": "dc82a3918f68c7c0",
@@ -92,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png",
+                "file": "Calibration Notes/Efficiency Calibration/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -109,7 +111,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png",
+                "file": "Calibration Notes/Efficiency Calibration/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,7 +134,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Continuous Time Investigation/attachments/test_data_trajectories.png"
+                "file": "Calibration Notes/Efficiency Calibration/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field.md"
               }
             }
           },
@@ -159,9 +161,17 @@
               "type": "advanced-tables-toolbar",
               "state": {}
             }
+          },
+          {
+            "id": "963e15020cd98c17",
+            "type": "leaf",
+            "state": {
+              "type": "Saved Queries View",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 6
       }
     ],
     "direction": "horizontal",
@@ -176,57 +186,58 @@
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
       "table-editor-obsidian:Advanced Tables Toolbar": false,
-      "obsidian-excalidraw-plugin:Create new drawing": false
+      "obsidian-excalidraw-plugin:Create new drawing": false,
+      "obsidian-local-images-plus:Local Images Plus  0.15.7\r\nDownload media files": false
     }
   },
-  "active": "dcb9e1548e13f9fb",
+  "active": "4c44c0f70f1f32f6",
   "lastOpenFiles": [
-    "Continuous Time Investigation/First Control of ADC Trace Data.md",
-    "Continuous Time Investigation/Idea - Brainstorming.md",
-    "Continuous Time Investigation/attachments/attachments.md",
-    "Continuous Time Investigation/attachments/test_data_trajectories.png",
-    "Continuous Time Investigation/attachments",
-    "Continuous Time Investigation/Continuous Time Investigation.md",
-    "Continuous Time Investigation",
-    "Calibration Notes/Photon Calibration/Data from Experiments.md",
-    "Calibration Notes/Photon Calibration/Data Exploration.md",
-    "Calibration Notes/Photon Calibration/attachments/photon_calibration_in_readout_164131.png",
-    "Calibration Notes/Photon Calibration/attachments/Photon_Count.png",
-    "Calibration Notes/Photon Calibration/attachments/Calculated_drift.png",
-    "Calibration Notes/Photon Calibration/attachments/dispersive_dips.png",
-    "Calibration Notes/Photon Calibration/attachments/dip_as_function_of_frequency.png",
-    "Calibration Notes/Photon Calibration/attachments/example_dip.png",
-    "Calibration Notes/Photon Calibration/attachments/difference.png",
-    "Calibration Notes/Photon Calibration/attachments/raw_data.png",
-    "Calibration Notes/Photon Calibration/attachments/Pasted image 20230720111936.png",
-    "Calibration Notes/Photon Calibration/attachments",
+    "Calibration Notes/Efficiency Calibration/Efficiency Calibration.md",
     "Tasks - Overview.md",
-    "Excalidraw/Excalidraw.md",
-    "Excalidraw/Drawing 2023-07-19 11.20.35.excalidraw.md",
-    "Paste.md",
+    "Continuous Time Investigation/Decaying Two Level System.md",
+    "Calibration Notes/Photon Calibration/Data Exploration.md",
+    "Calibration Notes/Photon Calibration/Data from Experiments.md",
     "Calibration Notes/Photon Calibration/Photon Calibration.md",
-    "Documentation - QuantumDeviceSimulation/Devices/Device.md",
-    "Documentation - QuantumDeviceSimulation/Devices/Devices.md",
+    "Continuous Time Investigation/Continuous Time Investigation.md",
+    "Theory Notes/Qubit Decoherence.md",
+    "Continuous Time Investigation/Weighting in Readout/Matched Filter.md",
+    "Continuous Time Investigation/Weighting in Readout/Weighting in Readout.md",
+    "Documentation - QuantumDeviceSimulation.md",
     "Documentation - QuantumDeviceSimulation/Documentation - QuantumDeviceSimulation.md",
-    "Excalidraw",
-    "Calibration Notes/Calibration Notes.md",
-    "Calibration Notes/Photon Calibration",
-    "Calibration Notes",
-    "Documentation - QuantumDeviceSimulation/Analysis/Analysis.md",
     "Documentation - QuantumDeviceSimulation/Simulation/Simulation.md",
-    "Documentation - QuantumDeviceSimulation/Devices/Systems.md",
-    "Documentation - QuantumDeviceSimulation/Devices/Pulses.md",
-    "Documentation.md",
-    "Docu,entatil.md",
-    "Systems.md",
-    "Devices/Devices.md",
-    "Devices/System.md",
+    "attachments",
+    "Documentation - QuantumDeviceSimulation/PDF.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Devices.md",
     "Documentation - QuantumDeviceSimulation/Devices/context.mdb",
-    "2023-07-15.md",
-    "Devices",
-    "Simulations.md",
-    "Documentation - QuantumDeviceSimulation/Analysis",
-    "Documentation - QuantumDeviceSimulation/Simulation",
+    "Daily Notes/2023-08-14 - Meeting about Master Thesis.md",
+    "Daily Notes/Daily Notes.md",
+    "Calibration Notes/Efficiency Calibration/Circuit quantum electrodynamics.md",
+    "Calibration Notes/Efficiency Calibration/General method for extracting the quantum efficiency of dispersive qubit readout in circuit QED.md",
+    "Calibration Notes/Efficiency Calibration/attachments/General method for extracting the quantum efficiency of dispersive qubit readout in circuit QED-3.png",
+    "Calibration Notes/Efficiency Calibration/attachments/General method for extracting the quantum efficiency of dispersive qubit readout in circuit QED-2.png",
+    "Calibration Notes/Efficiency Calibration/attachments/General method for extracting the quantum efficiency of dispersive qubit readout in circuit QED-1.png",
+    "Calibration Notes/Efficiency Calibration/attachments/General method for extracting the quantum efficiency of dispersive qubit readout in circuit QED.png",
+    "Excalidraw/Excalidraw.md",
+    "Calibration Notes/Efficiency Calibration/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field.md",
+    "Calibration Notes/Calibration Notes.md",
+    "Continuous Time Investigation/First Control of ADC Trace Data.md",
+    "Calibration Notes/Efficiency Calibration/attachments/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field-1.png",
+    "Calibration Notes/Efficiency Calibration/attachments/ac Stark Shift and Dephasing of a Superconducting Qubit Strongly Coupled to a Cavity Field.png",
+    "Calibration Notes/Efficiency Calibration/attachments/Circuit quantum electrodynamics fig25.png",
+    "Calibration Notes/Efficiency Calibration/attachments",
+    "Calibration Notes/Efficiency Calibration",
+    "Calibration Notes/Photon Calibration/T1_152810.png",
+    "Documentation - QuantumDeviceSimulation/Simulation/Experiment.md",
+    "Daily Notes/2023-08-15.md",
+    "Printing.md",
+    "Documentation - QuantumDeviceSimulation/Simulation/context.mdb",
+    "Daily Notes",
+    "Continuous Time Investigation/attachments/longer_data_trajectories.png",
+    "Calibration Notes/Photon Calibration/photon_calibration_155708.png",
+    "Continuos Time Investigation/Weighting in Readout",
+    "Continuos Time Investigation",
+    "Continuous Time Investigation/Weighting in Readout/attachments",
+    "Continuous Time Investigation/Weighting in Readout",
     "Untitled 1.canvas",
     "Untitled.canvas"
   ]

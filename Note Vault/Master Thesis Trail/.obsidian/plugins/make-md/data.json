@@ -15,8 +15,8 @@
   "saveAllContextToFrontmatter": true,
   "editorFlowStyle": "seamless",
   "autoOpenFileContext": false,
-  "activeView": "all",
-  "hideFrontmatter": true,
+  "activeView": "root",
+  "hideFrontmatter": false,
   "activeSpace": "",
   "spacesCompactMode": false,
   "defaultDateFormat": "MMM dd yyyy",
@@ -28,7 +28,7 @@
   "revealActiveFile": false,
   "spacesStickers": true,
   "spaceRowHeight": 29,
-  "spacesDisablePatch": false,
+  "spacesDisablePatch": true,
   "folderNoteInsideFolder": true,
   "folderNoteDefaultView": true,
   "sidebarTabs": true,
@@ -41,7 +41,22 @@
       "Devices",
       "Devices",
       "/",
-      "Calibration Notes/Photon Calibration/attachments"
+      "Documentation - QuantumDeviceSimulation/Experiment",
+      "Documentation - QuantumDeviceSimulation/Experiment",
+      "Documentation - QuantumDeviceSimulation/Experiment",
+      "Documentation - QuantumDeviceSimulation/Experiment",
+      "Documentation - QuantumDeviceSimulation/Experiment",
+      "Documentation - QuantumDeviceSimulation/Experiment",
+      "Continuos Time Investigation",
+      "Continuos Time Investigation/Weighting in Readout",
+      "Continuos Time Investigation/Weighting in Readout",
+      "Continuos Time Investigation",
+      "Continuos Time Investigation",
+      "Documentation - QuantumDeviceSimulation/Devices",
+      "Excalidraw",
+      "Continuous Time Investigation/Weighting in Readout",
+      "Calibration Notes",
+      "Calibration Notes/Efficiency Calibration"
     ],
     "QuantumDeviceSimulation": [
       "Documentation - QuantumDeviceSimulation/Analysis"
@@ -53,10 +68,10 @@
     "Master Thesis Trail",
     null
   ],
+  "expandFolderOnClick": true,
   "openFolders": [],
   "fileIcons": [],
   "cachedSpaces": [
-    "QuantumDeviceSimulation",
     "Master Thesis Trail"
   ],
   "menuTriggerChar": "/",
@@ -82,7 +97,7 @@
   "spacesSyncTimeoutSeconds": 10,
   "spacesAutoBackup": true,
   "spacesAutoBackupInterval": 10,
-  "spacesAutoBackupLast": 1689851676143,
+  "spacesAutoBackupLast": 1692732914711,
   "spacesUseAlias": false,
   "precreateVaultSpace": true,
   "fmKeyAlias": "alias",
@@ -90,5 +105,6 @@
   "fmKeyColor": "color",
   "fmKeySticker": "sticker",
   "openSpacesOnLaunch": true,
-  "indexSVG": false
+  "indexSVG": false,
+  "readableLineWidth": true
 }

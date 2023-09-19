@@ -1,4 +1,3 @@
-
 Device is part of the Devices submodule which contains the different children classes to the [Device Parent Class](Devices#Device Parent Class).  
 
 ## Qubits

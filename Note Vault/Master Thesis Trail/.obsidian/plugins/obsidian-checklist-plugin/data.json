@@ -1,0 +1,23 @@
+{
+  "todoPageName": "todo",
+  "showChecked": false,
+  "showAllTodos": false,
+  "autoRefresh": true,
+  "subGroups": false,
+  "groupBy": "page",
+  "sortDirectionItems": "new->old",
+  "sortDirectionGroups": "new->old",
+  "sortDirectionSubGroups": "new->old",
+  "includeFiles": "",
+  "lookAndFeel": "classic",
+  "_collapsedSections": [
+    "Tasks - Overview.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Pulses.md",
+    "Documentation - QuantumDeviceSimulation/Analysis/Analysis.md",
+    "Documentation - QuantumDeviceSimulation/Devices/Systems.md",
+    "Continuous Time Investigation/Idea - Brainstorming.md",
+    "Calibration Notes/Photon Calibration/Photon Calibration.md",
+    "Documentation - QuantumDeviceSimulation/Simulation/Experiment.md"
+  ],
+  "_hiddenTags": []
+}

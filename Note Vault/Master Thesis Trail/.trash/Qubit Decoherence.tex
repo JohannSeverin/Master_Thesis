@@ -1,0 +1,98 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Qubit Decoherence},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Qubit Decoherence}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\textbf{Primarily this is taken from A Quantum Engineers guide. It is
+however modified to fit with the section where things are formulated in
+terms of Lindblad Operators.}
+
+If we consider a qubit in the picture of the Bloch Sphere, we have the
+{} at the north pole and {} at the south pole. In this picture, we
+consider two types of decoherence. One along longitudinal direction (the
+{}-axis), and the transverse (in the {} - plane).
+
+\hypertarget{longitudinal-relaxation}{%
+\subsection{Longitudinal Relaxation}\label{longitudinal-relaxation}}
+
+The longitudinal decay comes from transitions from {} by coupling to the
+qubit in either the {} or in the {} channel. This could be from energy
+exchange to and from the environment.
+
+*If we were to sum over the coupling operators of the from creating or
+annihilating a particle (or quasi particle) in the environment at the
+cost of doing the opposite on the qubit.\\
+{}If we were to trace out the environment now, we would be left with
+Lindblad operators of the type {} or {} which are connecting to the
+{}channels. Thus driving transitions relaxing the qubit from {} or
+absorbing energy from the environment to go from {}.
+
+However, since the state {} has a higher energy {} the excitation rate
+{} is lower compared to the relaxation rate {} for low temperatures {},
+The Boltzmann factor relating the two rates are given by: {} so for low
+temperatures {} the steady state of the qubit will be the ground state
+and the total longitudinal decay rate will be {}. Often this rate is
+converted to a time as a measure of the stability of the qubit. Here it
+is defined by {}.
+
+\hypertarget{dephasing}{%
+\subsection{Dephasing}\label{dephasing}}
+
+If qubits instead connect longitudinally (along the {})
+
+\end{document}

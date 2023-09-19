@@ -6,9 +6,17 @@
   "obsidian-excalidraw-plugin",
   "obsidian-icon-folder",
   "make-md",
-  "obsidian-mind-map",
   "nldates-obsidian",
   "quickadd",
   "tag-wrangler",
-  "obsidian-outliner"
+  "obsidian-outliner",
+  "cm-editor-syntax-highlight-obsidian",
+  "obsidian-pandoc",
+  "obsidian-zotero-desktop-connector",
+  "quick-latex",
+  "obsidian-paste-image-rename",
+  "obsidian-local-images-plus",
+  "advanced-cursors",
+  "various-complements",
+  "hotkeysplus-obsidian"
 ]

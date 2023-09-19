@@ -15,7 +15,6 @@ axes.spines.top: False
 ## Fontsizes
 font.size : 16
 
-axes.titleweight: bold
 
 
 #### Following is used to set individual sizes
