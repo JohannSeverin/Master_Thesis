@@ -94,7 +94,7 @@ where we have used that $\unitary^\dagger \unitary = \identity$ and that $\comm{
 \end{fullwidth}
 Where we see that in the rotating frame, we find both $\sigma_x$ and a $\sigma_y$ in the hamiltonian.
 
-\subsection{X, Y and virtual Z}
+\subsection{X, Y and virtual Z}\label{sec:how_to_make_gates}
 To arrive at the gates, we choose a pulse in the voltage line of the form:
 \begin{equation}
     V(t) = s(t) (\sin(\omega_d t + \phi))
@@ -119,7 +119,7 @@ Rewriting the Hamiltonian with the product to sum trigonometric identities\footn
 H_{eff} &= \Omega s(t) \left((I \cos(\omega_d t) + Q \sin(\omega_d t)) \cdot \cos(\omega_q t)\sigma_y - \left(I \cos(\omega_d t) + Q \sin(\omega_d t)\right) \cdot \sin(\omega_q t) \sigma_x \right) \\
 H_{eff} &\approx \Omega s(t) \left((-I \cos(\delta t) + Q \sin(\delta t))\sigma_y + \left(I \cos(\delta t) - Q \sin(\delta t)\right) \sigma_x \right)
 \end{align}
-\end{fullwidth}
+\end{fullwidth}\todo{How does this look with $\delta = 0$, how do we choose the time and envelope to make a specific gate.}
 where $\delta = \omega_q - \omega_d$ and we applied the RWA in the second line to eliminate oscillating terms of frequency $\omega_q + \omega_d \gg \omega_q - \omega_d$. 
 
 Since our driving hardware allows us control of $\phi$ and thus $I, Q$ as well as the driving frequency, we can add an x-gate by having $I = 1, Q = 0$ while driving on the qubit frequency, such that $\delta = 0$. The $y$-gate is done exactly the same, but at a $\pi/2$ rotation, such that $I = 0, Q = 1$. 
@@ -459,7 +459,7 @@ Such that we find the Husimi $Q$-function as:
 \end{equation}
 which will serve as our probability distribution of a density matrix $\rho$ in the coherent phase space.
 
-\subsection{Common States}
+\subsection{Common States *}
 Were we to solve the Hamiltonian in either the position or momentum basis, we would find that the ground state solution to be a Gaussian centered around the bottom of the square-potential and for higher states, we would have some multiplication with a Hermite Polynomial of corresponding order. This fact can be seen in figure \ref{fig:Q_func_examples} where the vacuum state is a 2D gaussian centered at the center (\textit{check validity of statement}). \\
 Now for the higher Fock states ($n = 3$ is shown), we see a ring, which is centered with an average radius of $n$. A good intuition for this is the energy conservation of the harmonic oscillator. If we were to measure the position $x=0$ of a harmonic oscillator with non-zero energy, it would certainly have a non-zero momentum. Of course in quantum mechanics this is smeared a bit by Heisenberg Uncertainty Principle.\\
 The coherent state described in the previous sections behaves like moving the vacuum around. The center of the distribution will be in $\alpha$.  
@@ -471,8 +471,25 @@ The coherent state described in the previous sections behaves like moving the va
     \label{fig:Q_func_examples}
 \end{marginfigure}
 
-\subsection{The Driven Resonator in IQ Plane}
-With the new formulation of Q-functions we can visualize the readout drive as a separation in the IQ plane. 
+\subsection{The Driven Resonator in IQ Plane}\label{sec:driving_resonator_iq_plane}
+With the new formulation of Q-functions we can visualize the readout drive as a separation in the IQ plane. Let us explore what happens, when we drive the resonator while considering the qubit to be a two level system subject to the Hamiltonian:
+\begin{equation}
+    H_{eff} =  \left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + \epsilon(a + a^\dagger)
+\end{equation}
+If we were to take the time-derivative of the lowering operator of the resonator, we find:
+\begin{equation}
+    \dot{a}(t) = i\comm{H_{eff}}{a} = -i\comm{\left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + \epsilon(a + a^\dagger)}{a}
+\end{equation}
+And using the commutation relatons, we find:
+\begin{equation}
+    \dot{a}(t) = -i \left(\left(\omega_r - \omega_d + \chi \sigma_z\right) a(t) + \epsilon\right)
+\end{equation}
+We now consider the resonator to be in a coherent state $\ket{\alpha}$ (initially we consider $\alpha(t=0) = 0$) and the qubit is in $\ket{k}$ with $k = 0,  1$. Applying our field operator from above, now gives us\todo{cite Blais}:
+\begin{equation}
+    \dot{\alpha}(t) \ket{\alpha(t), k} = - i \left(\left(\omega_r - \omega_d \pm \chi \right) \alpha(t) + \epsilon\right) \ket{\alpha(t), k} 
+\end{equation}
+\todo{Include figures. Does this calculation make sense before we add the dissipation?}
+
 
 \begin{itemize}
     \item When driving the resonator, we move it in the IQ-plane

@@ -263,7 +263,7 @@ Even at low temperatures, one should expect to see the temperature have an effec
     \end{pmatrix}
 \end{equation}\todo{check!}
 
-\subsection{Longitudinal Relaxation} 
+\subsection{Longitudinal Relaxation}\label{sec:theory_t1}
 If the qubit exchanges energy with the environment it could do transition $\ket{1} \leftrightarrow \ket{0}$. While the low temperature also decreases the rate of energy absorbtion by the system from the environment, it is still necesarry to consider... \todo{Not satisfyed with this start}. If we want to describe the relaxation from $\ket{0}\to\ket{1}$ at a rate $\Gamma_\downarrow$ in the Lindblad equation, it would be described with the Lindblad operator $L_{\downarrow} = \sqrt{\Gamma_{\downarrow}} \ket{0}\bra{1}$ and correspondingly $L{_\uparrow} = \sqrt{\Gamma_{\uparrow}} \ket{1}\bra{0}$ describe the excitement. Thus a qubit subject to these decays would follow the Lindblad equation: \todo{make sure this notation is covered above.}
 \begin{align*}
     \dot{\rho}(t) &= \mathcal{D}[L_{\downarrow}]\rho(t)) \\

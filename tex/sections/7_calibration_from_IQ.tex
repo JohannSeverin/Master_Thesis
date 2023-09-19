@@ -8,33 +8,53 @@ Before using a qubit, it will be necessary to characterize it to the best of our
 \subsection{Spectroscopy}
 In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be determined with a high precision. In order to get the best estimate for the qubit frequency, we make a rabi style frequency, were we apply a pulse with a given frequency to the qubit. If we are in resonance, we should see the qubit moving between $\ket{0}$ and $\ket{1}$ and out of resonance no changes will be seen.
 
+\todo{How exactly do we do this section. Do we just scan the detuning $\omega_{01}$ frequency or should we cover the steady state?}
+
 \begin{itemize}
     \item Qubit 
 \end{itemize}
 
+
 \subsection{Rabi}
+\begin{marginfigure}
+    \centering
+    \missingfigure{Rabi experiment sequence}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{marginfigure}
+In section \ref{sec:how_to_make_gates}, we saw how one can make an x- and y-gates. By driving at the qubit frequency and in the $I$ quadrature found in the previous section, the form of the effective Hamiltonian will simply be of the form $H_{eff} = \Omega s_(t) \sigma_x$, which gives the time evolution operator:
+\begin{equation}
+    \unitary(t) = \exp\left(-i\int_0^t dt' \Omega s(t') \sigma_x \right)
+\end{equation}
+So to get an x-gate, we can decide on a given envelope function $s(t)$, such that $S = \int_0^t  dt' s(t')$. Thus the dynamics can be altered by simply adjusting the amplitude. If we do a simple experiment, where we initialize the qubit in state $\ket{0}$ and do a pulse with a frequency $\omega_d = \omega_q$ and amplitude $\Omega$ before reading it out. We will see oscillations depending on the area of the curve. Each top will correspond to a $\pi +n2\pi$ rotation around the $x$-axis, where the qubit will be in $\ket{1}$ and the bottoms will be at $2\pi n$ rotations, where we are back at zero. Thus we can fit a cosine curve and by determining its frequency, we can pick the amplitude yielding us a $\pi$ rotation. To go from this pulse to a $\pi/2$ rotation, we can simply pick half of the $X_{\pi}$ amplitude.
 
-Use this to find:
-\begin{itemize}
-    \item Proper pulses
-    \item T1
-\end{itemize}
+\begin{figure}
+    \centering
+    \missingfigure{Rabi plot and fit}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
 
 
-\subsection{Decay Calibration}
-How do we determine the calibration of T1. 
+\subsection{Decay Calibration}\label{sec:calibration_t1}
+\begin{marginfigure}
+    \centering
+    \missingfigure{$T_1$ sequence}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{marginfigure}
 
-We get some measure from Rabi oscillations. But we follow this algorithm:
+From section \ref{sec:theory_t1}, we see that the characteristic logitudinal decay time, $T_1$ can be described by the $\rho_{00}(t)$ and $\rho_{11}(t)$. For this experiment, we will initialize the qubit in state $\ket{1}$ since this is the furthers from steady state. By waiting a time $t_{\text{wait}}$ before reading out the signal and repeating the experiment a certain amounts of time, we can approximate  $\rho_{00}(t)$ and $\rho_{11}(t)$ by taking the average at each time step. Now plotting the occupation as a function om time, we will opbatin a decaying function going toward the steady state. The exponential coefficient of this decay is the $T_1$ time. 
 
-\begin{enumerate}
-    \item Perform an x-gate
-    \item Wait a time: $t$ 
-    \item measure 
-    \item repeat 1-3 $n$ times
-    \item repeat 1-4 with increased $t$
-\end{enumerate}
 
-Fitting an exponential decay to the occupation in the excited state will give a measure 
+Doing the experiement on our qubit, we obtain the results displayed in figure \ref{fig:T_1_decay_calibration}
+
+\begin{figure}
+    \centering
+    \missingfigure{T1 decay}
+    \caption{Caption}
+    \label{fig:T_1_decay_calibration}
+\end{figure}
 
 \subsection{Dephasing Calibration}
 There are two ways of calibrating the dephasing time. \textbf{Refer to the section in Lindblad}.
@@ -168,25 +188,66 @@ Combining the results from the last two experiments, we find the readout efficie
 
 
 \section{Calibration in Continuous Time}
+To get significant statistics on some calibration, one sweep 1 or 2 values for the experiment and then repeat the experiment many times to get significant statistics. If one of the sweeping axis are duration, we could instead use a continous measurement scheme to get the same data. In this section, we look at calibration by continuous measurement to speed up calibration schemes. Further, we will discuss if measurement changes the physics significantly. 
 
-\subsection{Transition Rates}
-If we were to consider the dynamics over a longer time-interval, we would expect how to see the qubit change from $\ket{1} \leftrightarrow \ket{0}$ multiple times. If we were to consider, how often these transitions occur, we can determine the decay rate, and excitation rate allowing us to again extract $T_1$ and temperature $\tau$.
+\subsection{In-measurement T1 Calibration}
+The times used for the $T_1$ calibration described in sec \ref{sec:calibration_t1} is mostly waiting to see if the qubit has decayed. If we instead were to do a measurement in the waiting time, we can split it up in chunks and do classification at many times in the same readout trace. If done right, this would allow us to completely remove the sweep axis and instead just repeat the experiment the appropriate amount to get the samples.
 
-\textbf{Do analysis with data}
+\begin{marginfigure}[-2cm]
+    \centering
+    \missingfigure{T1 circuit}
+    \caption{Caption}
+    \label{fig:inmeasurementt1circuit}
+\end{marginfigure}
+
+Performing the circuit described in figure \ref{fig:inmeasurementt1circuit} multiple times. We modulated the signal and course grained it in $10 \text{ ns}$ intervals to reduce data size. By doing $1 \text{ µs}$ summations and classifying\footnote{Classifcation schemes can be made by taking a subsample and drawing a thresh hold line with data from the first $1 \text{ µs}$ where the distribution most close resembles the initialization.} each individually, we can see the distribution of $\ket{0}$ and $\ket{1}$ over the entire readout duration. In an example with $50 \text{ µs}$ long readout the following distributions were found for qubit initialzied in the ground and first excited state respectively see figure \ref{fig:continous_calibration_decays}. 
+\begin{figure}
+    \centering
+    \includegraphics{Figs/calibrations/contiuous/decays.png}
+    \caption{The dynamics of our qubit system from $50 \text{ µs}$ readout split into $1 \text{ µs}$ pieces which are all classified.}
+    \label{fig:continous_calibration_decays}
+\end{figure}
+\begin{margintable}
+    \centering
+    \caption{Table of results from experiment}
+    \begin{tabular}{c|cc}
+        & Ground State & Excited state \\
+        \hline
+        $\rho(\infty)$&$0.951 \pm 0.254$&$0.099 \pm 0.004$ \\
+        $\rho(0)$&$0.875 \pm 0.003$&$0.124 \pm 0.008$\\
+        $T_1$ &$(159 \pm 615) \text{ µs}$&$(11.1 \pm 0.3)  \text{ µs}$\\
+    \end{tabular}
+    \label{tab:continous_calibration_decays_results}
+\end{margintable}
+    
+The classification are the further fit by two curves with an exponential decay corresponding to the $\rho_{11}(t)$ and $\rho_{11}(t)$ from section \ref{sec:theory_t1}. To obtain the parameters displayed in table \ref{tab:continous_calibration_decays_results}. The most important detail is to extract the decay time $T_1 = (11.1\pm0.3) \text{ µs}$. This should be compared to a regular $T_1$ calibration giving $T_1^{reg} = 9.9 \pm 0.5 \text{ µs}$ done just before with $n$ samples and scanning the waiting time from $0 $ to $100 \text{ µs}$. \todo{Comment on results here}
+
+\paragraph{Interleaved Experiment }\todo{Do analysis} Since the $T_1$ can vary a lot over even small time periods, we also perform and interleaved version of the old and new experiment. This will also allow us to see if there is a different decay inside and outside of the measurement. In this experiment the previous one is carried out again but this time we will include a sweep over the waiting time before reading out for the same pulse length. We can now compare the in-measurement $T_1$ values from the fit within the same pulse with the ones across the waiting time. Given that we see a constant offset $T_1^{meas} = T_1^{wait} + \delta t$ this will show up in this experiment,
+
+\begin{figure*}
+    \centering
+    \missingfigure{Analysis of interleaved experiment}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure*}
+
+Comments on results... 
 
 
 
-\subsection{In-measurement T1 }
-Can we compare the decay-rate within a measurement to the decay outside. There is multiple reasons, this might change:
-\begin{itemize}
-    \item Resonator-Qubit interaction: the resonator and qubit are coupled, so when we are filling the resonator, we allow multiple form of decay/excitations through the qubit. This will lower the expect living time.
-    \item Quantum Zeno Effect: Since the dynamics of the wave-function is linear but the stochastic nature of measuring is quadratic, a continuous measurement should somewhat prevent a transition. This will extent the expected lifetime of the qubit in both states with a factor related to the measurement efficiency $\eta$
-\end{itemize}
+% \subsection{In-measurement T1 }
+% It is possible to speed-up $T_1$
 
-\textbf{Do the experiment} where a continous measurement is made from 0 to 10 mikrosecond, followed up with another where a waiting windows is placed just before:
-\begin{enumerate}
-    \item Place the qubit in 0 or 1
-    \item wait a number of mikroseconds
-    \item do a contiouns measurement
-\end{enumerate}
-The ideas from before can now be used to fit the in-measurement decay rates, while we can use the points across measurements to control a more common decay rate which happens outside of measurements.
+% Can we compare the decay-rate within a measurement to the decay outside. There is multiple reasons, this might change:
+% \begin{itemize}
+%     \item Resonator-Qubit interaction: the resonator and qubit are coupled, so when we are filling the resonator, we allow multiple form of decay/excitations through the qubit. This will lower the expect living time.
+%     \item Quantum Zeno Effect: Since the dynamics of the wave-function is linear but the stochastic nature of measuring is quadratic, a continuous measurement should somewhat prevent a transition. This will extent the expected lifetime of the qubit in both states with a factor related to the measurement efficiency $\eta$
+% \end{itemize}
+
+% \textbf{Do the experiment} where a continous measurement is made from 0 to 10 mikrosecond, followed up with another where a waiting windows is placed just before:
+% \begin{enumerate}
+%     \item Place the qubit in 0 or 1
+%     \item wait a number of mikroseconds
+%     \item do a contiouns measurement
+% \end{enumerate}
+% The ideas from before can now be used to fit the in-measurement decay rates, while we can use the points across measurements to control a more common decay rate which happens outside of measurements.
