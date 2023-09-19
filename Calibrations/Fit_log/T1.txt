@@ -1,0 +1,4 @@
+chi-squared: 93.24 for 97 dof with p-value 0.589
+Amplitude = 2.19e-04 +- 7.02e-06
+offset = -2.98e-04 +- 7.04e-07
+T1 = 2.55e-06 +- 1.46e-07

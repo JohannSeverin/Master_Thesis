@@ -1,0 +1,6 @@
+chi-squared: 188.50 for 161 dof with p-value 0.068
+Amplitude = 1.30e-04 +- 2.18e-06
+Frequency = 5.02e+06 +- 3.46e+03
+Phase = -8.98e-04 +- 1.73e-02
+offset = -1.70e-04 +- 6.09e-07
+T2 = 1.70e-06 +- 6.05e-08

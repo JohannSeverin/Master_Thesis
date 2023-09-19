@@ -5,7 +5,7 @@ import xarray as xr
 import sys
 import iminuit
 
-plt.style.use("../../code/matplotlib_style/standard_plot_style.mplstyle")
+plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 
 data_folder = "../Data/Rabi"
 title = "Rabi"
@@ -31,13 +31,28 @@ def fit_func(x, Amplitude, Frequency, Phase, offset):
 
 guesses = {"Amplitude": 1, "Frequency": 4, "Phase": 0.1, "offset": 0.1}
 
-# Fitting
+#  Fitting
 from iminuit import Minuit
 from iminuit.cost import LeastSquares
+from scipy.stats import chi2
 
 ls = LeastSquares(x_data, y_data, y_err, model=fit_func)
 minimizer = Minuit(ls, **guesses)
 minimizer.migrad()
+
+pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
+
+# Priting
+with open(f"../Fit_log/{title}.txt", "w") as f:
+    print(
+        f"chi-squared: {minimizer.fval:.2f} for {len(x_data) - len(guesses)} dof with p-value {pval:.3f}",
+        file=f,
+    )
+    for name in guesses:
+        print(
+            f"{name} = {minimizer.values[name]:.2e} +- {minimizer.errors[name]:.2e}",
+            file=f,
+        )
 
 
 # Plotting
