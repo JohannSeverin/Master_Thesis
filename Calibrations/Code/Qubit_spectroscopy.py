@@ -49,7 +49,7 @@ ax.plot(
     fit_func(xs_fit, *minimizer.values) / scale_y,
     "--",
     color="k",
-    label=fit_name + " fit",
+    label=fit_name + " Fit",
 )
 
 ax.errorbar(

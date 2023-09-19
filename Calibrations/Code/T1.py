@@ -7,29 +7,34 @@ import iminuit
 
 plt.style.use("../../code/matplotlib_style/standard_plot_style.mplstyle")
 
-data_folder = "../Data/Rabi"
-title = "Rabi"
-xlabel = "Amplitude (mV)"
-scale_x = 1e-3
+data_folder = "../Data/T1"
+title = "T1"
+xlabel = "Waiting Time (µs)"
+scale_x = 1e-6
 
 ylabel = "Readout Signal I (a. u.)"
 scale_y = 1e-3
 
 data = xr.open_dataset(data_folder + "/dataset.nc")
 
-x_data = data.pulse_amplitude
+x_data = data.readout_delay
 y_data = data.readout__final__I__avg
 y_err = data.readout__final__I__avg__error
 
-fit_name = "Cosine"
+fit_name = "Exponential Decay"
 fit_resolution = 1000
+fit_delay = 40
 
 
-def fit_func(x, Amplitude, Frequency, Phase, offset):
-    return offset + Amplitude * np.cos(2 * np.pi * Frequency * x + Phase)
+def fit_func(x, offset, Amplitude, T1):
+    return offset + Amplitude * np.exp(-x / T1)
 
 
-guesses = {"Amplitude": 1, "Frequency": 4, "Phase": 0.1, "offset": 0.1}
+guesses = {
+    "Amplitude": 0.0001630993315741798,
+    "offset": -0.0001630993315741798,
+    "T1": 10e-6,
+}
 
 # Fitting
 from iminuit import Minuit
@@ -46,6 +51,7 @@ fig, ax = plt.subplots(1, 1)
 ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
 
 xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
+xs_fit = xs_fit[fit_delay:]
 ax.plot(
     xs_fit / scale_x,
     fit_func(xs_fit, *minimizer.values) / scale_y,
