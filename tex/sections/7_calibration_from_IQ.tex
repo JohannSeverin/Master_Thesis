@@ -8,7 +8,13 @@ Before using a qubit, it will be necessary to characterize it to the best of our
 \subsection{Spectroscopy}
 In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be determined with a high precision. In order to get the best estimate for the qubit frequency, we make a rabi style frequency, were we apply a pulse with a given frequency to the qubit. If we are in resonance, we should see the qubit moving between $\ket{0}$ and $\ket{1}$ and out of resonance no changes will be seen.
 
-\todo{How exactly do we do this section. Do we just scan the detuning $\omega_{01}$ frequency or should we cover the steady state?}
+\begin{figure}
+    \centering
+    \includegraphics{Calibrations/Figures/Qubit_spectroscopy.pdf}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
+\todo{Pretty much a draft. I think we also want to find the anharmonicity, it is used to calculate the dispersive shift.}
 
 \begin{itemize}
     \item Qubit 
@@ -31,9 +37,11 @@ So to get an x-gate, we can decide on a given envelope function $s(t)$, such tha
 \begin{figure}
     \centering
     \includegraphics{Calibrations/Figures/Rabi.pdf}
-    \caption{Caption}
-    \label{fig:enter-label}
+    \caption{The outcome of a Rabi experiment. By varying the amplitude we get a cosine like behaviour which can be fitted to determine the top of the first wave. The curve is fitted with a function of the type: $y = A \cos(2 \pi x f + \phi) + b$ where x is the amplitude, y the outcome and $A, f, \phi$ and $B$ are the fitted parameters.}
+    \label{fig:calibration_rabi}
 \end{figure}
+\noindent
+In reality, the pulse also includes a more sophisticated envelope function which supresses the transition from $\ket{0}\to\ket{2}$ by applying the DRAG scheme \cite{motzoi_simple_2009}. And the fidelity of the pulses can be determined by using a randomized benchmarking ... \todo{Do we want to comment on this? }
 
 
 \subsection{Decay Calibration}\label{sec:calibration_t1}
@@ -51,13 +59,26 @@ Doing the experiement on our qubit, we obtain the results displayed in figure \r
 
 \begin{figure}
     \centering
-    \missingfigure{T1 decay}
-    \caption{Caption}
-    \label{fig:T_1_decay_calibration}
+    \includegraphics[]{Calibrations/Figures/T1.pdf}
+    \caption{Data from an experiment determining the characteristic $T_1$ decay time. The fit is an exponential decay given by: $y = A e^{-t / T_1} + b$ where $t$ is the waiting time, $y$ is the outcome of the experiment and $A, b$ and $T_1$ are fit parameters.}
+    \label{fig:calibration_T_1_decay}
 \end{figure}
 
 \subsection{Dephasing Calibration}
 There are two ways of calibrating the dephasing time. \textbf{Refer to the section in Lindblad}.
+
+\begin{figure*}
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{Calibrations/Figures/Ramsey.pdf} % first figure itself
+        \caption{first figure}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{example-image-b} % second figure itself
+        \caption{second figure}
+    \end{minipage}
+\end{figure*}
 
 \paragraph{Ramsey Experiment}
 This is a representative time of the qubit.
