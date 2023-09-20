@@ -51,49 +51,52 @@ minimizer.migrad()
 
 pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 
-# Priting
-with open(f"../Fit_log/{title}.txt", "w") as f:
-    print(
-        f"chi-squared: {minimizer.fval:.2f} for {len(x_data) - len(guesses)} dof with p-value {pval:.3f}",
-        file=f,
-    )
-    for name in guesses:
-        print(
-            f"{name} = {minimizer.values[name]:.2e} +- {minimizer.errors[name]:.2e}",
-            file=f,
-        )
 
-# Plotting
-fig, ax = plt.subplots(1, 1)
+exec(open("log_and_plot/code_to_run.txt").read())
 
-ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
+# # Priting
+# with open(f"../Fit_log/{title}.txt", "w") as f:
+#     print(
+#         f"chi-squared: {minimizer.fval:.2f} for {len(x_data) - len(guesses)} dof with p-value {pval:.3f}",
+#         file=f,
+#     )
+#     for name in guesses:
+#         print(
+#             f"{name} = {minimizer.values[name]:.5e} +- {minimizer.errors[name]:.5e}",
+#             file=f,
+#         )
 
-xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
-xs_fit = xs_fit[fit_delay:]
-ax.plot(
-    xs_fit / scale_x,
-    fit_func(xs_fit, *minimizer.values) / scale_y,
-    "--",
-    color="k",
-    label=fit_name + " Fit",
-)
+# # Plotting
+# fig, ax = plt.subplots(1, 1)
 
-ax.errorbar(
-    x_data / scale_x,
-    y_data / scale_y,
-    yerr=y_err / scale_y,
-    ls="none",
-    color="C0",
-    capsize=2,
-    elinewidth=1,
-)
+# ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
 
-ax.set(
-    title=title,
-    xlabel=xlabel,
-    ylabel=ylabel,
-)
+# xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
+# xs_fit = xs_fit[fit_delay:]
+# ax.plot(
+#     xs_fit / scale_x,
+#     fit_func(xs_fit, *minimizer.values) / scale_y,
+#     "--",
+#     color="k",
+#     label=fit_name + " Fit",
+# )
 
-ax.legend()
+# ax.errorbar(
+#     x_data / scale_x,
+#     y_data / scale_y,
+#     yerr=y_err / scale_y,
+#     ls="none",
+#     color="C0",
+#     capsize=2,
+#     elinewidth=1,
+# )
 
-fig.savefig(f"../Figures/{title}.pdf")
+# ax.set(
+#     title=title,
+#     xlabel=xlabel,
+#     ylabel=ylabel,
+# )
+
+# ax.legend()
+
+# fig.savefig(f"../Figures/{title}.pdf")

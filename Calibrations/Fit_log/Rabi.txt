@@ -1,5 +1,5 @@
 chi-squared: 82.42 for 96 dof with p-value 0.837
-Amplitude = -1.29e-04 +- 3.13e-07
-Frequency = 5.67e+00 +- 4.02e-03
-Phase = 2.98e-04 +- 2.74e-03
-offset = -1.63e-04 +- 2.40e-07
+Amplitude = -1.28520e-04 +- 3.12560e-07
+Frequency = 5.67050e+00 +- 4.01807e-03
+Phase = 2.97872e-04 +- 2.73643e-03
+offset = -1.63099e-04 +- 2.40153e-07

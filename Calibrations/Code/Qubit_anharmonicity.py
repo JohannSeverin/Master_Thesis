@@ -7,52 +7,58 @@ import iminuit
 
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 
-data_folder = "../Data/Ramsey"
-title = "Ramsey"
-xlabel = "Waiting Time (ns)"
-scale_x = 1e-9
+data_folder = "../Data/Qubit_anharmonicity"
+title = "Qubit_anharmonicity"
+xlabel = "Frequency (GHz)"
+scale_x = 1e9
 
 ylabel = "Readout Signal I (a. u.)"
 scale_y = 1e-3
 
 data = xr.open_dataset(data_folder + "/dataset.nc")
 
-x_data = data.wait_time
+x_data = data.pulse_frequency
 y_data = data.readout__final__I__avg
 y_err = data.readout__final__I__avg__error
 
-fit_name = "Decayingng Cosine"
+fit_name = "Lorentzian"
 fit_resolution = 1000
-fit_delay = 40
 
 
-def fit_func(x, Amplitude, Frequency, Phase, offset, T2):
-    return offset + Amplitude * np.cos(2 * np.pi * Frequency * x + Phase) * np.exp(
-        -x / T2
+def fit_func(x, f01, f02, A1, A2, gamma1, gamma2, offset):
+    return (
+        offset
+        + A1 * gamma1**2 / (gamma1**2 + (x - f01) ** 2)
+        + A2 * gamma2**2 / (gamma2**2 + (x - f02) ** 2)
     )
 
 
 guesses = {
-    "Amplitude": 0.0001285200521324053,
-    "Frequency": 5511022.044088177,
-    "Phase": 0.1,
-    "offset": 0.0001630993315741798,
-    "T2": 10e-6,
+    "f01": 5.84e9,
+    "A1": 0.3e-3,
+    "gamma1": 0.001e9,
+    "offset": -0.3e-3,
+    "f02": 5.98e9,
+    "A2": 0.3e-3,
+    "gamma2": 0.001e9,
 }
 
-# Fitting
+# Fitting Fitting
 from iminuit import Minuit
 from iminuit.cost import LeastSquares
 from scipy.stats import chi2
 
 ls = LeastSquares(x_data, y_data, y_err, model=fit_func)
 minimizer = Minuit(ls, **guesses)
+
+minimizer.interactive()
+
 minimizer.migrad()
 
 pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 
-
 exec(open("log_and_plot/code_to_run.txt").read())
+
 
 # # Priting
 # with open(f"../Fit_log/{title}.txt", "w") as f:
@@ -66,13 +72,13 @@ exec(open("log_and_plot/code_to_run.txt").read())
 #             file=f,
 #         )
 
+
 # # Plotting
 # fig, ax = plt.subplots(1, 1)
 
 # ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
 
 # xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
-# xs_fit = xs_fit[fit_delay:]
 # ax.plot(
 #     xs_fit / scale_x,
 #     fit_func(xs_fit, *minimizer.values) / scale_y,
@@ -99,4 +105,4 @@ exec(open("log_and_plot/code_to_run.txt").read())
 
 # ax.legend()
 
-# fig.savefig(f"../Figures/{title}.pdf")
+# fig.savefig("../Figures/{title}.pdf")
