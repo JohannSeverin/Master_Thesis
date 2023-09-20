@@ -1,8 +1,49 @@
 \chapter{Comparison of Experiment and Simulation}
-\newthought{This is somewhat the dream of the project. We want to characterize the full IQ plane to see how it looks for the single states and given different qubit parameters.}
+In the previous chapter, we have covered, how one calibrates and extracts the parameters necessary to model a qubit-resonator system under readout. We are now in a position to model it, however, with both many different levels of complexity and different available approximations at hand, we have a trade-off between run time of our simulations and the realism of them. 
 
-\section{Comparison}
-Probably a discussion of the above calibration plots
+\section{Different Simulation Approaches}
+Thoughout the first few chapter, we covered different ways of representing and numerically integrating a quantum system. In this chapter, we will summarize the few methods.
+
+\begin{itemize}
+    \item \textbf{Unitary}
+    \item \textbf{Lindblad Equation}
+    \item \textbf{Monte Carlo}
+    \item \textbf{Stochastic Master Equation}
+\end{itemize}
+
+
+\begin{margintable}
+    \caption{Caption}
+    \centering
+    \begin{tabular}{c|c|c|c|c}
+                    &  SE   & ME    & MC    & SME \\ \hline 
+    deterministic   & x     & x     &       &      \\
+    dissipation     &       & x     & x     & x    \\ 
+    backaction      &       &       &       & x    \\
+    state size      & $n$   & $n^2$ & $n$   & $n^2$
+    \end{tabular}
+    \label{tab:my_label}
+\end{margintable}
+
+\subsection{Calibrations Protocols in Simulation}
+This will be a perfect place, to show the possibilities between the different simulation schemes. If we evolve the same methods, we should see the difference. 
+
+Some nice ones are:
+\begin{itemize}
+    \item T1 is good, the continuous one can be done in SME as well
+    \item Spectroscopy Qubit + Resonator
+    \item Photon Counting
+    \item Efficiency 
+\end{itemize}
+
+
+\section{Check of the Dispersive approximation}
+
+\subsection{The Punchout}
+
+\section{Readout in Simulation}
+
+
 
 
 \section{Readout Infidelity Budget}
