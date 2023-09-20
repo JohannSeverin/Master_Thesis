@@ -8,7 +8,7 @@ import iminuit
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 
 data_folder = "../Data/Qubit_spectroscopy"
-title = "Qubit spectroscopy"
+title = "Qubit Spectroscopy"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9
 

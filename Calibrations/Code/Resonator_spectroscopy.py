@@ -155,4 +155,4 @@ ax.set(
 
 ax.legend()
 
-fig.savefig("../Figures/{title}.pdf")
+fig.savefig(f"../Figures/{title}.pdf")

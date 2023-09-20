@@ -8,7 +8,7 @@ import iminuit
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 
 data_folder = "../Data/Qubit_anharmonicity"
-title = "Qubit_anharmonicity"
+title = "Qubit Anharmonicity"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9
 
