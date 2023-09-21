@@ -6,9 +6,9 @@ In order to use a qubit and in particular if we want to simulate said qubit, we 
 Before using a qubit, it will be necessary to characterize it to the best of our ability, in this section, we will go over the standard methods for characterizing the necessary qubit and resonator properties. In this thesis experiments and simulations were done on a Transmon system.
 
 \subsection{Spectroscopy}
-In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be determined with a high precision. In order to get the best estimate for the qubit frequency, we make a rabi style frequency, were we apply a pulse with a given frequency to the qubit. If we are in resonance, we should see the qubit moving between $\ket{0}$ and $\ket{1}$ and out of resonance no changes will be seen.
-
+To drive the qubit and simulate the most important quantity is to extract the qubit frequency. This is done by doing qubit spectroscopy, where the qubit is driven out by a pulse of a given frequency and then read out. At the qubit frequency, we will expect the qubit to get excited with a higher probability. In addition to the qubit frequency $f_{01}$ the anharmonicity is all of interest, if we want to model the qubit as a 3 level-system. Since the design of the transmon gives a negative anharmonicty \todo{Reference transmon sections}, we can extend the qubit spectroscopy, to also look for a transition from $\ket{0}\to \ket{2}$. This can be done either with $f_{02}$ or by absorbing two photons of $f_{02} / 2$. This peak will be at $f_{01} - \alpha / 2$ \todo{Be consistent in sign of $\alpha$}. 
 \begin{figure*}[t]
+    \caption{Qubit spectroscopy for the $f_{01}$ transition frequency to the left. On the right is an extended scan where another peak is seen, this is the $f_{02}/2$ where two photons are absorbed to go from $ 0 \to 2$. The fits are Lorentzian for one peak and the sum of two Lorenzian for the two peak spectroscopy. }
     \begin{minipage}{0.50\linewidth}
         \centering
         \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Spectroscopy.pdf} % first figure itself
@@ -17,8 +17,17 @@ In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be de
         \centering
         \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Anharmonicity.pdf} % second figure itself
     \end{minipage}
-    \caption{Qubit spectroscopy for the $f_{01}$ transition frequency to the left. On the right is an extended scan where another peak is seen, this is the $f_{02}/2$ where two photons are absorbed to go from $ 0 \to 2$. The fits are Lorentzian for one peak and the sum of two Lorenzian for the two peak spectroscopy. }
+    \label{fig:qubit_spectroscopy}
 \end{figure*}
+
+The two scans for the qubit frequency and half of the $f_{02}$ can be seen in figure \ref{fig:qubit_spectroscopy} along with Lorentzian fits for 1 and 2 peaks respectively. From the fit, we extract:
+\begin{equation}
+    f_{01} = (5.9823 \pm 0.0002) \text{ GHz}
+\end{equation}
+And the anharmonicity is calculated as:
+\begin{equation}
+    \alpha = f_{02} - 2f_{01} = (-286.3 \pm 0.3) \text{ MHz}
+\end{equation}
 
 
 \todo{Pretty much a draft. I think we also want to find the anharmonicity, it is used to calculate the dispersive shift.}
@@ -26,16 +35,16 @@ In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be de
 
 
 \subsection{Rabi}
+In section \ref{sec:how_to_make_gates}, we saw how one can make an x- and y-gates. By driving at the qubit frequency and in the $I$ quadrature found in the previous section, the form of the effective Hamiltonian will simply be of the form $H_{eff} = \Omega s_(t) \sigma_x$, which gives the time evolution operator:
+\begin{equation}
+    \unitary(t) = \exp\left(-i\int_0^t dt' \Omega s(t') \sigma_x \right)
+\end{equation}
 \begin{marginfigure}
     \centering
     \missingfigure{Rabi experiment sequence}
     \caption{Caption}
     \label{fig:enter-label}
 \end{marginfigure}
-In section \ref{sec:how_to_make_gates}, we saw how one can make an x- and y-gates. By driving at the qubit frequency and in the $I$ quadrature found in the previous section, the form of the effective Hamiltonian will simply be of the form $H_{eff} = \Omega s_(t) \sigma_x$, which gives the time evolution operator:
-\begin{equation}
-    \unitary(t) = \exp\left(-i\int_0^t dt' \Omega s(t') \sigma_x \right)
-\end{equation}
 So to get an x-gate, we can decide on a given envelope function $s(t)$, such that $S = \int_0^t  dt' s(t')$. Thus the dynamics can be altered by simply adjusting the amplitude. If we do a simple experiment, where we initialize the qubit in state $\ket{0}$ and do a pulse with a frequency $\omega_d = \omega_q$ and amplitude $\Omega$ before reading it out. We will see oscillations depending on the area of the curve. Each top will correspond to a $\pi +n2\pi$ rotation around the $x$-axis, where the qubit will be in $\ket{1}$ and the bottoms will be at $2\pi n$ rotations, where we are back at zero. Thus we can fit a cosine curve and by determining its frequency, we can pick the amplitude yielding us a $\pi$ rotation. To go from this pulse to a $\pi/2$ rotation, we can simply pick half of the $X_{\pi}$ amplitude.
 
 \begin{figure}
@@ -45,7 +54,7 @@ So to get an x-gate, we can decide on a given envelope function $s(t)$, such tha
     \label{fig:calibration_rabi}
 \end{figure}
 \noindent
-In reality, the pulse also includes a more sophisticated envelope function which supresses the transition from $\ket{0}\to\ket{2}$ by applying the DRAG scheme \cite{motzoi_simple_2009}. And the fidelity of the pulses can be determined by using a randomized benchmarking ... \todo{Do we want to comment on this? }
+In reality, the pulse also includes a more sophisticated envelope function which supresses the transition from $\ket{0}\to\ket{2}$ by applying the DRAG scheme \cite{motzoi_simple_2009}. And the fidelity of the pulses can be determined by using a randomized benchmarking ... \todo{Do we want to comment on this? } While these parameters are important to make an X-gate in experiement in order to initialize in $\ket{1}$. In simulation, this calibration is not necessary, because we can just multiply with the X matrix.
 
 
 \subsection{Decay Calibration}\label{sec:calibration_t1}
@@ -59,7 +68,10 @@ In reality, the pulse also includes a more sophisticated envelope function which
 From section \ref{sec:theory_t1}, we see that the characteristic logitudinal decay time, $T_1$ can be described by the $\rho_{00}(t)$ and $\rho_{11}(t)$. For this experiment, we will initialize the qubit in state $\ket{1}$ since this is the furthers from steady state. By waiting a time $t_{\text{wait}}$ before reading out the signal and repeating the experiment a certain amounts of time, we can approximate  $\rho_{00}(t)$ and $\rho_{11}(t)$ by taking the average at each time step. Now plotting the occupation as a function om time, we will opbatin a decaying function going toward the steady state. The exponential coefficient of this decay is the $T_1$ time. 
 
 
-Doing the experiement on our qubit, we obtain the results displayed in figure \ref{fig:T_1_decay_calibration}
+Doing the experiement on our qubit, we obtain the results displayed in figure \ref{fig:calibration_T_1_decay}. The exponential fit gives the value for $T_1$:
+\begin{equation}
+    T_1 = (2.94 \pm 0.08) \text{ µs}
+\end{equation}
 
 \begin{figure}
     \centering
@@ -67,6 +79,8 @@ Doing the experiement on our qubit, we obtain the results displayed in figure \r
     \caption{Data from an experiment determining the characteristic $T_1$ decay time. The fit is an exponential decay given by: $y = A e^{-t / T_1} + b$ where $t$ is the waiting time, $y$ is the outcome of the experiment and $A, b$ and $T_1$ are fit parameters.}
     \label{fig:calibration_T_1_decay}
 \end{figure}
+
+An important note on the $T_1$ is that it varies a lot over a time interval. For this reason ... \todo{How does it affect us}
 
 \subsection{Dephasing Calibration}
 \begin{marginfigure}
@@ -90,30 +104,61 @@ When describing the dephasing in section \ref{sec:theory_t2} we considered two c
         \includegraphics[width=1.0\linewidth]{Calibrations/Figures/T2_echo.pdf} % second figure itself
     \end{minipage}
     \caption{Figures showing the T2 experiment. The left shows the Ramsey $T_2$ while the right one shows an echo style experiment. Both are fitted with a function of the type $y = A \cos(2 \pi t f + \phi) e^{-t / T_2} + b$ where $t$ is the waiting time, $y$ is the outcome and $f, \phi, A, b$ and $T_2$ are fitting parameters.}
+    \label{fig:calibrations_t2}
 \end{figure*}
 
 \paragraph{Ramsey Experiment}
 This is a representative time of the qubit.
+The $T_2$ time is determined by the exponential envelope in figure \ref{fig:calibrations_t2}. This is determined to be:
+\begin{equation}
+    T_2 = (1.70 \pm 0.06) \text{ µs} 
+\end{equation}
+This can further give us the dephasing time, by using equation \todo{reference $T_2$ components}
+\begin{equation}
+    T_\phi = \left(\frac{1}{T_2} - \frac{1}{2T_1} \right)^{-1} = (2.39 \pm 0.12) \text{ µs}
+\end{equation}
 
 \paragraph{Echo Experiememt}
 This is the limit if we allow activly chanigning the qubit to echo out the phases. We can thus eliminate low frequency noise.
 
 
+
+
 \section{Resonator Calibration}
+Next up, we characterize the resonator.
+
 \subsection{Spectroscopy}
-\begin{itemize}
-    \item Double dip - dispersive shift
-\end{itemize}
+ Like the qubit, the frequency is the most important parameter for the resonator to determine. From the dispersive model, we however see a difference between the resonator frequency depending on which state the qubit occupies. Thus the experiment is done by doing by initializing the qubit in either $\ket{0}$ or $\ket{1}$ and performing a drive of the resonator. This leads to a dip of absorption at the resonator frequency here. Determining the resonator frequency $f_{r0}$ and $f_{r1}$, we can extract the resonator frequency $f_r$ and the dispersive shift $\chi$. This can further be used together with the resonator-qubit detuning to calculate the coupling between qubit and resonator in the dispersive approximation. This is done from $\chi = g^2 / (\omega_r - \omega_q)$.\todo{To Hz $\omega \to f$}
+
+ The spectroscopy for the two initial states can be seen in figure \ref{fig:spectroscopy_resonator} along with a fit of lorentzian absorption. For the state $\ket{1}$, we include a secondary peak, to take the decay into $\ket{0}$ into account.
+ \begin{equation}
+     f_{r0} = 7.55588 \text{ GHz} \pm 5 \text{ KHz} ;\quad f_{r1} =  7.55439 \text{ GHz} \pm 11 \text{ KHz}
+ \end{equation}
+ \todo{These errors are way to small, we have $p$-value of 0. Redo this maybe allow the oscillating background.}
+Where we can extract:
+\begin{align}
+    f_r  = (f_{r0} + f_{r1}) / 2 &= 7.555135 \text{ GHz} \pm 9 \text{ KHz} \\
+    \chi = (f_{r0} - f_{r1}) / 2 &= (745 \pm 9) \text{ Khz} \\
+    g    = \sqrt{\chi (\omega_r - \omega_q)} &= (34.2 \pm 0.4) \text{ MHz}
+\end{align}
 
 \begin{figure}
     \centering
     \includegraphics{Calibrations/Figures/Resonator Spectroscopy.pdf}
     \caption{Spectroscopy of the resonator signal where the qubit is either in $\ket{0}$ (purple) or in $\ket{1}$ (light blue). Since $1$ is somewhat decayed into $0$, the curve for $1$ is fitted with a douyble lorentzian. }
-    \label{fig:enter-label}
+    \label{fig:spectroscopy_resonator}
 \end{figure}
+\todo{The label is wrong here, it should be absolute value.}
 
 \subsection{Resonator Decay Rate}
-To determine kappa.... 
+We now turn our eyes to the resonator depletion rate, $\kappa$. We found in section \ref{}\todo{reference} that the resonator will decay exponentially, when 
+
+\begin{figure}
+    \centering
+    \includegraphics{Calibrations/Figures/Resonator Decay Rate.pdf}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
 
 \subsection{Photon Counting}
 Considering the dispersive hamiltonian of the qubit-resonator-system, Eq. \ref{eq:two_level_qubit_dispersive}, we have above primarily considered the shift of resonator frequency depending on the qubit state, but just moving the parenthesis to represent it in the form:
