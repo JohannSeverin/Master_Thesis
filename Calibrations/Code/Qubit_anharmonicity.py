@@ -23,6 +23,7 @@ y_err = data.readout__final__I__avg__error
 
 fit_name = "Lorentzian"
 fit_resolution = 1000
+fit_delay = 0
 
 
 def fit_func(x, f01, f02, A1, A2, gamma1, gamma2, offset):
@@ -34,11 +35,11 @@ def fit_func(x, f01, f02, A1, A2, gamma1, gamma2, offset):
 
 
 guesses = {
-    "f01": 5.84e9,
+    "f01": 5.98e9,
     "A1": 0.3e-3,
     "gamma1": 0.001e9,
     "offset": -0.3e-3,
-    "f02": 5.98e9,
+    "f02": 5.84e9,
     "A2": 0.3e-3,
     "gamma2": 0.001e9,
 }
@@ -58,6 +59,17 @@ minimizer.migrad()
 pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 
 exec(open("log_and_plot/code_to_run.txt").read())
+
+anharmonicty = 2 * minimizer.values["f02"] - 2 * minimizer.values["f01"]
+anharmonicty_err = 2 * np.sqrt(
+    minimizer.errors["f02"] ** 2 + minimizer.errors["f01"] ** 2
+)
+
+with open(f"../Fit_log/{title}.txt", "a") as f:
+    print(
+        f"anharmonicty = {anharmonicty:.5e} +- {anharmonicty_err:.5e}",
+        file=f,
+    )
 
 
 # # Priting

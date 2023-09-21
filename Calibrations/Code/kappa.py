@@ -12,7 +12,7 @@ title = "Resonator Decay Rate"
 xlabel = "Time (ns)"
 scale_x = 1e-9
 
-ylabel = "Readout Signal Abs (V)"
+ylabel = "Readout Signal Abs (mV)"
 scale_y = 1e-3
 
 data = xr.open_dataset(data_folder + "/dataset.nc")
@@ -64,3 +64,54 @@ pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 
 
 exec(open("log_and_plot/code_to_run.txt").read())
+
+
+# Overwrite plotting
+fig, axes = plt.subplots(2, 1, sharex=True)
+
+axes[0].plot(
+    data.adc_timestamp / scale_x, y_data_I.values / scale_y, "-", label="I", alpha=0.75
+)
+axes[0].plot(
+    data.adc_timestamp / scale_x, y_data_Q.values / scale_y, "-", label="Q", alpha=0.75
+)
+axes[0].legend()
+
+ax = axes[1]
+ax.plot(x_data / scale_x, y_data / scale_y, "o", label="$|I + iQ|$")
+
+xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
+xs_fit = xs_fit[fit_delay:]
+ax.plot(
+    xs_fit / scale_x,
+    fit_func(xs_fit, *minimizer.values) / scale_y,
+    "--",
+    color="k",
+    label=fit_name + " Fit",
+)
+
+ax.errorbar(
+    x_data / scale_x,
+    y_data / scale_y,
+    yerr=y_err / scale_y,
+    ls="none",
+    color="C0",
+    capsize=2,
+    elinewidth=1,
+)
+
+axes[0].set(
+    title=title,
+    ylabel="Readout Signal (mV)",
+)
+
+ax.set(
+    xlabel=xlabel,
+    ylabel=ylabel,
+)
+
+fig.align_ylabels(axes)
+
+ax.legend()
+
+fig.savefig(f"../Figures/{title}.pdf")
