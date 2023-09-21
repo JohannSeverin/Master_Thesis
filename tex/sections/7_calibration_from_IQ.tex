@@ -16,11 +16,6 @@ In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be de
 \end{figure}
 \todo{Pretty much a draft. I think we also want to find the anharmonicity, it is used to calculate the dispersive shift.}
 
-\begin{itemize}
-    \item Qubit 
-\end{itemize}
-
-
 \subsection{Rabi}
 \begin{marginfigure}
     \centering
@@ -47,7 +42,7 @@ In reality, the pulse also includes a more sophisticated envelope function which
 \subsection{Decay Calibration}\label{sec:calibration_t1}
 \begin{marginfigure}
     \centering
-    \missingfigure{$T_1$ sequence}
+    \includegraphics[]{Figs/circuits/t1.png}
     \caption{Caption}
     \label{fig:enter-label}
 \end{marginfigure}
@@ -65,19 +60,27 @@ Doing the experiement on our qubit, we obtain the results displayed in figure \r
 \end{figure}
 
 \subsection{Dephasing Calibration}
-There are two ways of calibrating the dephasing time. \textbf{Refer to the section in Lindblad}.
+\begin{marginfigure}
+    \centering
+    \includegraphics{Figs/circuits/t2.png}
+    \includegraphics{Figs/circuits/t2_echo.png}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{marginfigure}
 
-\begin{figure*}
-    \begin{minipage}{0.45\textwidth}
+When describing the dephasing in section \ref{sec:theory_t2} we considered two contributions: a fast changing qubit frequency shift and a slow constant shift. Thus, there also exist two methods to (and also definitions of the $T_2$. \todo{Look into the Ramsey style experiment and describe it here.}
+
+
+\begin{figure*}[t]
+    \begin{minipage}{0.50\linewidth}
         \centering
-        \includegraphics[width=0.9\textwidth]{Calibrations/Figures/Ramsey.pdf} % first figure itself
-        \caption{first figure}
-    \end{minipage}\hfill
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[width=0.9\textwidth]{example-image-b} % second figure itself
-        \caption{second figure}
+        \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Ramsey.pdf} % first figure itself
     \end{minipage}
+    \begin{minipage}{0.50\linewidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{Calibrations/Figures/T2_echo.pdf} % second figure itself
+    \end{minipage}
+    \caption{Figures showing the T2 experiment. The left shows the Ramsey $T_2$ while the right one shows an echo style experiment. Both are fitted with a function of the type $y = A \cos(2 \pi t f + \phi) e^{-t / T_2} + b$ where $t$ is the waiting time, $y$ is the outcome and $f, \phi, A, b$ and $T_2$ are fitting parameters.}
 \end{figure*}
 
 \paragraph{Ramsey Experiment}
@@ -179,8 +182,8 @@ the readout drive will now be applied\footnote{Just as pulse because we're not i
 
 \begin{marginfigure}
     \centering
-    \includegraphics{Figs/calibrations/efficiency/experiment_circuit_dephasing.png}
-    \caption{Circuit for experiment}
+    \includegraphics{Figs/circuits/dephasing.png}
+    \caption{The phasing experiment circuit. First the qubit is rotated $\pi/2$ around the X-axis, whereafter it is subject to the readout pulse without demodulating and saving the signal. Now the qubit is rotated $\pi$ around a vector $\phi$ in the $x-y-$plane and finally readout.}
     \label{fig:efficiency_dephasing_experiment}
 \end{marginfigure}
 
@@ -256,19 +259,32 @@ Comments on results...
 
 
 
-% \subsection{In-measurement T1 }
-% It is possible to speed-up $T_1$
+\section{Overview of Device Parameters}
+In this chapter, we have calibrated the necessary values of the qubit, resonator and system to be able to simulate the quantum system.
 
-% Can we compare the decay-rate within a measurement to the decay outside. There is multiple reasons, this might change:
-% \begin{itemize}
-%     \item Resonator-Qubit interaction: the resonator and qubit are coupled, so when we are filling the resonator, we allow multiple form of decay/excitations through the qubit. This will lower the expect living time.
-%     \item Quantum Zeno Effect: Since the dynamics of the wave-function is linear but the stochastic nature of measuring is quadratic, a continuous measurement should somewhat prevent a transition. This will extent the expected lifetime of the qubit in both states with a factor related to the measurement efficiency $\eta$
-% \end{itemize}
 
-% \textbf{Do the experiment} where a continous measurement is made from 0 to 10 mikrosecond, followed up with another where a waiting windows is placed just before:
-% \begin{enumerate}
-%     \item Place the qubit in 0 or 1
-%     \item wait a number of mikroseconds
-%     \item do a contiouns measurement
-% \end{enumerate}
-% The ideas from before can now be used to fit the in-measurement decay rates, while we can use the points across measurements to control a more common decay rate which happens outside of measurements.
+\begin{table}[h]
+\centering
+\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
+\begin{tabular}{lr|rrr}
+\hline
+\textbf{Qubit}                &          & value & error & unit \\ \hline
+Frequency                     & $f_{01}$ &  5.9841 ...   &       & Ghz  \\
+Anharmonicity                 & $\alpha$ &  5.6975       &       & Ghz  \\
+Decay Time                    & $T_1$    &  10.1         &  0.3  & µs   \\
+Dephasing Time                & $T_2$    &  2.5          &  0.2  & µs   \\ 
+& & & & \\ \hline 
+
+\textbf{Resonator}                &        & value      & error  & unit \\ \hline
+Frequency                     & $f_{r}$    &  7.5550    &        & Ghz  \\
+Disersive Shift               & $\chi$     &  5.57      &        & Mhz \\
+Decay rate                    & $\kappa$   &  -0.30     &        & Mhz  \\
+Mean Photon Number            & $\Bar{n}$  &  10.1      &  0.3   &  -  \\ 
+& & & & \\ \hline 
+
+\textbf{System}                &          & value & error & unit \\ \hline
+Coupling                       & $g$      &  5.57         &         & Mhz  \\
+Efficiency                     & $\eta$   &  -0.30        &     & \% \\
+Temperature & $\tau$ & &  & mK 
+\end{tabular}
+\end{table}

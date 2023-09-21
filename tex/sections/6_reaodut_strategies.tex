@@ -40,9 +40,9 @@ Given a set of IQ measurement of the qubit initialized in $\ket{0}$ and $\ket{1}
 
 \begin{marginfigure}
     \centering
-    \missingfigure{Visualization of experiment}
-    \caption{Caption}
-    \label{fig:enter-label}
+    \includegraphics[]{Figs/circuits/readout_test.png}
+    \caption{Circuit displaying the process of making a readout test. In half the initialization, an $X$ gate is applied to excite the qubit to $\ket{1}$. This is followed by a readout pulse on the resonator.}
+    \label{fig:circuit_qubit_readout_test}
 \end{marginfigure}
 
 We now pick the projection line through this plane that best separates the $\ket{0}$ and $\ket{1}$ group. This can for example be done by using an LDA algorithm. On this axis, we can now set a threshold. If we set it such that the fidelity is maximized, we have defined our simple readout scheme. The process can be see in figure \ref{fig:simple_weights_fidelty}.
@@ -108,17 +108,24 @@ In some instances, we do not mind running with a large overhead in order to incr
 Up to some point we get an improved fidelty. The maximum is however not $1$. This is credited to the state preparation errors since wrongly prepared qubits in $1$ will behave like $0$ and will not be distinguishable in any measurement. 
 
 
-\section{Adjusting Pulse Parameters*}
+The following sections is also possible:
 \begin{itemize}
-    \item Reading out after, since we have to wait for depopulation anyways.
+    \item Adjusting Pulse Parameters
+    \item Strategies
+    \item Counter Depopulation Pulse
 \end{itemize}
 
-\section{Strategies*}
-\begin{itemize}
-    \item This can be kicking the qubit with a $\pi_{12}$ pulse. 
-\end{itemize}
+% \section{Adjusting Pulse Parameters*}
+% \begin{itemize}
+%     \item Reading out after, since we have to wait for depopulation anyways.
+% \end{itemize}
 
-\section{Counter Depopulation Pulse*}
-\begin{itemize}
-    \item Stimulated depopulation
-\end{itemize}
+% \section{Strategies*}
+% \begin{itemize}
+%     \item This can be kicking the qubit with a $\pi_{12}$ pulse. 
+% \end{itemize}
+
+% \section{Counter Depopulation Pulse*}
+% \begin{itemize}
+%     \item Stimulated depopulation
+% \end{itemize}
