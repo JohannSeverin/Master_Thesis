@@ -8,13 +8,22 @@ Before using a qubit, it will be necessary to characterize it to the best of our
 \subsection{Spectroscopy}
 In order to drive any qubit operation, the qubit frequency $f_{01}$ has to be determined with a high precision. In order to get the best estimate for the qubit frequency, we make a rabi style frequency, were we apply a pulse with a given frequency to the qubit. If we are in resonance, we should see the qubit moving between $\ket{0}$ and $\ket{1}$ and out of resonance no changes will be seen.
 
-\begin{figure}
-    \centering
-    \includegraphics{Calibrations/Figures/Qubit_spectroscopy.pdf}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{figure}
+\begin{figure*}[t]
+    \begin{minipage}{0.50\linewidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Spectroscopy.pdf} % first figure itself
+    \end{minipage}
+    \begin{minipage}{0.50\linewidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Anharmonicity.pdf} % second figure itself
+    \end{minipage}
+    \caption{Qubit spectroscopy for the $f_{01}$ transition frequency to the left. On the right is an extended scan where another peak is seen, this is the $f_{02}/2$ where two photons are absorbed to go from $ 0 \to 2$. The fits are Lorentzian for one peak and the sum of two Lorenzian for the two peak spectroscopy. }
+\end{figure*}
+
+
 \todo{Pretty much a draft. I think we also want to find the anharmonicity, it is used to calculate the dispersive shift.}
+
+
 
 \subsection{Rabi}
 \begin{marginfigure}
@@ -93,9 +102,18 @@ This is the limit if we allow activly chanigning the qubit to echo out the phase
 \section{Resonator Calibration}
 \subsection{Spectroscopy}
 \begin{itemize}
-    \item Single dip
     \item Double dip - dispersive shift
 \end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics{Calibrations/Figures/Resonator Spectroscopy.pdf}
+    \caption{Spectroscopy of the resonator signal where the qubit is either in $\ket{0}$ (purple) or in $\ket{1}$ (light blue). Since $1$ is somewhat decayed into $0$, the curve for $1$ is fitted with a douyble lorentzian. }
+    \label{fig:enter-label}
+\end{figure}
+
+\subsection{Resonator Decay Rate}
+To determine kappa.... 
 
 \subsection{Photon Counting}
 Considering the dispersive hamiltonian of the qubit-resonator-system, Eq. \ref{eq:two_level_qubit_dispersive}, we have above primarily considered the shift of resonator frequency depending on the qubit state, but just moving the parenthesis to represent it in the form:
