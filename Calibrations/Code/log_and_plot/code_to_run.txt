@@ -17,6 +17,7 @@ fig, ax = plt.subplots(1, 1)
 ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
 
 xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
+xs_fit = xs_fit[fit_delay:]
 ax.plot(
     xs_fit / scale_x,
     fit_func(xs_fit, *minimizer.values) / scale_y,

@@ -1,0 +1,66 @@
+# Imports
+import numpy as np
+import matplotlib.pyplot as plt
+import xarray as xr
+import sys
+import iminuit
+
+plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
+
+data_folder = "../Data/kappa"
+title = "Resonator Decay Rate"
+xlabel = "Time (ns)"
+scale_x = 1e-9
+
+ylabel = "Readout Signal Abs (V)"
+scale_y = 1e-3
+
+data = xr.open_dataset(data_folder + "/dataset.nc")
+
+x_data = data.adc_timestamp
+y_data_I = data.readout__final__adc_I__avg.sel(sweep_0=0)
+y_err_I = data.readout__final__adc_I__avg__error.sel(sweep_0=0)
+y_data_Q = data.readout__final__adc_Q__avg.sel(sweep_0=0)
+y_err_Q = data.readout__final__adc_Q__avg__error.sel(sweep_0=0)
+
+y_data_I -= y_data_I.mean()
+y_data_Q -= y_data_Q.mean()
+
+y_data = np.sqrt(y_data_I**2 + y_data_Q**2)
+y_err = np.sqrt(y_err_I**2 * y_data_I**2 + y_err_Q**2 * y_data_Q**2) / y_data
+
+x_data = x_data.coarsen(adc_timestamp=10).mean()
+y_data = y_data.coarsen(adc_timestamp=10).mean()
+y_err = y_err.coarsen(adc_timestamp=10).mean()
+
+fit_name = "Exponential Decay"
+fit_resolution = 1000
+fit_delay = 300
+
+mask = x_data > 550e-9
+
+
+def fit_func(x, offset, Amplitude, kappa):
+    return offset + Amplitude * np.exp(-x * kappa)
+
+
+guesses = {
+    "Amplitude": 0.010,
+    "offset": 0.02,
+    "kappa": 10e6,
+}
+
+# Fitting
+from iminuit import Minuit
+from iminuit.cost import LeastSquares
+from scipy.stats import chi2
+
+ls = LeastSquares(x_data[mask], y_data[mask], y_err[mask], model=fit_func)
+minimizer = Minuit(ls, **guesses)
+# minimizer.interactive()
+minimizer.migrad()
+
+pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
+
+
+exec(open("log_and_plot/code_to_run.txt").read())
