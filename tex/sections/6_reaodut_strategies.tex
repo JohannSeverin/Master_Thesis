@@ -47,10 +47,10 @@ Given a set of IQ measurement of the qubit initialized in $\ket{0}$ and $\ket{1}
 
 We now pick the projection line through this plane that best separates the $\ket{0}$ and $\ket{1}$ group. This can for example be done by using an LDA algorithm. On this axis, we can now set a threshold. If we set it such that the fidelity is maximized, we have defined our simple readout scheme. The process can be see in figure \ref{fig:simple_weights_fidelty}.
 
-\begin{figure*}
+\begin{figure*}[t]
     \centering
-    \missingfigure{Illustration of readout process. Summation of signal }
-    \caption{Caption}
+    \includegraphics{Readout/Figs/Introduction.pdf}
+    \caption{The process of finding the readout fidelity. From left to right the figures illustrate: (1) A sample trajectory compared with the mean trajectory of an excited and ground state signal respectively. (2) The IQ distribution after summing the signal along with a projection axis separating the signal. (3) The histrograms showing the distributions of signal along that axis. This is plotted with the fidelity by picking a given threshold, taking the maximum of the fidelity curve gives a fidelity of $F_{\text{readout}} = 0.701$}
     \label{fig:simple_weights_fidelty}
 \end{figure*}
 
@@ -77,7 +77,7 @@ where we can find the mean and variance of the signal as:
     \expval{\Delta S} &= \sum_X \sum_t k_{x, t} (\expval{X_0 - X_1} \\
     \Var(\Delta S) &= \sum_X \sum_t k_{x, t}^2 \left( \Var(\expval{X_0 - X_1}) + \Var(\xi) \right)
 \end{align}
-Now maxizing the SNR by $\partial / \partial k_{x, t}$, we find that we should set:
+Now maxizing the SNR by differentiating with the weights and setting equatl to $0$: $\partial / \partial k_{x, t} \SNR = 0$, we find that we maximize by setting:
 \begin{equation}
     k_{x, t} = \frac{\expval{X_0 - X_1}}{\Var(\Delta S)}
 \end{equation}
