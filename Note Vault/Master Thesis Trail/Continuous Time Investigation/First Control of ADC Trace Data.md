@@ -1,9 +1,6 @@
 ---
 date: 2023-07-20
-code: "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/projects/in_measure\
-  ment_calibration/control_of_test_data.py;
-  /mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/projects/in_measurement_\
-  calibration/control_of_longer_data.py "
+code: /mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/projects/in_measurement_calibration/control_of_test_data.py; /mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/projects/in_measurement_calibration/control_of_longer_data.py
 ---
 
 ## Plots of Different Investigations
