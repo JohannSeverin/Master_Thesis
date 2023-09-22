@@ -1,0 +1,2 @@
+Optimal threshold: -0.3799305037400981
+Optimal fidelity: 0.716
