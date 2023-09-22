@@ -160,7 +160,7 @@ def make_weight_plot():
     )
     ax_trajectory_I.set(
         ylabel="Weights I",
-        title="Trajectory of the demodulated data",
+        title="Calculated Weights",
     )
 
     ax_trajectory_I.legend(fontsize=12)
