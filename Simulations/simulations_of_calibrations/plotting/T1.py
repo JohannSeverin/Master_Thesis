@@ -33,7 +33,7 @@ y_data = schroedinger_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Schroedinger")
 
-ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(0, 1.05))
+ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(-0.05, 1.05))
 ax.legend()
 
 # Plotting Simulation Data
@@ -44,7 +44,7 @@ y_data = monte_carlo_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Monte Carlo")
 
-ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(0, 1.05))
+ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(-0.05, 1.05))
 ax.legend()
 
 # Plotting Simulation Data
@@ -55,7 +55,7 @@ y_data = lindblad_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Lindblad")
 
-ax.set(ylabel=r"Expectation Value of $P_{1}$", xlabel="Time (µs)", ylim=(0, 1.05))
+ax.set(ylabel=r"Expectation Value of $P_{1}$", xlabel="Time (µs)", ylim=(-0.05, 1.05))
 ax.legend()
 
 
@@ -71,7 +71,7 @@ y_data = experimental_data.readout__final__I__avg
 y_err = experimental_data.readout__final__I__avg__error
 
 ax = axes[0]
-ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Lindblad")
+ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
 
 ax.errorbar(
     x_data / scale_x,
@@ -87,9 +87,12 @@ ax.set(
     title=title,
     # xlabel=xlabel,
     ylabel=ylabel,
+    xlim=(-1, 11),
 )
 
 ax.legend()
+
+fig.tight_layout()
 
 fig.align_ylabels(axes)
 fig.savefig("../Figs/" + name + ".pdf")

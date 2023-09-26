@@ -14,7 +14,7 @@ sys.path.append("../..")
 config = json.load(open("../../qubit_calibration.json", "r"))
 
 config["fr"] = 7.552e9  # Hz - Uncoupled resonator frequency.
-config["g"] *= np.sqrt(2)  # Looks like a small error in the coupling strength.
+config["g"] *= 2  # Looks like a small error in the coupling strength.
 
 save_path = "../data/"
 name = "qubit_T1"

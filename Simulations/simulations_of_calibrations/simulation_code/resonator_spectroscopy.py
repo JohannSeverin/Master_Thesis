@@ -14,7 +14,8 @@ sys.path.append("../..")
 config = json.load(open("../../qubit_calibration.json", "r"))
 
 config["fr"] = 7.552e9  # Hz - Uncoupled resonator frequency.
-config["g"] *= np.sqrt(2)  # Looks like a small error in the coupling strength.
+config["g"] *= 2  # Looks like a small error in the coupling strength.
+# config["alpha"] = -config["alpha"]
 
 save_path = "../data/"
 
@@ -24,9 +25,7 @@ from qubit_builder import build_qubit, build_pulse, build_resonator
 
 qubit = build_qubit(config, timescale)
 resonator = build_resonator(config, timescale, levels=10)
-pulse = build_pulse(
-    amplitude=5e-3, frequency=np.linspace(7.55, 7.56, 10)
-)  # Need to be 100
+pulse = build_pulse(amplitude=2e-3, frequency=np.linspace(7.55, 7.56, 20))
 
 from devices.system import QubitResonatorSystem
 from simulation.experiment import (
@@ -44,9 +43,13 @@ system = QubitResonatorSystem(
     readout_efficiency=1,
 )
 
+from devices.system import dispersive_shift
+
+dispersive_shift(system)
+
 
 initial_states = [system.get_states(0), system.get_states(1)]
-times = np.linspace(0, 2000, 8000)  # Need to do 5 µs
+times = np.linspace(0, 5000, 15000)  # Need to do 5 µs
 
 # Schroedinger Experiment
 experiment = SchroedingerExperiment(
@@ -60,6 +63,11 @@ experiment = SchroedingerExperiment(
 )
 
 results = experiment.run()
+
+plt.plot(results.exp_vals[:, 0])
+plt.plot(results.exp_vals[:, 1])
+# plt.plot(results.exp_vals[:, 2])
+plt.show()
 
 automatic_analysis(results)
 
