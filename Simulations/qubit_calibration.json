@@ -1,0 +1,15 @@
+{
+    "name": "Soprano Qubit 2",
+    "date": "2023-09-22",
+    "f01": 5.9823e9,
+    "alpha": -286.3e6,
+    "T1": 2.39e-6,
+    "Tphi": 2.39e-6,
+    "fr": 7.555135e9,
+    "chi": 745e3,
+    "kappa": 2.7e6,
+    "g": 37.2e6,
+    "eta": 0.015,
+    "temperature": 50e-3,
+    "IQ scaling factor": 1
+}

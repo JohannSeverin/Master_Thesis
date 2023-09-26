@@ -102,7 +102,7 @@ def make_scatter_plot():
     ax_scatter.set(
         xlabel="I (mV)",
         ylabel="Q (mV)",
-        title="Scatter plot of the demodulated data",
+        title="Scatter plot of the Integrated Signal",
     )
 
     ax_scatter.indicate_inset(
@@ -189,7 +189,7 @@ def make_trajectory_plot():
     )
     ax_trajectory_I.set(
         ylabel="I (mV)",
-        title="Trajectory of the demodulated data",
+        title="Trajectory of the Demodulated Trace",
     )
 
     ax_trajectory_I.legend(fontsize=12)

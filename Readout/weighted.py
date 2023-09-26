@@ -118,7 +118,7 @@ def make_scatter_plot():
     ax_scatter.set(
         xlabel="I (mV)",
         ylabel="Q (mV)",
-        title="Scatter plot of the demodulated data",
+        title="Integrated Signal w Weights",
     )
 
     ax_scatter.set(xlim=ax_scatter.get_xlim(), ylim=ax_scatter.get_ylim())
