@@ -142,6 +142,8 @@ Where we can extract:
     g    = \sqrt{\chi (\omega_r - \omega_q)} &= (34.2 \pm 0.4) \text{ MHz}
 \end{align}
 
+\textbf{Need to include anharmonicty, we would get g = 37.2}
+
 \begin{figure}
     \centering
     \includegraphics{Calibrations/Figures/Resonator Spectroscopy.pdf}
@@ -349,7 +351,12 @@ Performing the circuit described in figure \ref{fig:inmeasurementt1circuit} mult
     
 The classification are the further fit by two curves with an exponential decay corresponding to the $\rho_{11}(t)$ and $\rho_{11}(t)$ from section \ref{sec:theory_t1}. To obtain the parameters displayed in table \ref{tab:continous_calibration_decays_results}. The most important detail is to extract the decay time $T_1 = (11.1\pm0.3) \text{ µs}$. This should be compared to a regular $T_1$ calibration giving $T_1^{reg} = 9.9 \pm 0.5 \text{ µs}$ done just before with $n$ samples and scanning the waiting time from $0 $ to $100 \text{ µs}$. \todo{Comment on results here}
 
-\paragraph{Interleaved Experiment }\todo{Do analysis} Since the $T_1$ can vary a lot over even small time periods, we also perform and interleaved version of the old and new experiment. This will also allow us to see if there is a different decay inside and outside of the measurement. In this experiment the previous one is carried out again but this time we will include a sweep over the waiting time before reading out for the same pulse length. We can now compare the in-measurement $T_1$ values from the fit within the same pulse with the ones across the waiting time. Given that we see a constant offset $T_1^{meas} = T_1^{wait} + \delta t$ this will show up in this experiment,
+Here, we also obtain the values for the steady state distributions $\rho(t \to \infty)$. In this limit, the system has reached equilibrium with the environment and the distribution is due to finite temperature. Comparing with the qubit frequency, we can calculate the temperature to be:
+\begin{equation}
+    \frac{p(\ket{1)}}{p(\ket{0})} = e^{(E_1 - E_0) / k_b \tau} \Leftarrow \tau = - \frac{\hbar \omega_{01}}{k_b} / \log\left(\frac{p(\ket{1)}}{p(\ket{0})} \right)  = 147.5 \text{ mK}
+\end{equation}
+
+\paragraph{Interleaved Experiment *}\todo{Do analysis} Since the $T_1$ can vary a lot over even small time periods, we also perform and interleaved version of the old and new experiment. This will also allow us to see if there is a different decay inside and outside of the measurement. In this experiment the previous one is carried out again but this time we will include a sweep over the waiting time before reading out for the same pulse length. We can now compare the in-measurement $T_1$ values from the fit within the same pulse with the ones across the waiting time. Given that we see a constant offset $T_1^{meas} = T_1^{wait} + \delta t$ this will show up in this experiment,
 
 \begin{figure*}
     \centering
@@ -387,7 +394,8 @@ Mean Photon Number            & $\Bar{n}$  &  10.1      &  0.3   &  -  \\
 
 \textbf{System}                &          & value & error & unit \\ \hline
 Coupling                       & $g$      &  34.2         & 0.4    & Mhz  \\
-Efficiency                     & $\eta$   &  -0.30        &     & \% \\
-Temperature & $\tau$ & &  & mK 
+Efficiency                     & $\eta$   &  1.5          &     & \% \\
+Temperature                    & $\tau$   & 147.5         &      & mK 
 \end{tabular}
+\label{tab:qubit_calibration}
 \end{table}

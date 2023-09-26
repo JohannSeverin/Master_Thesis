@@ -347,8 +347,14 @@ Or by considering reducing the multi-level system to only the two lowest, we can
 \begin{equation}\label{eq:two_level_qubit_dispersive}
     H = (\Tilde{\omega}_r + \chi \sigma_z) a^\dagger a + \frac12 \Tilde{\omega}_{01} \sigma_z
 \end{equation}
-where the shifts from the higher order terms have been absorbed into the new redefined frequencies. 
+where the shifts from the higher order terms have been absorbed into the new redefined frequencies. \todo{This alters the dispersive shift, when we consider the three state (or higher) qubit. Maybe we need some considerations for this... We also just need to write out what the shifts are.}
 
+Altering the dispersive shift to the type\cite{krantz_quantum_2019}: 
+\begin{equation}
+    \chi = \chi_{01} + \chi_{12}/2 = - g_{01}^2/\Delta \left(\frac{1}{1 + \Delta / \alpha}\right)
+\end{equation}
+
+Maybe comment on resonator critical photon count here. \todo{Would be nice... }
 
 
 \subsection{Readout Drive in the Dispersive Approximation}
