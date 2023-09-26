@@ -1,16 +1,8 @@
-\chapter{Comparison of Experiment and Simulation}
+\chapter{Building the System in Simulation}
 In the previous chapter, we have covered, how one calibrates and extracts the parameters necessary to model a qubit-resonator system under readout. We are now in a position to model it, however, with both many different levels of complexity and different available approximations at hand, we have a trade-off between run time of our simulations and the realism of them. 
 
 \section{Different Simulation Approaches}
-Thoughout the first few chapter, we covered different ways of representing and numerically integrating a quantum system. In this chapter, we will summarize the few methods.
-
-\begin{itemize}
-    \item \textbf{Unitary}
-    \item \textbf{Lindblad Equation}
-    \item \textbf{Monte Carlo}
-    \item \textbf{Stochastic Master Equation}
-\end{itemize}
-
+Thoughout the first few chapter, we covered different ways of representing and numerically integrating a quantum system. In this chapter, we will summarize the few methods. Some of the properties are summed up in table \ref{tab:simulation_types}
 
 \begin{margintable}
     \caption{Caption}
@@ -22,28 +14,221 @@ Thoughout the first few chapter, we covered different ways of representing and n
     backaction      &       &       &       & x    \\
     state size      & $n$   & $n^2$ & $n$   & $n^2$
     \end{tabular}
+    \label{tab:simulation_types}
+\end{margintable}
+
+\begin{itemize}
+    \item \textbf{Unitary} - This is a time evolution of the Schoedinger Equation \ref{sec: Time Evolution}. In Qutip this is done by the Adams algorithm which we covered in section \ref{sec:adams}. This is the fastest and simplest to run, but does not support interaction with the environment.  
+    \item \textbf{Lindblad Equation} - The Lindblad equation simulates the density matrix and allows us to include dissipation terms. Like the Schoedinger equation, the Lindblad Master Equation is also deterministic, so it is only necessary to run it once for each configuration. All dynamics can then be extracted from $\rho$. 
+    \item \textbf{Monte Carlo} - The Monte Carlo method is described in sec \ref{sec:monte_carlo} and the main idea is that the dissipations are applied stochastically and in between the dynamics are governed by the Schoedinger Equation. This allows for faster simulation than the Lindblad Master Equation. However, multiple trajectories will have to be taken to make sure the dynamics represent the full dynamics.
+    \item \textbf{Stochastic Master Equation} - The Stochastic Master Equation is described in chapter \ref{sec:stochastic_master_equation} and the most complicated of the simulation tools. This includes the dynamics of the Lindblad Equation, but in addition also supports the weak measurement which is obtained during a readout.
+\end{itemize}\todo{Citations}
+
+\subsection{"Calibrating" the simulation}
+To compare the different simulation methods, we repeat some of the calibration protocols from chapter \ref{chapter:calibrations}. Since the goal of this thesis is to model the readout, we are focusing on replicating the features relevant for readout. Since the Stochastic Master Equation is expensive to run, we will only use it, when the measurement records are necessary. We will thus test the Schoedinger Equation, Monte Carlo and Lindblad equation on some simple calibration schemes. 
+
+The simulation are made by using the Hamiltonian for the full time-dependent Hamiltonian for the system given by equation \ref{eq:full_hamilton} and adding a contribution from a drive, where it is applicable. The parameters are taken from table \ref{tab:cali}made using $f_{01}$ ... from the cal
+
+A collection of the simulation results from resonator spectroscopy, $T_1$ calibration and ... are found on page \pageref{fig:big_figure_test}. We note the following :
+
+\begin{margintable}
+    \centering
+    \caption{Simulation Time Comparison for the figures seen in  ... }
+    \begin{tabular}{c|c}
+         &  \\
+         & 
+    \end{tabular}
     \label{tab:my_label}
 \end{margintable}
 
-\subsection{Calibrations Protocols in Simulation}
-This will be a perfect place, to show the possibilities between the different simulation schemes. If we evolve the same methods, we should see the difference. 
-
-Some nice ones are:
-\begin{itemize}
-    \item T1 is good, the continuous one can be done in SME as well
-    \item Spectroscopy Qubit + Resonator
-    \item Photon Counting
-    \item Efficiency 
-\end{itemize}
+In calibrating photon decay rate $\kappa$ and the temperature, we use more data from a single trace than just its average expectation value. Thus we will also include simulation in the Stochastic Master Equation.  \todo{Use MC as well? Don't need it, but need an argument} 
 
 
-\section{Check of the Dispersive approximation}
+\begin{figure}
+    \centering
+    \missingfigure{Calibration Scheme of $\kappa$ measurements}
+    \missingfigure{Calibration Scheme of $\tau$ IQ plot ? } 
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
+
+\todo{Comment on the figure and the results.}
+
+% \begin{figure*}[h]
+%     \centering
+%     % \missingfigure{$T_1$ Calibration for the different simulations. }
+%     % \label{fig:enter-label}
+%     % \missingfigure{$T_2$ Calibration for the different simulations. }
+%     \caption{Caption 2}
+%     \label{fig:big_figure_test}
+%     \includegraphics[]{Readout/Figs/Introduction.pdf}
+%     \hspace{2 cm}
+%     \includegraphics[]{Readout/Figs/Introduction.pdf}
+%     \includegraphics[]{Readout/Figs/Introduction.pdf}
+%     \includegraphics[]{Readout/Figs/Introduction.pdf}
+% \end{figure*}
+
+\begin{figure*}[h]
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \includegraphics[]{Simulation/}
+        \caption{afsdfasdfasdf}
+    \end{minipage}
+    \begin{minipage}{0.45\linewidth}
+        \centering
+        \missingfigure[figheight = 0.95\textheight]{T1}
+        \caption{asdfasdfasdf}
+    \end{minipage}
+    \caption{asdfasdfasdf}
+    \label{fig:calibrations_in_simulation}
+\end{figure*}
+
+\FloatBarrier
+
+\subsection{Q Function and Trajectories}
+When we consider the Lindblad equation, the result is a deterministic list of density matrices at each point in time. This is also a possiblity, when we integrate the Stochastic Master Equation, but in addition, we have the simulated trajectories which resemble the contious weak readout done in the laboratory. In order to compare these two methods, we will make use of the Q-function represented in \ref{sec:QFunc} which illustrates a 2-dimensional probability density of the quadratures in the resonator. 
+
+If we simulate the readout process of the qubit-resonator system under the dispersive approximation, we can compare the measurement records from the Stochastic Master Equation with the evolution of the Q-function from the Lindblad Equation. This is summarized in figure \ref{fig:trajectories_and_qfunc}
+
+\begin{figure*}[h]
+    \centering
+    \missingfigure{Q Function Dynamics under a readout drive}
+    \missingfigure{The Trajectories from SME}
+    \caption{asdfasdfasdf}
+    \label{fig:trajectories_and_qfunc}
+\end{figure*}
+
+The measurement record is given by a term proportional to the expectation value of the measured quantity and a noise term, which in the derivation from chapter \ref{sec:} was a Gaussian. For a perfect coherent state, this is closely to the distribution of its Q function. Especially in the hetereodyne measurements. For a state, we can get a somewhat approximation. We need to scale the standard deviation with eta. Furthermore, we get a reductioon depending on the time of the measurement. This gives the good idea of measuring.... \todo{This is really just me writing sentences which could be included}
+
+
+\section{Validity of the Dispersive Approximation}
+The full time-dependent Hamiltonian, we simulated to get the results shown in figure \ref{fig:calibrations_in_simulation} are expensive to run. The largest part of this process is to calculate the time-dependent function of the pulse. In the dispersive approximation which we covered in section \ref{sec:dispersive} we could eliminate the time-dependence of the pulse by going to another basis.
+
+Before continuing with the approximation, we will first test whether it still exhibits the behaviours, we need to investigate the readout. 
+
+\begin{figure}
+    \centering
+    \missingfigure{Movement of the Q Function. Illustrate at three places}
+    \missingfigure{Can we look at the trajectories of I and Q. Do this in Lindblad to show the wiggles and in SME to show that the noise is much larger than the wiggles.}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
 
 \subsection{The Punchout}
+In the dispersive limit, we consider that $g/(\omega_r - \omega_q) \ll 1$, which has be sufficient for us since we consider low-photon-number readout. If we were to increase this to the high power regime, one starts to see a lot of interesting physics. The point of increasing $n > n_{\text{crit}}$, the approximation is no longer good. Doing the experiment in the laboratory we see that the resonator at some point get completely decoupled from the qubit.
+
+\begin{marginfigure}
+    \centering
+    \missingfigure{Punchout visualization}
+    \caption{Caption}
+    \label{fig:experiment_punchout}
+\end{marginfigure}
+
+In this regime the dispersive approximation is definetly wrong and we would have to resort back to the full time-dependent Hamiltonian. However, since the ciritcal photon number is $\approx 400$, we are nowhere near able to run these simulation anyways. 
 
 \section{Readout in Simulation}
+We are now in a position, where we have a qubit calibrated in experiment and recreated in simulation. By using the dispersive approximation, we can eliminate the time-dependence of the Hamiltonian to significantly speed-up the simulation process. And we have build up a framework of different simulation tools giving us a set off trade-offs between speed and complexity. \todo{This gives a bit conclusion-vibes}
+
+Before using the simulation to learn about the system, we will first see if the readout fidelity in the two situations agree. Thus we set up a SME simulation giving us data corresponding to what we analyzed in chapter \ref{sec:improving_readout_fidelity}. One advantage of the simulation is that we already entered the rotating frame, so there is no need to demodulate the signal. Now we can repeat the process from earlier, and by using the matched weight filter, we can obtain the fidelity score.
+
+\begin{figure*}
+    \centering
+    \missingfigure{The process of reading out. The Simulated data corresponding to the calibrated Qubit.}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure*}
 
 
 
+\chapter{Readout Infidelity Budget}
+With a simulation realistically representing the qubit-resonator system from the laboratory, we are now in a position to break down the different effects on the readout fidelity. In this section, we will leverage the simulation tools, to quantify the contributions to the infidelity from the different physical processes, we have included in our model. Thereafter, we will try to break down, how different improvements of the physical parameters will have an effect on the fidelity of our readout. 
 
-\section{Readout Infidelity Budget}
+\section{Estimating Contributions}
+
+
+\begin{table}[h]
+\centering
+\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
+\begin{tabular}{l|rrr}
+\hline
+\textbf{Contributions}        & Temperature              & Energy Decay   & Efficiency  \\ \hline
+Excluding                     &  99.99          &  99.99 &  99.99 \\
+Exclusively                   &  99.99          &  99.99 &  99.99
+\end{tabular}
+\label{tab:readout_infidelity_contribution_estimation}
+\end{table}
+
+\begin{figure*}
+    \centering
+    \missingfigure[figheight = \textheight / 3]{IQ Plots for the simulation, we ran in the table}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure*}
+
+There are many answers to which effect does what.
+
+\section{Improving the Readout - Temperature}
+
+\begin{table}[h]
+\centering
+\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
+\begin{tabular}{ll|r}
+\hline
+\textbf{Reduction}        & Temperature                  & Fidelity\\ \hline
+0   \%                      &  30                        &  99.99\\
+10  \%                     &  30                         &  99.99\\
+25  \%                     &  30                         &  99.99\\
+50  \%                     &  30                         &  99.99\\
+100 \%                     &  30                         &  99.99\\
+\end{tabular}
+\label{tab:readout_infidelity_contribution_estimation}
+\end{table}
+
+
+\subsection{Active Reset}
+
+\section{Improving the Readout - Qubit Decay}
+
+
+\begin{table}[h]
+\centering
+\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
+\begin{tabular}{ll|r}
+\hline
+\textbf{Reduction}        & Temperature                  & Fidelity\\ \hline
+0   \%                      &  30                        &  99.99\\
+10  \%                     &  30                         &  99.99\\
+25  \%                     &  30                         &  99.99\\
+50  \%                     &  30                         &  99.99\\
+100 \%                     &  30                         &  99.99\\
+\end{tabular}
+\label{tab:readout_infidelity_contribution_estimation}
+\end{table}
+
+
+
+\subsection{Further Excitement}
+
+\section{Improving the Readout - Efficiency}
+
+
+\begin{table}[h]
+\centering
+\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
+\begin{tabular}{ll|r}
+\hline
+\textbf{Reduction}        & Temperature                  & Fidelity\\ \hline
+0   \%                      &  30                        &  99.99\\
+10  \%                     &  30                         &  99.99\\
+25  \%                     &  30                         &  99.99\\
+50  \%                     &  30                         &  99.99\\
+100 \%                     &  30                         &  99.99\\
+\end{tabular}
+\label{tab:readout_infidelity_contribution_estimation}
+\end{table}
+
+
+
+\subsection{High Power Readout}
+
+

@@ -88,7 +88,7 @@ In figure \ref{fig:matched_weights_fidelty} the experiment shown in figure \ref{
 \begin{figure*}
     \centering
     \includegraphics{Readout/Figs/Weighted.pdf}
-    \caption{Caption}
+    \caption{The calculated weights from the signal. Doing a weighted sum with these, the results shown in the middle and right panel can be aquired. At the optimal threshold, we find fidelity of $F_{\text{readout}} = 0.716$}
     \label{fig:matched_weights_fidelty}
 \end{figure*}
 
@@ -101,12 +101,12 @@ The classification scheme above is very common, since it can be combined with th
 \section{Postselection}
 In some instances, we do not mind running with a large overhead in order to increase our readout fidelity. In these cases, we can instead associate a probability of a given trajectory belonging to the $0$ or $1$ group and then pick those with the highest probabilities. Since $T_1$ decay tends to happen somewhere during the measurement, the points will often be placed in some tail going from $1 \to 0$. If we instead only keep the trajectories with the highest probability, we sacrifice all the points in the middle.
 
-\begin{figure}
+\begin{marginfigure}
     \centering
     \includegraphics[]{Readout/Figs/fidelity_vs_included_fraction.pdf}
     \caption{Caption}
     \label{fig:enter-label}
-\end{figure}
+\end{marginfigure}
 
 Up to some point we get an improved fidelty. The maximum is however not $1$. This is credited to the state preparation errors since wrongly prepared qubits in $1$ will behave like $0$ and will not be distinguishable in any measurement. 
 
