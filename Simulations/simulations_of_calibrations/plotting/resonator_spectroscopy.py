@@ -119,12 +119,12 @@ ax.errorbar(
 
 ax.set(
     title=title,
-    xlabel=xlabel,
+    # xlabel=xlabel,
     ylabel=ylabel,
 )
 
 ax.legend()
 fig.tight_layout()
 
-fig.allign_ylabels(axes)
+fig.align_ylabels(axes)
 fig.savefig("../Figs/" + name + ".pdf")
