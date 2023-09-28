@@ -34,10 +34,10 @@ from analysis.Q_func import Q_of_rho
 
 
 # At 0, 200 and 400 ns
-rhos_ground = lindblad_results.states[0][[0, 20, 40]]
-rhos_excited = lindblad_results.states[1][[0, 20, 40]]
+rhos_ground = lindblad_results.states[0][[10, 50, 90]]
+rhos_excited = lindblad_results.states[1][[10, 50, 90]]
 
-interval = 40
+interval = 15
 resolution = 200
 
 from matplotlib.colors import LinearSegmentedColormap
@@ -81,7 +81,7 @@ from scipy.stats import multivariate_normal
 from scipy.signal import convolve2d
 
 X, Y = np.meshgrid(x, y)
-gaussian = multivariate_normal(mean=[0, 0], cov=[[200, 0], [0, 200]]).pdf(
+gaussian = multivariate_normal(mean=[0, 0], cov=[[200 / 5, 0], [0, 200 / 5]]).pdf(
     np.dstack([X, Y])
 )
 
@@ -114,10 +114,25 @@ for i in range(Qs_ground.shape[0]):
 
 ax[0, 2].plot([], [], color="C0", label="Ground")
 ax[0, 2].plot([], [], color="C1", label="Excited")
-ax[0, 2].legend(loc="upper right")
+ax[0, 2].legend(loc="upper right", fontsize=12)
 
 
-for i, time in enumerate([0, 20, 40]):
+for i in range(3):
+    ax[0, i].plot(
+        lindblad_results.exp_vals[0, 0, :] / 2,
+        lindblad_results.exp_vals[0, 1, :] / 2,
+        ls="--",
+        label="Expectation Ground",
+    )
+    ax[0, i].plot(
+        lindblad_results.exp_vals[1, 0, :] / 2,
+        lindblad_results.exp_vals[1, 1, :] / 2,
+        ls="--",
+        label="Expectation Excited",
+    )
+
+
+for i, time in enumerate([10, 50, 90]):
     ax[0, i].set(
         xlim=(-5, 5),
         ylim=(-5, 5),
@@ -125,33 +140,33 @@ for i, time in enumerate([0, 20, 40]):
     )
 
     ax[1, i].scatter(
-        measurements_ground[time, :, 0],
-        measurements_ground[time, :, 1],
+        measurements_ground[time - 2 : time + 3, :, 0].mean(axis=0),
+        measurements_ground[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C0",
         alpha=0.5,
     )
 
     ax[1, i].scatter(
-        measurements_excited[time, :, 0],
-        measurements_excited[time, :, 1],
+        measurements_excited[time - 2 : time + 3, :, 0].mean(axis=0),
+        measurements_excited[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C1",
         alpha=0.5,
     )
 
     ax[1, i].set(
         xlabel="I (photons)",
-        title=f"10 ns Record - $\eta = 10 \%$",
+        title=f"50 ns Record - $\eta = 10 \%$",
     )
 
 for i in range(2):
     ax[i, 0].set(ylabel="Q (photons)")
 
 
-# At 0, 200 and 400 ns
-rhos_ground = lindblad_results.states[0][[0, 20, 40]]
-rhos_excited = lindblad_results.states[1][[0, 20, 40]]
+# At 50, 250 and 450 ns
+rhos_ground = lindblad_results.states[0][[10, 50, 90]]
+rhos_excited = lindblad_results.states[1][[10, 50, 90]]
 
-interval = 20
+interval = 10
 resolution = 200
 
 from matplotlib.colors import LinearSegmentedColormap
@@ -169,7 +184,7 @@ y = np.linspace(-interval, interval, resolution)
 
 
 X, Y = np.meshgrid(x, y)
-gaussian = multivariate_normal(mean=[0, 0], cov=[[20, 0], [0, 20]]).pdf(
+gaussian = multivariate_normal(mean=[0, 0], cov=[[10, 0], [0, 10]]).pdf(
     np.dstack([X, Y])
 )
 
@@ -199,17 +214,17 @@ for i in range(Qs_ground.shape[0]):
 
 ax[0, 2].legend(loc="upper right")
 
-for i, time in enumerate([0, 20, 40]):
+for i, time in enumerate([10, 50, 90]):
     ax[2, i].scatter(
-        measurements_ground[time, :, 0],
-        measurements_ground[time, :, 1],
+        measurements_ground[time - 2 : time + 3, :, 0].mean(axis=0),
+        measurements_ground[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C0",
         alpha=0.5,
     )
 
     ax[2, i].scatter(
-        measurements_excited[time, :, 0],
-        measurements_excited[time, :, 1],
+        measurements_excited[time - 2 : time + 3, :, 0].mean(axis=0),
+        measurements_excited[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C1",
         alpha=0.5,
     )
@@ -219,8 +234,8 @@ for i, time in enumerate([0, 20, 40]):
 for i in range(3):
     ax[i, 0].set(ylabel="Q (photons)")
 
-fig.suptitle(f"Readout Q Functions and 10 ns Records")
+fig.suptitle(f"Readout Q Functions and 50 ns records")
 fig.tight_layout()
 
-# fig.savefig("figures/qfunc_trajectories.pdf")
+fig.savefig("figures/qfunc_trajectories.pdf")
 #

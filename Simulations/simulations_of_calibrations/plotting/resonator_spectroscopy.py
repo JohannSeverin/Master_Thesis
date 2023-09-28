@@ -127,4 +127,4 @@ ax.legend()
 fig.tight_layout()
 
 fig.allign_ylabels(axes)
-fig.savefig("../Figs/" + name + ".pdf", bbox_inches="tight")
+fig.savefig("../Figs/" + name + ".pdf")
