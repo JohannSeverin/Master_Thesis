@@ -50,7 +50,7 @@ system = QubitResonatorSystem(
 
 
 initial_states = [system.get_states(0)]
-times = np.linspace(0, 1500, 7500)
+times = np.linspace(0, 1500, 15000)
 
 
 # Monte Carlo Experiment
