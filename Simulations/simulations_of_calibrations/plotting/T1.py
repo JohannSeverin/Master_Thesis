@@ -33,8 +33,12 @@ y_data = schroedinger_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Schroedinger")
 
-ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(-0.05, 1.05))
-ax.legend()
+ax.set(
+    ylabel=r"Expectation Value of $P_{1}$",
+    ylim=(-0.05, 1.05),
+    title="Simulation - Schoedinger",
+)
+# ax.legend()
 
 # Plotting Simulation Data
 ax = axes[2]
@@ -44,8 +48,12 @@ y_data = monte_carlo_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Monte Carlo")
 
-ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(-0.05, 1.05))
-ax.legend()
+ax.set(
+    ylabel=r"Expectation Value of $P_{1}$",
+    ylim=(-0.05, 1.05),
+    title="Simulation - Monte Carlo",
+)
+# ax.legend()
 
 # Plotting Simulation Data
 ax = axes[3]
@@ -55,12 +63,17 @@ y_data = lindblad_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Lindblad")
 
-ax.set(ylabel=r"Expectation Value of $P_{1}$", xlabel="Time (µs)", ylim=(-0.05, 1.05))
-ax.legend()
+ax.set(
+    ylabel=r"Expectation Value of $P_{1}$",
+    xlabel="Time (µs)",
+    ylim=(-0.05, 1.05),
+    title="Simulation - Lindblad",
+)
+# ax.legend()
 
 
 # # Plotting Experimental Data
-title = "T1"
+title = "T1 - Experiment"
 xlabel = "Waiting Time (µs)"
 scale_x = 1e-6
 

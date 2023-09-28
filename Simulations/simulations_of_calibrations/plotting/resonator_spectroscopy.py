@@ -34,7 +34,8 @@ y_data_e = schroedinger_data.exp_vals[:, 1]
 ax.plot(x_data, -y_data_g, "o-")
 ax.plot(x_data, -y_data_e, "o-")
 
-# ax.set(ylabel=r"Expectation Value of $P_{1}$", ylim=(0, 1.05))
+ax.set(title="Simulation - Schroedinger", ylabel=r"$-\langle aa^\dagger \rangle$")
+
 # ax.legend()
 
 # # Plotting Simulation Data
@@ -47,6 +48,8 @@ y_data_e = monte_carlo_data.exp_vals[:, 1]
 ax.plot(x_data, -y_data_g, "o-")
 ax.plot(x_data, -y_data_e, "o-")
 
+ax.set(title="Simulation - Monte Carlo", ylabel=r"$-\langle aa^\dagger \rangle$")
+
 # # Plotting Simulation Data
 ax = axes[3]
 
@@ -56,6 +59,12 @@ y_data_e = lindblad_data.exp_vals[:, 1]
 
 ax.plot(x_data, -y_data_g, "o-")
 ax.plot(x_data, -y_data_e, "o-")
+
+ax.set(
+    title="Simulation - Lindblad",
+    ylabel=r"$-\langle aa^\dagger \rangle$",
+    xlabel="Frequency (GHz)",
+)
 
 
 # # Plotting Experimental Data
@@ -115,4 +124,7 @@ ax.set(
 )
 
 ax.legend()
+fig.tight_layout()
+
+fig.allign_ylabels(axes)
 fig.savefig("../Figs/" + name + ".pdf", bbox_inches="tight")
