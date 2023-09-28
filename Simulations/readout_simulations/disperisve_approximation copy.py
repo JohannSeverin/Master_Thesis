@@ -45,7 +45,7 @@ system = QubitResonatorSystem(
 
 dispersive_system = system.dispersive_approximation()
 
-times = np.arange(0, 2001, 0.1)
+times = np.arange(0, 1001, 0.1)
 
 initial_state = [system.get_states(0, 0), system.get_states(1, 0)]
 

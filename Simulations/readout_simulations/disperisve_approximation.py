@@ -50,7 +50,7 @@ times = np.arange(0, 201, 0.1)
 initial_state = [system.get_states(0, 0), system.get_states(1, 0)]
 
 # Experiment
-if not os.path.exists(os.path.join(save_path, name + "_full_2.pkl")):
+if not os.path.exists(os.path.join(save_path, name + "_full.pkl")):
     experiment = LindbladExperiment(
         system,
         initial_state,
@@ -62,7 +62,7 @@ if not os.path.exists(os.path.join(save_path, name + "_full_2.pkl")):
         ],
         only_store_final=False,
         store_states=False,
-        save_path=os.path.join(save_path, name + "_full_2.pkl"),
+        save_path=os.path.join(save_path, name + "_full.pkl"),
     )
 
     results_full = experiment.run()
@@ -70,12 +70,10 @@ if not os.path.exists(os.path.join(save_path, name + "_full_2.pkl")):
     # Analysis
     automatic_analysis(results_full)
 else:
-    results_full = pickle.load(
-        open(os.path.join(save_path, name + "_full_2.pkl"), "rb")
-    )
+    results_full = pickle.load(open(os.path.join(save_path, name + "_full.pkl"), "rb"))
 
 # # # Experiment
-if not os.path.exists(os.path.join(save_path, name + "_dipsersive_2.pkl")):
+if not os.path.exists(os.path.join(save_path, name + "_dipsersive.pkl")):
     experiment = LindbladExperiment(
         dispersive_system,
         initial_state,
@@ -87,7 +85,7 @@ if not os.path.exists(os.path.join(save_path, name + "_dipsersive_2.pkl")):
         ],
         only_store_final=False,
         store_states=True,
-        save_path=os.path.join(save_path, name + "_dipsersive_2.pkl"),
+        save_path=os.path.join(save_path, name + "_dipsersive.pkl"),
     )
 
     results_dispersive = experiment.run()
@@ -96,7 +94,7 @@ if not os.path.exists(os.path.join(save_path, name + "_dipsersive_2.pkl")):
     automatic_analysis(results_dispersive)
 else:
     results_dispersive = pickle.load(
-        open(os.path.join(save_path, name + "_dipsersive_2.pkl"), "rb")
+        open(os.path.join(save_path, name + "_dipsersive.pkl"), "rb")
     )
 
 
@@ -113,7 +111,7 @@ fig, ax = plt.subplots(ncols=2, sharex=True, sharey=True)
 
 from analysis.Q_func import Q_of_rho
 
-interval = 4
+interval = 5
 resolution = 200
 
 xs, ys = np.linspace(-interval, interval, resolution), np.linspace(
@@ -122,7 +120,7 @@ xs, ys = np.linspace(-interval, interval, resolution), np.linspace(
 
 
 # DO A PTRACE
-def get_Q_func(rhos, interval, resolution, results):
+def get_Q_func(rhos, interval, resolution, results, rotations=0):
     qubit_dims, resonator_dims = (
         results.dimensions["qubit"],
         results.dimensions["resonator"],
@@ -138,14 +136,16 @@ def get_Q_func(rhos, interval, resolution, results):
 
     X, Y = np.meshgrid(x, y)
 
-    Qs = Q_of_rho(ptraced, X.flatten(), Y.flatten()).reshape(-1, resolution, resolution)
+    Qs = Q_of_rho(ptraced, X.flatten(), Y.flatten(), rotate=rotations).reshape(
+        -1, resolution, resolution
+    )
 
     return Qs
     # Q_ground = Q_of_rho(rhos_ground, X.flatten(), Y.flatten())
 
 
 # Q Function at 0, 100, 200 ns
-snapshots = [0, 1000, 2000]
+snapshots = [500, 2500, 5000]
 states_ground = results_dispersive.states[0][snapshots]
 states_excited = results_dispersive.states[1][snapshots]
 
@@ -157,6 +157,33 @@ Qs_excited = get_Q_func(states_excited, interval, resolution, results_dispersive
 for i, time in enumerate(snapshots):
     ax[0].contour(xs, ys, Qs_ground[i], cmap=cmap_0, levels=10, alpha=0.75)
     ax[0].contour(xs, ys, Qs_excited[i], cmap=cmap_1, levels=10, alpha=0.75)
+
+states_ground = results_full.states[0][snapshots]
+states_excited = results_full.states[1][snapshots]
+
+rotations = (config["fr"] * timescale + 0.0025) * results_full.times[snapshots] - 1 / 4
+
+Qs_ground = []
+for state, rotation in zip(states_ground, rotations):
+    state = np.expand_dims(state, axis=0)
+    Qs_ground.append(
+        get_Q_func(state, interval, resolution, results_full, rotations=rotation)[0]
+    )
+Qs_ground = np.array(Qs_ground)
+
+Qs_excited = []
+for state, rotation in zip(states_excited, rotations):
+    state = np.expand_dims(state, axis=0)
+    Qs_excited.append(
+        get_Q_func(state, interval, resolution, results_full, rotations=rotation)[0]
+    )
+Qs_excited = np.array(Qs_excited)
+
+
+for i, time in enumerate(snapshots):
+    ax[1].contour(xs, ys, Qs_ground[i], cmap=cmap_0, levels=10, alpha=0.75)
+    ax[1].contour(xs, ys, Qs_excited[i], cmap=cmap_1, levels=10, alpha=0.75)
+
 
 ax[0].plot(
     results_dispersive.exp_vals[0, 0, :] / 2,
@@ -170,20 +197,7 @@ ax[0].plot(
 )
 
 # Q Function at 0, 100, 200 ns
-snapshots = [0, 1000, 2000]
-
-
-# states_ground = results_full.states[0][snapshots]
-# states_excited = results_full.states[1][snapshots]
-
-
-# Qs_ground = get_Q_func(states_ground, interval, resolution, results_full)
-# Qs_excited = get_Q_func(states_excited, interval, resolution, results_full)
-
-
-# for i, time in enumerate(snapshots):
-#     ax[0].contour(xs, ys, Qs_ground[i], cmap=cmap_0, levels=10, alpha=0.75)
-#     ax[0].contour(xs, ys, Qs_excited[i], cmap=cmap_1, levels=10, alpha=0.75)
+snapshots = [1000, 3000, 5000]
 
 times = results_full.times
 
@@ -202,6 +216,8 @@ Q_excited = (IQ_expect_excited * demodulate).imag / 2
 ax[1].plot(I_ground, Q_ground, "C0")
 ax[1].plot(I_excited, Q_excited, "C1")
 
+ax[0].set_aspect("equal")
+ax[1].set_aspect("equal")
 
 ax[0].set(
     title="Dispersive Approximation",
@@ -219,8 +235,5 @@ ax[1].set(
     # ylabel="Q (photons)",
 )
 
-# ax[1].plot(
-#     results_full.exp_vals[1, 0, :] / 2,
-#     results_full.exp_vals[1, 1, :] / 2,
-#     "C1",
-# )
+
+fig.savefig("figures/dispersive_approx.pdf")
