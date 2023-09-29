@@ -362,7 +362,7 @@ for i in range(3):
     axes_for_big_fig[1, i].set_xlabel("I (a. u.)")
 
 big_fig.savefig(
-    os.path.join(save_path, "iq_scatter_budgetting.pdf"), bbox_inches="tight"
+    os.path.join(save_path, "iq_scatter_budgetting_on_off.pdf"), bbox_inches="tight"
 )
 
 two_fig.tight_layout()
@@ -375,7 +375,7 @@ for i in range(2):
     axes_for_two_fig[i].set_xlabel("I (a. u.)")
 
 two_fig.savefig(
-    os.path.join(save_path, "iq_scatter_budgetting_two.pdf"), bbox_inches="tight"
+    os.path.join(save_path, "iq_scatter_budgetting_on_off_two.pdf"), bbox_inches="tight"
 )
 
 
