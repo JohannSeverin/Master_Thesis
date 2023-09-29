@@ -27,6 +27,7 @@ def build_qubit(config, timescale):
         anharmonicity=config["alpha"] * timescale,
         T1=config["T1"] / timescale,
         Tphi=config["Tphi"] / timescale,
+        temperature=config["temperature"],
     )
 
 

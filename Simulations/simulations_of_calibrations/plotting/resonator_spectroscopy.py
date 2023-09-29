@@ -124,7 +124,7 @@ ax.set(
 )
 
 ax.legend()
-fig.tight_layout()
+# fig.tight_layout()
 
 fig.align_ylabels(axes)
 fig.savefig("../Figs/" + name + ".pdf")

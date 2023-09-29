@@ -10,6 +10,6 @@
     "kappa": 2.7e6,
     "g": 37.2e6,
     "eta": 0.015,
-    "temperature": 50e-3,
+    "temperature": 150e-3,
     "IQ scaling factor": 1
 }
