@@ -279,9 +279,9 @@ for name, config_dict in config_dicts.items():
 
     if os.path.exists("log.txt"):
         with open("log.txt", "a") as f:
-            f.write(f"{name} - max fidelity:  {max_fidelity[0]:.3f}\n")
+            f.write(f"{name} - max fidelity:  {max_fidelity[0]:.3f} +-\n")
     else:
         with open("log.txt", "w") as f:
-            f.write(f"{name} - max fidelity:  {max_fidelity[0]:.3f}\n")
+            f.write(f"{name} - max fidelity:  {max_fidelity[0]:.3f} +-\n")
 
     # break

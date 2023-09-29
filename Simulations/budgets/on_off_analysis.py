@@ -209,7 +209,7 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
             )
 
             if ax == ax_scatter_big_figure:
-                ax.set_title("")
+                ax.set_title(f"IQ for {name[:-8]}")
                 ax.set_aspect("equal")
                 ax.text(
                     0.05,
@@ -283,81 +283,62 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
     return fig, max_fidelity
 
 
-def scale_eta(eta, factor):
-    return 1 - (1 - eta) * factor
-
-
-def scale_T1(T1, factor):
-    return T1 / factor if factor != 0 else 0
-
-
 ### Setup figure
 big_fig, axes_for_big_fig = plt.subplots(
-    ncols=3, nrows=6, figsize=(12, 22), sharex=True, sharey=True
+    ncols=3, nrows=2, figsize=(12, 8), sharex=False, sharey=False
+)
+two_fig, axes_for_two_fig = plt.subplots(
+    ncols=2, nrows=1, figsize=(12, 6), sharex=True, sharey=True
 )
 
-
-def scale_temperature(temperature, factor):
-    return temperature * factor
-
-
-### Run Following options of config files
-config_dicts_efficiency = {
-    r"eta_10_increase": {"eta": scale_eta(config["eta"], 1.1)},
-    r"eta": {"eta": scale_eta(config["eta"], 1.0)},
-    r"eta_10_reduction": {"eta": scale_eta(config["eta"], 0.9)},
-    r"eta_25_reduction": {"eta": scale_eta(config["eta"], 0.75)},
-    r"eta_50_reduction": {"eta": scale_eta(config["eta"], 0.50)},
-    r"eta_100_reduction": {"eta": scale_eta(config["eta"], 0.00)},
+### Run all config files
+config_dicts_all = {
+    "realistic": {},
+    "perfect": {"eta": 1, "temperature": 0, "T1": 0},
 }
-
-config_dicts_decay = {
-    r"T1_10_increase": {"T1": scale_T1(config["T1"], 1.1)},
-    r"T1": {"T1": scale_T1(config["T1"], 1.0)},
-    r"T1_10_reduction": {"T1": scale_T1(config["T1"], 0.9)},
-    r"T1_25_reduction": {"T1": scale_T1(config["T1"], 0.75)},
-    r"T1_50_reduction": {"T1": scale_T1(config["T1"], 0.50)},
-    r"T1_100_reduction": {"T1": scale_T1(config["T1"], 0.00)},
-}
-
-config_dicts_temperature = {
-    r"temperature_10_increase": {
-        "temperature": scale_temperature(config["temperature"], 1.1)
+config_dict_combinations = {
+    "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
+    "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
+    "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
+    "no_decay": {
+        "eta": config["eta"],
+        "temperature": config["temperature"],
+        "T1": 0,
     },
-    r"temperature": {"temperature": scale_temperature(config["temperature"], 1.0)},
-    r"temperature_10_reduction": {
-        "temperature": scale_temperature(config["temperature"], 0.9)
+    "perfect_efficiency": {
+        "eta": 1,
+        "temperature": config["temperature"],
+        "T1": config["T1"],
     },
-    r"temperature_25_reduction": {
-        "temperature": scale_temperature(config["temperature"], 0.75)
-    },
-    r"temperature_50_reduction": {
-        "temperature": scale_temperature(config["temperature"], 0.50)
-    },
-    r"temperature_100_reduction": {
-        "temperature": scale_temperature(config["temperature"], 0.00)
+    "zero_temperature": {
+        "eta": config["eta"],
+        "temperature": 0,
+        "T1": config["T1"],
     },
 }
 
 ### Run Following options of config files
-fidelities = []
-fidelities_errors = []
+# fidelities = []
+# fidelities_errors = []
 
 for col_idx, experiments_to_loop in enumerate(
-    [config_dicts_efficiency, config_dicts_decay, config_dicts_temperature]
+    [config_dicts_all, config_dict_combinations]
 ):
-    fidelities_for_experiment = []
-    fidelities_errors_for_experiment = []
+    # fidelities_for_experiment = []
+    # fidelities_errors_for_experiment = []
     for i, (name, config_dict) in enumerate(experiments_to_loop.items()):
-        fig, max_fidelity = calculate_fidelity_and_create_plots(
-            name + "_sme.pkl", config_dict, axes_for_big_fig[i, col_idx]
-        )
+        if col_idx == 0:
+            fig, max_fidelity = calculate_fidelity_and_create_plots(
+                name + "_sme.pkl", config_dict, axes_for_two_fig[i]
+            )
+        else:
+            fig, max_fidelity = calculate_fidelity_and_create_plots(
+                name + "_sme.pkl", config_dict, axes_for_big_fig[i // 3, i % 3]
+            )
+
         fig.savefig(
             os.path.join(save_path, name + "_sme.pdf"),
         )
-        # plt.close(f[ig)
-        fidelities_for_experiment.append(max_fidelity[0])
-        fidelities_errors_for_experiment.append(max_fidelity[2])
 
         if os.path.exists("log.txt"):
             with open("log.txt", "a") as f:
@@ -370,77 +351,74 @@ for col_idx, experiments_to_loop in enumerate(
                     f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}\n"
                 )
 
-        # break
-    fidelities.append(fidelities_for_experiment)
-    fidelities_errors.append(fidelities_errors_for_experiment)
-
-
-for col_idx, parameter in enumerate([r"$(1 - \eta)$", r"$(1 / T_1)$", r"$\tau$"]):
-    for row_idx, amount in enumerate(
-        [r"$1.1$", r"$1.0$", r"$0.9$", r"$0.75$", r"$0.5$", r"$0.0$"]
-    ):
-        axes_for_big_fig[row_idx, col_idx].text(
-            0.05,
-            1.00,
-            f"{amount} $\\times$ {parameter}",
-            va="top",
-            transform=axes_for_big_fig[row_idx, col_idx].transAxes,
-        )
-
 
 big_fig.tight_layout()
 big_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01)
 
-for i in range(6):
+for i in range(2):
     axes_for_big_fig[i, 0].set_ylabel("Q (a. u.)")
 
 for i in range(3):
-    axes_for_big_fig[5, i].set_xlabel("I (a. u.)")
+    axes_for_big_fig[1, i].set_xlabel("I (a. u.)")
 
 big_fig.savefig(
     os.path.join(save_path, "iq_scatter_budgetting.pdf"), bbox_inches="tight"
 )
 
+two_fig.tight_layout()
+two_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01, va="bottom")
+
+for i in range(2):
+    axes_for_two_fig[i].set_ylabel("Q (a. u.)")
+
+for i in range(2):
+    axes_for_two_fig[i].set_xlabel("I (a. u.)")
+
+two_fig.savefig(
+    os.path.join(save_path, "iq_scatter_budgetting_two.pdf"), bbox_inches="tight"
+)
+
+
 ### Plot Fidelities
-fig, ax = plt.subplots(ncols=3, sharey=True)
+# fig, ax = plt.subplots(ncols=3, sharey=True)
 
-symbols = ["$1 - \eta$", "$1 / T_1$", "$\\tau$"]
+# symbols = ["$1 - \eta$", "$1 / T_1$", "$\\tau$"]
 
-for i, (fidelities_for_experiment, label) in enumerate(
-    zip(fidelities, ["Efficiency", "Decay", "Temperature"])
-):
-    ax[i].plot(
-        [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
-        fidelities_for_experiment,
-        marker="o",
-        linestyle="None",
-        label=label,
-    )
+# for i, (fidelities_for_experiment, label) in enumerate(
+#     zip(fidelities, ["Efficiency", "Decay", "Temperature"])
+# ):
+#     ax[i].plot(
+#         [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
+#         fidelities_for_experiment,
+#         marker="o",
+#         linestyle="None",
+#         label=label,
+#     )
 
-    ax[i].errorbar(
-        [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
-        fidelities_for_experiment,
-        yerr=fidelities_errors[i],
-        linestyle="None",
-        color="k",
-    )
+#     ax[i].errorbar(
+#         [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
+#         fidelities_for_experiment,
+#         yerr=fidelities_errors[i],
+#         linestyle="None",
+#         color="k",
+#     )
 
-    ax[i].set(
-        xlabel=f"{label} ({symbols[i]})",
-        ylabel="Fidelity",
-        title=label,
-        # ylim=(0, 1),
-    )
+#     ax[i].set(
+#         xlabel=f"{label} ({symbols[i]})",
+#         ylabel="Fidelity",
+#         title=label,
+#         # ylim=(0, 1),
+#     )
 
-    ax[i].vlines(
-        1.0,
-        *ax[i].get_ylim(),
-        linestyle="--",
-        color="k",
-        label="Original",
-        alpha=0.75,
-    )
+#     ax[i].vlines(
+#         1.0,
+#         *ax[i].get_ylim(),
+#         linestyle="--",
+#         color="k",
+#         label="Original",
+#         alpha=0.75,
+#     )
 
-    ax[i].legend(fontsize=12)
+#     ax[i].legend(fontsize=12)
 
-fig.savefig(os.path.join(save_path, "fidelities_at_different_parameters.pdf"))
+# fig.savefig(os.path.join(save_path, "fidelities_at_different_parameters.pdf"))
