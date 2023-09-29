@@ -23,4 +23,21 @@ temperature - max fidelity:  0.740
 temperature_10_reduction - max fidelity:  0.750
 temperature_25_reduction - max fidelity:  0.790
 temperature_50_reduction - max fidelity:  0.870
+temperature_100_reduction - max fidelity:  0.940eta_10_increase - max fidelity:  0.750
+eta - max fidelity:  0.690
+eta_10_reduction - max fidelity:  0.730
+eta_25_reduction - max fidelity:  0.710
+eta_50_reduction - max fidelity:  0.590
+eta_100_reduction - max fidelity:  0.770
+T1_10_increase - max fidelity:  0.670
+T1 - max fidelity:  0.730
+T1_10_reduction - max fidelity:  0.670
+T1_25_reduction - max fidelity:  0.720
+T1_50_reduction - max fidelity:  0.690
+T1_100_reduction - max fidelity:  0.830
+temperature_10_increase - max fidelity:  0.620
+temperature - max fidelity:  0.740
+temperature_10_reduction - max fidelity:  0.750
+temperature_25_reduction - max fidelity:  0.790
+temperature_50_reduction - max fidelity:  0.870
 temperature_100_reduction - max fidelity:  0.940

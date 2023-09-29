@@ -104,10 +104,14 @@ def max_fidelity_score(score, truth, return_all=False):
     fpr, fnr, threshholds = det_curve(truth, score)
     fidelity = 1 - fpr - fnr
     max_fidelity = fidelity.max()
+    best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
+    fidelity_error = np.sqrt(
+        best_fpr * (1 - best_fpr) / len(truth) + best_fnr * (1 - best_fnr) / len(truth)
+    )
     if not return_all:
-        return max_fidelity, threshholds[np.argmax(fidelity)]
+        return max_fidelity, threshholds[np.argmax(fidelity)], fidelity_error
     else:
-        return max_fidelity, threshholds[np.argmax(fidelity)], fidelity
+        return max_fidelity, threshholds[np.argmax(fidelity)], fidelity, fidelity_error
 
 
 def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure=None):
@@ -336,10 +340,14 @@ config_dicts_temperature = {
 }
 
 ### Run Following options of config files
+fidelities = []
+fidelities_errors = []
 
 for col_idx, experiments_to_loop in enumerate(
     [config_dicts_efficiency, config_dicts_decay, config_dicts_temperature]
 ):
+    fidelities_for_experiment = []
+    fidelities_errors_for_experiment = []
     for i, (name, config_dict) in enumerate(experiments_to_loop.items()):
         fig, max_fidelity = calculate_fidelity_and_create_plots(
             name + "_sme.pkl", config_dict, axes_for_big_fig[i, col_idx]
@@ -348,6 +356,8 @@ for col_idx, experiments_to_loop in enumerate(
             os.path.join(save_path, name + "_sme.pdf"),
         )
         # plt.close(f[ig)
+        fidelities_for_experiment.append(max_fidelity[0])
+        fidelities_errors_for_experiment.append(max_fidelity[2])
 
         if os.path.exists("log.txt"):
             with open("log.txt", "a") as f:
@@ -357,6 +367,8 @@ for col_idx, experiments_to_loop in enumerate(
                 f.write(f"{name} - max fidelity:  {max_fidelity[0]:.3f}\n")
 
         # break
+    fidelities.append(fidelities_for_experiment)
+    fidelities_errors.append(fidelities_errors_for_experiment)
 
 
 for col_idx, parameter in enumerate([r"$(1 - \eta)$", r"$(1 / T_1)$", r"$\tau$"]):
@@ -382,5 +394,47 @@ for i in range(3):
     axes_for_big_fig[5, i].set_xlabel("I (a. u.)")
 
 big_fig.savefig(
-    os.path.join(save_path, "iq_scatter_budgetting.pdf"),
+    os.path.join(save_path, "iq_scatter_budgetting.pdf"), bbox_inches="tight"
 )
+
+### Plot Fidelities
+fig, ax = plt.subplots(ncols=3, sharey=True)
+
+symbols = ["$1 - \eta$", "$1 / T_1$", "$\\tau$"]
+
+for i, (fidelities_for_experiment, label) in enumerate(
+    zip(fidelities, ["Efficiency", "Decay", "Temperature"])
+):
+    ax[i].plot(
+        [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
+        fidelities_for_experiment,
+        marker="o",
+        linestyle="None",
+        label=label,
+    )
+
+    ax[i].errorbar(
+        [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
+        fidelities_for_experiment,
+        yerr=fidelities_errors[i],
+        linestyle="None",
+        color="k",
+    )
+
+    ax[i].set(
+        xlabel=f"{label} ({symbols[i]})",
+        ylabel="Fidelity",
+        title=label,
+        # ylim=(0, 1),
+    )
+
+    ax[i].vlines(
+        1.0,
+        *ax[i].get_ylim(),
+        linestyle="--",
+        color="k",
+        label="Original",
+        alpha=0.75,
+    )
+
+    ax[i].legend(fontsize=12)
