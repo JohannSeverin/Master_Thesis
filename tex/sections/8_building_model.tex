@@ -62,11 +62,11 @@ In calibrating photon decay rate $\kappa$ and the temperature, we use more data 
 \begin{figure}[h]
     \begin{minipage}{0.45\textwidth}
         \centering
-        \includegraphics[height = 0.55 \textheight]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
+        \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
     \end{minipage}
         \begin{minipage}{0.45\textwidth}
         \centering
-        \includegraphics[height = 0.55 \textheight]{Simulations/simulations_of_calibrations/Figs/resonator_spectroscopy.pdf}
+        \includegraphics[]{Simulations/simulations_of_calibrations/Figs/resonator_spectroscopy.pdf}
     \end{minipage}
     \caption{Illustration of the $T_1$ and resonator spectroscopy run with different simulations schemes.}
     \label{fig:calibrations_in_simulation}
@@ -109,7 +109,7 @@ Before continuing with the approximation, we will first test whether it still ex
 
 \begin{figure}
     \centering
-    \includegraphics[]{Simulations/readout_simulations/figures/dispersive_approx.pdf}
+    \includegraphics[width = \textwidth]{Simulations/readout_simulations/figures/dispersive_approx.pdf}
     \caption{Caption}
     \label{fig:enter-label}
 \end{figure}
@@ -137,98 +137,4 @@ Before using the simulation to learn about the system, we will first see if the 
     \caption{Caption}
     \label{fig:enter-label}
 \end{figure*}
-
-
-
-\chapter{Readout Infidelity Budget}
-With a simulation realistically representing the qubit-resonator system from the laboratory, we are now in a position to break down the different effects on the readout fidelity. In this section, we will leverage the simulation tools, to quantify the contributions to the infidelity from the different physical processes, we have included in our model. Thereafter, we will try to break down, how different improvements of the physical parameters will have an effect on the fidelity of our readout. 
-
-\section{Estimating Contributions}
-
-
-\begin{table}[h]
-\centering
-\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
-\begin{tabular}{l|rrr}
-\hline
-\textbf{Contributions}        & Temperature              & Energy Decay   & Efficiency  \\ \hline
-Excluding                     &  99.99          &  99.99 &  99.99 \\
-Exclusively                   &  99.99          &  99.99 &  99.99
-\end{tabular}
-\label{tab:readout_infidelity_contribution_estimation}
-\end{table}
-
-\begin{figure*}
-    \centering
-    \missingfigure[figheight = \textheight / 3]{IQ Plots for the simulation, we ran in the table}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{figure*}
-
-There are many answers to which effect does what.
-
-\section{Improving the Readout - Temperature}
-
-\begin{table}[h]
-\centering
-\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
-\begin{tabular}{ll|r}
-\hline
-\textbf{Reduction}        & Temperature                  & Fidelity\\ \hline
-0   \%                      &  30                        &  99.99\\
-10  \%                     &  30                         &  99.99\\
-25  \%                     &  30                         &  99.99\\
-50  \%                     &  30                         &  99.99\\
-100 \%                     &  30                         &  99.99\\
-\end{tabular}
-\label{tab:readout_infidelity_contribution_estimation}
-\end{table}
-
-
-\subsection{Active Reset}
-
-\section{Improving the Readout - Qubit Decay}
-
-
-\begin{table}[h]
-\centering
-\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
-\begin{tabular}{ll|r}
-\hline
-\textbf{Reduction}        & Temperature                  & Fidelity\\ \hline
-0   \%                      &  30                        &  99.99\\
-10  \%                     &  30                         &  99.99\\
-25  \%                     &  30                         &  99.99\\
-50  \%                     &  30                         &  99.99\\
-100 \%                     &  30                         &  99.99\\
-\end{tabular}
-\label{tab:readout_infidelity_contribution_estimation}
-\end{table}
-
-
-
-\subsection{Further Excitement}
-
-\section{Improving the Readout - Efficiency}
-
-
-\begin{table}[h]
-\centering
-\caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
-\begin{tabular}{ll|r}
-\hline
-\textbf{Reduction}        & Temperature                  & Fidelity\\ \hline
-0   \%                      &  30                        &  99.99\\
-10  \%                     &  30                         &  99.99\\
-25  \%                     &  30                         &  99.99\\
-50  \%                     &  30                         &  99.99\\
-100 \%                     &  30                         &  99.99\\
-\end{tabular}
-\label{tab:readout_infidelity_contribution_estimation}
-\end{table}
-
-
-
-\subsection{High Power Readout}
-
 
