@@ -5,15 +5,29 @@ With a simulation realistically representing the qubit-resonator system from the
 
 \section{Estimating Contributions}
 
+\begin{table}[h]
+    \centering
+    \begin{tabular}{l|r}
+    \hline
+         Parameters Set & Fidelity \\ \hline
+         Realistic & 0.666  \\
+         Perfect   & 0.985
+    \end{tabular}
+
+    \caption{Caption}
+    \label{tab:my_label}
+\end{table}
+
 
 \begin{table}[h]
 \centering
 \caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
+
 \begin{tabular}{l|rrr}
 \hline
-\textbf{Contributions}        & Temperature              & Energy Decay   & Efficiency  \\ \hline
-Excluding                     &  99.99          &  99.99 &  99.99 \\
-Exclusively                   &  99.99          &  99.99 &  99.99
+\textbf{Contributions}        & Temperature     & Energy Decay   & Efficiency  \\ \hline
+Excluding                     &  0.878          &  0.710         &  0.655 \\
+Exclusively                   &  0.721          &  0.879         &  0.982
 \end{tabular}
 \label{tab:readout_infidelity_contribution_estimation}
 \end{table}
@@ -28,6 +42,13 @@ Exclusively                   &  99.99          &  99.99 &  99.99
 There are many answers to which effect does what.
 
 \section{Improving the Readout - Temperature}
+
+\begin{figure}
+    \centering
+    \includegraphics{}
+    \caption{Caption}
+    \label{fig:enter-label}
+\end{figure}
 
 \begin{table}[h]
 \centering
@@ -91,5 +112,12 @@ There are many answers to which effect does what.
 
 
 \subsection{High Power Readout}
+
+\begin{figure}
+    \centering
+    \includegraphics{Simulations/budgets/figures/iq_scatter_budgetting.pdf}
+    \caption{The IQ Plots for the models  with different parameters. The seperation line, fidelity and parameter scaling is shown.}
+    \label{fig:budgetting_IQ_plots}
+\end{figure}
 
 
