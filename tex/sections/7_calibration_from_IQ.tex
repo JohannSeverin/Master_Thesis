@@ -1,4 +1,4 @@
-\chapter{Calibration Methods}
+\chapter{Calibration Methods}\label{chap:calibration}
 In order to use a qubit and in particular if we want to simulate said qubit, we need to learn the most important parameters. In this section, we will go through the different methods used for calibrating a qubit and the connected resonator in order to have a useful qubit along with the possibilities of simulating the system.
 
 
@@ -180,9 +180,9 @@ These two properties can be combined by driving the resonator into its steady st
     \label{fig:enter-label}
 \end{marginfigure}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \missingfigure{Scan of readout-pulse-amplitude and the frequency of qubit-pulse. }
+    \includegraphics[]{Calibrations/Figures/Qubit Spectroscopy with Driven Resonator.pdf}
     \caption{Scan of readout-pulse-amplitude and the frequency of qubit-pulse.}
     \label{fig:calibration_photon_counting_scan}
 \end{figure}
@@ -191,10 +191,11 @@ If we now fit a Lorentzian curve over the frequencies for each amplitude and div
 
 \begin{figure}
     \centering
-    \missingfigure{Amplitude - Photon number plot}
+    \includegraphics[]{Calibrations/Figures/photon_number.pdf}
     \caption{Caption}
     \label{fig:calibration_amplitude_photon_number}
 \end{figure}
+
 
 
 % One big challenge still stands, how do we map the axis to each other?  
@@ -268,12 +269,12 @@ To determine the SNR from the readoutpulse, one does a simple experiment, which 
 
 Repeating the experiment $n$-times for different values of $\epsilon$, we obtain the results in figure \ref{fig:effiiency_results_SNR}, where the distribution for the last $\epsilon$ is shown together with the relation between calculated SNR and applied amplitude. Fitting a linear equation to the results, we obtain $a = ??$. \todo{Extract value from $a$ with errors and write samples, make prettier figure.} 
 
-\begin{figure}
+\begin{figure*}
     \centering
-    \includegraphics{Figs/calibrations/efficiency/SNR_result.png}
+    \includegraphics{Calibrations/Figures/SNR_vs_amplitude.pdf}
     \caption{Figure showing the experiment for extracting SNR as a function of readout ampltiude. An example at the highest amplitude is shown, where the two distributions are separated. The SNR is extracted as $\text{SNR}^2 = \expval{S_{\ket{0}} - S_{\ket{1}}}^2/\left(\expval{S^2_{\ket{0}}} +\expval{S^2_{\ket{1}}}\right)$. The other figure displays the result of this analysis for all values of $\epsilon$ as well as a linear fit applied to it.}
     \label{fig:effiiency_results_SNR}
-\end{figure}
+\end{figure*}
 
 
 
@@ -287,19 +288,19 @@ the readout drive will now be applied\footnote{Just as pulse because we're not i
 
 \begin{marginfigure}
     \centering
-    \includegraphics{Figs/circuits/dephasing.png}
+    \includegraphics[]{Figs/circuits/dephasing.png}
     \caption{The phasing experiment circuit. First the qubit is rotated $\pi/2$ around the X-axis, whereafter it is subject to the readout pulse without demodulating and saving the signal. Now the qubit is rotated $\pi$ around a vector $\phi$ in the $x-y-$plane and finally readout.}
     \label{fig:efficiency_dephasing_experiment}
 \end{marginfigure}
 
 Reading out the signal for different angles of $\phi$ will lead to a cosine shape: $\sigma_z = 2 |\rho_{01}(t= T)| \cos(\phi+\phi_0)$. And repeating for different readout amplitudes the dephasing due to backaction can be separated from the one due to $T_2$-dephasing which only has an effect of the amplitude. The results of the experiment can be seen in figure \ref{fig:efficiency_dephasing_experiment}, where the parameter from the important parameter for the Gaussian fit is the standard deviation: $\sigma = 0.0045 \pm ?$. \marginnote{Write the $\chi^2$ and $p-val$ for the fit in the marginnote.}
 
-\begin{figure}
+\begin{figure*}
     \centering
-    \includegraphics{Figs/calibrations/efficiency/dephasing_result.png}
+    \includegraphics{Calibrations/Figures/dephasing_by_measurement.pdf}
     \caption{Results from the backaction experiment. The 2D scan is shown along with the cosine-way for amplitude $\epsilon = 0$ and $\epsilon = \epsilon_{max}$. Fitting the cosine function and plotting the amplitude as function of the readout amplitude gives the last figure, where they are are fitted by a gaussian distribution.}
     \label{fig:efficiency_dephasing_result}
-\end{figure}
+\end{figure*}
 
 \todo{Redo figure.}
 
@@ -308,12 +309,6 @@ Combining the results from the last two experiments, we find the readout efficie
 \begin{equation}
     \eta = \frac{a^2\sigma^2}{2} = (1.5 \pm ?) \% 
 \end{equation}
-
-\subsection{Robustness Tests in Simulation ? }
-\todo{Consider? }
-\textit{Do this section make sense? Would be nice to check it, we can do it where we know the results in the efficiency and regulate the dephasing.}
-
-
 
 
 \section{Calibration in Continuous Time}

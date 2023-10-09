@@ -1,5 +1,5 @@
 % \todo{Rewrite Introduction to match the conclusion and abstract}
-\chapter{Introduction}
+\chapter{Introduction}\label{chap:Introduction}
 The demand for power to run computational tasks is accelerating. Across vast parts of society the word "algorithm" has been adopted and is an increased part of the everyday life both in front and behind the screens we look at. To support the rising demand, the transistors which do the heavy lifting of storing and computing the singular 0s and 1s, have been stacked closer and closer. Now they are only a few nanometers wide, a size where they are susceptible to quantum effects preventing from becoming much smaller. It seems like the computational power of classical computers are about to plateau.\cite{}
 
 Some large problems like prime factorization or the simulation of quantum many body system can be formulated compactly and run efficiently by considering quantum bits with the ability of being in a super position of 0 and 1 at the same time instead of the classical on/off bit. \cite{} With basis in this idea, a lot of different implementations of quantum computers are one the way taking many different forms. From singular atoms trapped in an electric field and run by lasers \cite{} to storing the information in photons and applying beamsplitters to alter the state of it\cite{}. In this thesis, we will consider a qubit built of superconducting materials and frozen to just above the absolute zero. \cite{}
@@ -16,32 +16,38 @@ The state preparation and measurement errors (or SPAM for short) are difficult t
 
 \newpage
 \section{Outline of Thesis}
-\todo{Update the outline and write coherently}
-\begin{itemize}
-    \item In the first section, we will review the circuit quantum electrodynamics (cQED) which gives rise to the potentials we base our qubit and readout resonator on.
-    \item We will go into depth of how this system can be viewed in the light of the parameters and limits we impose on the system.
-    \item The thesis will the cover, how our system interacts with the environment. This will give rise to the Lindblad Master Equation and a discussion of decoherence of our quantum system. 
-    \item Then we will go through how the system is measured. For this we will need to go through the (1) the stochastic master equation which arises in continuous measurements, (2) the microwave field which we will see in the drive line and in the resonator, (3) the amplification chain that leads the resonator signal at 10 mK into the lab and (4) how the signal can be read out by either a homodyne or heterodyne measurement.
-    \item A section focusing on how the IQ plane of the resonator can be used to calibrate different errors. We will hopefully be able to separate State Preparation and Measurement errors using the physics happening in the two.
-    \item A part covering the simulations we can put together from the above. How can we use this to best distiguish the $\ket{0}$ and $\ket{1}$ state. 
-    \item Hopefully, this can be followed by a section where we fit the master equation or stochastic master equation to calibrate hamiltonian of the system while measured.
-\end{itemize}
+The thesis is built up in the following way. The first few chapter will be theory, in the rest of chapter \ref{chap:Introduction}, we will cover some fundementals of quantum mechanics and in chapter \ref{chap:cQED} we will focus in particular on theory of circuit Quantum Electrodynamics (cQED) and provide a quick overview of the device we use for experiments. Chapter \ref{chap:computations_and_readout} we will go into more depth of how the qubit is coupled to the control hardware to allow control and readout of the qubit. To investigate how interactions with the environment affects our qubit, we will introduce open quantum systems in chapter \ref{chap:open_quantum_systems} and we will in chapter \ref{chap:measurements} we will see how measurements change the dynamics.
+
+With the theory covered, we will in chapter \ref{chap:readout} investigate the performance of readout in our system. In chapter \ref{chap:calibration} we do the necessary experimental calibrations of the system to allow us to built it in simulation, which is done in chapter \ref{chap:model}. Finally, we will in chapter \ref{chap:budget} use our model to investigate how different parameters contribute the readout infidelity by changing them in our model.  
+
+
+
+% \todo{Update the outline and write coherently}
+% \begin{itemize}
+%     \item In the first section, we will review the circuit quantum electrodynamics (cQED) which gives rise to the potentials we base our qubit and readout resonator on.
+%     \item We will go into depth of how this system can be viewed in the light of the parameters and limits we impose on the system.
+%     \item The thesis will the cover, how our system interacts with the environment. This will give rise to the Lindblad Master Equation and a discussion of decoherence of our quantum system. 
+%     \item Then we will go through how the system is measured. For this we will need to go through the (1) the stochastic master equation which arises in continuous measurements, (2) the microwave field which we will see in the drive line and in the resonator, (3) the amplification chain that leads the resonator signal at 10 mK into the lab and (4) how the signal can be read out by either a homodyne or heterodyne measurement.
+%     \item A section focusing on how the IQ plane of the resonator can be used to calibrate different errors. We will hopefully be able to separate State Preparation and Measurement errors using the physics happening in the two.
+%     \item A part covering the simulations we can put together from the above. How can we use this to best distiguish the $\ket{0}$ and $\ket{1}$ state. 
+%     \item Hopefully, this can be followed by a section where we fit the master equation or stochastic master equation to calibrate hamiltonian of the system while measured.
+% \end{itemize}
 
 \section{Qubits}
-\todo{Add citations for Qubits}
 Improvements in the hardware of classical computers come in many different ways: processing speed, size of memory, or faster buzz speed. Ultimately, these improvements increase our capability of storing, messaging or manipulating single entities called bits. Bits are an on/off switch representing a small piece of information normally represented as either being "1" or "0". Combining billions or even trillions of these bits, we can store data, media or even programs.
 
 While most everyday computing tasks can easily be done using these classical computers, some problems scale exponentially and unforgivably when the size of the problem is increased. Among these problems, we find prime factorization, the traveling salesman problem and even just simulating quantum mechanical systems, a challenge which will return multiple times through this thesis.
 
 Instead of building classical computers of exponentially increasing size, quantum mechanics provides a hope to solve these problems by not going up in size but instead changing the ideas of the bit. More specifically, the quantum bit (qubit) is not bound by the discreteness of the classical bit but can be in some combination (or superposition) of "0" and "1" at the same time. 
+\todo{Add citations for Qubits}
 
 \subsection{A Quantum Mechanical State}
-In Quantum Mechanics our system can live in either a continuous spectrum like the position of a particle or a discrete spectrum like the spin of an electron which either points up or down. When considering a quantum mechanical object, all possible physical configurations span a Hilbert Space of infinite or finite dimensions. One of these configurations containing all the information one could measure is an element in the Hilbert space and is called a quantum mechanical state, mathematically represented with a ket $\ket{\psi}$. \cite{sakurai_modern_2021}
+In quantum mechanics, our system can live in either a continuous spectrum like the position of a particle or a discrete spectrum like the spin of an electron which either points up or down. When considering a quantum mechanical object, all possible physical configurations span a Hilbert Space of infinite or finite dimensions. One of these configurations containing all the information one could measure is an element in the Hilbert space and is called a quantum mechanical state, mathematically represented with a ket $\ket{\psi}$. \cite{sakurai_modern_2021}
 
-The observable information about the state of the system can be found by applying operators to it. Applying an operator is represented by multiplication from the left: $A\ket{\psi}$. Of special interest are eigenstates to the operator, which are states satisfying $A\ket{a} = a \ket{a}$, where $a$ is the eigenvalue and $\ket{a}$ is the eigenstate. The energy of the system is an observable which can be measured with the Hamiltonian operator, giving both information about the evolution of the system as well as what the ground state will be. \cite{sakurai_modern_2021}
+The observable information about the state of the system can be found by applying operators to it. Applying an operator is represented by multiplication from the left: $A\ket{\psi}$. Of special interest are eigenstates to the operator, which are states satisfying $A\ket{a} = a \ket{a}$, where $a$ is the eigenvalue and $\ket{a}$ is the eigenstate. The energy of the system is an observable which can be measured with the Hamiltonian operator. In classical mechanics the Hamiltonian generates equations of motion and it play the same role in quantum mechanics. \cite{sakurai_modern_2021}
 
 \subsection{The Two Level System}\label{sec:tls}
-In creating a qubit, we need a quantum mechanical two level system where one state can be the "0" and one be the "1". There are two ways of achieving this: first, we could use an object living in a 2-dimensional Hilbert space like the spin of an electron. Here we could encode contribute 1 to be spin up and 0 to be spin down. 
+In creating a qubit, we need a quantum mechanical two level system where one state can be the "0" and one be the "1". There are two ways of achieving this: first, we could use an object living in a 2-dimensional Hilbert space like the spin of an electron. Here we could encode "1" to the spin up state and "0" to be spin down. 
 
 The other way is to limit ourselves to a subspace of a larger Hilbert space. Since the quantum mechanical states are subject to Boltzmann statistics \footnote{That is the relative probability of finding a qubit in two different states (say $\ket{1}$ and $\ket{0}$) can be found as the fraction between their Boltzmann factor: $e^{-E_1 / k_b  T} / e^{- E_0 / k_b  T}$.}, if we go to low enough temperatures (that is the difference in energy $\Delta E \gg k_b T$)  the system will primarily occupy the lowest energy states. 
 
@@ -64,7 +70,7 @@ Where we end up with the two angles $\theta$ and $\phi$ which respectively deter
 \end{marginfigure}
 With the two angles $\theta$ and $\phi$ and a normalization requiring a length of 1, the two angles can be visualized as a vector pointing to a unit sphere. When representing a general two level state, we call it a Bloch Sphere and a representation can be seen in fig \ref{fig:bloch_sphere}.
 
-On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $\ket{1}$ in the negative direction. with this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively. The x-y plane is determined by the $\phi$ component and will be the phase difference between the two states. 
+On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $\ket{1}$ in the negative direction. with this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively. The x-y plane is determined by the $\phi$ component and will be the phase difference between the two states. \cite{BlochSphere}
 
 
 % \section{Time Evolution of a Quantum System}
