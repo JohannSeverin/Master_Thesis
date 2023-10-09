@@ -1,4 +1,4 @@
-\chapter{Building the System in Simulation}
+\chapter{Building a Model of the System}
 In the previous chapter, we have covered, how one calibrates and extracts the parameters necessary to model a qubit-resonator system under readout. We are now in a position to model it, however, with both many different levels of complexity and different available approximations at hand, we have a trade-off between run time of our simulations and the realism of them. 
 
 \section{Different Simulation Approaches}
@@ -125,6 +125,13 @@ In the dispersive limit, we consider that $g/(\omega_r - \omega_q) \ll 1$, which
 \end{marginfigure}
 
 In this regime the dispersive approximation is definetly wrong and we would have to resort back to the full time-dependent Hamiltonian. However, since the ciritcal photon number is $\approx 400$, we are nowhere near able to run these simulation anyways. 
+
+\section{Size of the Hilbert Space}
+The size of the Hilbert Space affects the complexity of the simulation significantly, since the entries of the density matrix scales as $n^2$ with $n$ the dimension of the Hilbert Space. However, picking the size is like most of these considerations a trade off between accuracy and speed of simulations. 
+
+For the Qubit we need to have at a two dimensional system, but with temperatures around $100$ to $150 \text{ mK}$, there will also be non-negligible part in the second excited state of order $\approx 1\%$. Thus we will include this as well to have a three dimensional Hilbert Space for the Qubit.
+
+For the resonator, we have to make sure, we do not miss any of the dynamics. Thus the size of the Hilbert space should be significantly larger than the maximum number of photon, we will have at any point during the simulation. The coherent states can be represented by a Poisson Distribution around the mean photon number \todo{Write Formula}, thus we take the maximum photon number and add around 5-10 dimensions more to make sure, we limit the numerical artifacts in the simulations.
 
 \section{Readout in Simulation}
 We are now in a position, where we have a qubit calibrated in experiment and recreated in simulation. By using the dispersive approximation, we can eliminate the time-dependence of the Hamiltonian to significantly speed-up the simulation process. And we have build up a framework of different simulation tools giving us a set off trade-offs between speed and complexity. \todo{This gives a bit conclusion-vibes}
