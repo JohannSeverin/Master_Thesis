@@ -1,10 +1,20 @@
+% \todo{Rewrite Introduction to match the conclusion and abstract}
 \chapter{Introduction}
-\todo{Rewrite Introduction to match the conclusion and abstract}
-With an increasing demand for ever scaling computational tasks and classical transistor nearing quantum effects at a nanoscale it seems like the computational power of classical computers are about to plateau. \\
-In in fields with quantum mechanical nature the phase space is exponential and classical computers can only provide limited information in simulations. To overcome this barrier, huge amounts of work, energy and means have been poured into the field of quantum computations. \\
-Quantum computers can take many forms and in its essence the mapping of quantum systems or algorithms onto something of quantum mechanical nature. This can be done on single atoms in ion traps, electron spin caugt in a spin-qubit or superconducting qubits which will be the focus of this project. \\
-In a constant search for improvements, it might be easy to forget, that superconducting quantum computers have already come far and is an excellent place to test the theory of quantum mechanics. In this project, we will step a bit back from the expansion and improvements of the qubits and simply see, how well we can understand a single qubit coupled to a resonator. 
+The demand for power to run computational tasks is accelerating. Across vast parts of society the word "algorithm" has been adopted and is an increased part of the everyday life both in front and behind the screens we look at. To support the rising demand, the transistors which do the heavy lifting of storing and computing the singular 0s and 1s, have been stacked closer and closer. Now they are only a few nanometers wide, a size where they are susceptible to quantum effects preventing from becoming much smaller. It seems like the computational power of classical computers are about to plateau.\cite{}
 
+Some large problems like prime factorization or the simulation of quantum many body system can be formulated compactly and run efficiently by considering quantum bits with the ability of being in a super position of 0 and 1 at the same time instead of the classical on/off bit. \cite{} With basis in this idea, a lot of different implementations of quantum computers are one the way taking many different forms. From singular atoms trapped in an electric field and run by lasers \cite{} to storing the information in photons and applying beamsplitters to alter the state of it\cite{}. In this thesis, we will consider a qubit built of superconducting materials and frozen to just above the absolute zero. \cite{}
+
+Over the last decade a lot of work has been placed to building suitable circuits to carry quantum information\cite{}, using microwave pulses to change the information like the transmon \cite{} and fluxonium \cite{}, and getting multiple qubits to interact with each other \cite{}. With recent progress the ability to do operations on single superconducting qubits \cite{} has leaped forward. Even multi qubit gates start to approach the 99.9 \% fidelity mark\cite{}. However, the ability to initialize and read out the qubit state has been lacking behind \cite{}. 
+
+The state preparation and measurement errors (or SPAM for short) are difficult to separate and is a big hurdle to get over before doing high fidelity quantum algorithms like error-correcting codes on superconducting qubits. By first understanding the physics of a superconducting qubit readout, we will in this thesis built models allowing us to dive deep in how different physical parameters contribute to the SPAM errors.
+
+
+
+% In fields with quantum mechanical nature the phase space is exponential and classical computers can only provide limited information in simulations. To overcome this barrier, huge amounts of work, energy and means have been poured into the field of quantum computations. \\
+% Quantum computers can take many forms and in its essence the mapping of quantum systems or algorithms onto something of quantum mechanical nature. This can be done on single atoms in ion traps, electron spin caugt in a spin-qubit or superconducting qubits which will be the focus of this project. \\
+% In a constant search for improvements, it might be easy to forget, that superconducting quantum computers have already come far and is an excellent place to test the theory of quantum mechanics. In this project, we will step a bit back from the expansion and improvements of the qubits and simply see, how well we can understand a single qubit coupled to a resonator. 
+
+\newpage
 \section{Outline of Thesis}
 \todo{Update the outline and write coherently}
 \begin{itemize}
@@ -134,7 +144,7 @@ The method used in the Qutip library is the Adams method. Here we will consider 
 \end{equation}
 We could approximate the point $y(t+\Delta t)$ by a taylor series:
 \begin{equation}
-    y(t) + \delta t y'(t) + \frac12 \Delta t^2 y''(t) + \frac{1}{3!} \Delta t^3 y'''(t)\dots 
+    y(t) + \Delta t y'(t) + \frac12 \Delta t^2 y''(t) + \frac{1}{3!} \Delta t^3 y'''(t)\dots 
 \end{equation}
 The idea in the Adams algorithm is to approximate the differential up to order $n$ by using finite difference methods. Then we would have the first two terms simply by:
 \begin{equation}
@@ -179,10 +189,10 @@ An overview of the module is shown in figure \ref{fig:module_overview}. In gener
     \item \textbf{Experiments} are organizing the different sweeps of parameters and applying the proper integration. 
 \end{itemize}
 
-\begin{figure}
+\begin{figure*}
     \centering
     \includegraphics{Figs/Sections/Introduction/module.png}
     \caption{Module structure.}
     \label{fig:module_overview}
-\end{figure}
+\end{figure*}
 \todo{Add a final structure and describe properly in caption}
