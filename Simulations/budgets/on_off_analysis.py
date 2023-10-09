@@ -118,6 +118,11 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
     eta = config_dict["eta"] if "eta" in config_dict else config["eta"]
     measurements, results = load_measurements(name, eta)
     weights_I, weights_Q = calculate_weights(measurements)
+    weights_I, weights_Q = np.ones_like(weights_I), np.ones_like(weights_Q)
+    weights_I[-20:] = 0
+    weights_Q[-20:] = 0
+    weights_I[:20] = 0
+    weights_Q[:20] = 0
     I, Q, states = apply_weights(measurements, weights_I, weights_Q)
     transformed, lda = lda_transformation(I, Q, states)
     max_fidelity = max_fidelity_score(transformed, states)
@@ -361,9 +366,9 @@ for i in range(2):
 for i in range(3):
     axes_for_big_fig[1, i].set_xlabel("I (a. u.)")
 
-big_fig.savefig(
-    os.path.join(save_path, "iq_scatter_budgetting_on_off.pdf"), bbox_inches="tight"
-)
+# big_fig.savefig(
+#     os.path.join(save_path, "iq_scatter_budgetting_on_off.pdf"), bbox_inches="tight"
+# )
 
 two_fig.tight_layout()
 two_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01, va="bottom")
@@ -374,9 +379,9 @@ for i in range(2):
 for i in range(2):
     axes_for_two_fig[i].set_xlabel("I (a. u.)")
 
-two_fig.savefig(
-    os.path.join(save_path, "iq_scatter_budgetting_on_off_two.pdf"), bbox_inches="tight"
-)
+# two_fig.savefig(
+#     os.path.join(save_path, "iq_scatter_budgetting_on_off_two.pdf"), bbox_inches="tight"
+# )
 
 
 ### Plot Fidelities

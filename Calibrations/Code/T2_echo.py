@@ -33,11 +33,11 @@ def fit_func(x, Amplitude, Frequency, Phase, offset, T2):
 
 
 guesses = {
-    "Amplitude": 0.0001285200521324053,
-    "Frequency": 5511022.044088177,
-    "Phase": 0.1,
+    "Amplitude": 0.0014,
+    "Frequency": 5_511_022.044088177,
+    "Phase": 0.5,
     "offset": 0.0001630993315741798,
-    "T2": 10e-6,
+    "T2": 4e-6,
 }
 
 # Fitting

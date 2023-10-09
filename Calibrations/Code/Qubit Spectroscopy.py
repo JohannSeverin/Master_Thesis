@@ -29,7 +29,7 @@ def fit_func(x, f0, A, gamma, offset):
     return offset + A * gamma**2 / (gamma**2 + (x - f0) ** 2)
 
 
-guesses = {"f0": 5.5e9, "A": 0.1, "gamma": 0.1e9, "offset": 0.1}
+guesses = {"f0": 5.983e9, "A": 1e-3, "gamma": 0.01e9, "offset": 1e-4}
 
 # Fitting Fitting
 from iminuit import Minuit

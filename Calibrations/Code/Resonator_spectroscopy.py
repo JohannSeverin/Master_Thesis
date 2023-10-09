@@ -7,7 +7,7 @@ import iminuit
 
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 
-data_folder = "../Data/resonator_spectroscopy"
+data_folder = "../Data/Resonator_spectroscopy"
 title = "Resonator Spectroscopy"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9

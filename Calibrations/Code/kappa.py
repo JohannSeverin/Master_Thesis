@@ -37,7 +37,7 @@ fit_name = "Exponential Decay"
 fit_resolution = 1000
 fit_delay = 300
 
-mask = x_data > 550e-9
+mask = x_data > 660e-9
 
 
 def fit_func(x, offset, Amplitude, kappa):

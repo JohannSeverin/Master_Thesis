@@ -32,8 +32,8 @@ timescale = 1e-9  # ns
 ### Run Following options of config files
 config_dicts = {
     # "realistic": {},
-    "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
-    "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
+    # "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
+    # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
     "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
     "no_decay": {
         "eta": config["eta"],
@@ -50,11 +50,7 @@ config_dicts = {
         "temperature": 0,
         "T1": config["T1"],
     },
-    "perfect": {
-        "eta": 1,
-        "temperature": 0,
-        "T1": 0
-    }
+    "perfect": {"eta": 1, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():
