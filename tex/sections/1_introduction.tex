@@ -1,10 +1,10 @@
 % \todo{Rewrite Introduction to match the conclusion and abstract}
 \chapter{Introduction}\label{chap:Introduction}
-The demand for power to run computational tasks is accelerating. Across vast parts of society the word "algorithm" has been adopted and is an increased part of the everyday life both in front and behind the screens we look at. To support the rising demand, the transistors which do the heavy lifting of storing and computing the singular 0s and 1s, have been stacked closer and closer. Now they are only a few nanometers wide, a size where they are susceptible to quantum effects preventing from becoming much smaller. It seems like the computational power of classical computers are about to plateau.\cite{}
+The demand for power to run computational tasks is accelerating. Across vast parts of society the word "algorithm" has been adopted and is an increased part of the everyday life both in front and behind the screens we look at. To support the rising demand, the transistors which do the heavy lifting of storing and computing the singular 0s and 1s, have been stacked closer and closer. Now they are only a few nanometers wide, a size where they are susceptible to quantum effects preventing from becoming much smaller \cite{morton_embracing_2011}. It seems like the computational power of classical computers are about to plateau.
 
-Some large problems like prime factorization or the simulation of quantum many body system can be formulated compactly and run efficiently by considering quantum bits with the ability of being in a super position of 0 and 1 at the same time instead of the classical on/off bit. \cite{} With basis in this idea, a lot of different implementations of quantum computers are one the way taking many different forms. From singular atoms trapped in an electric field and run by lasers \cite{} to storing the information in photons and applying beamsplitters to alter the state of it\cite{}. In this thesis, we will consider a qubit built of superconducting materials and frozen to just above the absolute zero. \cite{}
+Some large problems like prime factorization or the simulation of quantum many body system can be formulated compactly and run efficiently by considering quantum bits with the ability of being in a super position of 0 and 1 at the same time instead of the classical on/off bit \cite{preskill_quantum_2018}. With basis in this idea, a lot of different implementations of quantum computers are one the way taking many different forms. From singular atoms trapped in an electric field and run by lasers \cite{brown_co-designing_2016} to storing the information in singular photons and applying beamsplitters to alter the state of it\cite{obrien_optical_2007}. In this thesis, we will consider a qubit built of superconducting materials and frozen to just above the absolute zero. \cite{krantz_quantum_2019}
 
-Over the last decade a lot of work has been placed to building suitable circuits to carry quantum information\cite{}, using microwave pulses to change the information like the transmon \cite{} and fluxonium \cite{}, and getting multiple qubits to interact with each other \cite{}. With recent progress the ability to do operations on single superconducting qubits \cite{} has leaped forward. Even multi qubit gates start to approach the 99.9 \% fidelity mark\cite{}. However, the ability to initialize and read out the qubit state has been lacking behind \cite{}. 
+Over the last decade a lot of work has been placed to building suitable circuits to carry quantum information\cite{krantz_quantum_2019}, using microwave pulses to change the information like the transmon \cite{koch_charge_2007} and fluxonium \cite{manucharyan_fluxonium_2009}, and getting multiple qubits to interact with each other \cite{yan_tunable_2018}. With recent progress the ability to do operations on single superconducting qubits \cite{barends_superconducting_2014} has leaped forward. Even multi qubit gates have approached the 99.9 \% fidelity mark\cite{ding_high-fidelity_2023}. While improvements have also been made in initializing and reading out the qubit \cite{walter_rapid_2017, swiadek_enhancing_2023}, this is still a  significant challenge and will be the focus of this thesis.
 
 The state preparation and measurement errors (or SPAM for short) are difficult to separate and is a big hurdle to get over before doing high fidelity quantum algorithms like error-correcting codes on superconducting qubits. By first understanding the physics of a superconducting qubit readout, we will in this thesis built models allowing us to dive deep in how different physical parameters contribute to the SPAM errors.
 
@@ -38,8 +38,7 @@ Improvements in the hardware of classical computers come in many different ways:
 
 While most everyday computing tasks can easily be done using these classical computers, some problems scale exponentially and unforgivably when the size of the problem is increased. Among these problems, we find prime factorization, the traveling salesman problem and even just simulating quantum mechanical systems, a challenge which will return multiple times through this thesis.
 
-Instead of building classical computers of exponentially increasing size, quantum mechanics provides a hope to solve these problems by not going up in size but instead changing the ideas of the bit. More specifically, the quantum bit (qubit) is not bound by the discreteness of the classical bit but can be in some combination (or superposition) of "0" and "1" at the same time. 
-\todo{Add citations for Qubits}
+Instead of building classical computers of exponentially increasing size, quantum mechanics provides a hope to solve these problems by not going up in size but instead changing the ideas of the bit. More specifically, the quantum bit (qubit) is not bound by the discreteness of the classical bit but can be in some combination (or superposition) of "0" and "1" at the same time \cite{krantz_week_2019}.
 
 \subsection{A Quantum Mechanical State}
 In quantum mechanics, our system can live in either a continuous spectrum like the position of a particle or a discrete spectrum like the spin of an electron which either points up or down. When considering a quantum mechanical object, all possible physical configurations span a Hilbert Space of infinite or finite dimensions. One of these configurations containing all the information one could measure is an element in the Hilbert space and is called a quantum mechanical state, mathematically represented with a ket $\ket{\psi}$. \cite{sakurai_modern_2021}
@@ -64,13 +63,13 @@ Where we end up with the two angles $\theta$ and $\phi$ which respectively deter
 \subsection{The Bloch Sphere}
 \begin{marginfigure}[3 cm]
     \centering
-    \missingfigure[figwidth = \textwidth]{Bloch Sphere with $\phi$ and $\theta$}
-    \caption{Representation of a qubit on the bloch sphere.}
+    \includegraphics[]{Figs/Theory/bloch_sphere.pdf}
+    \caption{Representation of a qubit state on the Bloch sphere. The angles $\phi$ and $\theta$ are displayed along with the projection onto the x-y plane.}
     \label{fig:bloch_sphere}
 \end{marginfigure}
 With the two angles $\theta$ and $\phi$ and a normalization requiring a length of 1, the two angles can be visualized as a vector pointing to a unit sphere. When representing a general two level state, we call it a Bloch Sphere and a representation can be seen in fig \ref{fig:bloch_sphere}.
 
-On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $\ket{1}$ in the negative direction. with this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively. The x-y plane is determined by the $\phi$ component and will be the phase difference between the two states. \cite{BlochSphere}
+On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $\ket{1}$ in the negative direction. with this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively. The x-y plane is determined by the $\phi$ component and will be the phase difference between the two states. \cite{krantz_week_2019}
 
 
 % \section{Time Evolution of a Quantum System}
@@ -111,18 +110,16 @@ On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $
 
 % \textbf{Maybe introduce like this instead} \\ \noindent
 \section{Time Evolution of a Quantum System}
-When changing one state into another, if it is to conserve its normalization, the inner product must remain unchanged by the transformation, as property of the unitary transformation. \marginnote{For unitary transformations we have: $\braket{\psi}{\psi} = \mel{\psi}{\unitary^\dagger \unitary}{\psi}$}
-
-Going from a time $t = t_0$ to a later time $t = t_0 + \Delta t$ we wish to find a time evolution operator, $\mathcal{U}(\Delta t)$ that when applied to a state gives the a time $\Delta t$ later. To keep the normalization, we must have:
+Since all states are normalized, a transformation from into another must leave the inner product unchanged. In linear algebra, this is exactly a property of the unitary transformation \footnote{For unitary transformations we have: $\braket{\psi}{\psi} = \mel{\psi}{\unitary^\dagger \unitary}{\psi}$}. So to go from a state at time $t = t_0$ to a later time $t = t_0 + \Delta t$ we wish to find a unitary operator, $\mathcal{U}(\Delta t)$. To keep normalization, the transformation should satisfy:
 \begin{equation}
     \braket{\psi; t_0}{\psi; t_0} = \braket{\psi; t_0 .. \Delta t}{\psi; t_0 .. \Delta t} = \mel{\psi; t_0}{\unitary^\dagger (\Delta t) \unitary(\Delta t)}{\psi; t_0} 
 \end{equation}
-Thus $\unitary^\dagger (\Delta t) \unitary(\Delta t) = \identity$. A further requirement is that $\unitary(\Delta t)\to \identity$ when $\Delta t \to 0$ to make sure that the state remains the same if no time has passed. In the infinitesimal limit, this can be achieved by:
+which is satisfied since $\unitary$ is unitary and $\unitary^\dagger (\Delta t) \unitary(\Delta t) = \identity$. In addition, we would like the state to remain unchanged if no time has passed such that $\unitary(\Delta t) \to \identity$ when $\Delta t \to 0$. For an infinitesimal time step, the two conditions are satisfied by taking the unitary to linear order:
 \begin{equation}\label{eq:infinitesimal_time_evolution}
     \unitary(dt) = \identity - i \Omega dt
 \end{equation}
-\marginnote{One can see this as $\unitary^\dagger(dt)\unitary(dt) = (\identity + i \Omega dt)(\identity - i \Omega dt) = \identity + dt^2 \Omega^2$. But in the limit of $dt \to 0$ the $dt^2$ term vanishes.}
-Where $\Omega$ is a hermitian operator with units of frequency. Since the Hamiltonian in classical mechanics are a generator of time evolution it is not so strange that it turns out to be of quantum mechanics as well. The actual operator is $\Omega = \frac{H}{\hbar}$. For eq. \ref{eq:infinitesimal_time_evolution} and by defining $\ket{\psi; t..dt} - \ket{\psi; t} = d\ket{\psi; t}$ we find the Schrödinger equation by:
+Where $\Omega$ is a hermitian operator with units of frequency. \footnote{This formkeeps the normalization since $\unitary^\dagger(dt)\unitary(dt) = (\identity + i \Omega dt)(\identity - i \Omega dt) = \identity + dt^2 \Omega^2$ which goes to identity in the limit of $dt \to 0$ the $dt^2$ term vanishes.}
+Since the Hamiltonian in classical mechanics are a generator of time evolution it is not so strange that it turns out to be of quantum mechanics as well. The actual operator is $\Omega = \frac{H}{\hbar}$. For eq. \ref{eq:infinitesimal_time_evolution} and by defining $\ket{\psi; t..dt} - \ket{\psi; t} = d\ket{\psi; t}$ we find the Schrödinger equation by:
 \begin{align}
     \ket{\psi; t..dt} &= \unitary(dt) \ket{\psi; t} = \left(\identity - i \frac{H}{\hbar}   dt\right) \ket{\psi} \\
     \ket{\psi; t..dt} - \ket{\psi; t} &= i \frac{H}{\hbar}   dt \ket{\psi} \\
@@ -132,17 +129,21 @@ Which is known as the Schrodinger's equation and governs unitary time evolution 
 
 If the Hamiltonian is independent of time, we can express the time evolution operator as:
 \begin{equation}
-    \unitary(t) = e^{-iHt/\hbar}
+    \unitary(\Delta t) = e^{-iH\Delta t/\hbar}
 \end{equation}
 which entirely removes the time-dependence from the state such that $\ket{\psi; t} = \unitary(t)\ket{\psi; t = 0}$.
-If on the contrary, the Hamiltnoian is dependent on time, \todo{check the dyson series and stuff in sakurai, to make sure this is right} writing the time evolution operator becomes a different beast, and in this thesis, we will instead find our results by integrating the Schrödinger equation numerically.
+If on the contrary, the Hamiltonian is dependent on time and commutes at different times, we can write it as:
+\begin{equation}
+    \unitary(\Delta t)\ket{\psi; t_0} = \exp\left(-\frac{i}{\hbar}\int_{t_0}^{t_0 + \Delta t} dt H(t)\right)\ket{\psi; t_0}
+\end{equation}
+If the Hamiltnoian at different times do not commute with itself, one could introduce the Dyson series\cite{sakurai_modern_2021}. However, in this thesis we will instead solve the differential equation numerically.
 
 \subsection{Numerical Implementations}\label{sec:numerical_implementations}
 The Schrodinger equation gives a simple linear relation between the time derivative and the state, so if we naively were to let $dt\to\Delta t$ and represent the states and the Hamiltonian as vectors and a matrix, we could simply update the state by:
 \begin{equation}
-    \Vec{\psi_i} =  \Vec{\psi_{i-1}} - \frac{i\Delta t}{\hbar}\boldsymbol{H} \Vec{\psi_{i - 1}}
-\end{equation}\todo{Formulate continously with $\psi(t)$ og $\psi(t+\Delta t)$}
-and repeat iteratively to get the state at each time step. While this method (Euler integration) is simple to implement it loses precision quickly if the time steps become to large. Since or physical state has to be normalized to be physical, we have to be vary about these numerical instabilities and look into more sophisticated integration algorithms.
+    \Vec{\psi}(t + \Delta t) =  \Vec{\psi}(t) - \frac{i\Delta t}{\hbar}\boldsymbol{H} \Vec{\psi}(t)
+\end{equation}
+and repeat iteratively to get the state at each time step. While this method (Euler integration) is simple to implement it loses precision quickly if the time steps become too large. Since our physical state has to be normalized to be physical, we have to be aware of these numerical instabilities and look into more sophisticated integration algorithms.
 
 The method used in the Qutip library is the Adams method. Here we will consider the last $n$ points in order to also approximate the differentials. Consider the differential equation:
 \begin{equation}
@@ -154,7 +155,7 @@ We could approximate the point $y(t+\Delta t)$ by a taylor series:
 \end{equation}
 The idea in the Adams algorithm is to approximate the differential up to order $n$ by using finite difference methods. Then we would have the first two terms simply by:
 \begin{equation}
-    y'(t) = f(t), \quad y''(t) = \frac{f(t) - f(t - \Delta t}{\delta t} 
+    y'(t) = f(t), \quad y''(t) = \frac{f(t) - f(t - \Delta t)}{\Delta t} 
 \end{equation}
 And we could combine them to get higher order like
 \begin{equation}
@@ -164,6 +165,7 @@ and beyond. This computation more precise since it takes considers higher order 
 
 \begin{marginfigure}
     \centering
+    \includegraphics[]{}
     \missingfigure{Adams Method}
     \caption{How the Adams algorithm works}
     \label{fig:Adams integration}
