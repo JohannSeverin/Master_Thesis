@@ -21,7 +21,7 @@ config["g"] *= 2  # Looks like a small error in the coupling strength.
 config["eta"] *= 9
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
-ntraj = 1000
+ntraj = 100
 save_path = "data/"
 overwrite = False
 show_plots = False
@@ -34,22 +34,22 @@ config_dicts = {
     # "realistic": {},
     # "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
     # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
-    "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
-    "no_decay": {
-        "eta": config["eta"],
-        "temperature": config["temperature"],
-        "T1": 0,
-    },
-    "perfect_efficiency": {
-        "eta": 1,
-        "temperature": config["temperature"],
-        "T1": config["T1"],
-    },
-    "zero_temperature": {
-        "eta": config["eta"],
-        "temperature": 0,
-        "T1": config["T1"],
-    },
+    # "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
+    # "no_decay": {
+    #     "eta": config["eta"],
+    #     "temperature": config["temperature"],
+    #     "T1": 0,
+    # },
+    # "perfect_efficiency": {
+    #     "eta": 1,
+    #     "temperature": config["temperature"],
+    #     "T1": config["T1"],
+    # },
+    # "zero_temperature": {
+    #     "eta": config["eta"],
+    #     "temperature": 0,
+    #     "T1": config["T1"],
+    # },
     "perfect": {"eta": 1, "temperature": 0, "T1": 0},
 }
 

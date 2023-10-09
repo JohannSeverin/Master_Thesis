@@ -118,11 +118,11 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
     eta = config_dict["eta"] if "eta" in config_dict else config["eta"]
     measurements, results = load_measurements(name, eta)
     weights_I, weights_Q = calculate_weights(measurements)
-    weights_I, weights_Q = np.ones_like(weights_I), np.ones_like(weights_Q)
-    weights_I[-20:] = 0
-    weights_Q[-20:] = 0
-    weights_I[:20] = 0
-    weights_Q[:20] = 0
+    # weights_I, weights_Q = np.ones_like(weights_I), np.ones_like(weights_Q)
+    # weights_I[-20:] = 0
+    # weights_Q[-20:] = 0
+    # weights_I[:20] = 0
+    # weights_Q[:20] = 0
     I, Q, states = apply_weights(measurements, weights_I, weights_Q)
     transformed, lda = lda_transformation(I, Q, states)
     max_fidelity = max_fidelity_score(transformed, states)

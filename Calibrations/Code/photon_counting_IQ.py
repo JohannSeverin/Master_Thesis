@@ -82,7 +82,7 @@ every = 10
 from scipy.signal import savgol_filter
 
 fig, ax = plt.subplots(nrows=3)
-for i in range(0, I_g.shape[0], 5):
+for i in range(0, I_g.shape[0], 10):
     filter_I = savgol_filter(I_g[i, :], window, 4)
     # filter_I = running_mean(filter_I, mean_dur)
     ax[0].plot(
@@ -111,27 +111,31 @@ for i in range(0, I_g.shape[0], 5):
 
 fig, ax = plt.subplots()
 
-abs_sig = (I_g[:, 100:].mean(axis=1) ** 2 + Q_g[:, 100:].mean(axis=1) ** 2) ** (1 / 2)
+total = (I_g**2 + Q_g**2) ** (1 / 2)
+total_sig = (I_g[:, 100:300].mean(axis=1) ** 2 + Q_g[:, 100:300].mean(axis=1) ** 2) ** (
+    1 / 2
+)
+total_sig_err = (
+    I_g[:, 100:300].std(axis=1) ** 2 + Q_g[:, 100:300].std(axis=1) ** 2
+) ** 2
 # abs_sig_error =
 
 
-abs = (I_g**2 + Q_g**2) ** (1 / 2)
-
 ax.scatter(
     x_data / scale_x,
-    abs_sig / scale_y,
+    total_sig / scale_y,
     c=cmap(1 - np.arange(I_g.shape[0]) / I_g.shape[0]),
 )
 
-# ax.errorbar(
-#     x_data / scale_x,
-#     abs_sig / scale_y,
-#     yerr=abs_sig.std(axis=1) / scale_y / 100,
-#     ls="none",
-#     color="black",
-#     capsize=2,
-#     elinewidth=1,
-# )
+ax.errorbar(
+    x_data / scale_x,
+    total_sig / scale_y,
+    yerr=total_sig_err / scale_y,
+    ls="none",
+    color="black",
+    capsize=2,
+    elinewidth=1,
+)
 
 # ax[1].scatter(
 #     x_data / scale_x,
