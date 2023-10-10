@@ -145,7 +145,16 @@ The Schrodinger equation gives a simple linear relation between the time derivat
 \end{equation}
 and repeat iteratively to get the state at each time step. While this method (Euler integration) is simple to implement it loses precision quickly if the time steps become too large. Since our physical state has to be normalized to be physical, we have to be aware of these numerical instabilities and look into more sophisticated integration algorithms.
 
-The method used in the Qutip library is the Adams method. Here we will consider the last $n$ points in order to also approximate the differentials. Consider the differential equation:
+
+\begin{marginfigure}
+    \centering
+    \includegraphics[]{Figs/Theory/euler_integration.pdf}
+    \caption{Example of Euler integration $x'(t) = x$}
+    \label{fig:Runge-Kutta}
+\end{marginfigure}
+
+
+The method used in the Qutip library \cite{johannson_qutip} is the Adams method. Here we will consider the last $n$ points in order to also approximate the differentials. Consider the differential equation:
 \begin{equation}
     y'(t) = f(y(t))
 \end{equation}
@@ -161,25 +170,19 @@ And we could combine them to get higher order like
 \begin{equation}
     y'''(t) = \frac{y''(t) - y''(t-\Delta t)}{\Delta t} = \frac{y(t) - 2y(t-\Delta t) + y(t-2\Delta t)}{\Delta t^2}
 \end{equation}
-and beyond. This computation more precise since it takes considers higher order terms up to order $n$ and goes fast since it reuses the old points and just have to do one operation\footnote{in the sense that no operation has to wait for another operation before it can be run.} for the next points. In Qutip $n=12$ by default. One challenge is that the algorithm requires $n$ points to get started. Thus we can either assume that every differential beyond order $m$ is $0$ when calculating the $0$th point. Such that we effectively would do an Euler integration for the first point, a second order Adams for the second and so on. Or, we can use another algorithm which moves forward in time to approximate the higher order differentials. As an example, the Runge-Kutta algorithm can be used...
+and beyond. This computation more precise since it takes considers higher order terms up to order $n$ and goes fast since it reuses the old points and just have to do one operation\footnote{in the sense that no operation has to wait for another operation before it can be run.} for the next points. In Qutip $n=12$ by default. One challenge is that the algorithm requires $n$ points to get started. Thus we can either assume that every differential beyond order $m$ is $0$ when calculating the $0$th point. Such that we effectively would do an Euler integration for the first point, a second order Adams for the second and so on. Or, we can use another algorithm which moves forward in time to approximate the higher order differentials. As an example, the Runge-Kutta algorithm can be used.
+
+
 
 \begin{marginfigure}
     \centering
-    \includegraphics[]{}
-    \missingfigure{Adams Method}
+    \includegraphics[]{Figs/Theory/adams_intergation.pdf}
     \caption{How the Adams algorithm works}
     \label{fig:Adams integration}
 \end{marginfigure}
 
 \todo{Describe Runge-Kutta if space is availible}
 \paragraph{The Runge-Kutta method} is doing this by doing an (or several) intermediate steps to have a trial point. The results can then be combined to make the errors cancel out. To second order, the Runge-Kutta algorithm simply calculates a middle step by doing half a time step: $k_1 = \Delta t / 2 \psi $takes $\Vec{\psi_i} = \Vec{\psi_{i-1}} + k_1 + \mathcal{O}(\Delta t^3)$
-
-\begin{marginfigure}
-    \centering
-    \missingfigure{Runge Kutta}
-    \caption{How the Runge Kutta algorithm works}
-    \label{fig:Runge-Kutta}
-\end{marginfigure}
 
 % \todo{Write this properly}
 % \paragraph{Adams method} includes the values calculated in the last few steps to determine a polynomial expansion. This does not require to calculate as many points as the Runge-Kutta and comes with a high precision as well. Requires a few points to start, but one could use Runge-Kutta to find the first few points or run the algorithm backwards in time. 
