@@ -30,6 +30,7 @@ from iminuit import Minuit
 from iminuit.cost import UnbinnedNLL
 from scipy.stats import norm
 
+
 gauss_func = lambda x, mu, sigma: norm.pdf(x, loc=mu, scale=sigma)
 
 guesses = {"mu": 1e-4, "sigma": 2e-4}
@@ -136,6 +137,92 @@ for i in range(x_data.shape[0]):
         + (SNR_Q[i] * errors_denominator / denominator) ** 2
     )
 
+# Optimal "Cut"
+
+SNR_opt = np.zeros(len(x_data))
+SNR_opt_err = np.zeros(len(x_data))
+
+# two_gauss = lambda x, mu, mu1, sigma, p: (1 - p) * norm.pdf(
+#     x, loc=mu, scale=sigma
+# ) + p * norm.pdf(x, loc=mu1, scale=sigma)
+
+# guesses = {"mu": -0.5, "mu1": 0.5, "sigma": 1, "p": 0.5}
+
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+
+for i in range(x_data.shape[0]):
+    all_I = np.concatenate(
+        [
+            I_g[i].values.flatten(),
+            I_e[i].values.flatten(),
+        ]
+    )
+    all_Q = np.concatenate(
+        [
+            Q_g[i].values.flatten(),
+            Q_e[i].values.flatten(),
+        ]
+    )
+    all_data = np.stack([all_I, all_Q]).T
+    labels = np.concatenate(
+        [
+            np.zeros_like(I_g[i].values.flatten()),
+            np.ones_like(I_e[i].values.flatten()),
+        ]
+    )
+
+    lda = LDA()
+    lda.fit(all_data, labels)
+
+    transformed = lda.transform(all_data)
+
+    NLLH_ground = UnbinnedNLL(
+        transformed.flatten()[labels == 0],
+        gauss_func,
+    )
+    minimizer_ground = Minuit(NLLH_ground, **guesses)
+    minimizer_ground.migrad()
+
+    NLLH_excited = UnbinnedNLL(
+        transformed.flatten()[labels == 1],
+        gauss_func,
+    )
+    minimizer_excited = Minuit(NLLH_excited, **guesses)
+    minimizer_excited.migrad()
+
+    SNR_opt[i] = abs(
+        (minimizer_excited.values["mu"] - minimizer_ground.values["mu"])
+        / np.sqrt(
+            minimizer_excited.values["sigma"] ** 2
+            + minimizer_ground.values["sigma"] ** 2
+        )
+    )
+
+    numerator = minimizer_excited.values["mu"] - minimizer_ground.values["mu"]
+    errors_numerator = np.sqrt(
+        minimizer_excited.errors["mu"] ** 2 + minimizer_ground.errors["mu"] ** 2
+    )
+    denominator = np.sqrt(
+        minimizer_excited.values["sigma"] ** 2 + minimizer_ground.values["sigma"] ** 2
+    )
+    errors_denominator = np.sqrt(
+        (
+            minimizer_excited.values["sigma"] ** 2
+            * minimizer_excited.errors["sigma"] ** 2
+            + minimizer_ground.values["sigma"] ** 2
+            * minimizer_ground.errors["sigma"] ** 2
+        )
+        / (
+            minimizer_excited.values["sigma"] ** 2
+            + minimizer_ground.values["sigma"] ** 2
+        )
+    )
+
+    SNR_opt_err[i] = np.sqrt(
+        SNR_opt[i] * (errors_numerator / numerator) ** 2
+        + (SNR_opt[i] * errors_denominator / denominator) ** 2
+    )
+
 
 # Combine the two SNR
 SNR = np.sqrt(SNR_I**2 + SNR_Q**2)
@@ -147,9 +234,9 @@ SNR_errors = np.sqrt(
 
 fig, ax = plt.subplots(ncols=2)
 mask = SNR_I_err < 0.5
-ax[0].plot(x_data[mask], SNR, "o")
+ax[0].plot(x_data[mask] * 100, SNR, "o")
 ax[0].errorbar(
-    x_data[mask],
+    x_data[mask] * 100,
     SNR[mask],
     yerr=SNR_errors[mask],
     ls="none",
@@ -172,16 +259,18 @@ ls = LeastSquares(
 minimizer = Minuit(ls, a=1e-3, b=0)
 minimizer.migrad()
 
-ax[0].plot(x_data, func(x_data, *minimizer.values), "-", color="black", alpha=0.75)
+ax[0].plot(
+    x_data * 100, func(x_data, *minimizer.values), "-", color="black", alpha=0.75
+)
 
 ax[0].set(
     title="SNR vs. Readout Amplitude Scaling",
-    xlabel="Readout Amplitude (mV)",
+    xlabel="Readout Amplitude Scaling (%)",
     ylabel="SNR",
 )
 
-ax[1].hist(I_g[-1], bins=30, histtype="step", linewidth=3)
-ax[1].hist(I_e[-1], bins=30, histtype="step", linewidth=3)
+ax[1].hist(I_g[-1] / scale_y, bins=30, histtype="step", linewidth=3)
+ax[1].hist(I_e[-1] / scale_y, bins=30, histtype="step", linewidth=3)
 
 ax[1].set(
     title="Histogram of Readout Signal at Max. Amplitude",

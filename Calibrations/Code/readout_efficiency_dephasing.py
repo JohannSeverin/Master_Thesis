@@ -11,8 +11,8 @@ plt.rcParams["figure.figsize"] = (18, 6)
 
 data_folder = "../Data/dephasing_by_measurement"
 title = "Qubit Spectroscopy with Driven Resonator"
-xlabel = "Readout Amplitude (mV)"
-scale_x = 1e-3
+xlabel = "Readout Amplitude Scaling (%)"
+scale_x = 1e-2
 
 ylabel = "Rotation Angle (rad)"
 scale_y = 1
@@ -120,7 +120,7 @@ for i in range(x_data.shape[0]):
         ax_first.text(
             1,
             1,
-            "amplitude: {:.2f} mV".format(x_data[i].values / scale_x),
+            "amplitude: {} %".format(abs(x_data[i].values / scale_x)),
             transform=ax_first.transAxes,
             va="top",
             ha="right",
@@ -154,18 +154,18 @@ for i in range(x_data.shape[0]):
         ax_last.text(
             1,
             1,
-            "amplitude: {:.2f} mV".format(x_data[i].values / scale_x),
+            "amplitude: {} %".format(x_data[i].values / scale_x),
             transform=ax_last.transAxes,
             va="top",
             ha="right",
             fontsize=16,
         )
     if minimizer.valid:
-        amplitudes[i] = abs(minimizer.values["A"])
+        amplitudes[i] = -1 * minimizer.values["A"]
         amplitudes_err[i] = minimizer.errors["A"]
 
 
-mask = amplitudes > 0
+mask = amplitudes_err > 0
 
 ax_first.set(
     title="Coherence at given Amplitude",

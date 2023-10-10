@@ -1,5 +1,5 @@
 # Point to the xarrays containing the excited and ground state data
-path = "/mnt/c/Users/johan/Downloads/IQ_threshold_131049"
+path = "/mnt/c/Users/johan/Downloads/IQ_threshold_141420"
 
 import json, os
 
@@ -11,7 +11,7 @@ local_oscillator_frequency = state["readout_lines[]/lo_freq"][0]
 
 intermediate_frequency = local_oscillator_frequency - driven_frequency
 
-course_grain = 2  # in nano seconds
+course_grain = 10  # in nano seconds
 
 # Load the data
 chunk_size = 100  # amount of samples to consider at a time (to avoid memory overload)

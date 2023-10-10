@@ -1,5 +1,5 @@
 # Point to the xarrays containing the excited and ground state data
-path = "/mnt/c/Users/johan/Downloads/IQ_threshold_131049"
+path = "/mnt/c/Users/johan/Downloads/IQ_threshold_141420"
 
 # Imports
 import numpy as np
@@ -36,6 +36,7 @@ sample = 18
 
 # LDA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis as LDA
+from sklearn.metrics import det_curve
 
 all_I = np.concatenate(
     [
@@ -198,10 +199,6 @@ def make_trajectory_plot():
 make_trajectory_plot()
 
 
-# Histogram Plot
-from sklearn.metrics import det_curve
-
-
 def make_histogram_plot():
     transformed = lda.transform(np.stack([all_I, all_Q]).T)
 
@@ -230,16 +227,17 @@ def make_histogram_plot():
     )
 
     fpr, fnr, threshholds = det_curve(states, transformed)
+    fidelity = 1 - fpr - fnr
 
     ax_fidelity = ax_histogram.twinx()
     ax_fidelity.plot(
-        threshholds, 1 - fpr - fnr, color="C2", label="Fidelity", linestyle="--"
+        threshholds, fidelity, color="C2", label="Fidelity", linestyle="--"
     )
     ax_fidelity.set_ylabel("Fidelity")
     ax_fidelity.set_ylim(0, 1)
 
     ax_fidelity.vlines(
-        threshholds[np.argmax(1 - fpr - fnr)],
+        threshholds[np.argmax(fidelity)],
         *ax_fidelity.get_ylim(),
         linestyle="-",
         color="C2",
@@ -249,19 +247,50 @@ def make_histogram_plot():
     ax_histogram.legend(fontsize=12, loc="upper left")
     ax_fidelity.legend(fontsize=12, loc="upper right")
 
+    best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
+    fidelity_error = np.sqrt(
+        best_fpr * (1 - best_fpr) / sum(states == 0)
+        + best_fnr * (1 - best_fnr) / sum(states == 0)
+    )
+
     with open("Logs/Introduction.txt", "w") as f:
+        f.write("SIMPLE WEIGHTS")
         f.write(f"Optimal threshold: {threshholds[np.argmax(1 - fpr - fnr)]}\n")
         f.write(
-            f"Optimal fidelity: {1 - fpr[np.argmax(1 - fpr - fnr)] - fnr[np.argmax(1 - fpr - fnr)]}\n"
+            f"Optimal fidelity: {1 - best_fpr - best_fnr:.3f} +- {fidelity_error:.3f} \n"
         )
-    print(f"Optimal threshold: {threshholds[np.argmax(1 - fpr - fnr)]}\n")
-    print(
-        f"Optimal fidelity: {1 - fpr[np.argmax(1 - fpr - fnr)] - fnr[np.argmax(1 - fpr - fnr)]}\n"
-    )
+
+    print(f"Optimal threshold: {threshholds[np.argmax(fidelity)]}\n")
+    print(f"Optimal fidelity: {1 - best_fpr - best_fnr:.3f} +- {fidelity_error:.3f} \n")
 
 
 make_histogram_plot()
 
+
+# Histogram Plot
+from sklearn.metrics import det_curve
+from iminuit import Minuit
+from iminuit.cost import UnbinnedNLL
+from scipy.stats import norm
+
+func = lambda x, mu1, sigma1, mu2, sigma2, p: (1 - p) * norm.pdf(
+    x, mu1, sigma1
+) + p * norm.pdf(x, mu2, sigma2)
+
+
+transformed = lda.transform(np.stack([all_I, all_Q]).T)
+cost = UnbinnedNLL(transformed.flatten(), func)
+minimizer = Minuit(cost, mu1=-1, sigma1=1, mu2=+1, sigma2=1, p=0.5)
+minimizer.migrad()
+
+with open("Logs/Introduction.txt", "a") as f:
+    f.write(
+        f"Fit of gaussians: \n mu1: {minimizer.values['mu1']} +- {minimizer.errors['mu1']} \t mu2: {minimizer.values['mu2']} +- {minimizer.errors['mu2']} \n sigma1: {minimizer.values['sigma1']} +- {minimizer.errors['sigma1']} \t sigma2: {minimizer.values['sigma2']} +- {minimizer.errors['sigma2']} \n p: {minimizer.values['p']} +- {minimizer.errors['p']} \n"
+    )
+    SNR = np.abs(minimizer.values["mu1"] - minimizer.values["mu2"]) / np.sqrt(
+        minimizer.values["sigma1"] ** 2 + minimizer.values["sigma2"] ** 2
+    )
+    f.write(f"Signal to noise: {SNR:.4f} \n")
 
 ax_trajectory_Q = fig.add_subplot(gs[3, 0])
 ax_trajectory_I = fig.add_subplot(gs[2, 0], sharex=ax_trajectory_Q)
@@ -438,18 +467,18 @@ def make_histogram_plot():
         title="Histogram of the Projected Data",
         ylim=(0, 1.3 * ax_histogram.get_ylim()[1]),
     )
-
     fpr, fnr, threshholds = det_curve(states, transformed)
+    fidelity = 1 - fpr - fnr
 
     ax_fidelity = ax_histogram.twinx()
     ax_fidelity.plot(
-        threshholds, 1 - fpr - fnr, color="C2", label="Fidelity", linestyle="--"
+        threshholds, fidelity, color="C2", label="Fidelity", linestyle="--"
     )
     ax_fidelity.set_ylabel("Fidelity")
     ax_fidelity.set_ylim(0, 1)
 
     ax_fidelity.vlines(
-        threshholds[np.argmax(1 - fpr - fnr)],
+        threshholds[np.argmax(fidelity)],
         *ax_fidelity.get_ylim(),
         linestyle="-",
         color="C2",
@@ -459,14 +488,47 @@ def make_histogram_plot():
     ax_histogram.legend(fontsize=12, loc="upper left")
     ax_fidelity.legend(fontsize=12, loc="upper right")
 
-    with open("Logs/Weighted.txt", "w") as f:
+    best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
+    fidelity_error = np.sqrt(
+        best_fpr * (1 - best_fpr) / sum(states == 0)
+        + best_fnr * (1 - best_fnr) / sum(states == 0)
+    )
+
+    with open("Logs/Introduction.txt", "a") as f:
+        f.write("OPTIMAL WEIGHTS")
         f.write(f"Optimal threshold: {threshholds[np.argmax(1 - fpr - fnr)]}\n")
         f.write(
-            f"Optimal fidelity: {1 - fpr[np.argmax(1 - fpr - fnr)] - fnr[np.argmax(1 - fpr - fnr)]}\n"
+            f"Optimal fidelity: {1 - best_fpr - best_fnr:.3f} +- {fidelity_error:.3f} \n"
         )
 
 
 make_histogram_plot()
+
+# Histogram Plot
+from sklearn.metrics import det_curve
+from iminuit import Minuit
+from iminuit.cost import UnbinnedNLL
+from scipy.stats import norm
+
+func = lambda x, mu1, sigma1, mu2, sigma2, p: (1 - p) * norm.pdf(
+    x, mu1, sigma1
+) + p * norm.pdf(x, mu2, sigma2)
+
+
+transformed = lda.transform(np.stack([all_I, all_Q]).T)
+cost = UnbinnedNLL(transformed.flatten(), func)
+minimizer = Minuit(cost, mu1=-1, sigma1=1, mu2=+1, sigma2=1, p=0.5)
+minimizer.migrad()
+
+with open("Logs/Introduction.txt", "a") as f:
+    f.write(
+        f"Fit of gaussians: \n mu1: {minimizer.values['mu1']} +- {minimizer.errors['mu1']} \t mu2: {minimizer.values['mu2']} +- {minimizer.errors['mu2']} \n sigma1: {minimizer.values['sigma1']} +- {minimizer.errors['sigma1']} \t sigma2: {minimizer.values['sigma2']} +- {minimizer.errors['sigma2']} \n p: {minimizer.values['p']} +- {minimizer.errors['p']} \n"
+    )
+    SNR = np.abs(minimizer.values["mu1"] - minimizer.values["mu2"]) / np.sqrt(
+        minimizer.values["sigma1"] ** 2 + minimizer.values["sigma2"] ** 2
+    )
+    f.write(f"Signal to noise: {SNR:.4f}")
+
 
 fig.savefig("Figs/Introduction.pdf")
 

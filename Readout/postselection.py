@@ -1,5 +1,5 @@
 # Point to the xarrays containing the excited and ground state data
-path = "/mnt/c/Users/johan/Downloads/selected_files_2023920_211420/readout test_092950"
+path = "/mnt/c/Users/johan/Downloads/IQ_threshold_141420"
 
 # Imports
 import numpy as np
@@ -107,6 +107,33 @@ ax.errorbar(
     linestyle="none",
     capsize=2,
     elinewidth=2,
+    label="data",
 )
 
+# Fit second order polynomial
+from iminuit import Minuit
+from iminuit.cost import LeastSquares
+
+
+def parabola(x, a, b, c):
+    return a + b * x + c * x**2
+
+
+cost = LeastSquares(thresholds_to_include, fidelities, fidelities_err, parabola)
+minimizer = Minuit(cost, a=-1, b=0, c=1)
+
+minimizer.migrad()
+
+x = np.linspace(0, 1, 1000)
+y = parabola(x, *minimizer.values)
+
+ax.plot(x * 100, y, "k--", label="Parabolic Fit")
+
+ax.legend()
+
+
 fig.savefig("Figs/fidelity_vs_included_fraction.pdf", bbox_inches="tight")
+
+open("Logs/fidelity_vs_included_fraction.txt", "w").write(
+    f"Best fit: {minimizer.values}\n Best fit errors: {minimizer.errors}\n"
+)

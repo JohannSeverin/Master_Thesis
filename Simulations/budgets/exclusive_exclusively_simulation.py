@@ -18,20 +18,20 @@ from simulation.experiment import (
 
 config = json.load(open("../qubit_calibration.json", "r"))
 config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
+config["eta"] *= 2
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 ntraj = 100
 save_path = "data/"
-overwrite = False
-show_plots = False
+overwrite = True
+show_plots = True
 
 timescale = 1e-9  # ns
 
 
 ### Run Following options of config files
 config_dicts = {
-    # "realistic": {},
+    "realistic": {},
     # "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
     # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
     # "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
@@ -50,7 +50,7 @@ config_dicts = {
     #     "temperature": 0,
     #     "T1": config["T1"],
     # },
-    "perfect": {"eta": 1, "temperature": 0, "T1": 0},
+    # "perfect": {"eta": 1, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():
@@ -63,10 +63,10 @@ for name, config_dict in config_dicts.items():
 
     # Build Devices from config file
     qubit = build_qubit(config, timescale)
-    resonator = build_resonator(config, timescale, levels=20)
+    resonator = build_resonator(config, timescale, levels=30)
 
     resonator_pulse = SquareCosinePulse(
-        amplitude=25e-3, frequency=config["fr"] * timescale
+        amplitude=35e-3, frequency=config["fr"] * timescale
     )
 
     # Combine to System

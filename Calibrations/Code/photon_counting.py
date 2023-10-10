@@ -7,7 +7,7 @@ import iminuit
 
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 
-data_folder = "../Data/photon_calibration_spectroscopy"
+data_folder = "../Data/photon_calibration_in_readout_140531"
 title = "Qubit Spectroscopy with Driven Resonator"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9
@@ -43,11 +43,12 @@ def fit_func(x, f0, A, gamma, offset):
     return offset + A * gamma**2 / (gamma**2 + (x - f0) ** 2)
 
 
-guesses = {"f0": 5.983e9, "A": 1e-3, "gamma": 0.01e9, "offset": 1e-4}
+guesses = {"f0": 5.981e9, "A": 1e-3, "gamma": 0.01e9, "offset": 1e-4}
 
 
 frequence_at_amplitude = np.zeros(len(y_data))
 frequence_at_amplitude_err = np.zeros(len(y_data))
+mask = np.ones(len(y_data), dtype=bool)
 
 for i in range(len(y_data)):
     ls = LeastSquares(
@@ -59,15 +60,20 @@ for i in range(len(y_data)):
     minimizer = Minuit(ls, **guesses)
     minimizer.migrad()
 
-    frequence_at_amplitude[i] = minimizer.values["f0"]
-    frequence_at_amplitude_err[i] = minimizer.errors["f0"]
+    if minimizer.valid:
+        frequence_at_amplitude[i] = minimizer.values["f0"]
+        frequence_at_amplitude_err[i] = minimizer.errors["f0"]
+    else:
+        mask[i] = False
+
+mask[frequence_at_amplitude_err < 1e3] = False
 
 # Fit second order polynomial
 func = lambda x, a, b, c: a * x**2 + b * x + c
 ls = LeastSquares(
-    y_data.values.flatten(),
-    frequence_at_amplitude,
-    frequence_at_amplitude_err,
+    y_data.values.flatten()[mask],
+    frequence_at_amplitude[mask],
+    frequence_at_amplitude_err[mask],
     model=func,
 )
 minimizer = Minuit(ls, a=-1e2, b=0, c=5.98e9)

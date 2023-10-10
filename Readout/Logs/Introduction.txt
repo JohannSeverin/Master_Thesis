@@ -1,2 +1,14 @@
-Optimal threshold: 0.08033943256058698
-Optimal fidelity: 0.619
+SIMPLE WEIGHTSOptimal threshold: 0.008258782254166944
+Optimal fidelity: 0.613 +- 0.018 
+Fit of gaussians: 
+ mu1: -1.0 +- 0.1688407639955998 	 mu2: 1.0 +- 0.33650253496709304 
+ sigma1: 1.0 +- 0.9483809455009823 	 sigma2: 1.0 +- 0.5083581568163628 
+ p: 0.5 +- 0.018090087968454214 
+Signal to noise: 1.4142 
+OPTIMAL WEIGHTSOptimal threshold: 0.02634701243011638
+Optimal fidelity: 0.620 +- 0.017 
+Fit of gaussians: 
+ mu1: -1.0 +- 0.17912108791694767 	 mu2: 1.0 +- 0.19174783232639603 
+ sigma1: 1.0 +- 1.6880535514309973 	 sigma2: 1.0 +- 0.3768158165938332 
+ p: 0.5 +- 0.03277513395904279 
+Signal to noise: 1.4142
