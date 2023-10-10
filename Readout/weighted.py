@@ -1,5 +1,5 @@
 # Point to the xarrays containing the excited and ground state data
-path = "/mnt/c/Users/johan/Downloads/selected_files_2023920_211420/readout test_092950"
+path = "/mnt/c/Users/johan/Downloads/IQ_threshold_131049"
 
 # Imports
 import numpy as np
