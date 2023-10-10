@@ -22,16 +22,12 @@ To drive the qubit and simulate the most important quantity is to extract the qu
 
 The two scans for the qubit frequency and half of the $f_{02}$ can be seen in figure \ref{fig:qubit_spectroscopy} along with Lorentzian fits for 1 and 2 peaks respectively. From the fit, we extract:
 \begin{equation}
-    f_{01} = (5.9823 \pm 0.0002) \text{ GHz}
+    f_{01} = (5.98203 \pm 0.00008) \text{ GHz}
 \end{equation}
 And the anharmonicity is calculated as:
 \begin{equation}
-    \alpha = f_{02} - 2f_{01} = (-286.3 \pm 0.3) \text{ MHz}
+    \alpha = f_{02} - 2f_{01} = (-288.81 \pm 0.15) \text{ MHz}
 \end{equation}
-
-
-\todo{Pretty much a draft. I think we also want to find the anharmonicity, it is used to calculate the dispersive shift.}
-
 
 
 \subsection{Rabi}
@@ -56,6 +52,8 @@ So to get an x-gate, we can decide on a given envelope function $s(t)$, such tha
 \noindent
 In reality, the pulse also includes a more sophisticated envelope function which supresses the transition from $\ket{0}\to\ket{2}$ by applying the DRAG scheme \cite{motzoi_simple_2009}. And the fidelity of the pulses can be determined by using a randomized benchmarking ... \todo{Do we want to comment on this? } While these parameters are important to make an X-gate in experiement in order to initialize in $\ket{1}$. In simulation, this calibration is not necessary, because we can just multiply with the X matrix.
 
+X gate fidelity is $F_{x} = 0.9913 \pm 0.0003$
+
 
 \subsection{Decay Calibration}\label{sec:calibration_t1}
 \begin{marginfigure}
@@ -70,7 +68,7 @@ From section \ref{sec:theory_t1}, we see that the characteristic logitudinal dec
 
 Doing the experiement on our qubit, we obtain the results displayed in figure \ref{fig:calibration_T_1_decay}. The exponential fit gives the value for $T_1$:
 \begin{equation}
-    T_1 = (2.94 \pm 0.08) \text{ µs}
+    T_1 = (4.64 \pm 0.12) \text{ µs}
 \end{equation}
 
 \begin{figure}
@@ -80,7 +78,16 @@ Doing the experiement on our qubit, we obtain the results displayed in figure \r
     \label{fig:calibration_T_1_decay}
 \end{figure}
 
-An important note on the $T_1$ is that it varies a lot over a time interval. For this reason ... \todo{How does it affect us}
+An important note on the $T_1$ is that it varies a lot over a time interval. For this reason ... \todo{Redo Jacobs Figure into my own style.}
+
+
+
+\begin{marginfigure}[-5 cm]
+    \centering
+    \includegraphics[]{Calibrations/Figures/T1_over_time.pdf}
+    \caption{How $T_1$ can change over a few hours}
+    \label{fig:changing_t1}
+\end{marginfigure}
 
 \subsection{Dephasing Calibration}
 \begin{marginfigure}
@@ -95,14 +102,19 @@ When describing the dephasing in section \ref{sec:theory_t2} we considered two c
 
 
 \begin{figure*}[t]
-    \begin{minipage}{0.50\linewidth}
+    \begin{minipage}{0.33\linewidth}
         \centering
         \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Ramsey.pdf} % first figure itself
     \end{minipage}
-    \begin{minipage}{0.50\linewidth}
+    \begin{minipage}{0.33\linewidth}
+        \centering
+        \includegraphics[width = 1.0 \linewidth]{Calibrations/Figures/old_figs/Ramsey.pdf}        
+    \end{minipage}
+    \begin{minipage}{0.33\linewidth}
         \centering
         \includegraphics[width=1.0\linewidth]{Calibrations/Figures/T2_echo.pdf} % second figure itself
     \end{minipage}
+    
     \caption{Figures showing the T2 experiment. The left shows the Ramsey $T_2$ while the right one shows an echo style experiment. Both are fitted with a function of the type $y = A \cos(2 \pi t f + \phi) e^{-t / T_2} + b$ where $t$ is the waiting time, $y$ is the outcome and $f, \phi, A, b$ and $T_2$ are fitting parameters.}
     \label{fig:calibrations_t2}
 \end{figure*}
@@ -111,16 +123,20 @@ When describing the dephasing in section \ref{sec:theory_t2} we considered two c
 This is a representative time of the qubit.
 The $T_2$ time is determined by the exponential envelope in figure \ref{fig:calibrations_t2}. This is determined to be:
 \begin{equation}
-    T_2 = (1.70 \pm 0.06) \text{ µs} 
+    T_2 = (1.56 \pm 0.16) \text{ µs} 
 \end{equation}
+
 This can further give us the dephasing time, by using equation \todo{reference $T_2$ components}
 \begin{equation}
-    T_\phi = \left(\frac{1}{T_2} - \frac{1}{2T_1} \right)^{-1} = (2.39 \pm 0.12) \text{ µs}
+    T_\phi = \left(\frac{1}{T_2} - \frac{1}{2T_1} \right)^{-1} = (1.33 \pm 0.12) \text{ µs}
 \end{equation}
 
-\paragraph{Echo Experiememt}
+\paragraph{Echo Experiememt*}
 This is the limit if we allow activly chanigning the qubit to echo out the phases. We can thus eliminate low frequency noise.
 
+\begin{equation}
+    T_2^* = (2.85 \pm 0.09) \text{ µs} 
+\end{equation}
 
 
 
