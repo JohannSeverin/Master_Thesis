@@ -50,8 +50,11 @@ We now pick the projection line through this plane that best separates the $\ket
 \begin{figure*}[t]
     \centering
     \includegraphics{Readout/Figs/Introduction.pdf}
+    % \includegraphics{Readout/Figs/Weighted.pdf}
     \caption{The process of finding the readout fidelity. From left to right the figures illustrate: (1) A sample trajectory compared with the mean trajectory of an excited and ground state signal respectively. (2) The IQ distribution after summing the signal along with a projection axis separating the signal. (3) The histrograms showing the distributions of signal along that axis. This is plotted with the fidelity by picking a given threshold, taking the maximum of the fidelity curve gives a fidelity of $F_{\text{readout}} = 0.701$}
     \label{fig:simple_weights_fidelty}
+    \caption{The calculated weights from the signal. Doing a weighted sum with these, the results shown in the middle and right panel can be aquired. At the optimal threshold, we find fidelity of $F_{\text{readout}} = 0.716$}
+    \label{fig:matched_weights_fidelty}
 \end{figure*}
 
 In this example the measurements was done on ??? samples. Giving readout fidelity ... \todo{Perform simple analysis of the weights. Probably do a table with some sub information.} 
@@ -70,7 +73,7 @@ and Improving Readout}  it is possible to derive the optimal linear weights. To 
 \end{equation}
 Where we have collected the noise terms in some $\xi_t$. Then to maximize the SNR\todo{Define Signal to noise and relate it to fidelty above}, we find the mean and variance of the separated signal as:
 \begin{equation}
-    \SNR = \frac{|\expval{\Delta S}|^2}{\Var(\Delta S)} 
+    \SNR^2 = \frac{|\expval{\Delta S}|^2}{\Var(\Delta S)} 
 \end{equation}
 where we can find the mean and variance of the signal as:
 \begin{align}
@@ -85,12 +88,11 @@ Where we will determine the variance and average expected difference experimenta
 
 In figure \ref{fig:matched_weights_fidelty} the experiment shown in figure \ref{fig:simple_weights_fidelty} is repeated but with calculated linear weights before rotating. As we can see the readout fidelty is now... \todo{Write this in}
 
-\begin{figure*}
-    \centering
-    \includegraphics{Readout/Figs/Weighted.pdf}
-    \caption{The calculated weights from the signal. Doing a weighted sum with these, the results shown in the middle and right panel can be aquired. At the optimal threshold, we find fidelity of $F_{\text{readout}} = 0.716$}
-    \label{fig:matched_weights_fidelty}
-\end{figure*}
+% \begin{figure*}
+%     \centering
+
+
+% \end{figure*}
 
 
 \subsection{Non-Linear Classifications}
