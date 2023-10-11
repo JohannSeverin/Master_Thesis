@@ -221,3 +221,10 @@ ax.set(
 
 fig.tight_layout()
 fig.savefig("../Figures/dephasing_by_measurement.pdf")
+
+
+# Write in log
+with open("../Fit_log/efficiency_dephasing.txt", "w") as f:
+    f.write(
+        f"sigma = {minimizer.values['sigma']:.3e} +/- {minimizer.errors['sigma']:.3e} \n"
+    )

@@ -13,10 +13,10 @@ plt.style.use("../../code/matplotlib_style/fullwidth_figure.mplstyle")
 plt.rcParams["font.size"] = 16
 plt.rcParams["figure.figsize"] = (18, 6)
 cmap = LinearSegmentedColormap.from_list("mycmap", ["C0", "C1"], N=2)
-config = json.load(open("../qubit_calibration.json", "r"))
+config = json.load(open("../qubit_calibration_2.json", "r"))
 
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
+# config["g"] *= 2  # Looks like a small error in the coupling strength.
+# config["eta"] *= 9
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 timescale = 1e-9  # ns
@@ -249,29 +249,30 @@ def calculate_fidelity_and_create_plots(name, eta):
 ### Run Following options of config files
 config_dicts = {
     "realistic": {},
-    "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
-    "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
-    "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
-    "no_decay": {
-        "eta": config["eta"],
-        "temperature": config["temperature"],
-        "T1": 0,
-    },
-    "perfect_efficiency": {
-        "eta": 1,
-        "temperature": config["temperature"],
-        "T1": config["T1"],
-    },
-    "zero_temperature": {
-        "eta": config["eta"],
-        "temperature": 0,
-        "T1": config["T1"],
-    },
+    # "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
+    # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
+    # "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
+    # "no_decay": {
+    #     "eta": config["eta"],
+    #     "temperature": config["temperature"],
+    #     "T1": 0,
+    # },
+    # "perfect_efficiency": {
+    #     "eta": 1,
+    #     "temperature": config["temperature"],
+    #     "T1": config["T1"],
+    # },
+    # "zero_temperature": {
+    #     "eta": config["eta"],
+    #     "temperature": 0,
+    #     "T1": config["T1"],
+    # },
     "perfect": {"eta": 1, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():
-    fig, max_fidelity = calculate_fidelity_and_create_plots(name + "_sme.pkl", 1)
+    eta = config_dict["eta"] if "eta" in config_dict else config["eta"]
+    fig, max_fidelity = calculate_fidelity_and_create_plots(name + "_sme.pkl", eta)
     fig.savefig(
         os.path.join(save_path, name + "_sme.pdf"),
     )

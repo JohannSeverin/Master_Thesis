@@ -16,9 +16,9 @@ from simulation.experiment import (
     StochasticMasterEquationExperiment,
 )
 
-config = json.load(open("../qubit_calibration.json", "r"))
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 2
+config = json.load(open("../qubit_calibration_2.json", "r"))
+# config["g"] *= 2  # Looks like a small error in the coupling strength.
+# config["eta"] *= 2
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 ntraj = 100
@@ -31,7 +31,7 @@ timescale = 1e-9  # ns
 
 ### Run Following options of config files
 config_dicts = {
-    "realistic": {},
+    # "realistic": {},
     # "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
     # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
     # "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
@@ -50,7 +50,7 @@ config_dicts = {
     #     "temperature": 0,
     #     "T1": config["T1"],
     # },
-    # "perfect": {"eta": 1, "temperature": 0, "T1": 0},
+    "perfect": {"eta": 1, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():
@@ -63,10 +63,11 @@ for name, config_dict in config_dicts.items():
 
     # Build Devices from config file
     qubit = build_qubit(config, timescale)
-    resonator = build_resonator(config, timescale, levels=30)
+    resonator = build_resonator(config, timescale, levels=35)
 
     resonator_pulse = SquareCosinePulse(
-        amplitude=35e-3, frequency=config["fr"] * timescale
+        amplitude=2 * np.pi * config["drive_power"] * timescale,
+        frequency=config["drive_freq"] * timescale,
     )
 
     # Combine to System
@@ -77,6 +78,7 @@ for name, config_dict in config_dicts.items():
         coupling_strength=config["g"] * timescale,
         readout_efficiency=None,
     ).dispersive_approximation(config["chi"] * timescale)
+
     system_sme = QubitResonatorSystem(
         qubit,
         resonator,
@@ -144,7 +146,7 @@ for name, config_dict in config_dicts.items():
             only_store_final=False,
             store_states=False,
             ntraj=ntraj,
-            nsubsteps=5,
+            nsubsteps=10,
             save_path=save_path + "_sme.pkl",
         )
         start_time = time.time()

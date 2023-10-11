@@ -281,6 +281,10 @@ ax[1].set(
 # fig.tight_layout()
 fig.savefig(f"../Figures/SNR_vs_amplitude.pdf")
 
+# Write in log
+with open("../Fit_log/efficiency_SNR.txt", "w") as f:
+    f.write(f"a = {minimizer.values['a']} +- {minimizer.errors['a']}\n")
+
 # x_data = data.pulse_frequency
 # y_data = data.resonator_drive_amplitude_scaling
 # z_data = data.readout__final__I__avg[1] - data.readout__final__I__avg[0]

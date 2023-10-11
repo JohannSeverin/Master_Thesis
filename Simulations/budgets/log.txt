@@ -82,3 +82,7 @@ thermal_only - max fidelity:  0.721 +- 0.011
 no_decay - max fidelity:  0.710 +- 0.011
 perfect_efficiency - max fidelity:  0.655 +- 0.012
 zero_temperature - max fidelity:  0.878 +- 0.008
+realistic - max fidelity:  0.660 +-
+realistic - max fidelity:  0.660 +-
+realistic - max fidelity:  0.660 +-
+realistic - max fidelity:  0.660 +-
