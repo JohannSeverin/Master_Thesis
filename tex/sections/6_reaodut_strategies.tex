@@ -36,7 +36,7 @@ Which can be written in terms of the infidelities $F(0, \rho_0) = 1 - F(1, \rho_
 Which is the definition we will be using to define the "goodness" of a readout. \todo{This section is at the moment a bit sloppy.}
 
 \section{Determining the Readout Fidelity}
-Given a set of IQ measurement of the qubit initialized in $\ket{0}$ and $\ket{1}$ respectively\todo{Maybe describe experiment with a circuit}, we want to combine it to maximize the separation between the $\ket{0}$ and $\ket{1}$ state. If the resonator has reached its steady state and the measurements come from a Gaussian distribution, it is sufficient to sum/mean the whole trace, and compare the final distributions. Under this assumption we will get a distribution of IQ values. 
+Given a set of IQ measurement of the qubit initialized in $\ket{0}$ and $\ket{1}$ respectively, we want to combine it to maximize the separation between the $\ket{0}$ and $\ket{1}$ state. If the resonator has reached its steady state and the measurements come from a Gaussian distribution, it is sufficient to sum/mean the whole trace, and compare the final distributions. Under this assumption we will get a distribution of IQ values. 
 
 \begin{marginfigure}
     \centering
@@ -45,19 +45,21 @@ Given a set of IQ measurement of the qubit initialized in $\ket{0}$ and $\ket{1}
     \label{fig:circuit_qubit_readout_test}
 \end{marginfigure}
 
-We now pick the projection line through this plane that best separates the $\ket{0}$ and $\ket{1}$ group. This can for example be done by using an LDA algorithm. On this axis, we can now set a threshold. If we set it such that the fidelity is maximized, we have defined our simple readout scheme. The process can be see in figure \ref{fig:simple_weights_fidelty}.
+We now pick the projection line through this plane that best separates the $\ket{0}$ and $\ket{1}$ group. This can for example be done by using an Linear Discriminant Analysis\footnote{Given two dimensional labels and data in multiple dimensions, it finds the axis with biggest separation. Here we have used the implementation from sklearn. \cite{sklearn}}. On this axis, we can now set a threshold. If we set it such that the fidelity is maximized, we have defined our simple readout scheme. The process can be see in the top row in figure \ref{fig:readout_process}.
 
 \begin{figure*}[t]
     \centering
     \includegraphics{Readout/Figs/Introduction.pdf}
     % \includegraphics{Readout/Figs/Weighted.pdf}
-    \caption{The process of finding the readout fidelity. From left to right the figures illustrate: (1) A sample trajectory compared with the mean trajectory of an excited and ground state signal respectively. (2) The IQ distribution after summing the signal along with a projection axis separating the signal. (3) The histrograms showing the distributions of signal along that axis. This is plotted with the fidelity by picking a given threshold, taking the maximum of the fidelity curve gives a fidelity of $F_{\text{readout}} = 0.701$}
-    \label{fig:simple_weights_fidelty}
-    \caption{The calculated weights from the signal. Doing a weighted sum with these, the results shown in the middle and right panel can be aquired. At the optimal threshold, we find fidelity of $F_{\text{readout}} = 0.716$}
-    \label{fig:matched_weights_fidelty}
+    \caption{Visualization of the Fidelity calculation for no weights (top) and optimal weights (bottom). The top left panel shows an example trajectory along with the mean trajectories. While the bottom left panel are the optimal weights calculated to separate the two distributions. The middle panels are the IQ distributions shown in scatter plots. In the right panels the IQ distributions are projected unto the axis with the biggest separation. Here the Fidelity as a function of threshold is plotted and the optimal is marked.}
+    % \label{fig:simple_weights_fidelty}
+    \label{fig:readout_process}
 \end{figure*}
 
-In this example the measurements was done on ??? samples. Giving readout fidelity ... \todo{Perform simple analysis of the weights. Probably do a table with some sub information.} 
+In this example the measurements a qubit was measured by a $400 \text{ ns}$ pulse. The Signal is demodulated by intermediate frequency and course grained 2 by 2 to reduce the noise in the visualization a bit. The Readout fidelity for this process was found to be:
+\begin{equation}
+    F_{\text{readout}} = 0.619 \pm 0.018
+\end{equation}
 
 \subsection{State Preparation and Measurement Errors}
 SPAM!
@@ -86,13 +88,12 @@ Now maxizing the SNR by differentiating with the weights and setting equatl to $
 \end{equation}
 Where we will determine the variance and average expected difference experimentally by performing a set of measurement and calculating the mean difference and variance to determine the weights. \todo{cite Tomography via correlation of noisy measurement records}
 
-In figure \ref{fig:matched_weights_fidelty} the experiment shown in figure \ref{fig:simple_weights_fidelty} is repeated but with calculated linear weights before rotating. As we can see the readout fidelty is now... \todo{Write this in}
+In the lower row in figure \ref{fig:readout_process} the experiment is repeated but with calculated linear weights before rotating. As we can see the readout fidelity is now:
+\begin{equation}
+    F_{\text{readout}} = 0.622 \pm 0.017
+\end{equation}
 
-% \begin{figure*}
-%     \centering
-
-
-% \end{figure*}
+This is very close to readout fidelity of the simple weights. While it appears that these weights are only a marginal improvement, we should still notice that the two IQ distributions become narrower. In quantifying this, we can calculate the Signal to Noise ratio for the two example. We see that $\SNR = 3.04$ goes to $\SNR = 3.26$ when we apply the weights. This corresponds to reduce the overlap from the distributions from $0.12\%$ to $0.056\%$. With 2000 samples (1000 $\ket{0}$ and 1000 $\ket{1}$), we would win around 1-2 additional correct classifications\footnote{In the actual experiment, we find 3, but this is subject to some randomness and still a lot smaller than the uncertainities.}, but if the distributions were to be closer, the increase in SNR from $2$ to $2.25$ would be very significant and of around 16 samples. We will return to this discussion, when discussing improvements in the fidelity budgetting in chapter \ref{chap:budget}, but for now, we will consider it a free improvement, so we will take it.
 
 
 \subsection{Non-Linear Classifications}
@@ -101,24 +102,24 @@ The classification scheme above is very common, since it can be combined with th
 
 
 \section{Postselection}
-In some instances, we do not mind running with a large overhead in order to increase our readout fidelity. In these cases, we can instead associate a probability of a given trajectory belonging to the $0$ or $1$ group and then pick those with the highest probabilities. Since $T_1$ decay tends to happen somewhere during the measurement, the points will often be placed in some tail going from $1 \to 0$. If we instead only keep the trajectories with the highest probability, we sacrifice all the points in the middle.
+In some instances, we do not mind running with a large overhead in order to increase our readout fidelity. In these cases, we can instead associate a probability of a given trajectory belonging to the $0$ or $1$ group and then pick the fraction $f$ with the most certain classifications. Since $T_1$ decay tends to happen somewhere during the measurement, the points will often be placed in some tail going from $1 \to 0$. Furthermore, the overlap between the two distributions will be in between them. So by sacrificing the middle points, we will only be left with the points from inseparable distributions. Since identical distributions happen when we initialize wrongly, we can estimate the state initialization fidelity by taking the fidelity from SPAM in the limit where $f\to 0$. In figure \ref{fig:postselection_plot}, we have done this postselection with the samples taken earlier in this chapter. By fitting a second order polynomial, we can further approximate the limit for the fraction of data going to 0 as:
+\begin{equation}
+    \lim_{f \to 0} F_{\text{SPAM}} = 0.750 \pm 0.016  
+\end{equation}
 
-\begin{marginfigure}
+\begin{figure}[t]
     \centering
     \includegraphics[]{Readout/Figs/fidelity_vs_included_fraction.pdf}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{marginfigure}
+    \caption{The Fidelity of an initialize and measure experiment depending on the fraction of most certain points, we include. The curve is fitted with a second order polynomial to estimate the limit for the fraction going to $0$.}
+    \label{fig:postselection_plot}
+\end{figure}
 
-Up to some point we get an improved fidelty. The maximum is however not $1$. This is credited to the state preparation errors since wrongly prepared qubits in $1$ will behave like $0$ and will not be distinguishable in any measurement. 
-
-
-The following sections is also possible:
-\begin{itemize}
-    \item Adjusting Pulse Parameters
-    \item Strategies
-    \item Counter Depopulation Pulse
-\end{itemize}
+% The following sections are also possible:
+% \begin{itemize}
+%     \item Adjusting Pulse Parameters
+%     \item Strategies
+%     \item Counter Depopulation Pulse
+% \end{itemize}
 
 % \section{Adjusting Pulse Parameters*}
 % \begin{itemize}
