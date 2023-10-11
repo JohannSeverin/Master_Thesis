@@ -280,7 +280,7 @@ func = lambda x, mu1, sigma1, mu2, sigma2, p: (1 - p) * norm.pdf(
 
 transformed = lda.transform(np.stack([all_I, all_Q]).T)
 cost = UnbinnedNLL(transformed.flatten(), func)
-minimizer = Minuit(cost, mu1=-1, sigma1=1, mu2=+1, sigma2=1, p=0.5)
+minimizer = Minuit(cost, mu1=-1.5, sigma1=0.75, mu2=+1.5, sigma2=0.75, p=0.5)
 minimizer.migrad()
 
 with open("Logs/Introduction.txt", "a") as f:
@@ -517,7 +517,7 @@ func = lambda x, mu1, sigma1, mu2, sigma2, p: (1 - p) * norm.pdf(
 
 transformed = lda.transform(np.stack([all_I, all_Q]).T)
 cost = UnbinnedNLL(transformed.flatten(), func)
-minimizer = Minuit(cost, mu1=-1, sigma1=1, mu2=+1, sigma2=1, p=0.5)
+minimizer = Minuit(cost, mu1=-1.5, sigma1=0.75, mu2=+1.5, sigma2=0.75, p=0.5)
 minimizer.migrad()
 
 with open("Logs/Introduction.txt", "a") as f:

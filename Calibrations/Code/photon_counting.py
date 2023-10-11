@@ -12,8 +12,8 @@ title = "Qubit Spectroscopy with Driven Resonator"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9
 
-ylabel = "Amplitude Scaling (mV)"
-scale_y = 1e-3
+ylabel = "Amplitude Scaling (%)"
+scale_y = 1e-2
 
 z_label = "Readout Signal Difference in I (a. u.)"
 scale_z = 1e-3
@@ -57,7 +57,10 @@ for i in range(len(y_data)):
         z_err[:, i].values.flatten(),
         model=fit_func,
     )
-    minimizer = Minuit(ls, **guesses)
+    if i == 0:
+        minimizer = Minuit(ls, **guesses)
+    else:
+        minimizer = Minuit(ls, **minimizer.values.to_dict())
     minimizer.migrad()
 
     if minimizer.valid:
@@ -176,8 +179,45 @@ ax.set(
     ylabel="Photon Number",
 )
 
+value = func(1.0, *minimizer.values) - minimizer.values["c"]
+photons_at_100_percent = -value / dispersive_shift
+
+value_err = np.sqrt(
+    minimizer.errors["a"] ** 2 + minimizer.errors["b"] ** 2 + minimizer.errors["c"] ** 2
+)
+photon_at_100_percent_err = photons_at_100_percent * np.sqrt(
+    value_err**2 / value**2 + dispersive_shift_err**2 / dispersive_shift**2
+)
+
+print(
+    f"Photons at 100%: {photons_at_100_percent:.2f} +- {photon_at_100_percent_err:.2f}"
+)
+
+
+ax.vlines(
+    1.0e2,
+    0,
+    photons_at_100_percent,
+    color="black",
+    linestyle="dashed",
+)
+
+ax.hlines(
+    photons_at_100_percent,
+    0,
+    1.0e2,
+    color="black",
+    linestyle="dashed",
+)
+
+
+ax.text(
+    50,
+    photons_at_100_percent + 1,
+    f"Photon Number: ${int(np.round(photons_at_100_percent, 0))} \pm {int(np.round(photon_at_100_percent_err, 0))}$",
+    va="bottom",
+    ha="center",
+)
 
 fig.tight_layout()
 fig.savefig(f"../Figures/photon_number.pdf")
-
-# Fit

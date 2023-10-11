@@ -6,6 +6,8 @@ import sys
 import iminuit
 
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
+# plt.rcParams["figure.figsize"] = (8, 4)
+# plt.rcParams["axes.leg"]
 
 data_folder = "../Data/Ramsey"
 title = "Ramsey"
@@ -26,18 +28,25 @@ fit_resolution = 1000
 fit_delay = 40
 
 
-def fit_func(x, Amplitude, Frequency, Phase, offset, T2):
-    return offset + Amplitude * np.cos(2 * np.pi * Frequency * x + Phase) * np.exp(
-        -x / T2
+def fit_func(
+    x, offset, Amplitude1, Frequency1, Phase1, Amplitude2, Frequency2, Phase2, T2
+):
+    return (
+        offset
+        + Amplitude1 * np.cos(2 * np.pi * Frequency1 * x + Phase1) * np.exp(-x / T2)
+        + Amplitude2 * np.cos(2 * np.pi * Frequency2 * x + Phase2) * np.exp(-x / T2)
     )
 
 
 guesses = {
-    "Amplitude": 0.0001285200521324053,
-    "Frequency": 5511022.044088177,
-    "Phase": 0.1,
-    "offset": 0.0001630993315741798,
-    "T2": 10e-6,
+    "Amplitude1": 0.0004,
+    "Frequency1": 5e6,
+    "Phase1": 0.01,
+    "Amplitude2": 0.0004,
+    "Frequency2": 5e6,
+    "Phase2": 0.01,
+    "offset": -0.0008630993315741798,
+    "T2": 1e-6,
 }
 
 # Fitting
@@ -53,6 +62,7 @@ pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 
 
 exec(open("log_and_plot/code_to_run.txt").read())
+
 
 # # Priting
 # with open(f"../Fit_log/{title}.txt", "w") as f:

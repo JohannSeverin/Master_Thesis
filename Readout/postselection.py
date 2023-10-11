@@ -74,9 +74,9 @@ from sklearn.metrics import confusion_matrix
 
 fidelities = []
 fidelities_err = []
-thresholds_to_include = np.linspace(0.10, 1.00, 20)
+thresholds_to_include = np.linspace(0.01, 1.00, 20)
 for include in thresholds_to_include:
-    print(include)
+    # print(include)
     mask = np.abs(logit_score) > np.quantile(np.abs(logit_score), 1 - include)
 
     c_matrix = confusion_matrix(
@@ -115,19 +115,19 @@ from iminuit import Minuit
 from iminuit.cost import LeastSquares
 
 
-def parabola(x, a, b, c):
-    return a + b * x + c * x**2
+def parabola(x, a, b, c, d):
+    return a + b * x + c * x**2 + d * x**3
 
 
 cost = LeastSquares(thresholds_to_include, fidelities, fidelities_err, parabola)
-minimizer = Minuit(cost, a=-1, b=0, c=1)
+minimizer = Minuit(cost, a=-1, b=0, c=1, d=1)
 
 minimizer.migrad()
 
 x = np.linspace(0, 1, 1000)
 y = parabola(x, *minimizer.values)
 
-ax.plot(x * 100, y, "k--", label="Parabolic Fit")
+ax.plot(x * 100, y, "k--", label="3. Order Polynomial")
 
 ax.legend()
 

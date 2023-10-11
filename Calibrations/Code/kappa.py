@@ -31,11 +31,11 @@ y_err = np.sqrt(y_err_I**2 * y_data_I**2 + y_err_Q**2 * y_data_Q**2) / y_data
 
 x_data = x_data.coarsen(adc_timestamp=10).mean()
 y_data = y_data.coarsen(adc_timestamp=10).mean()
-y_err = y_err.coarsen(adc_timestamp=10).mean()
+y_err = y_err.coarsen(adc_timestamp=10).mean() / np.sqrt(10)
 
 fit_name = "Exponential Decay"
 fit_resolution = 1000
-fit_delay = 300
+fit_delay = 400
 
 mask = x_data > 660e-9
 
@@ -85,7 +85,7 @@ xs_fit = xs_fit[fit_delay:]
 ax.plot(
     xs_fit / scale_x,
     fit_func(xs_fit, *minimizer.values) / scale_y,
-    "--",
+    "-",
     color="k",
     label=fit_name + " Fit",
 )

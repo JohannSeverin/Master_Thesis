@@ -1,4 +1,4 @@
-chi-squared: 6.46 for 139 dof with p-value 1.000
-Amplitude = 1.81011e-01 +- 5.83780e-02
-offset = 1.56591e-03 +- 8.81787e-04
-kappa = 3.50566e+06 +- 5.08392e+05
+chi-squared: 46.67 for 139 dof with p-value 1.000
+Amplitude = 6.45500e-02 +- 2.40723e-02
+offset = 1.26682e-03 +- 2.49725e-04
+kappa = 3.80033e+06 +- 5.75194e+05

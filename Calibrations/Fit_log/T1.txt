@@ -1,4 +1,4 @@
-chi-squared: 110.40 for 72 dof with p-value 0.002
-Amplitude = 1.24319e-03 +- 1.57069e-05
-offset = 1.20987e-04 +- 4.84173e-06
-T1 = 4.64698e-06 +- 1.18817e-07
+chi-squared: 95.49 for 72 dof with p-value 0.034
+Amplitude = 1.38798e-03 +- 2.10499e-05
+offset = -1.65994e-03 +- 5.65962e-06
+T1 = 4.30197e-06 +- 1.23942e-07
