@@ -259,7 +259,7 @@ config_dicts = {
     # },
     # "perfect_efficiency": {
     #     "eta": 1,
-    #     "temperature": config["temperature"],
+    #     "temperature": config["temperature"],W
     #     "T1": config["T1"],
     # },
     # "zero_temperature": {
@@ -267,7 +267,7 @@ config_dicts = {
     #     "temperature": 0,
     #     "T1": config["T1"],
     # },
-    "perfect": {"eta": 1, "temperature": 0, "T1": 0},
+    "perfect": {"eta": 0.5, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():

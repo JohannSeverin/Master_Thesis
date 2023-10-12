@@ -17,40 +17,41 @@ from simulation.experiment import (
 )
 
 config = json.load(open("../qubit_calibration_2.json", "r"))
+# config["Tphi"] = 0
 # config["g"] *= 2  # Looks like a small error in the coupling strength.
 # config["eta"] *= 2
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
-ntraj = 100
+ntraj = 250
 save_path = "data/"
-overwrite = True
-show_plots = True
+overwrite = False
+show_plots = False
 
 timescale = 1e-9  # ns
 
 
 ### Run Following options of config files
 config_dicts = {
-    # "realistic": {},
-    # "decay_only": {"eta": 1, "temperature": 0, "T1": config["T1"]},
-    # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
-    # "thermal_only": {"eta": 1, "temperature": config["temperature"], "T1": 0},
-    # "no_decay": {
-    #     "eta": config["eta"],
-    #     "temperature": config["temperature"],
-    #     "T1": 0,
-    # },
-    # "perfect_efficiency": {
-    #     "eta": 1,
-    #     "temperature": config["temperature"],
-    #     "T1": config["T1"],
-    # },
-    # "zero_temperature": {
-    #     "eta": config["eta"],
-    #     "temperature": 0,
-    #     "T1": config["T1"],
-    # },
-    "perfect": {"eta": 1, "temperature": 0, "T1": 0},
+    "realistic": {},
+    "decay_only": {"eta": 1.0, "temperature": 0, "T1": config["T1"]},
+    "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
+    "thermal_only": {"eta": 1.0, "temperature": config["temperature"], "T1": 0},
+    "no_decay": {
+        "eta": config["eta"],
+        "temperature": config["temperature"],
+        "T1": 0,
+    },
+    "perfect_efficiency": {
+        "eta": 1.0,
+        "temperature": config["temperature"],
+        "T1": config["T1"],
+    },
+    "zero_temperature": {
+        "eta": config["eta"],
+        "temperature": 0,
+        "T1": config["T1"],
+    },
+    "perfect": {"eta": 1.0, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():
@@ -63,7 +64,7 @@ for name, config_dict in config_dicts.items():
 
     # Build Devices from config file
     qubit = build_qubit(config, timescale)
-    resonator = build_resonator(config, timescale, levels=35)
+    resonator = build_resonator(config, timescale, levels=40)
 
     resonator_pulse = SquareCosinePulse(
         amplitude=2 * np.pi * config["drive_power"] * timescale,
@@ -108,7 +109,7 @@ for name, config_dict in config_dicts.items():
     initial_states = [initial_ground, initial_excited]
 
     # Build Experiment
-    times = np.arange(0, 1010, 10, dtype=np.float64)
+    times = np.arange(0, 610, 10, dtype=np.float64)
 
     # Lindblad
     if not os.path.exists(save_path + "_lindblad.pkl") or overwrite:
@@ -135,7 +136,6 @@ for name, config_dict in config_dicts.items():
         if show_plots:
             automatic_analysis(results)
             plt.show()
-
     # Stochastic Master Equation
     if not os.path.exists(save_path + "_sme.pkl") or overwrite:
         print("Running Stochastic Master Equation Experiment")

@@ -16,10 +16,8 @@ from simulation.experiment import (
     StochasticMasterEquationExperiment,
 )
 
-config = json.load(open("../qubit_calibration.json", "r"))
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
-# This is to make up for the fact that the experiment has a steady state photon count of 30
+config = json.load(open("../qubit_calibration_2.json", "r"))
+
 
 ntraj = 100
 save_path = "data/"
@@ -30,18 +28,20 @@ timescale = 1e-9  # ns
 
 
 def scale(eta, factor):
-    return 1 - (1 - eta) * factor
+    return 1 / factor * eta
 
 
 ### Run Following options of config files
 config_dicts = {
-    r"eta_10_increase": {"eta": scale(config["eta"], 1.1)},
-    r"eta": {"eta": scale(config["eta"], 1.0)},
+    r"eta_10_increase": {"eta": scale(config["eta"], 1.10)},
+    # r"eta": {"eta": scale(config["eta"], 1.0)},
     r"eta_10_reduction": {"eta": scale(config["eta"], 0.9)},
     r"eta_25_reduction": {"eta": scale(config["eta"], 0.75)},
     r"eta_50_reduction": {"eta": scale(config["eta"], 0.50)},
-    r"eta_100_reduction": {"eta": scale(config["eta"], 0.00)},
+    # r"eta_100_reduction": {"eta": scale(config["eta"], 0.00)},
 }
+
+config_dicts
 
 for name, config_dict in config_dicts.items():
     print(f"Setting up experiments for {name}")
@@ -53,10 +53,11 @@ for name, config_dict in config_dicts.items():
 
     # Build Devices from config file
     qubit = build_qubit(config, timescale)
-    resonator = build_resonator(config, timescale, levels=20)
+    resonator = build_resonator(config, timescale, levels=40)
 
     resonator_pulse = SquareCosinePulse(
-        amplitude=25e-3, frequency=config["fr"] * timescale
+        amplitude=2 * np.pi * config["drive_power"] * timescale,
+        frequency=config["drive_freq"] * timescale,
     )
 
     # Combine to System
@@ -96,7 +97,7 @@ for name, config_dict in config_dicts.items():
     initial_states = [initial_ground, initial_excited]
 
     # Build Experiment
-    times = np.arange(0, 1010, 10, dtype=np.float64)
+    times = np.arange(0, 610, 10, dtype=np.float64)
 
     # Lindblad
     if not os.path.exists(save_path + "_lindblad.pkl") or overwrite:

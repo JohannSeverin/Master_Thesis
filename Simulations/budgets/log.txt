@@ -86,3 +86,70 @@ realistic - max fidelity:  0.660 +-
 realistic - max fidelity:  0.660 +-
 realistic - max fidelity:  0.660 +-
 realistic - max fidelity:  0.660 +-
+realistic - max fidelity:  0.660 +-
+realistic - max fidelity:  0.660 +-
+realistic - max fidelity:  0.660 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  0.976 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  0.976 +-
+realistic - max fidelity:  0.604 +-
+realistic - max fidelity:  0.604 +-
+realistic - max fidelity:  0.604 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  0.960 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  0.980 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  0.960 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  0.960 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.604 +-
+realistic - max fidelity:  0.604 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.602 +-
+realistic - max fidelity:  0.602 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.664 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.664 +- 0.024
+perfect - max fidelity:  1.000 +- 0.000
+decay_only - max fidelity:  0.944 +- 0.010
+efficiency_only - max fidelity:  0.912 +- 0.013
+thermal_only - max fidelity:  0.680 +- 0.023
+no_decay - max fidelity:  0.720 +- 0.022
+perfect_efficiency - max fidelity:  0.712 +- 0.022
+zero_temperature - max fidelity:  0.852 +- 0.016
+realistic - max fidelity:  0.664 +-
+perfect - max fidelity:  1.000 +-
+realistic - max fidelity:  0.664 +- 0.024
+perfect - max fidelity:  1.000 +- 0.000
+decay_only - max fidelity:  0.944 +- 0.010
+efficiency_only - max fidelity:  0.912 +- 0.013
+thermal_only - max fidelity:  0.680 +- 0.023
+no_decay - max fidelity:  0.720 +- 0.022
+perfect_efficiency - max fidelity:  0.712 +- 0.022
+zero_temperature - max fidelity:  0.852 +- 0.016
+T1_10_increase - max fidelity:  0.680 +- 0.036
+realistic - max fidelity:  0.664 +- 0.024
+T1_10_reduction - max fidelity:  0.650 +- 0.038
+T1_25_reduction - max fidelity:  0.660 +- 0.036
+T1_50_reduction - max fidelity:  0.680 +- 0.036
+no_decay - max fidelity:  0.720 +- 0.022
+T1_10_increase - max fidelity:  0.680 +- 0.036
+realistic - max fidelity:  0.664 +- 0.024
+T1_10_reduction - max fidelity:  0.650 +- 0.038
+T1_25_reduction - max fidelity:  0.660 +- 0.036
+T1_50_reduction - max fidelity:  0.680 +- 0.036
+no_decay - max fidelity:  0.720 +- 0.022
+eta_10_increase - max fidelity:  0.670 +- 0.037
+realistic - max fidelity:  0.664 +- 0.024
+eta_10_reduction - max fidelity:  0.740 +- 0.034
+eta_25_reduction - max fidelity:  0.570 +- 0.041
+eta_50_reduction - max fidelity:  0.710 +- 0.035
+perfect_efficiency - max fidelity:  0.712 +- 0.022

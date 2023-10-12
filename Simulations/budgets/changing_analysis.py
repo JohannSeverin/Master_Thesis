@@ -304,27 +304,27 @@ def scale_temperature(temperature, factor):
 ### Run Following options of config files
 config_dicts_efficiency = {
     r"eta_10_increase": {"eta": scale_eta(config["eta"], 1.1)},
-    r"eta": {"eta": scale_eta(config["eta"], 1.0)},
+    r"realistic": {"eta": scale_eta(config["eta"], 1.0)},
     r"eta_10_reduction": {"eta": scale_eta(config["eta"], 0.9)},
     r"eta_25_reduction": {"eta": scale_eta(config["eta"], 0.75)},
     r"eta_50_reduction": {"eta": scale_eta(config["eta"], 0.50)},
-    r"eta_100_reduction": {"eta": scale_eta(config["eta"], 0.00)},
+    r"perfect_efficiency": {"eta": scale_eta(config["eta"], 0.00)},
 }
 
 config_dicts_decay = {
     r"T1_10_increase": {"T1": scale_T1(config["T1"], 1.1)},
-    r"T1": {"T1": scale_T1(config["T1"], 1.0)},
+    r"realistic": {"T1": scale_T1(config["T1"], 1.0)},
     r"T1_10_reduction": {"T1": scale_T1(config["T1"], 0.9)},
     r"T1_25_reduction": {"T1": scale_T1(config["T1"], 0.75)},
     r"T1_50_reduction": {"T1": scale_T1(config["T1"], 0.50)},
-    r"T1_100_reduction": {"T1": scale_T1(config["T1"], 0.00)},
+    r"no_decay": {"T1": scale_T1(config["T1"], 0.00)},
 }
 
 config_dicts_temperature = {
     r"temperature_10_increase": {
         "temperature": scale_temperature(config["temperature"], 1.1)
     },
-    r"temperature": {"temperature": scale_temperature(config["temperature"], 1.0)},
+    r"realistic": {"temperature": scale_temperature(config["temperature"], 1.0)},
     r"temperature_10_reduction": {
         "temperature": scale_temperature(config["temperature"], 0.9)
     },
@@ -334,7 +334,7 @@ config_dicts_temperature = {
     r"temperature_50_reduction": {
         "temperature": scale_temperature(config["temperature"], 0.50)
     },
-    r"temperature_100_reduction": {
+    r"zero_temperature": {
         "temperature": scale_temperature(config["temperature"], 0.00)
     },
 }

@@ -16,10 +16,7 @@ from simulation.experiment import (
     StochasticMasterEquationExperiment,
 )
 
-config = json.load(open("../qubit_calibration.json", "r"))
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
-# This is to make up for the fact that the experiment has a steady state photon count of 30
+config = json.load(open("../qubit_calibration_2.json", "r"))
 
 ntraj = 100
 save_path = "data/"
@@ -36,11 +33,11 @@ def scale(temperature, factor):
 ### Run Following options of config files
 config_dicts = {
     r"temperature_10_increase": {"temperature": scale(config["temperature"], 1.1)},
-    r"temperature": {"temperature": scale(config["temperature"], 1.0)},
+    # r"temperature": {"temperature": scale(config["temperature"], 1.0)},
     r"temperature_10_reduction": {"temperature": scale(config["temperature"], 0.9)},
     r"temperature_25_reduction": {"temperature": scale(config["temperature"], 0.75)},
     r"temperature_50_reduction": {"temperature": scale(config["temperature"], 0.50)},
-    r"temperature_100_reduction": {"temperature": scale(config["temperature"], 0.00)},
+    # r"temperature_100_reduction": {"temperature": scale(config["temperature"], 0.00)},
 }
 
 for name, config_dict in config_dicts.items():
@@ -53,10 +50,11 @@ for name, config_dict in config_dicts.items():
 
     # Build Devices from config file
     qubit = build_qubit(config, timescale)
-    resonator = build_resonator(config, timescale, levels=20)
+    resonator = build_resonator(config, timescale, levels=40)
 
     resonator_pulse = SquareCosinePulse(
-        amplitude=25e-3, frequency=config["fr"] * timescale
+        amplitude=2 * np.pi * config["drive_power"] * timescale,
+        frequency=config["drive_freq"] * timescale,
     )
 
     # Combine to System
@@ -96,7 +94,7 @@ for name, config_dict in config_dicts.items():
     initial_states = [initial_ground, initial_excited]
 
     # Build Experiment
-    times = np.arange(0, 1010, 10, dtype=np.float64)
+    times = np.arange(0, 610, 10, dtype=np.float64)
 
     # Lindblad
     if not os.path.exists(save_path + "_lindblad.pkl") or overwrite:

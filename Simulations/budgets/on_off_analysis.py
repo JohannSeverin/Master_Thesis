@@ -13,11 +13,11 @@ plt.style.use("../../code/matplotlib_style/fullwidth_figure.mplstyle")
 plt.rcParams["font.size"] = 16
 plt.rcParams["figure.figsize"] = (18, 6)
 cmap = LinearSegmentedColormap.from_list("mycmap", ["C0", "C1"], N=2)
-config = json.load(open("../qubit_calibration.json", "r"))
+config = json.load(open("../qubit_calibration_2.json", "r"))
 
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
-# This is to make up for the fact that the experiment has a steady state photon count of 30
+# config["g"] *= 2  # Looks like a small error in the coupling strength.
+# config["eta"] *= 9
+# # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 timescale = 1e-9  # ns
 

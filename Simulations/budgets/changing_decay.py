@@ -16,9 +16,7 @@ from simulation.experiment import (
     StochasticMasterEquationExperiment,
 )
 
-config = json.load(open("../qubit_calibration.json", "r"))
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
+config = json.load(open("../qubit_calibration_2.json", "r"))
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 ntraj = 100
@@ -36,11 +34,11 @@ def scale(T1, factor):
 ### Run Following options of config files
 config_dicts = {
     r"T1_10_increase": {"T1": scale(config["T1"], 1.1)},
-    r"T1": {"T1": scale(config["T1"], 1.0)},
+    # r"T1": {"T1": scale(config["T1"], 1.0)},
     r"T1_10_reduction": {"T1": scale(config["T1"], 0.9)},
     r"T1_25_reduction": {"T1": scale(config["T1"], 0.75)},
     r"T1_50_reduction": {"T1": scale(config["T1"], 0.50)},
-    r"T1_100_reduction": {"T1": scale(config["T1"], 0.00)},
+    # r"T1_100_reduction": {"T1": scale(config["T1"], 0.00)},
 }
 
 for name, config_dict in config_dicts.items():
@@ -53,10 +51,11 @@ for name, config_dict in config_dicts.items():
 
     # Build Devices from config file
     qubit = build_qubit(config, timescale)
-    resonator = build_resonator(config, timescale, levels=20)
+    resonator = build_resonator(config, timescale, levels=40)
 
     resonator_pulse = SquareCosinePulse(
-        amplitude=25e-3, frequency=config["fr"] * timescale
+        amplitude=2 * np.pi * config["drive_power"] * timescale,
+        frequency=config["drive_freq"] * timescale,
     )
 
     # Combine to System
@@ -96,7 +95,7 @@ for name, config_dict in config_dicts.items():
     initial_states = [initial_ground, initial_excited]
 
     # Build Experiment
-    times = np.arange(0, 1010, 10, dtype=np.float64)
+    times = np.arange(0, 610, 10, dtype=np.float64)
 
     # Lindblad
     if not os.path.exists(save_path + "_lindblad.pkl") or overwrite:
