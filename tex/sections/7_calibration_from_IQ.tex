@@ -282,7 +282,7 @@ Given the readout signal, the extraction now consist of two parts:
 
 Which is related to the quantum efficiency by\cite{boltink}\todo{Derive either here, in appendix or above in the theory section}:
 \begin{equation}
-    \eta = \frac{a^2\sigma^2}{2}
+    \eta = a^2\sigma^2
 \end{equation}
 
 \subsection{Amplitude Dependence of SNR}
@@ -295,7 +295,7 @@ To determine the SNR from the readoutpulse, one does a simple experiment, which 
     \label{fig:efficiency_SNR_experiment}
 \end{marginfigure}
 
-Repeating the experiment $n$-times for different values of $\epsilon$, we obtain the results in figure \ref{fig:effiiency_results_SNR}, where the distribution for the last $\epsilon$ is shown together with the relation between calculated SNR and applied amplitude. Fitting a linear equation to the results, we obtain $a = ??$. \todo{Extract value from $a$ with errors and write samples, make prettier figure.} 
+Repeating the experiment $n$-times for different values of $\epsilon$, we obtain the results in figure \ref{fig:effiiency_results_SNR}, where the distribution for the last $\epsilon$ is shown together with the relation between calculated SNR and applied amplitude. Fitting a linear equation to the results, we obtain $a = (2.43 \pm 0.15) \frac{1}{\epsilon}$. \todo{Extract value from $a$ with errors and write samples, make prettier figure.} 
 
 \begin{figure*}
     \centering
@@ -321,7 +321,7 @@ the readout drive will now be applied\footnote{Just as pulse because we're not i
     \label{fig:efficiency_dephasing_experiment}
 \end{marginfigure}
 
-Reading out the signal for different angles of $\phi$ will lead to a cosine shape: $\sigma_z = 2 |\rho_{01}(t= T)| \cos(\phi+\phi_0)$. And repeating for different readout amplitudes the dephasing due to backaction can be separated from the one due to $T_2$-dephasing which only has an effect of the amplitude. The results of the experiment can be seen in figure \ref{fig:efficiency_dephasing_experiment}, where the parameter from the important parameter for the Gaussian fit is the standard deviation: $\sigma = 0.0045 \pm ?$. \marginnote{Write the $\chi^2$ and $p-val$ for the fit in the marginnote.}
+Reading out the signal for different angles of $\phi$ will lead to a cosine shape: $\sigma_z = 2 |\rho_{01}(t= T)| \cos(\phi+\phi_0)$. And repeating for different readout amplitudes the dephasing due to backaction can be separated from the one due to $T_2$-dephasing which only has an effect of the amplitude. The results of the experiment can be seen in figure \ref{fig:efficiency_dephasing_experiment}, where the parameter from the important parameter for the Gaussian fit is the standard deviation: $\sigma = (7.42 \pm 0.17) \times 10^{-2} \; \epsilon$. \marginnote{Write the $\chi^2$ and $p-val$ for the fit in the marginnote.}
 
 \begin{figure*}
     \centering
@@ -335,7 +335,7 @@ Reading out the signal for different angles of $\phi$ will lead to a cosine shap
 \subsection{Calculating the Efficiency}
 Combining the results from the last two experiments, we find the readout efficiency to be:
 \begin{equation}
-    \eta = \frac{a^2\sigma^2}{2} = (1.5 \pm ?) \% 
+    \eta = a^2\sigma^2 = (3.3 \pm 1.2) \% 
 \end{equation}
 
 
@@ -343,6 +343,7 @@ Combining the results from the last two experiments, we find the readout efficie
 To get significant statistics on some calibration, one sweep 1 or 2 values for the experiment and then repeat the experiment many times to get significant statistics. If one of the sweeping axis are duration, we could instead use a continous measurement scheme to get the same data. In this section, we look at calibration by continuous measurement to speed up calibration schemes. Further, we will discuss if measurement changes the physics significantly. 
 
 \subsection{In-measurement T1 Calibration}
+\newthought{This data is taken a few months before the other parts, where the $T_1$ was longer. We will only use the temperature for now.} \\ \noindent
 The times used for the $T_1$ calibration described in sec \ref{sec:calibration_t1} is mostly waiting to see if the qubit has decayed. If we instead were to do a measurement in the waiting time, we can split it up in chunks and do classification at many times in the same readout trace. If done right, this would allow us to completely remove the sweep axis and instead just repeat the experiment the appropriate amount to get the samples.
 
 \begin{marginfigure}[-2cm]
@@ -376,19 +377,21 @@ The classification are the further fit by two curves with an exponential decay c
 
 Here, we also obtain the values for the steady state distributions $\rho(t \to \infty)$. In this limit, the system has reached equilibrium with the environment and the distribution is due to finite temperature. Comparing with the qubit frequency, we can calculate the temperature to be:
 \begin{equation}
-    \frac{p(\ket{1)}}{p(\ket{0})} = e^{(E_1 - E_0) / k_b \tau} \Leftarrow \tau = - \frac{\hbar \omega_{01}}{k_b} / \log\left(\frac{p(\ket{1)}}{p(\ket{0})} \right)  = 147.5 \text{ mK}
+    \frac{p(\ket{1)}}{p(\ket{0})} = e^{(E_1 - E_0) / k_b \tau} \Rightarrow \tau = - \frac{\hbar \omega_{01}}{k_b} / \log\left(\frac{p(\ket{1)}}{p(\ket{0})} \right)  = 147.5 \text{ mK}
 \end{equation}
 
-\paragraph{Interleaved Experiment *}\todo{Do analysis} Since the $T_1$ can vary a lot over even small time periods, we also perform and interleaved version of the old and new experiment. This will also allow us to see if there is a different decay inside and outside of the measurement. In this experiment the previous one is carried out again but this time we will include a sweep over the waiting time before reading out for the same pulse length. We can now compare the in-measurement $T_1$ values from the fit within the same pulse with the ones across the waiting time. Given that we see a constant offset $T_1^{meas} = T_1^{wait} + \delta t$ this will show up in this experiment,
+One might compare the temperature of the superconducting qubit with the temperature of the fridge of around 30 mK. The difference is suspected to come from electronic heating and other sources of microwaves leaking out into the material.
 
-\begin{figure*}
-    \centering
-    \missingfigure{Analysis of interleaved experiment}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{figure*}
+% \paragraph{Interleaved Experiment *}\todo{Do analysis} Since the $T_1$ can vary a lot over even small time periods, we also perform and interleaved version of the old and new experiment. This will also allow us to see if there is a different decay inside and outside of the measurement. In this experiment the previous one is carried out again but this time we will include a sweep over the waiting time before reading out for the same pulse length. We can now compare the in-measurement $T_1$ values from the fit within the same pulse with the ones across the waiting time. Given that we see a constant offset $T_1^{meas} = T_1^{wait} + \delta t$ this will show up in this experiment,
 
-Comments on results... 
+% \begin{figure*}
+%     \centering
+%     \missingfigure{Analysis of interleaved experiment}
+%     \caption{Caption}
+%     \label{fig:enter-label}
+% \end{figure*}
+
+% Comments on results... 
 
 
 
@@ -401,24 +404,32 @@ In this chapter, we have calibrated the necessary values of the qubit, resonator
 \caption{The outcome of calibrating the qubit with the methods presented in this chapter.}
 \begin{tabular}{lr|rrr}
 \hline
-\textbf{Qubit}                &          & value & error & unit \\ \hline
-Frequency                     & $f_{01}$ &  5.9823       &  0.0002  & Ghz  \\
-Anharmonicity                 & $\alpha$ &  $-286.3$       &  0.3     & MHz  \\
-Decay Time                    & $T_1$    &  2.94         &  0.08    & µs   \\
-Dephasing Time                & $T_\phi$ &  2.39         &  0.12    & µs   \\ 
+\textbf{Qubit}                &          & value & error  & unit \\ \hline
+Frequency                     & $f_{01}$ &  5.98203       &  0.00008  & Ghz  \\
+Anharmonicity                 & $\alpha$ &  $-288.81$     &  0.15     & MHz  \\
+Decay Time                    & $T_1$    &  4.30          &  0.12    & µs   \\
+Dephasing Time                & $T_\phi$ &  1.38          &  0.08    & µs   \\ 
 & & & & \\ \hline 
 
-\textbf{Resonator}                &        & value      & error  & unit \\ \hline
-Frequency                     & $f_{r}$    &  7.555135  & 9e-6?       & Ghz  \\
-Disersive Shift               & $\chi$     &  745       &  9       & KHz \\
-Decay rate                    & $\kappa$   &  2.7       & 0.3        & Mhz  \\
-Mean Photon Number            & $\Bar{n}$  &  10.1      &  0.3   &  -  \\ 
-& & & & \\ \hline 
+\textbf{Resonator}                &        & value      & error    & unit \\ \hline
+Frequency                     & $f_{r}$    &  7.555130  & 0.000004 & Ghz  \\
+Disersive Shift               & $\chi$     &  763.5     &  4       & KHz \\
+Decay rate                    & $\kappa$   &  3.8       & 0.6      & Mhz  \\
+Mean Photon Number            & $\Bar{n}$  &  21        & 1        &  -  \\
+ 
 
+& & & & \\ \hline 
 \textbf{System}                &          & value & error & unit \\ \hline
-Coupling                       & $g$      &  34.2         & 0.4    & Mhz  \\
-Efficiency                     & $\eta$   &  1.5          &     & \% \\
-Temperature                    & $\tau$   & 147.5         &      & mK 
+Coupling                       & $g$      &  87.0         & 0.4    & Mhz  \\
+Efficiency                     & $\eta$   &  3.3          & 1.2    & \% \\
+Temperature                    & $\tau$   & 147.5         &        & mK \\
+& & & & \\ \hline
+
+\hline
+\textbf{Pulse}                &                 & value      & error    & unit \\ \hline
+Duration                      & $T_{\text{dura}}$  &  1000     & -        & ns   \\
+Drive Frequency               & $f_{\text{drive}}$ &  7.555130 & -        & GHz  \\ 
+Drive Amplitude               & $\epsilon$         &  6.4      & ?        & MHz  \\ 
 \end{tabular}
 \label{tab:qubit_calibration}
 \end{table}

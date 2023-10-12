@@ -172,18 +172,18 @@ And we could combine them to get higher order like
 \end{equation}
 and beyond. This computation more precise since it takes considers higher order terms up to order $n$ and goes fast since it reuses the old points and just have to do one operation\footnote{in the sense that no operation has to wait for another operation before it can be run.} for the next points. In Qutip $n=12$ by default. One challenge is that the algorithm requires $n$ points to get started. Thus we can either assume that every differential beyond order $m$ is $0$ when calculating the $0$th point. Such that we effectively would do an Euler integration for the first point, a second order Adams for the second and so on. Or, we can use another algorithm which moves forward in time to approximate the higher order differentials. As an example, the Runge-Kutta algorithm can be used.
 
+\todo{Check with source here: https://link.springer.com/book/10.1007/978-3-540-78862-1 should be accessible within KU }
+
 
 
 \begin{marginfigure}
     \centering
     \includegraphics[]{Figs/Theory/adams_intergation.pdf}
-    \caption{How the Adams algorithm works}
+    \caption{How the Adams algorithm works. Here the second order derivative is found by the finite difference method to be $f'(x_i) = (f(x_i) - f(x_{i-1}))/\Delta t$}
     \label{fig:Adams integration}
 \end{marginfigure}
 
-\todo{Describe Runge-Kutta if space is availible}
-\paragraph{The Runge-Kutta method} is doing this by doing an (or several) intermediate steps to have a trial point. The results can then be combined to make the errors cancel out. To second order, the Runge-Kutta algorithm simply calculates a middle step by doing half a time step: $k_1 = \Delta t / 2 \psi $takes $\Vec{\psi_i} = \Vec{\psi_{i-1}} + k_1 + \mathcal{O}(\Delta t^3)$
-
+The Runge-Kutta method is doing this by doing an (or several) intermediate steps to have a trial point. The results can then be combined to make the errors cancel out. To second order, the Runge-Kutta algorithm simply calculates a middle step by doing half a time step: $k_1 = \Delta t / 2 \psi $takes $\Vec{\psi_i} = \Vec{\psi_{i-1}} + k_1 + \mathcal{O}(\Delta t^3)$. To higher orders this lets us suppress the error for the first few steps using multiple steps with the Runge-Kutte method and when we have the first $n$ values, we can switch to the Adams method to improve speed while keeping the error small. \todo{Same source as above? } 
 % \todo{Write this properly}
 % \paragraph{Adams method} includes the values calculated in the last few steps to determine a polynomial expansion. This does not require to calculate as many points as the Runge-Kutta and comes with a high precision as well. Requires a few points to start, but one could use Runge-Kutta to find the first few points or run the algorithm backwards in time. 
 
