@@ -22,9 +22,9 @@ config = json.load(open("../qubit_calibration_2.json", "r"))
 # config["eta"] *= 2
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
-ntraj = 250
+ntraj = 1000
 save_path = "data/"
-overwrite = False
+overwrite = True
 show_plots = False
 
 timescale = 1e-9  # ns

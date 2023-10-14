@@ -89,7 +89,7 @@ ax.set_xticklabels(xticklabels, fontsize=18, rotation=45)
 ax.set_ylabel("Expectation Photons (a .u.)")
 ax.set_yticks([])
 ax.set(
-    title="Dispersive Shift",
+    title="Dispersive Shift - 5 Levels",
     xlabel="Drive Frequency",
     xlim=(config["fr"] * 1e-9 - 0.01, config["fr"] * 1e-9 + 0.01),
 )
