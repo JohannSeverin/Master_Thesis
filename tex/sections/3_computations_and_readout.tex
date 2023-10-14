@@ -204,24 +204,18 @@ While we get a new contribution to the Hamiltonian by:
                 &= 2 \lambda g \left(a^\dagger a \sigma_z + \frac12 \lambda g \sigma_+\sigma_-\right) \\
                 &= \lambda^2 g^2 \ket{1}\bra{1} + 2 \chi a^\dagger a \sigma_z
 \end{align*}
-Here we have defined $\chi= g^2 / \Delta$ as the dispersive shift, which here is a measure of how much the resonator frequency moves depending on the state of the qubit. The $\lambda^2 g^2 \ket{1}\bra{1}$ is a contribution to the first excited state of the qubit and will normally just be absorbed into a new qubit frequency slightly shifted by resonator. The full dispersive Hamiltonian now reads:
+Here we have defined $\chi= g^2 / \Delta$ as the dispersive shift, which here is a measure of how much the resonator frequency moves depending on the state of the qubit. The $\lambda^2 g^2 \ket{1}\bra{1}$ is a contribution to the first excited state of the qubit and will normally just be absorbed into a new qubit frequency slightly shifted by resonator. The dispersive Hamiltonian now reads:
 \begin{equation}
-    H = \left(\Tilde{\omega}_r a^\dagger a + \chi a^\dagger a \right)  + \frac12 \Tilde{\omega}_{01} \sigma_z
+    H = \left(\Tilde{\omega}_r a^\dagger a + \chi \sigma_z a^\dagger a \right)  + \frac12 \Tilde{\omega}_{01} \sigma_z
 \end{equation}
-Where the qubit and resonator frequency are altered to include the shift they impose on each other \cite{boissonneault_dispersive_2009}.
+Where the qubit and resonator frequency are altered to include the shift they impose on each other \cite{boissonneault_dispersive_2009}. To see the effect, one could drive the resonator at different frequencies and plot the expectation photon number $\expval{n}$ at the end for different qubit states. A result of such a simulation can be seen in \ref{fig:dispersive_two_level_qubit}. In this case, the width of the curves are dependent on the drive time, often one will however see them Lorentzian shaped, with a width determined by the lifetime of the photons in the resonator.
 \begin{marginfigure}
     \centering
-    \missingfigure{Figure showing dispersive shift of two qubit states}
-    \caption{Caption}
+    \includegraphics[]{Simulations/readout_simulations/dispersive_shift_2_level.pdf}
+    \caption{Simulated driving of a qubit-resonator system using the dispersive approximation.}
     \label{fig:dispersive_two_level_qubit}
 \end{marginfigure}
-\begin{marginfigure}
-    \centering
-    \missingfigure{Three States}
-    \missingfigure{Many States}
-    \caption{Caption}
-    \label{fig:dispersive_two_level_qubit}
-\end{marginfigure}
+
 If we were to consider multiple levels of the qubit, the calculation require a  bit more work. This has been done in appendix \ref{appendix:} and leads to a general form of the Hamiltonian for a multi level qubit:
 \begin{equation}\label{eq:multi_qubit_dispersive_hamiltonian}
     H' = \left(\omega_r + \sum_k \chi_k \ket{k}\bra{k} \right) a^\dagger a + \sum_k (\omega_k + \delta_k)\ket{k}\bra{k}
@@ -234,13 +228,20 @@ Where the quantities are derived from a coupling matrix with elements $g_{ij} = 
     \delta_{i} &= \sum_j \delta_{ij} 
 \end{align}
 In this form, both the resonator frequency at the ground and first excited state of the qubit is shifted by an amount. This alters the effective dispersive shift between these two:
-Altering the dispersive shift in the two level model to\cite{krantz_quantum_2019}: 
+\begin{marginfigure}
+    \centering
+    \includegraphics[]{Simulations/readout_simulations/dispersive_shift_3_level.pdf}
+    \includegraphics[]{Simulations/readout_simulations/dispersive_shift_5_level.pdf}
+    \caption{Same simulating driving as figure \ref{fig:dispersive_two_level_qubit}, but with a 3 and 5 level qubit respectively.}
+    \label{fig:dispersive_multi_level}
+\end{marginfigure}to\cite{krantz_quantum_2019}: 
 \begin{equation}
     \chi = \chi_{01} + \chi_{12}/2 = - g_{01}^2/\Delta \left(\frac{1}{1 + \Delta / \alpha}\right)
 \end{equation}
+The effect can be seen in figure \ref{fig:dispersive_multi_level} where the second excited state moves the frequncy of the first much closer. This repeats when adding a third, fourth or higher excited state.
 
-\todo{Make figures for this section...}
-In the above 
+When deriving the equations the dispersive model, we neglect terms of order $\lambda^2$ or above. If we were to keep this term, it would have been multiplied with a $a^\dagger a$. If the mean photon number would have more than order $1 / \lambda^2$, it is no longer valid to throw the terms out. To be sure the dispersive model is a good approximation, one should therefore stay under a critical photon number, where $n_{\text{crit}} = \Delta^2 / 4 g^2$ \cite{krantz_quantum_2019}.
+When calibrating our qubit in chapter \ref{chap:calibration}, we will find a critical photon number of $n_{\text{crit}} \approx 81$,and since we will be driving the resonator to around $\expval{n} \approx 21 \approx n_{\text{crit}} / 4$, this is well below the critical number. The dispersive approximation should therefore still provide a good model \cite{boissonneault_dispersive_2009}. 
 
 
 
@@ -279,52 +280,61 @@ Which gives a nice time-independent Hamiltonian for m-level qubit which will pro
 
 
 
-\section{I-Q Plane}
-\todo{Check units and clean this a bit.}
-To build up a visualization of the readout drive which later will be closely related to the measurements, we want to consider the phase plane of the resonator. As a start, lets consider the quantum harmonic oscillator subject to $H = \omega^2  x^2 + p^2$ with proper definitions of $x$ and $p$ which properly satisfy $\comm{x}{p} = i$. To diagonalize the Harmonic Oscillator, one usually introduces the raising and lowering operator by:
-\begin{align}
-    &a \propto x + ip \hfill &a^\dagger \propto x - ip \\
-    &x \propto a + a^\dagger \hfill &p\propto i (a - a^\dagger)
-\end{align}
-Now, one can consider the harmonic oscillator either discretely in the $n = a^\dagger a$ eigenspace or in the continuous basis of $x$ and $p$. The same can be done with photons in a resonator. Where we consider the "quadratures" of the electric field, which we define as Q and I and are defined by the photon creation and annihilation operator in a way quite like the $x$ and $p$ operators of the harmonic oscillator \cite{knight}:
+\section{I-Q Phase Space}
+In the last section, we showed how the resonator experiences a state dependent shift of its frequency depending on the qubit. A valid way of doing readout is to drive the resonator at the frequency associated with $\ket{1}$. If the photon are now absorbed by the resonator, we can label the state "1". Often it is however beneficial to drive the resonators in between the two frequencies \cite{blais2004}. In this section, we will built up the tools for visualizing the two dimensional information in the IQ-plane which will allow us to understand why this is the case.
+
+For a quantum harmonical oscillator, we represent the state by introducing the raising and lowering operator from the position and momentum: $a \propto x + ip$ and $a^\dagger \propto x - ip$. We can of course always measure $x$ or $p$ by representing them as $x \propto a + a^\dagger$ and $p\propto i (a - a^\dagger)$. Because of Heisenbergs uncertainty principle, we can however not know both of them at once. This is summed up in the between their uncertainties: $\sigma_x \sigma_p \geq 1/2$.  The same ideas can also be used to think about the state of the resonator. Here we define the \textit{quadrature operators} which also obey Heisenberg's uncertainty principle. They are defined  as\cite{knight}: 
 \begin{equation}
     Q = a + a^\dagger \hspace{2 cm} I = i(a^\dagger - a)
 \end{equation}
 
+% In a quantum harmonic osci
+% As a start, lets consider the quantum harmonic oscillator subject to $H = \omega^2  x^2 + p^2$ with proper definitions of $x$ and $p$ which properly satisfy $\comm{x}{p} = i$. To diagonalize the Harmonic Oscillator, one usually introduces the raising and lowering operator by:
+% \begin{align}
+%     &a \propto x + ip \hfill &a^\dagger \propto x - ip \\
+%     &x \propto a + a^\dagger \hfill &p\propto i (a - a^\dagger)
+% \end{align}
+% Now, one can consider the harmonic oscillator either discretely in the $n = a^\dagger a$ eigenspace or in the continuous basis of $x$ and $p$. The same can be done with photons in a resonator. Where we consider the "quadratures" of the electric field, which we define as Q and I and are defined by the photon creation and annihilation operator in a way quite like the $x$ and $p$ operators of the harmonic oscillator \cite{knight}:
+
+
 \subsection{Coherent States}
-When considering a Harmonic Oscillator, the number states have expectation values $\expval{x} = \expval{p} = 0$. To get non-zero values of these expectation values, one is required to have superposition states with adjacent components. Example: $c_n\ket{n} + c_{n+1} \ket{n+1}$, which would satisfy $\expval{x} \propto \expval{a + a^\dagger} \neq 0$. The more natural states would be eigenstates to the annihilation operator:
+In a Harmonic Oscillator, the number states have expectation values $\expval{x} = \expval{p} = 0$. To get non-zero values of these expectation values, one is required to have superposition states with adjacent components. Example: $c_n\ket{n} + c_{n+1} \ket{n+1}$, which would satisfy $\expval{x} \propto \expval{a + a^\dagger} \neq 0$. The more natural states which would have position and momentum would be the eigenstates to the lowering operator:
 \begin{equation}
     a \ket{\alpha} = \alpha \ket{\alpha}
 \end{equation}
-Expanding $\ket{\alpha}$ in the Fock states gives us:
+Where we can expand $\ket{\alpha}$ into the Fock basis. This gives us:
 \begin{align}
-    a \sum_n C_n \ket{n} = \alpha \sum_{n = 0} C_n \ket{n} \\
-    \sum_{n = 1} C_n \sqrt{n} \ket{n - 1}
+    a \sum_n C_n \ket{n} =     \sum_{n = 1} C_n \sqrt{n} \ket{n - 1} = \alpha \sum_{n = 0} C_n \ket{n}
 \end{align}
-From where, we can compare the coefficients of the $\ket{n}$:
+Here we can extract a relation between their coefficients:
 \begin{equation}
     \sqrt{n} C_n = \alpha C_{n - 1}
 \end{equation}
-Given $C_0$, we can now determine the rest of the series as:
+If we know $C_0$, we can now determine the rest of the series by:
 \begin{equation}
     C_N = \frac{\alpha^n}{\sqrt{n!}} C_0 
 \end{equation}
-Such that $\ket{\alpha}$ can be found as: 
+Ultimately, we can find an expression for the state $\ket{\alpha}$ in terms of the raising operator.
 \begin{equation}
-    \ket{\alpha} = C_0 \sum_n \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0} = C_0
+    \ket{\alpha} = C_0 \sum_n \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0}
 \end{equation}
-Where $C_0$ can be found from normalization as:
-\begin{align}
-    1 &= |C_0|^2 \bra{0}\sum_{n, m}\frac{(\alpha^*)^m} {\sqrt{m!}} a^m \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0} \\
-    1 &= |C_0|^2 \sum_n \frac{|\alpha|^{2n} }{n!} = |C_0|^2 e^{|\alpha|^2} \\
-    |C_0|^2 &= e^{-|\alpha|^2}
-\end{align}
-Which is satisfied by: $C_0 = e^{- |\alpha|^2 / 2}$. Thus a coherent state is given as:
+and $C_0$ is fonud from the normalization to be $C_0 = e^{- |\alpha|^2 / 2}$. Thus a coherent state is given as:
 \begin{equation}
     \ket{\alpha} = e^{-|\alpha|^2 / 2} \sum_n \frac{\alpha^n}{\sqrt{n!}} \ket{n}
 \end{equation}
-Where each complex $\alpha$ corresponds to a coherent state.
+Where each complex $\alpha$ corresponds to a coherent state. If $\alpha = 0$, we have the vacuum state which is the same as the vacuum Fock state $\ket{\alpha = 0} = \ket{n = 0}$. 
 
+\todo{Can we include the following}
+\begin{itemize}
+    \item The coherent states all have the lower limit on the Heisenbergs uncertainity principle.
+    \item When driving a coherent state with term like $a + a^\dagger$ it is a translation of the coherent state.
+\end{itemize}
+
+% \begin{align}
+%     1 &= |C_0|^2 \bra{0}\sum_{n, m}\frac{(\alpha^*)^m} {\sqrt{m!}} a^m \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0} \\
+%     1 &= |C_0|^2 \sum_n \frac{|\alpha|^{2n} }{n!} = |C_0|^2 e^{|\alpha|^2} \\
+%     |C_0|^2 &= e^{-|\alpha|^2}
+% \end{align}
 % \subsection{Overcompleteness / Properties of Coherent States}
 % \textbf{This is probably relevant for the Q function} 
 
@@ -350,7 +360,6 @@ Such that we find the Husimi $Q$-function as:
     Q(\alpha) =  \frac{1}{\pi} \mel{\alpha}{\rho}{\alpha}
 \end{equation}
 which will serve as our probability distribution of a density matrix $\rho$ in the coherent phase space.
-
 % \subsection{Common States *}
 % Were we to solve the Hamiltonian in either the position or momentum basis, we would find that the ground state solution to be a Gaussian centered around the bottom of the square-potential and for higher states, we would have some multiplication with a Hermite Polynomial of corresponding order. This fact can be seen in figure \ref{fig:Q_func_examples} where the vacuum state is a 2D gaussian centered at the center (\textit{check validity of statement}). \\
 % Now for the higher Fock states ($n = 3$ is shown), we see a ring, which is centered with an average radius of $n$. A good intuition for this is the energy conservation of the harmonic oscillator. If we were to measure the position $x=0$ of a harmonic oscillator with non-zero energy, it would certainly have a non-zero momentum. Of course in quantum mechanics this is smeared a bit by Heisenberg Uncertainty Principle.\\
