@@ -324,11 +324,13 @@ and $C_0$ is fonud from the normalization to be $C_0 = e^{- |\alpha|^2 / 2}$. Th
 \end{equation}
 Where each complex $\alpha$ corresponds to a coherent state. If $\alpha = 0$, we have the vacuum state which is the same as the vacuum Fock state $\ket{\alpha = 0} = \ket{n = 0}$. 
 
-\todo{Can we include the following}
-\begin{itemize}
-    \item The coherent states all have the lower limit on the Heisenbergs uncertainity principle.
-    \item When driving a coherent state with term like $a + a^\dagger$ it is a translation of the coherent state.
-\end{itemize}
+
+
+% \todo{Can we include the following}
+% \begin{itemize}
+%     \item The coherent states all have the lower limit on the Heisenbergs uncertainity principle.
+%     \item When driving a coherent state with term like $a + a^\dagger$ it is a translation of the coherent state.
+% \end{itemize}
 
 % \begin{align}
 %     1 &= |C_0|^2 \bra{0}\sum_{n, m}\frac{(\alpha^*)^m} {\sqrt{m!}} a^m \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0} \\
@@ -339,64 +341,77 @@ Where each complex $\alpha$ corresponds to a coherent state. If $\alpha = 0$, we
 % \textbf{This is probably relevant for the Q function} 
 
 \subsection{Phase Space Representations}
-\todo{This is a bit akward with the order since the density matrix is not presented before next section.} \noindent
-When considering a way of representing a density matrix $\rho$ in phase space, we have the chance to define the properties we want. A natural way of thinking about this would be probability functions, which have certain properties. It would be useful to be able to express expectation values, $\expval{O} = \mel{\psi}{O}{\psi}$ in phase space. If we were to represent an operator in a coherent basis, it would take the form:
+With the coherent states we have a set of state that span a two-dimensional plane. We can use these to formulate a two dimensional pseudo-probability density function for values the values in $I$ and $Q$. This should take the Heisenberg uncertainity principle into account, such that the vacuum state for example should be a two dimensional Gaussian with standard deviation $\frac12$. Another desired property of this distribution should be the ability to express expectation values, $\expval{O} = \mel{\psi}{O}{\psi}$ in phase space. If we were to represent an operator in a coherent basis, it would take the form:
 \begin{equation}
     O = \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} 
 \end{equation}
 The expectation value $\expval{O}$ will now take the form: 
 \begin{align*}
-    \expval{O} &= \Tr{O \rho} \\
-               &= \sum_n \bra{n} \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} \rho \ket{n} \\
-               &= \int d\alpha^2 O(\alpha, \alpha^*)\bra{\alpha} \rho \ket{\alpha}
+    \expval{O} &= \mel{\psi}{O}{\psi} \\
+               &= \sum_n \bra{\psi} \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} \ket{\psi}\\
+               % &= \sum_n \bra{n} \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} \ket{\psi}\bra{\psi} \ket{n} \\
+               &= \int d\alpha^2 O(\alpha, \alpha^*) |\braket{\psi}{\alpha}|^2
 \end{align*}
-\marginnote[-1 cm]{Here we have used that $\mel{\alpha}{\rho}{n}$ is a scalar and commutes with the other operators while $\sum_n \ket{n}\bra{n} = \identity$.}
-Here $\mel{\alpha}{\rho}{\alpha}$ takes the role of a probability distribution in the coherent phase space. To further ensure that the function is properly normalized, we demand the expectation value of the identity to equal 1:
+Here $|\braket{\psi}{\alpha}|$ takes the role of a probability distribution in the coherent phase space. To further ensure that the function is properly normalized, we must have the sum of all probabilities to equal 1. This is enforced by demanding that the expectation value of the identity is equal to 1. But since the set of coherent states are overcomplete (the fact that the integral is two dimensional, should be a hint), the identity has an extra factor of $1 / \pi$ \cite{knight}. 
 \begin{align*}
-    1 = \expval{\identity} &= \int d\alpha^2 \frac{1}{\pi} \mel{\alpha}{\rho}{\alpha}
+    1 = \expval{\identity} &= \int d\alpha^2 \frac{1}{\pi} |\braket{\psi}{\alpha}|^2
 \end{align*}
-Such that we find the Husimi $Q$-function as:
+This gives us a pseudo-probability function given by: 
+\begin{equation}
+    Q(\alpha) = \frac{1}{\pi} |\braket{\psi}{\alpha}|^2
+\end{equation}
+This even works, when we have non-pure states represented by a density matrix (as we will soon introduce in sec \ref{sec:density_matrix_formalism}). Here it is called the Husimi $Q$-function and given by:
 \begin{equation}
     Q(\alpha) =  \frac{1}{\pi} \mel{\alpha}{\rho}{\alpha}
 \end{equation}
-which will serve as our probability distribution of a density matrix $\rho$ in the coherent phase space.
+The $Q$-function is a powerful tool, which allows us to visualize some state in the phase space. Some common states like the vacuum state, a fock state or a coherent state can be seen in figure \ref{fig:Q_func_examples}.
+
+\begin{marginfigure}[-12 cm]
+    \centering
+    \includegraphics{Figs/Theory/Q_functions.pdf}
+    \caption{Example of Different Q-functions for vacuum state, Fock state ($n = 3$) and a coherent state with $\alpha = 2 + 2i$.}
+    \label{fig:Q_func_examples}
+\end{marginfigure}
+
 % \subsection{Common States *}
 % Were we to solve the Hamiltonian in either the position or momentum basis, we would find that the ground state solution to be a Gaussian centered around the bottom of the square-potential and for higher states, we would have some multiplication with a Hermite Polynomial of corresponding order. This fact can be seen in figure \ref{fig:Q_func_examples} where the vacuum state is a 2D gaussian centered at the center (\textit{check validity of statement}). \\
 % Now for the higher Fock states ($n = 3$ is shown), we see a ring, which is centered with an average radius of $n$. A good intuition for this is the energy conservation of the harmonic oscillator. If we were to measure the position $x=0$ of a harmonic oscillator with non-zero energy, it would certainly have a non-zero momentum. Of course in quantum mechanics this is smeared a bit by Heisenberg Uncertainty Principle.\\
 % The coherent state described in the previous sections behaves like moving the vacuum around. The center of the distribution will be in $\alpha$.  
 
-% \begin{marginfigure}[-12 cm]
-%     \centering
-%     \includegraphics{Figs/Theory/Q_functions.pdf}
-%     \caption{Example of Different Q-functions for vacuum state, Fock state ($n = 3$) and a coherent state with $\alpha = 2 + 2i$.}
-%     \label{fig:Q_func_examples}
-% \end{marginfigure}
-
 \subsection{The Driven Resonator in the IQ Plane}\label{sec:driving_resonator_iq_plane}
 With the new formulation of Q-functions we can visualize the readout drive as a separation in the IQ plane. Let us explore what happens, when we drive the resonator while considering the qubit to be a two level system subject to the Hamiltonian:
 \begin{equation}
-    H_{eff} =  \left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + \epsilon(a + a^\dagger)
+    H_{eff} =  \left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + i\epsilon(a - a^\dagger)
 \end{equation}
 If we were to take the time-derivative of the lowering operator of the resonator, we find:
 \begin{equation}
-    \dot{a}(t) = i\comm{H_{eff}}{a} = -i\comm{\left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + \epsilon(a + a^\dagger)}{a}
+    \dot{a}(t) = i\comm{H_{eff}}{a} = -i\comm{\left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + i\epsilon(a - a^\dagger)}{a}
 \end{equation}
+\todo{This is Heisenberg picture, do we need the equation somewhere?}
 And using the commutation relatons, we find:
 \begin{equation}
-    \dot{a}(t) = -i \left(\left(\omega_r - \omega_d + \chi \sigma_z\right) a(t) + \epsilon\right)
+    \dot{a}(t) = -i \left(\left(\omega_r - \omega_d + \chi \sigma_z\right) a(t) + i\epsilon\right)
 \end{equation}
 We now consider the resonator to be in a coherent state $\ket{\alpha}$ (initially we consider $\alpha(t=0) = 0$) and the qubit is in $\ket{k}$ with $k = 0,  1$. Applying our field operator from above, now gives us \cite{blais_circuit_2021}:
-\begin{equation}
-    \dot{\alpha}(t) \ket{\alpha(t), k} = - i \left(\left(\omega_r - \omega_d \pm \chi \right) \alpha(t) + \epsilon\right) \ket{\alpha(t), k} 
+\begin{equation}\label{eq:resonator_movement}
+    \dot{\alpha}(t) \ket{\alpha(t), k} = - i \left(\left(\omega_r - \omega_d \pm \chi \right) \alpha(t) + i\epsilon\right) \ket{\alpha(t), k} 
 \end{equation}
-\todo{Include figures. Does this calculation make sense before we add the dissipation?}
+Giving us a differential equation for the pointing vector $\alpha$. If we were to start in a coherent state, for example the vacuum state, the equation also tells us that we would stay in a coherent state. An example of driving the qubit-state-dependent resonator can be seen in figure \ref{fig:IQ_movement_without_kappa} where the drive is a both the frequency of $\ket{1}$ and in between the two. We should also notice that if we just use the absorption as a parameter (that is how far away the state is from origin), then we would in this case still get some signal if the qubit were in the $\ket{0}$ state. If we instead could readout the phase of $\alpha$ then we would have a much better way of separating the qubits in this case.
+
+\todo{Include legend in the figure}
+\begin{figure}
+    \centering
+    \includegraphics{Simulations/readout_simulations/IQ_movement_without_kappa.pdf}
+    \caption{Driven resonator in the dispersive model where the qubit state is either $1$ or $0$ and we have used the realistic parameters for the constants in equation \ref{eq:resonator_movement} which we will calibrate in chapter \ref{chap:calibration}. The path of $I, Q$ coordinates are displayed along with the standard deviation of a half, which we have for coherent states in the IQ plane.}
+    \label{fig:IQ_movement_without_kappa}
+\end{figure}
 
 
-\begin{itemize}
-    \item When driving the resonator, we move it in the IQ-plane
-    \item What happens if we're slighly off resonant. We see a curve
-    \item Display the path of two qubit when we apply a drive inbetween the resonances. 
-\end{itemize}
+% \begin{itemize}
+%     \item When driving the resonator, we move it in the IQ-plane
+%     \item What happens if we're slighly off resonant. We see a curve
+%     \item Display the path of two qubit when we apply a drive inbetween the resonances. 
+% \end{itemize}
 
 
 % \vspace{1 cm}
