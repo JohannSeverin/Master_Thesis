@@ -56,37 +56,6 @@ circ = Circle(
 )
 ax[0].add_patch(circ)
 
-# Distance between circles
-# ax[0].plot(
-#     [
-#         results_ground.y[0, -1].real,
-#         results_excited.y[0, -1].real,
-#     ],
-#     [
-#         results_ground.y[0, -1].imag,
-#         results_excited.y[0, -1].imag,
-#     ],
-#     color="C3",
-#     ls = "-",
-#     linewidth = 5,
-# )
-
-# distance = np.sqrt(
-#     (results_ground.y[0, -1].real - results_excited.y[0, -1].real) ** 2
-#     + (results_ground.y[0, -1].imag - results_excited.y[0, -1].imag) ** 2
-# )
-
-# ax[0].text(
-#     (results_ground.y[0, -1].real + results_excited.y[0, -1].real) / 2,
-#     (results_ground.y[0, -1].imag + results_excited.y[0, -1].imag) / 2,
-#     f"{distance:.2f}",
-#     color="C3",
-#     fontsize=20,
-#     horizontalalignment="center",
-#     verticalalignment="bottom",
-# )
-
-
 ax[0].set_aspect("equal")
 
 ax[0].set(
@@ -123,6 +92,9 @@ ax[1].set(
     title="Drive at $f_r - \chi$",
     xlabel="I (photon count)",
 )
+
+fig.savefig("IQ_movement_without_kappa.pdf", bbox_inches="tight")
+
 # Distance between circles
 # ax[1].plot(
 #     [

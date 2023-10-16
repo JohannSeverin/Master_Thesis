@@ -22,7 +22,7 @@ config = json.load(open("../qubit_calibration_2.json", "r"))
 # config["eta"] *= 2
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
-ntraj = 1000
+ntraj = 500
 save_path = "data/"
 overwrite = True
 show_plots = False
@@ -32,26 +32,26 @@ timescale = 1e-9  # ns
 
 ### Run Following options of config files
 config_dicts = {
-    "realistic": {},
-    "decay_only": {"eta": 1.0, "temperature": 0, "T1": config["T1"]},
-    "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
-    "thermal_only": {"eta": 1.0, "temperature": config["temperature"], "T1": 0},
-    "no_decay": {
-        "eta": config["eta"],
-        "temperature": config["temperature"],
-        "T1": 0,
-    },
+    # "realistic": {},
+    # "decay_only": {"eta": 1.0, "temperature": 0, "T1": config["T1"]},
+    # "efficiency_only": {"eta": config["eta"], "temperature": 0, "T1": 0},
+    # "thermal_only": {"eta": 1.0, "temperature": config["temperature"], "T1": 0},
+    # "no_decay": {
+    #     "eta": config["eta"],
+    #     "temperature": config["temperature"],
+    #     "T1": 0,
+    # },
     "perfect_efficiency": {
         "eta": 1.0,
         "temperature": config["temperature"],
         "T1": config["T1"],
     },
-    "zero_temperature": {
-        "eta": config["eta"],
-        "temperature": 0,
-        "T1": config["T1"],
-    },
-    "perfect": {"eta": 1.0, "temperature": 0, "T1": 0},
+    # "zero_temperature": {
+    #     "eta": config["eta"],
+    #     "temperature": 0,
+    #     "T1": config["T1"],
+    # },
+    # "perfect": {"eta": 1.0, "temperature": 0, "T1": 0},
 }
 
 for name, config_dict in config_dicts.items():
@@ -128,14 +128,14 @@ for name, config_dict in config_dicts.items():
             save_path=save_path + "_lindblad.pkl",
         )
 
-        start_time = time.time()
-        results = experiment.run()
+        # start_time = time.time()
+        # results = experiment.run()
 
-        print(f"Time for Lindblad: {time.time() - start_time}")
+        # print(f"Time for Lindblad: {time.time() - start_time}")
 
-        if show_plots:
-            automatic_analysis(results)
-            plt.show()
+        # if show_plots:
+        #     automatic_analysis(results)
+        #     plt.show()
     # Stochastic Master Equation
     if not os.path.exists(save_path + "_sme.pkl") or overwrite:
         print("Running Stochastic Master Equation Experiment")

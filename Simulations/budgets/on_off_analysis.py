@@ -310,14 +310,14 @@ config_dict_combinations = {
         "temperature": config["temperature"],
         "T1": 0,
     },
-    "perfect_efficiency": {
-        "eta": 1,
-        "temperature": config["temperature"],
-        "T1": config["T1"],
-    },
     "zero_temperature": {
         "eta": config["eta"],
         "temperature": 0,
+        "T1": config["T1"],
+    },
+    "perfect_efficiency": {
+        "eta": 1,
+        "temperature": config["temperature"],
         "T1": config["T1"],
     },
 }
