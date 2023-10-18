@@ -212,35 +212,35 @@ First, it will be beneficial to expand the representation of a qubit to its dens
     &= \frac12 (\identity + \Vec{a} \cdot \Vec{\sigma}) \label{eq:density_of_qubit}
 \end{align}
 % \end{fullwidth}
-Where $\Vec{\sigma} = [\sigma_x, \sigma_y, \sigma_z]$ and $\Vec{a} = [\sin{\theta}\cos{\phi}, \sin{\theta}\sin{\phi}, \cos{\theta}]$ is the coefficients. \cite{krantz_quantum_2019} The resemblens to cartesian coordinates allow us to think about $\Vec{a}$ as vector pointing to the state.
+Where $\Vec{\sigma} = [\sigma_x, \sigma_y, \sigma_z]$ and $\Vec{a} = [\sin{\theta}\cos{\phi}, \sin{\theta}\sin{\phi}, \cos{\theta}]$ is the coefficients\cite{krantz_quantum_2019}.  The resemblance to Cartesian coordinates allow us to think about $\Vec{a}$ as vector pointing to the state.
 
-\begin{marginfigure}
+\begin{marginfigure}[-11 cm]
     \centering
-    \missingfigure{Pure State}
-    \missingfigure{Mixed state}
-    \caption{Pure state and mixed state visualized on the Bloch Sphere. }
+    \includegraphics[]{Figs/Theory/bloch_sphere_pure.pdf}
+    \includegraphics[]{Figs/Theory/bloch_sphere_mixed.pdf}
+    \caption{Pure state (top) and mixed state (bottom) visualized on the Bloch Sphere.}
     \label{fig:bloch_sphere_density_matrix}
 \end{marginfigure}
 
-The representation in equation \ref{eq:density_of_qubit} is more flexible however. When we have a pure state, $|\Vec{a}| = 1$, and the vector points to the unit sphere. However $\rho = \frac12 \identity$ is also a valid density matrix, the fully mixed matrix. Here $|\Vec{a}|=0$. Thus, if we think about the bloch sphere, we can think of pure states as living on the surface while mixed states will have $|\Vec{a}|<1\Leftrightarrow \Tr(\rho^2) < 1$.
+The representation in equation \ref{eq:density_of_qubit} provides even more flexibility. When we have a pure state, $|\Vec{a}| = 1$, and the vector points to the unit sphere. However $\rho = \frac12 \; \identity$ is also a valid density matrix, namely the fully mixed matrix. Here $|\Vec{a}|=0$. In terms of the Bloch sphere, we can think of pure states as living on the surface while mixed states will have an associated vector pointing somewhere inside $|\Vec{a}|<1\Leftrightarrow \Tr(\rho^2) < 1$.
 
 \subsection{The Temperature of the System}
-Even at low temperatures, one should expect to see the temperature have an effect on the qubit. If we consider it part of its environment, statistical physics would indicate, that the qubit is distributed due to Boltzmann statistics. Limiting us self to a two level system, we would find the qubit in $\ket{0}$ with $\text{prob}(\ket{0}) = 1 / (1 + e^{-\beta\omega_{01}})$ and $\text{prob}(\ket{1}) = e^{-\beta\omega_{01}} / (1 + e^{-\beta\omega_{01}}).$ While the idea is to initialize the qubit in $\ket{0}$, this fact means that waiting untill equlibrium our qubit would be in:
+Even at low temperatures, one should expect to see the temperature have an effect on the qubit. If we consider it part of its environment, statistical physics would indicate, that the qubit is distributed due to Boltzmann statistics. Limiting us self to a two level system, we would find the qubit in $\ket{0}$ with $\text{prob}(\ket{0}) = 1 / (1 + e^{-\beta\omega_{01}})$ and $\text{prob}(\ket{1}) = e^{-\beta\omega_{01}} / (1 + e^{-\beta\omega_{01}}).$ While the idea is to initialize the qubit in $\ket{0}$, this fact means that waiting until equilibrium our qubit would be in \cite{statphys?}:
 \begin{equation}\label{eq:equilibrium_qubit_density_matrix}
     \rho_{\text{equilibrium}} = \frac{1}{1 + e^{-\beta\omega_{01}}}\begin{pmatrix}
         1 & 0 \\
         0 & e^{-\beta\omega_{01}}
     \end{pmatrix}
-\end{equation}\todo{check!}
+\end{equation}
 
 \subsection{Longitudinal Relaxation}\label{sec:theory_t1}
-If the qubit exchanges energy with the environment it could do transition $\ket{1} \leftrightarrow \ket{0}$. While the low temperature also decreases the rate of energy absorbtion by the system from the environment, it is still necesarry to consider... \todo{Not satisfyed with this start}. If we want to describe the relaxation from $\ket{0}\to\ket{1}$ at a rate $\Gamma_\downarrow$ in the Lindblad equation, it would be described with the Lindblad operator $L_{\downarrow} = \sqrt{\Gamma_{\downarrow}} \ket{0}\bra{1}$ and correspondingly $L{_\uparrow} = \sqrt{\Gamma_{\uparrow}} \ket{1}\bra{0}$ describe the excitement. Thus a qubit subject to these decays would follow the Lindblad equation: \todo{make sure this notation is covered above.}
+If the qubit exchanges energy with the environment it could drive transitions between the states $\ket{1} \leftrightarrow \ket{0}$. The relaxation from $\ket{0}\to\ket{1}$ at a rate $\Gamma_\downarrow$ will in the Lindblad equation be described by the Lindblad operator $L_{\downarrow} = \sqrt{\Gamma_{\downarrow}} \ket{0}\bra{1}$ and correspondingly $L{_\uparrow} = \sqrt{\Gamma_{\uparrow}} \ket{1}\bra{0}$ will describe the excitement. A qubit which relaxes energy into the environment will have time dynamics which follows\footnote{We use here the anti-commutator $\{A, B\} = AB + BA$ to write the Lindbladian a bit more compactly}: 
 \begin{align*}
     \dot{\rho}(t) &= \mathcal{D}[L_{\downarrow}]\rho(t)) \\
     \dot{\rho}(t) &= \Gamma_\downarrow\left(\ket{0}\bra{1} \rho(t) \ket{1}\bra{0} - \frac12 \{\ket{1}\bra{0}\ket{0}\bra{1}, \rho(t)\}\right) \\
     \dot{\rho}(t) &= \Gamma_\downarrow\left(\rho_{11}\ket{0}\bra{0} - \rho_{11} \ket{1}\bra{1} - \frac12\left(\rho_{01}\ket{1}\bra{0} + \rho_{10}\ket{0}\bra{1}\right)\right)
 \end{align*}
-Or looking at the components, we find:
+By looking at the individual components of the density matrix, we find:
 \begin{align*}
     &\dot{\rho}_{00}(t) = \Gamma_\downarrow\rho_{11}(t)  &\dot{\rho}_{10}(t) = -\frac12\Gamma_\downarrow\rho_{10}(t)\; \\   
     &\dot{\rho}_{01}(t) = \frac12 \Gamma_\downarrow\rho_{01}(t)   &\dot{\rho}_{11}(t) = -\Gamma_\downarrow\rho_{11}(t)\;
@@ -254,50 +254,43 @@ and the off-diagonal to:
 \begin{equation}
     \dot{\rho}_{01}(t) = -\frac12 \Gamma_1\rho_{01}(t),  \quad \dot{\rho}_{10}(t) = -\frac12\Gamma_1\rho_{10}(t) \;
 \end{equation}
-\todo{Describe a bit more here.}
-The diagonal elements make up a set of coupled differential equation, solving for these two\footnote{This is done by writing the differential equation in matrix representation, by diagonalizing the coefficient we find a basis were the differential equation are decoupled. Solving here and returning to back gives the solution. }.  gives and using $\Tr(\rho) = \rho_{00} + \rho_{11} = 1$:
-
+The diagonal elements make up a set of coupled differential equation, solving for these two\footnote{This is done by writing the differential equation in matrix representation, by diagonalizing the coefficient we find a basis were the differential equation are decoupled. Solving here and returning to back gives the solution. }  and using $\Tr(\rho) = \rho_{00} + \rho_{11} = 1$ gives:
 \begin{equation}
 \rho_{00}(t) = \frac{\Gamma_\downarrow}{\Gamma_\uparrow + \Gamma_\downarrow} + \left(\rho_{00}(t=0) -  \frac{\Gamma_\downarrow}{\Gamma_\uparrow + \Gamma_\downarrow}\right)e^{-t(\Gamma_\uparrow + \Gamma_\downarrow)}
 \end{equation}
-
 and 
 \begin{equation}    
 \rho_{11}(t) = \frac{\Gamma_\uparrow}{\Gamma_\uparrow + \Gamma_\downarrow}+\left( \rho_{11}(t=0) -\frac{ \Gamma_\uparrow}{\Gamma_\uparrow + \Gamma_\downarrow}\right) e^{-t(\Gamma_\uparrow + \Gamma_\downarrow)}
 \end{equation}
-
 while the off-diagonals are simply solved by exponential decay:
 \begin{equation}
     \rho_{01}(t) = e^{-\Gamma_1 t/2}\rho_{01}(t=0), \quad \rho_{10}(t) = e^{-\Gamma_1 t/2}\rho_{10}(t=0)
 \end{equation}
 From this we see the effects of energy exchange: excitations and relaxations effect the occupation of $\ket{0}$ and $\ket{1}$ until they are in an equilibrium. Further, the energy exchange also leads to decoherence on the diagonal with a rate of $\Gamma_1/2$. 
-
 \begin{marginfigure}
     \centering
     \missingfigure{T1 Figure}
     \caption{Caption}
     \label{fig:enter-label}
 \end{marginfigure}
-
-
 We can also compare the equilibrium position $t\to\infty$ with the equilibrium state described by the Boltzmann statistics in equation \ref{eq:equilibrium_qubit_density_matrix}. Here we find that the rates should satisfy:
 \begin{equation}
     \frac{\Gamma_\downarrow}{\Gamma_\uparrow + \Gamma_\downarrow} = \frac{1}{1 + e^{-\beta\omega_{01}}} \Rightarrow \frac{\Gamma_\uparrow}{\Gamma_\downarrow} =e^{-\beta\omega_{01}} 
 \end{equation}
-For low temperaturs, this means that $\Gamma_1 \approx \Gamma_\downarrow$. The characteristic time of the decay from an arbitrary density matrix to the equilibrium is described by $T_1 = \frac{1}{\Gamma_1}$.
+For low temperaturs $\beta \omega_{01} \ll 1$, this means that $\Gamma_1 \approx \Gamma_\downarrow$. The characteristic time of the decay from an arbitrary density matrix to the equilibrium is described by the characteristic time $T_1 = \frac{1}{\Gamma_1}$.
 
 \subsection{Dephasing}\label{sec:theory_t2}
 If the environment connect to the energy splitting and alters it, the we will experience dephasing of the qubit. Mostly, dephasing is split into two parts: 
 
 \textbf{A slow part} that compared to the experiment we run, such that we can consider it a constant shift of the qubit frequency $\omega \to \omega + \delta_\omega$. We can look at the consequences of this by simply evolving the equations unitarily. 
 
-\begin{marginfigure}
-    \centering
-    \missingfigure{Slow dephasing}
-    \missingfigure{Fast dephasing}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{marginfigure}
+% \begin{marginfigure}
+%     \centering
+%     \missingfigure{Slow dephasing}
+%     \missingfigure{Fast dephasing}
+%     \caption{Caption}
+%     \label{fig:enter-label}
+% \end{marginfigure}
 
 \textbf{A faster part} which changes multiple times during the experiment. If we consider this a normal distributed contribution to $\sigma_z$ at each small timestep, we can model this like the random unitary example, we considered in section \ref{sec:random_unitary_transformation} in which we would have the operator $L_\phi = \sqrt{\Gamma_\phi}\sigma_z$. If we apply this Lindblad operator, the time evolution would look like:
 \begin{equation}
@@ -319,7 +312,7 @@ This is often described by the characteristic time of decoherence:
 \begin{equation}
     T_2 = \frac{1}{\Gamma_2} = \frac{1}{\Gamma_\phi + \frac12\Gamma_1 } 
 \end{equation}
-
+\todo{Consider $T_2$ figures. Don't really know if we need it.}
 
 
 
@@ -338,6 +331,31 @@ This is often described by the characteristic time of decoherence:
 % and the characteristic dephasing time is given by:
 % $$T_2=\frac{1}{\Gamma_{2}}$$
 
-\subsection{Resonator Decays}
-A resonator also decays photons. This happens with a much higher rate since it is connected directly to the feedout line, where we also want to "see" the photons. One could follow the same calculations and arguments as with the qubit $T_1$ and would find the Lindblad operator $\sqrt{\kappa}a$. Ultimately this also gives a decay of resonator towards its equlibrium which we can assume to be ground state if it is cold enough. The rate $\kappa$ described the rate at which photons escape the resonator.
+\subsection{Resonator Decays}\label{sec:resonator_decays}
+The coupled resonator also leaks photon to the environment. This happens with a much higher rate since it is directly coupled to the feed line. The output of photon also consist of two parts, unwanted dissipation to the environment and leakage to the feed line which we are able to detect. For photon loss the Lindbladian operator is given by $L = \sqrt{\kappa}a$.
+
+In section \ref{sec:driving_resonator_iq_plane}, we found a differential equation for the pointer state of a coherent state, when we drive the resonator. If we repeat the exercise, but now also consider the Lindbladian term, we get a further addition to the time dependence of $a$ in the Heisenberg picture since it takes the form of $\frac{d}{dt}a(t) = i[H_eff, a(t)] +  \mathcal{D}[\sqrt{\kappa}a]$. Here $\mathcal{D}[\sqrt{\kappa}a]$ is given by:
+\begin{equation}
+    \mathcal{D}[\sqrt{\kappa}a] = \kappa \left(a^\dagger a a -\frac12 \left(a^\dagger a a + a a^\dagger a \right) \right)
+\end{equation}
+Using the commutator relation $\comm{a}{a^\dagger} = 1$, this can be reduced to
+\begin{equation}
+    \mathcal{D}[\sqrt{\kappa}a] = -\frac{1}{2}\kappa a 
+\end{equation}
+If we reintroduced this into the equations of motion, we would find an additional term in the differential equation for the pointer states:
+\begin{equation}\label{eq:resonator_movement}
+    \frac{d}{dt}\alpha(t) = - i \left(\omega_r - \omega_d \pm \chi\right) \alpha(t) + i\epsilon - \frac{\kappa}{2}\alpha(t) 
+\end{equation}
+This dissipative term takes the effect of pushing the coherent state closer to the origin. If we were to repeat the driving of the resonator with the dissipation, we see that driving off resonance gives a spiral instead of circle towards some steady state. These steady state values can also be found by solving for the steady state equation with $\dot{\alpha}(t) = 0$. We find:
+\begin{equation}
+    \alpha_{\text{ss}} = \frac{-\epsilon}{(\omega_r - \omega_d \pm \chi) - i \kappa / 2}
+\end{equation}
+From which we can extract the steady state amplitude:
+\begin{equation}
+    |\alpha_{\text{ss}}| = \frac{\epsilon}{\sqrt{(\omega_r - \omega_d \pm \chi)^2 + \kappa^2 / 4}}
+\end{equation}
+\todo{Add figures.}
+
+
+% One could follow the same calculations and arguments as with the qubit $T_1$ and would find the Lindblad operator $\sqrt{\kappa}a$. Ultimately this also gives a decay of resonator towards its equlibrium which we can assume to be ground state if it is cold enough. The rate $\kappa$ described the rate at which photons escape the resonator.
 
