@@ -1,26 +1,26 @@
 \chapter{Measurements}\label{chap:measurements}
-In the previous section, we described the effects of a system coupled to its environment. In one case, the interaction is necessary: qubit readout. We can not gain information about the system without interacting with it. While a first with quantum mechanics gives the impression that measurements are instantious and projective the story is a bit more complicated. In this chapter, we will introduce the idea of a generalized measurement using a POVM, see how this effects the evolution of a state when it is measured this will allow us to modify the master equation to include terms representing backaction and correlate that with our measurement record. Finally we will see how the dynamics of a qubit/resonator system is altered during measurement.
+In the previous section, we described the effects of a system coupled to its environment. In most cases the interactions of our system is unwanted, but in one case it is necessary: readout. Without interacting with the system, there is no way to gather information about it. Often measurements are portrayed as instantaneous and projective. The actual story is a bit more complicated. In this chapter, we will introduce the idea of a generalized measurement using a Positive Operater-Value Measure and see how this effects the evolution of a state. This will allow us to modify the master equation to include terms representing backaction and correlate that with our measurement record. Finally we will see how the dynamics of a qubit/resonator system is altered during measurement. Most of this chapter is based on the excellent introduction to continous quantum measurements by Jacobs and Steck \cite{jacobs_straightforward_2006}.
 
 \section{Generalized Measurement}
-\todo{The content of this section is based on the excellent review of continuous measurement by Jacobs and Stech \cite{straightforward_introduction}} \noindent
-When one first encounter quantum mechanics, the a measurement is an instantaneous and complete projection of a state onto the measured quantity. Measuring an observable given by the hertmitan operator in its eigenbasis, $\mathcal{O} = \sum_n O_n \ket{n}\bra{n}$ (with $\ket{n}$ the eigenstates of O) would thus result in a projection of a state $\ket{\psi}$ onto the state $\ket{n}$ with probability $|\braket{n}{\psi}|^2$ giving a recorded measurement of $O_n$. \marginnote[-1cm]{In the formalism of density matrices the probability is $\mel{n}{\rho}{n}$ and the projected state would be $\ket{n}\bra{n}$. \textbf{Probably switch with text.}} This is indeed a possible measurement, but this \textit{von Neumann} measurement is just a small set of possibilities. The von Neumann measurement is however not able to explain what happens if we only extract partial information from the system. Or in case of our resonator, if we want to measure the I-quadrature, a contious variable, it would be tough to do with a delta function. Therefore, we also need a framework, which represents contious measurements. \todo{Clean up this transition}
+When one first encounter quantum mechanics, the a measurement is an instantaneous and complete projection of a state onto the measured quantity. Measuring an observable given by the hertmitan operator in its eigenbasis, $\mathcal{O} = \sum_n O_n \ket{n}\bra{n}$ (with $\ket{n}$ the eigenstates of O) would thus result in a projection of a state $\ket{\psi}$ onto the state $\ket{n}$ with probability $|\braket{n}{\psi}|^2$. In our measurement record, we would find the corresponding value $O_n$. \footnote[-1cm]{In the formalism of density matrices the probability is $\mel{n}{\rho}{n}$ and the projected state would be $\ket{n}\bra{n}$.} This is indeed a possible measurement, but this \textit{von Neumann} measurement is just a small set of possibilities. The von Neumann measurement alone, is however not able to explain what happens if we only extract partial information from the system. We will here describe a more general description of measurements. 
+% Furthermore, if we want to measure the I-quadrature, a contious variable, it would be tough to do with a delta function. Therefore, we also need a framework, which represents contious measurements. \todo{Clean up this transition}\todo{The content of this section is based on the excellent review of continuous measurement by Jacobs and Stech \cite{straightforward_introduction}} 
 
 \subsection{Positive Operator-Valued Measure (POVM)}
 If we were to start with a state $\rho$ and perform a von Neumann measurement with the projection operator $P_n = \ket{n}\bra{n}$, we will get:
 \begin{equation}\label{eq:projection_measurement}
     \rho_f = \ket{n}\bra{n}= \frac{P_n \rho P_n}{\Tr(P_n \rho P_n)}, \text{with probability: } \Tr(P_n \rho P_n) = \rho_{nn}
 \end{equation}
-In describing this project, we often consider the output $1$ with probability $\rho_{nn}$ but not always recognize that it equally gives us the value $0$ with probability $1 - \rho_{nn}$ where the state now will be proportional\footnote{Up to a normalization constant} to $\rho_f \propto \rho - \rho_{nn}\ket{n}\bra{n}$. If we were to also represent this with an operator $P_{\text{not n}} = \identity - P_n$. Thinking of the projective measurement as a set of the operators $\{P_n, P_{\text{not n}}\}$ lets us expand to a more general type of measurement. 
+In describing this projection, we often consider the output $n$ with probability $\rho_{nn}$ but not always recognize that it equally gives us the value $\neq n$ with probability $1 - \rho_{nn}$. In this case the state will be proportional to $\rho_f \propto \rho - \rho_{nn}\ket{n}\bra{n}$. If we were to also represent this with an operator $P_{\text{not n}} = \identity - P_n$, we could think of the measurement as applying  a set of the operators $\{P_n, P_{\text{not n}}\}$. This way of thinking about measurements are what we can generalize. 
 
-This expansion comes in the form of a set of Positive Operator-Valued Measurements (POVM) which consist of operators $\{\Omega_m\}$ that satisfy\todo{Is the relation to trace preserving accidental / probabilities have to be consistent?}:
+The generalization comes in the form of a set of Positive Operator-Valued Measurements (POVM) which consist of operators $\{\Omega_m\}$ that satisfy:
 \begin{equation}\label{eq:sum_requirement_POVM}
     \sum_m \Omega_m^\dagger \Omega_m = \identity
 \end{equation}
-Where the outcomes will simply generalize equation \ref{eq:projection_measurement} to:
+Applying any of the operators will give the value (generalizing \ref{eq:projection_measurement}):
 \begin{equation}
         \rho_f = \frac{\Omega_m \rho  \Omega_m^\dagger}{\Tr(\Omega_m \rho \Omega_m^\dagger)}, \text{with probability: } \Tr(\Omega_m \rho \Omega_m^\dagger)
 \end{equation}
-In the language of POVMs, we are allowed to combine them into more sophisticated question like, what is the probability of measuring the operator in an interval $m\in[a, b]$. This will of course just be sum of probabilities: 
+In the language of POVMs, we are allowed to combine multiple measurements into one question. An example could be, what is the probability of measuring the operator in an interval $m\in[a, b]$. This will of course just be sum of probabilities: 
 \begin{equation}
     P(m \in [a, b]) = \sum_{m = a}^b \Tr(\Omega_m\rho\Omega_m^\dagger)
 \end{equation}
@@ -28,14 +28,14 @@ Or rearranging using linearity and cyclic properties of the trace:
 \begin{equation}
     P(m \in [a, b]) = \Tr( \sum_{m = a}^b \Omega_m^\dagger \Omega_m\rho) = \Tr(M \rho)
 \end{equation}
-where the operator $M = \sum_{m = a}^b \Omega_m^\dagger \Omega_m$ is a POVM. In this formalism, we can define an $M$ to give a probability of getting a result in any subset of $\{\Omega_m\}$. 
+where the operator $M = \sum_{m = a}^b \Omega_m^\dagger \Omega_m$ is a POVM. In this formalism, we can define an $M$ to give a probability of getting a result in any subset of $\{\Omega_m\}$ \cite{jacobs_straightforward_2006}. 
 
 \subsection{Continuous set of Gaussian POVMs}
-We can further extend this from a finite set of operators, to operators measuring a continuous variable. Lets consider operators creating a set of Gaussians with width $\sigma$ and a center $m$:
+We can further extend this from a finite set of operators, to operators measuring a continuous variable. If we imagine a contious variable, $x$, that we can measure with a Gaussian precision, then we can formulate the set of POVMS by creating a set of Gaussians with width $\sigma$ and a center $m$:
 \begin{equation}
     \Omega_m = \frac{1}{\mathcal{N}}\int_{-\infty}^\infty dx \exp\left(-\frac{(x- m)^2}{2\sigma^2}\right)\ket{x}\bra{x}
 \end{equation}
-Where $\mathcal{N}$ is a constant such that the set satisfies equation \ref{eq:sum_requirement_POVM}. Which we find as:
+Where $\mathcal{N}$ is a constant such that the set satisfies equation \ref{eq:sum_requirement_POVM}. We can find the normalization by:
 \begin{fullwidth}
 \begin{align*}
     \identity &= \frac{1}{\mathcal{N}^2}\int dm \int dx \exp\left(-\frac{(x- m)^2}{2\sigma^2}\right)\ket{x}\bra{x}\int dx' \exp\left(-\frac{(x'- m)^2}{2\sigma^2}\right)\ket{x'}\bra{x'} \\
@@ -43,40 +43,54 @@ Where $\mathcal{N}$ is a constant such that the set satisfies equation \ref{eq:s
               &= \frac{\sqrt{\pi}\sigma }{\mathcal{N}^2} \int dx \ket{x}\bra{x} = \frac{\sqrt{\pi}\sigma }{\mathcal{N}} \identity 
 \end{align*}
 \end{fullwidth}
-By picking $\mathcal{N}=(\sigma^2 \pi)^\frac14$ to get the normalization condition we have operators of the form:
+which is true with $\mathcal{N}=(\sigma^2 \pi)^\frac14$. The set of operators now take the form:
 \begin{equation}
     \Omega_m = \frac{1}{(\sigma^2 \pi)^\frac14}\int_{-\infty}^\infty dx \exp\left(-\frac{(x- m)^2}{2\sigma^2}\right)\ket{x}\bra{x}
 \end{equation}
-To get insight into this, we can think about a state localized in space, $\rho = \ket{x_0}\bra{x_0}$. If we measure this state with the of operators $\Omega_m$ and get $m$, we find the state to be proportional to: \todo{These calculations are a bit of mess. Clean up!}
+To get some intuition, we can think about the two limiting examples. First a pure state localized in space, $\rho = \ket{x_0}\bra{x_0}$. If we measure this state with the of operators $\Omega_m$ and get $m$, we find the final state, $\rho_f$ is proportional to:
 \begin{fullwidth}
-\begin{align*}
-    \Omega_m \ket{x_0}\bra{x_0}  \Omega_m^\dagger &= \frac{1}{\sqrt{\sigma^2\pi}}\int dx \exp\left(-\frac{(x- m)^2}{2\sigma^2}\right)\int dx' \exp\left(-\frac{(x'- m)^2}{2\sigma^2}\right)\ket{x}\bra{x}\ket{x_0}\bra{x_0}\ket{x'}\bra{x'} \\
-    &= \frac{1}{\sqrt{\sigma^2\pi}}\int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right)\ket{x}\bra{x}
-\end{align*}
-\end{fullwidth}
-Thus we get a Gaussian centered around the value $m$ with width $\sigma/2$ \todo{Maybe propagate this back, so this is a proper standard deviation}
-And taking the trace:
-\begin{align*}
-    \Tr(\Omega_m \ket{x_0}\bra{x_0} \Omega_m^\dagger) &= \int dx' \bra{x'} \frac{1}{\sqrt{\sigma^2\pi}}\int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right)\ket{x}\bra{x} \ket{x'} \\
-    &= \exp\left(-\frac{(x_0 - m)^2}{\sigma^2}\right)
-\end{align*}
-With:
-\begin{equation}
-    \Omega_m^\dagger\Omega_m =  \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}
-\end{equation}
-And $\rho = \ket{x_0}\bra{x_0}$:
 \begin{align}
-    \Omega_m^\dagger\Omega_m \ket{x_0}\bra{x_0} &= \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}\ket{x_0}\bra{x_0} \nonumber \\
-    \Tr(\Omega_m^\dagger\Omega_m \ket{x_0}\bra{x_0}) &= \frac{1}{\sqrt{\sigma^2\pi}} \exp\left(-\frac{(x_0- m)^2}{\sigma^2}\right)
+    \Omega_m \ket{x_0}\bra{x_0}  \Omega_m^\dagger &= \frac{1}{\sqrt{\sigma^2\pi}}\int dx \exp\left(-\frac{(x- m)^2}{2\sigma^2}\right)\int dx' \exp\left(-\frac{(x'- m)^2}{2\sigma^2}\right)\ket{x}\bra{x}\ket{x_0}\bra{x_0}\ket{x'}\bra{x'} \nonumber \\
+    &= \frac{1}{\sqrt{\sigma^2\pi}}\exp\left(-\frac{(x_0- m)^2}{\sigma^2}\right)\ket{x_0}\bra{x_0}
 \end{align}
-We see that with this gaussian measurement POVM, we will measure a value of $m$ with the probability of Gaussian around $x_0$ with probability a gaussian probability with standard deviation $\sigma$. After, the wave function is no longer localized, but will instead be of a Gaussian shape around the value $m$ determined by the outcome of our measurement. See figure \ref{fig:illustration_measurement_with_gaussian} for illustration. If we were to reduce the value of $\sigma$ we would both have a smaller peak after, but the probability to measure the localized state will fall faster. 
+\end{fullwidth}
+Which when normalized is simply the same state, as we would expect when measuring in the same basis. The probability of getting the outcome $m$ can also be found as
+\begin{align}
+    \Tr(\Omega_m \ket{x_0}\bra{x_0} \Omega_m^\dagger) &= \frac{1}{\sqrt{\sigma^2\pi}} \exp\left(-\frac{(x_0 - m)^2}{\sigma^2}\right)
+\end{align}
+We find that the probability density of a measurement outcome $m$ is also a Gaussian around the localized state at $x_0$. This probability is also the exact normalization, we need in the above. 
 
-\begin{marginfigure}[-6 cm]
-    \centering
-    \missingfigure{Measurement probabilities.}
-    \caption{Illustration of the probability of measuring $x=m$ around the localized $x_0$ along with the wavefunction after the measurement.}
-    \label{fig:illustration_measurement_with_gaussian}
-\end{marginfigure}
+If we instead started with the completely mixed state $\rho = \int dx \ket{x}\bra{x} / \mathcal{N}$ with $\mathcal{N}$ a normalization constant\footnote{In this there would be some factor of infinity which we would normally remove by considering á finite interval}. The outcome after a measurement, $m$, would be proportional to:
+\begin{fullwidth}
+\begin{align}
+        \Omega_m \rho  \Omega_m^\dagger &= \frac{1}{\sqrt{\sigma^2\pi}}\int dx' \exp\left(-\frac{(x'- m)^2}{2\sigma^2}\right)\ket{x'}\bra{x'}\int dx \frac{1}{\mathcal{N}}\ket{x}\bra{x}\int dx'' \exp\left(-\frac{(x''- m)^2}{2\sigma^2}\right)\ket{x''}\bra{x''} \nonumber \\
+        &= \frac{1}{\mathcal{N}\sqrt{\sigma^2\pi}}\int dx\exp\left(-\frac{(x- m)^2}{\sigma^2}\right)\ket{x}\bra{x}
+\end{align}
+\end{fullwidth}
+Narrowing the state to be Gaussian around the measured variable and the probability of measuring $m$ will be the same for all values of $m$
+\begin{equation}
+     \Tr(\Omega_m \rho \Omega_m^\dagger) = \frac{1}{\mathcal{N}}
+\end{equation}
+since it is completely mixed. The takeaway from these examples are that if we have a pure state and measure in that basis, then we will close in on the value around it and our measurement record will values distributed around the variable. If instead, the state is mixed then the measurement will force the state to be only a subsection. With the measurement record of $m$ the state will go into a more concentrated distribution decided by our knowledge of the system. \todo{Figures would be really nice here}
+
+% Where we have used the cyclic properties of the trace, and that $\Omega_m^\dagger\Omega_m =  \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}$
+
+% \begin{equation}
+%     \Omega_m^\dagger\Omega_m =  \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}
+% \end{equation}
+% And $\rho = \ket{x_0}\bra{x_0}$:
+% \begin{align}
+%     \Omega_m^\dagger\Omega_m \ket{x_0}\bra{x_0} &= \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}\ket{x_0}\bra{x_0} \nonumber \\
+%     \Tr(\Omega_m^\dagger\Omega_m \ket{x_0}\bra{x_0}) &= \frac{1}{\sqrt{\sigma^2\pi}} \exp\left(-\frac{(x_0- m)^2}{\sigma^2}\right)
+% \end{align}
+% We see that with this gaussian measurement POVM, we will measure a value of $m$ with the probability of Gaussian around $x_0$ with probability a gaussian probability with standard deviation $\sigma$. After, the wave function is no longer localized, but will instead be of a Gaussian shape around the value $m$ determined by the outcome of our measurement. See figure \ref{fig:illustration_measurement_with_gaussian} for illustration. If we were to reduce the value of $\sigma$ we would both have a smaller peak after, but the probability to measure the localized state will fall faster. 
+
+% \begin{marginfigure}[-6 cm]
+%     \centering
+%     \missingfigure{Measurement probabilities.}
+%     \caption{Illustration of the probability of measuring $x=m$ around the localized $x_0$ along with the wavefunction after the measurement.}
+%     \label{fig:illustration_measurement_with_gaussian}
+% \end{marginfigure}
 
 
 % \begin{equation}
@@ -91,11 +105,11 @@ We see that with this gaussian measurement POVM, we will measure a value of $m$ 
 % \end{equation}
 
 \subsection{Continuous Weak Measurement}\label{sec:continuous_weak_measurement}
-In a continuous measurement information is extracted from the system such that at no information is gained at $t=0$. Represented with the gaussian operators, we could split the duration in small time steps and apply the operators from before, where the information gained will be a Gaussian with $\frac{1}{\sigma^2} = k\Delta t$. This mean that for $t\to\infty$ we would get a delta function and at $t=0$ it will be totally uniform. We write the operators as:
+In a continuous measurement, information is extracted over time. No information is gained at $t=0$ and more information is acquired the longer the duration is. We will here assume Gaussian measurements and the variance decrease as more time goes according to $\frac{1}{\sigma^2} = k \Delta t$, where $k$ is some information gathering rate. This is not just a random equation, but it resembles the central limit theorem, where the amount of samples can be found from the rate of samples multiplied by the time. The operator applied in one time step will then be of the form:
 \begin{equation}
     \Omega(\alpha) = \left(\frac{4 k \Delta t}{\pi}\right)^\frac14 \int dx e^{-2k\Delta t (x - \alpha)^2} \ket{x}\bra{x}
 \end{equation}
-where $\alpha$ is the continuous label and $k$ a measurement strength. If the state of the system is $\rho$ the probability of measuring the operator $\Omega_\alpha$ is then: $P(\alpha) = \Tr\left(\Omega^\dagger(\alpha) \Omega(\alpha) \rho \right)$ \marginnote{Now $\rho$ will be continuous and the will take the form $\rho = \int dx \int dx' \rho(x, x')\ket{x}\bra{x'}$ where the diagonal will be the wavefunction argument $|\psi(x)|$ such that the trace gives $\rho \int dx |\psi_x|^2 = 1$}, we find 
+where $\alpha$ is the continuous label. If the state of the system is $\rho$ the probability of measuring the operator $\Omega_\alpha$ is then: $P(\alpha) = \Tr\left(\Omega^\dagger(\alpha) \Omega(\alpha) \rho \right)$. We find %\footnote{Now $\rho$ will be continuous and the will take the form $\rho = \int dx \int dx' \rho(x, x')\ket{x}\bra{x'}$ where the diagonal will be the wave function argument $|\psi(x)|$ such that the trace gives $\rho \int dx |\psi_x|^2 = 1$}
 \begin{align}
     P(\alpha) = \sqrt{\frac{4 k \Delta t}{\pi}} \int_{-\infty}^{\infty} dx |\psi(x)|^2 e^{-4k\Delta t (x - \alpha)^2}
 \end{align}
@@ -107,15 +121,15 @@ Another way of formulating this, is that if we were to measure with the set of P
 \begin{equation}
     \alpha_s = \expval{X} + \frac{\Delta W}{\Delta t \sqrt{8k}}
 \end{equation}
-
+which would also be the variable stored in our measurement record. The list of stochastic variables is called a \textit{trajectory} and it comes from \textit{unraveling} the measurement equations \cite{jacobs_straightforward_2006}.
 % Use $\expval{\alpha} = \expval{X}$\footnote{$\alpha$ and $x$ is symmetric in the gaussian. So writing $\expval{\alpha}$ and exchanging $\alpha \leftrightarrow x$ we integrate over all of the real numbers. Leaving us with an integral over $x|\psi(x)|^2 = \expval{x}$} with $X = x\ket{x}\bra{x}$ and that $\Delta{t}$ so short that $\psi(x)$ is localized around the expectation value compared to the standard deviation of $\frac{1}{\sqrt{8k\Delta t}}$. We then approximate $|\psi(x)|^2 = \delta(x - \expval{X})$ to find:
 % If one were to "draw" an $\alpha$ from this Gaussian distribution, we will the mean value $\expval{X}$ plus some random contribution from a gaussian with variance $1 / (8k\Delta t)$. We write this as:
 
 \section{Stochastic Master Equation}
-To continue from this point of the stochastic variable, we will first have to review a few tools from stochastic calculus.
+We have now built up the physics to introduce the Stochastic Master Equation. This is however a stochastic differential equation, so before continuing, we will do a short introduction of stochastic calculus.  
 
 \subsection{Itos Rules}
-Before continuing with the measurements, we will take a quick moment to think about, what happens for $\Delta W$ when we let $\Delta t \to dt$. While the properties come from a large field of stochastic calculus used in fields from finance to diffusive processes, we will just cover the fundamentals from Ito calculus. \todo{Cite.} The first rules come from just regular calculus, which states that in the limit of $\Delta t \to dt$, we ignore terms of order $dt^2$ or higher. 
+In stochastic calculus, we do not only have the limit of $\Delta t \to dt$, but we also need to consider what happens for $\Delta W$. While the properties come from a large field of stochastic calculus used in fields from finance to diffusive processes, we will just cover the fundamentals from Ito calculus. The first rules come from just regular calculus, which states that in the limit of $\Delta t \to dt$, we ignore terms of order $dt^2$ or higher. 
 
 Secondly, if we have a time interval of some duration $t_2 - t_1$, we split it in $n = (t_2 - t_1)/\Delta t$ sub steps and sum the contributions from $\Delta W$. This gives us:
 \begin{equation}
@@ -133,8 +147,7 @@ Meaning that the variance of the random process will not itself be random but be
 \begin{equation}
     dW^2 = dt
 \end{equation}
-
-The last thing to remark is that we now also neglect terms of $dWdt$. One way to think about this, is that a normal distributed variable will be of the order given by the standard deviation. In a maybe exploitive notation, this would be $\sqrt{dt}$ meaning that $dWdt$ is of order $dt^\frac32$ and in the limit be much smaller than terms of order $dW, dt$ and $dW^2$
+The last thing to remark is that we now also neglect terms of $dWdt$. One way to think about this, is that a normal distributed variable will be of the order given by the standard deviation. In a maybe exploitative notation, this can be written as $\sqrt{dt}$ meaning that $dWdt$ is of order $dt^\frac32$ and in the limit be much smaller than terms of order $dW, dt$ and $dW^2$ \cite{Gheorghiu}.
 
 
 % The introduction of a stochastic variable forces us to cover some of the fundamental results from stochastic calculus. Most importantly, we use Ito's rules, which governs how to think about the dynamics in an infinitesimal time interval: $dt$ and $dW$.
@@ -239,30 +252,30 @@ The last thing to remark is that we now also neglect terms of $dWdt$. One way to
 % \end{enumerate}
 % With the above in mind, we can now start analyzing the transformation from $t \to t + dt$, where we need to keep terms of $dt, dW$ and importantly $dW^2 = dt$.
 
-\subsection{Stochastic Evolution of a Pure State}\todo{The calculations in this section can probably be moved to an appendix.}
-With Ito's rules, we are now ready to see how a quantum state evolves while we extract information from it. We will do this in two steps, first we will look how a pure state evolves $\rho = \ket{\psi(t)}\bra{\psi(t)} \to \rho(t+dt)$, if its subject to the continuous Gaussian measurement of a hermitian operator $X$ described in section \ref{sec:continuous_weak_measurement}. With a form of this, we will see that we can recover this with a more general form by the CPTP map with a suitable choice of Kraus Operators.
+\subsection{Stochastic Evolution of a Pure State}
+With Ito's rules, we are now ready to see how a quantum state evolves while we extract information from it. We will do this in two steps, first we will look how a pure state evolves $\rho = \ket{\psi(t)}\bra{\psi(t)} \to \rho(t+dt)$, if its subject to the continuous Gaussian measurement of a hermitian operator $X$ described in section \ref{sec:continuous_weak_measurement}. With a form of this, we will introduce a suitable choice of Kraus Operators to formulate a more general CPTP map that recovers the dynamics for the case of the pure state.
 
-We split the process of extraction out in many substeps and let them go to $\Delta t \to dt$. This will correspond to applying the POVM based on ${\Omega(\alpha)}$ with $\Delta t \to dt$. At each application the process will be stochastic, and will correspond to picking a stochastic variable $\alpha_s =\expval{X} + {dW}/{dt \sqrt{8k}}$ determining which operator and thereby which trajectory to follow. The final after $dt$ will then be:
+We will here consider a state $\ket{\psi(x)}\bra{\psi(x)}$ which is pure. We split the process of extracting information out in many substeps and let them go be infinitesimal $\Delta t \to dt$. This will correspond to applying the POVM based on ${\Omega(\alpha)}$ with $\Delta t \to dt$. At each application the process will be stochastic, and will correspond to picking a stochastic variable $\alpha_s =\expval{X} + {dW}/{dt \sqrt{8k}}$ determining which operator and thereby which trajectory to follow. After a step of $dt$, the state will then be:
 \begin{equation}
-    \rho(t+dt) = \frac{\Omega(\alpha_s) \rho(t)  \Omega^\dagger(\alpha_s)}{P(\alpha_s)} = \frac{\Omega(\alpha_s) \ket{\psi}\bra{\psi}  \Omega^\dagger_(\alpha_s)}{P(\alpha_s)} 
+    \rho(t+dt) = \frac{\Omega(\alpha_s) \rho(t)  \Omega^\dagger(\alpha_s)}{P(\alpha_s)} = \frac{\Omega(\alpha_s) \ket{\psi}\bra{\psi}  \Omega^\dagger(\alpha_s)}{P(\alpha_s)} 
 \end{equation}
 The probability of $\alpha_s$ was calculated above in equation \ref{eq:probability_of_alpha_gaussian}. Applying the operator $\Omega(\alpha_s)$ gives:
 \begin{align*}
     \Omega(\alpha_s)\ket{\psi(t)} &=  \left(\frac{4 k \Delta t}{\pi}\right)^\frac14\int dx e^{-2k dt (\alpha_s - x)^2} \ket{x}\bra{x} \ket{\psi(t)} \\
                                   &=  \left(\frac{4 k \Delta t}{\pi}\right)^\frac14 e^{-2k\ dt (\alpha_s - X)^2} \ket{\psi(t)}
 \end{align*}
-Here capital $X$ is an operator, which in its diagonal form takes $\int dx x \ket{x}\bra{x}$. We can now write $\rho(t+dt)$ as:
+Here capital $X$ is an operator, which in its diagonal form is given by $\int dx \;x \ket{x}\bra{x}$. We can now write $\rho(t+dt)$ as:
 \begin{equation}
     \rho(t + dt) =\frac{\sqrt{\frac{4 k \Delta t}{\pi}}e^{-2k\ dt (\alpha_s - X)^2} \ket{\psi(t)}\bra{\psi(t)}e^{-2k dt (\alpha_s - X)^2}}{\sqrt{\frac{4 k \Delta t}{\pi}}  e^{-4k\Delta t (\expval{X} - \alpha)^2}}    
 \end{equation}
-Canceling the constants and splitting the exponential in the denominator into both exponential above, we have:
+Canceling the constants and splitting the exponential in the denominator into both exponentials in the numerator, we have:
 \begin{align*}
     \rho(t + dt) &= e^{-2k dt ((\alpha_s - X)^2 - (\alpha_s - \expval{X})^2)} \ket{\psi(t)}\bra{\psi(t)}e^{-2k dt (\alpha_s - X)^2 - (\alpha_s - \expval{X})^2)} \\
             &= e^{-2kdt (X^2 - \expval{X^2} - 2 \alpha_s(X - \expval{X}))}\ket{\psi(t)}\bra{\psi(t)}  e^{-2kdt (X^2 - \expval{X^2} - 2 \alpha_s(X - \expval{X}))}
 \end{align*}
 By substituting $\alpha_s = \expval{X} + {dW}/{dt \sqrt{8k}}$, we can find:
 \begin{align*}
-       &-2kdt (X^2 - \expval{X}^2 - 2(X - \expval{X})(\expval{X} + {dW}/{dt \sqrt{8k}})) \\
+     = &-2kdt (X^2 - \expval{X}^2 - 2(X - \expval{X})(\expval{X} + {dW}/{dt \sqrt{8k}})) \\
      = &-2kdt(X^2 + \expval{X}^2 - 2 X \expval{X}) - 2\sqrt{k}(X -\expval{X})dW \\
      = &-2k(X - \expval{X})^2dt + 2\sqrt{k}(\expval{X} - X)dW
 \end{align*}
@@ -367,7 +380,7 @@ Thus the second term $\mathcal{H}[\sqrt{k}(X)]=2\sqrt{k}(X\rho + \rho X - 2 \exp
 %           &= -k \comm{X}{\comm{X}{\rho}}dt + \sqrt{2k} \left(X\rho + \rho X - 2 \expval{X}\rho \right) 
 % \end{align}
 
-\subsection{Stochastic Master Equation}\todo{This is a bit off. I think maybe $c\to -c$ would fix.}
+\subsection{Stochastic Master Equation}
 To generalize the results from the previous section, we will now define it in terms of a quantum map like the derivation of the Lindblad Master Equation in section \ref{sec:lindblad_master}. This time, we will add an extra stochastic term to the Kraus operators, such that they take the form\footnote{Finding these operators is no easy tasks, here the first was taken from \cite{jacobs_straightforward_2006} and the second was picked with lot of trial and error to make sure it could fulfill the normalization constraint. Many other forms would also get an allowed CPTP map. Thus we need inspiration from examples like the section above to make sure we get something physically relevant.}:
 \begin{align}
     M_1      &=  \identity - (iH - K)dt + cdW \\
@@ -391,7 +404,7 @@ For $c$ we plug $\identity$ and the $dW$ terms back into equation \ref{eq:trace_
     0 &= \Tr\left((c^\dagger + c + L^\dagger L)\rho \right) \\
       &= \expval{c + c^\dagger} + \expval{L^\dagger L}
 \end{align}
-Thus the trace is preserved if we get the expectation value to sum to zero. Since no operators for $L$ satisfy $\expval{L^\dagger L} < 0$ we can either restict our choice of $c$ to be an anti-hermitian operator \cite{adler}. However, observables are hermitian operators, we will follow the derivations from \cite{motzoi_simple_2009} and instead renormalize the density matrix at each timestep by subtracting $\expval{c + c^\dagger}\rho$\footnote{Such that $L$ would now work by $L\rho L^\dagger = - \Tr(c + c^\dagger\rho) \rho$ with no good representation for $L\rho$} thus making the mapping nonlinear\footnote{ However, it still maps a density matrix to another density matrix. Whether quantum mechanics has to be linear is a question outside the scope of this thesis, and here we will accept it to get the proper form of the stochastic master equation.}. 
+Thus the trace is preserved if we get the expectation value to sum to zero. Since no operators for $L$ satisfy $\expval{L^\dagger L} < 0$ we can either restict our choice of $c$ to be an anti-hermitian operator \cite{adler_derivation_2000}. However, observables are hermitian operators, we will follow the derivations from \cite{jacobs_straightforward_2006} and instead renormalize the density matrix at each time step by subtracting $\expval{c + c^\dagger}\rho$\footnote{Such that $L$ would now work by $L\rho L^\dagger = - \Tr(c + c^\dagger\rho) \rho$ with no good representation for $L\rho$} thus making the mapping nonlinear\footnote{ However, it still maps a density matrix to another density matrix, and even in the simple form of von Neumann, measurements are by no means linear.}. 
 % One would now have to define: \todo{This could never be negative? But it is a measure for how much off the normalization gets every time we go $dt$ forward in time. Thus adding this is just a renormalization.}   
 % \begin{equation}
 %     L^\dagger L = - \expval{c + c^\dagger} \identity
@@ -434,7 +447,7 @@ And the record will have its signal scaled by a factor $\sqrt{\eta}$. Or if we n
 \end{equation}
 
 \subsection{Numerical Integration of Stochastic Differential Equations}
-We are now set with a stochastic differential equation describing the evolution of a quantum system subject to continuous measurement. However, solving this and finding a closed-form expression for $\rho(t)$ is hopeless. So instead, we will perform a numerical integration, where the stochasticity will be a Monte Carlo element. Repeating the simulation multiple times, will each give a trajectory that will give an idea of the dynamics as well as a measurement record. 
+We are now set with a stochastic differential equation describing the evolution of a quantum system subject to continuous measurement. However, solving this and finding a closed-form expression for $\rho(t)$ analytically is as good as hopeless. Instead, we will perform a numerical integration, where the stochasticity will be a Monte Carlo element. Repeating (or unraveling) the simulation multiple times, will each give multiple trajectories and density matrices associated with our knowledge of the system. 
 
 With a stochastic differential equation of the type 
 \begin{equation}\label{eq:stochastic_diff_equation_numerical}
@@ -445,38 +458,50 @@ In the simplest scheme, one can do a type of Euler integration, by picking a sma
     X(t + \Delta t) = f(X(t))\Delta t + g(X(t)) \Delta W
 \end{equation}
 
-To improve this method, we use the Milstein method and add a second order correction to the equation: \todo{Just take it for granted for now. If time try to understand the term from \url{https://people.maths.ox.ac.uk/gilesm/mc/mc/lec11.pdf}}
+In the limit of $\Delta t \to dt$, we had $dW^2 = dt$, but with a finite step, this will not be entirely true, and we need a small correction. This is called the Milstein method \cite{giles} and we update according to:
+\begin{fullwidth}
+\raggedleft
 \begin{equation}
     X(t + \Delta t) = f(X(t))\Delta t + g(X(t)) \Delta W + \frac12 g(X(t))g'(X(t))\left(\Delta W^2 - \Delta t \right)
 \end{equation}
-This term corrects the function up to order $\Delta^\frac32$.
+\end{fullwidth}
+To improve this method further, it is also possible multiple terms in the Ito-Taylor expansion of the stochastic variable like we did with the Adams method in section \ref{sec:numerical_implementations}. In the Qutip library which is used to simulate the Stochastic Master Equation a taylor 1.5 method is used. This also includes a term proportional to $\Delta W \Delta t$ from the Taylor-Ito expansion. Compared to the 12th order implementation of the regular integration, this is however very unprecise, and we will have to supplement with significantly more timesteps to make sure it is reliable. This also makes the trajectories more expensuve to simulate \cite{johansson_qutip_2012}.
 
 
-\section{Measurement of a Qubit}\todo{Very first draft in this section}
-We are now in a position to look at, how the qubit is actually measured. The first thing to remark is that the we are actually not measuring the qubit but the resonator as described in earlier section. While driving the resonator with a pulse, we measure the absorption/transmission from the feed line. In terms of the system it means that we measure the the operator $a$ of the system since photon leaking from the resonator will be visible to us. While the photons escape with a rate of $\kappa$ we only see a fraction of them. Further, we have to amplify the signal from a countable amount of photons to something that still has signal at room temperature. This amplification chain introduces a lot of noise to the signal and we lose information here as well. We will return to determine the efficiency $\eta$ again in section \ref{sec:efficiency_calibration}, but for now, we can consider measurement of the resonator to be of the form $\sqrt{\kappa}a$ up to some phase, where a fraction $\eta$ of the information is collected by us.
 
-In the experiment the resonator is connected to a feedline which is driven by a pulse, transmitting (or by reflected) by the resonator, the pulse will have a form:
+\section{Measurement of a Qubit}
+With the stochastic master equation, we can look at how the qubit is actually measured. This is not an instantaneous process, but one where the resonator is driven for hundreds of nanosecond while its leakage back into the feed line in monitored. In the formulation of this chapter, this means that we measure with the operator $\sqrt{\kappa} a$. It is however not all of the photons that escape the resonator that we measure. In addition, the signal from the resonator will also be amplified multiple times which of course is not free. Ultimately, this leads to an inefficient measurement, where we measure $\sqrt{\kappa\eta} a$ while the back action term is simply given by $\sqrt{\kappa}a$.
+% We are now in a position to look at, how the qubit is actually measured. The first thing to remark is that the we are actually not measuring the qubit but the resonator as described in earlier section. While driving the resonator with a pulse, we measure the absorption/transmission from the feed line. In terms of the system it means that we measure the the operator $a$ of the system since photon leaking from the resonator will be visible to us. While the photons escape with a rate of $\kappa$ we only see a fraction of them. Further, we have to amplify the signal from a countable amount of photons to something that still has signal at room temperature. This amplification chain introduces a lot of noise to the signal and we lose information here as well. We will return to determine the efficiency $\eta$ again in section \ref{sec:efficiency_calibration}, but for now, we can consider measurement of the resonator to be of the form $\sqrt{\kappa}a$ up to some phase, where a fraction $\eta$ of the information is collected by us.
+In experiment the resonator is connected to a feed line which is driven by a pulse. Photons around the resonance frequency enter the resonator and escape to the feed line where interacting destructively with the rest of the signal. In the end, we see a signal (or a lack of signal), which takes the form of a microwave pulse \cite{krantz_quantum_2019}:
 \begin{equation}
     s(t) = A \cos(\omega_{ro}t + \theta_{RO}) 
 \end{equation}
-We will look at two methods of extracting the signal: a homodyne and a heterodyne measurement scheme.  Where the name comes from the amount of quadratures we readout. And differs in how the signal in mixed in an IQ-mixer.
+by demodulating this signal, we now find the measurement record described previous in this chapter. Often two different methods are considered, the homodyne measurement where only one quadrature is monitored and the hereodyne measurement, which is used in our experiment and will be described next.
 
-\subsection{Homodyne Measurement}
-In the Homodyne measurement only one quadrature is picked. Thus we will try to choose the phase of the operator $e^{i\theta}\sqrt{\kappa}a$ such that the signal is maximized. This yields the measurement record:
-\begin{align}
-    dr_{\text{homodyne}}(t) &= \frac12 \expval{ae^{i\theta} + a^\dagger e^{-i\theta}}dt + \frac{1}{\sqrt{4\kappa\eta}} dW \nonumber \\
-    &= \left(\expval{I} \cos\theta+ \expval{Q}\sin{\theta}\right)dt  + \frac{1}{\sqrt{4\eta\kappa}}dW
-\end{align}
-where we used the quadratures representation presented in section \ref{sec:where}. This means, we can rotate an pick exactly one line in the quadrature plot to read the signal out. If we follow the example from section \ref{sec:where}, we can pick $\theta$ such that it covers the biggest separation between the two. See figure \ref{fig:homodyne_detection}.
+% We will look at two methods of extracting the signal: a homodyne and a heterodyne measurement scheme.  Where the name comes from the amount of quadratures we readout. And differs in how the signal in mixed in an IQ-mixer.
 
-\begin{figure}
+% \subsection{Homodyne Measurement}
+% In the Homodyne measurement only one quadrature is picked. Thus we will try to choose the phase of the operator $e^{i\theta}\sqrt{\kappa}a$ such that the signal is maximized. This yields the measurement record:
+% \begin{align}
+%     dr_{\text{homodyne}}(t) &= \frac12 \expval{ae^{i\theta} + a^\dagger e^{-i\theta}}dt + \frac{1}{\sqrt{4\kappa\eta}} dW \nonumber \\
+%     &= \left(\expval{I} \cos\theta+ \expval{Q}\sin{\theta}\right)dt  + \frac{1}{\sqrt{4\eta\kappa}}dW
+% \end{align}
+% where we used the quadratures representation presented in section \ref{sec:where}. This means, we can rotate an pick exactly one line in the quadrature plot to read the signal out. If we follow the example from section \ref{sec:where}, we can pick $\theta$ such that it covers the biggest separation between the two. See figure \ref{fig:homodyne_detection}.
+
+% \begin{figure}
+%     \centering
+%     \missingfigure{Homodyne detection signal, and the measured axis}
+%     \caption{Caption}
+%     \label{fig:homodyne_detection}
+% \end{figure}
+
+\subsection{Heterodyne Measurement}\label{sec:heterodyne_measurement}
+\begin{figure}[t]
     \centering
-    \missingfigure{Homodyne detection signal, and the measured axis}
-    \caption{Caption}
-    \label{fig:homodyne_detection}
+    \includegraphics{Figs/Theory/stochastic_signal.png}
+    \caption{The trajectories given by driving a resonator in between the two peaks for $\ket{0}$ and $\ket{1}$ respectively.}
+    \label{fig:stochastic_signal_hetereodyne}
 \end{figure}
-
-\subsection{Heterodyne Measurement}
 In heterodyne measurements, the signal is mixed in an IQ-mixer with a local oscillator. By delaying one part of local oscillator pulse with a phase of $\pi / 2$, it is possible to measure two quadrature components with half strength. The signals become:
 \begin{align}
     V_0               &= A_{RO}A_{LO} \cos(\omega_{IF}t + \theta_{RO}) \\
@@ -492,37 +517,28 @@ The corresponding operators to this process, can be thought of by splitting the 
 \begin{equation}
     c_0 = \sqrt{\frac{\kappa}{2}}\; a, \quad c_{\frac{\pi}{2}} = i \sqrt{\frac{\kappa}{2}} \; a
 \end{equation}
-This is just two observers where we obtain the information along both. If we combine the two records into one complex, we can write this as:
+Which we can model as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
 \begin{equation}
     dr_{\text{heterodyne}}(t) = \left(\expval{I} + i\expval{Q}\right)dt  + \frac{1}{\sqrt{2\eta\kappa}}(dW_I + i dW_Q)
 \end{equation}
-Where we have associated the two quadratures with $I$ and $Q$. Which both come with a noise term. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$\footnote{since $\mathcal{D}[ia] \rho = ia\rho (-ia^\dagger) - \frac12 \left(-ia^\dagger ia \rho + \rho (-ia^\dagger ia\right) = \mathcal{D}[a]$ when canceling the $i \cdot (-i) = 1$ factors} such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two. 
+Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$\footnote{since $\mathcal{D}[ia] \rho = ia\rho (-ia^\dagger) - \frac12 \left(-ia^\dagger ia \rho + \rho (-ia^\dagger ia\right) = \mathcal{D}[a]$ when canceling the $i \cdot (-i) = 1$ factors} such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two. 
 
-\begin{figure}
-    \centering
-    \includegraphics{Figs/Theory/stochastic_signal.png}
-    \caption{The trajectories given by driving a resonator in between the two peaks for $\ket{0}$ and $\ket{1}$ respectively.}
-    \label{fig:stochastic_signal_hetereodyne}
-\end{figure}
+
 
 \section{Measurement Induced Backaction on the Qubit}
-The section above, does not directly measure the qubit, but is indirectly measuring it by determining the state of the resonator. It is however possible\footnote{but pretty difficult} to see how the measurements interact with the qubit, if we trace the out the resonator. In section \ref{sec:driving_resonator_iq_plane}, we considered how the resonator coherent states: $\alpha_g, \alpha_e$ associated with $\ket{0}$ and $\ket{1}$ behaves under dispersive readout. 
+The section above, does not directly measure the qubit, but is indirectly measuring it by determining the state of the resonator. It is however possible\footnote{but difficult} to see how the measurements interact with the qubit, if we trace the out the resonator. In section \ref{sec:driving_resonator_iq_plane}, we considered how the resonator coherent states: $\alpha_g, \alpha_e$ associated with $\ket{0}$ and $\ket{1}$ behaves under dispersive readout. 
 
-The idea is to use the transformation $P = \ket{g}\bra{g}D(\alpha_g) + \ket{e}\bra{e}D(\alpha_e)$ where $D[\alpha]$ is the displacement operator mentioned described with coherent states in section \ref{sec:coherent_states}. By applying this transformation, the dynamics are moved from the resonator and unto the qubit such that we can trace out the resonator and see how the qubit is affected. \cite{gambetta_quantum_2008}
-
-By transforming the Hamiltoninan,  tracing the resonator, and transforming back, Gambetta et al. finds that the qubit experiences an effective frequency shift by:
+The idea is to use the transformation $P = \ket{g}\bra{g}D(\alpha_g) + \ket{e}\bra{e}D(\alpha_e)$ where $D(\alpha)$ is the displacement operator moving the coherent state with an amount $\alpha$ in phase space. By applying this transformation, the dynamics are moved from the resonator and unto the qubit such that we can trace out the resonator and see how the qubit is affected \cite{gambetta_quantum_2008}. 
+By transforming the Hamiltoninan, and tracing out the resonator, before doing the inverse transformation of the qubit. Gambetta et al. finds that the qubit experiences an effective frequency shift by:
 \begin{equation}
     \omega_Q \to \omega_Q + 2 \chi \Re[\alpha_g(t)\alpha_e^*(t)]
 \end{equation}
-
-But perhaps more interesting is that the dissipative term from our measurement $\mathcal{D}[a]\rho$ will transform to give an effective dephasing on the qubit:
+In addition, the resonator decay also affects the qubit with a dephasing term. $\mathcal{D}[a]\rho$ will in this transformation lead to a qubit interaction according to:
 \begin{equation}
     \kappa\mathcal{D}(a) \to 2\chi \Im[\alpha_g(t)\alpha_e^*(t)] \mathcal{D}[\sigma_z]
 \end{equation}
-
 Where the corresponding backaction from the measurement will take the form of \cite{campagne-ibarcq_measurement_nodate}:
 \begin{equation}
     \eta\mathcal{H}(\sqrt{\kappa} a) \to \eta \sqrt{2 \chi \Im[\alpha_g(t)\alpha_e^*(t)]} \mathcal{H}[\sigma_z]
 \end{equation}
-
-The equation allow us to see how the qubit is dephased by our measurements. Further, we get an additional approximation, where we can average out the resonator in the dispersive limit, under the further assumption that both the state of the resonator will be coherent when starting from a both $\ket{0}$ and $\ket{1}$. While this significantly reduces the complexity of the simulation\footnote{since the resonator accounts for the largest part of the Hilbert Space}, it is quiet restrictive as both $T_1$ decay\footnote{In \cite{gambetta_quantum_2008} this transformation is done under the assumption that $T_1 \gg \kappa$} and starting in a superposition would violate the assumption. 
+The equation allow us to see how the qubit is dephased by our measurements. Further, we get an additional approximation, where we can average out the resonator in the dispersive limit, under the further assumption that both the state of the resonator will be coherent when starting from a both $\ket{0}$ and $\ket{1}$. While this significantly reduces the complexity of the simulation\footnote{since the resonator accounts for the largest part of the Hilbert Space}. An example is is that $T_1$ is not modelled well by these equations \footnote{In \cite{gambetta_quantum_2008} the transformation is done with the assumption that $T_1 \gg 1 / \kappa$}. 

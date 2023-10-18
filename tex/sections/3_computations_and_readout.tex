@@ -227,19 +227,18 @@ Where the quantities are derived from a coupling matrix with elements $g_{ij} = 
     \chi_{i} &= \sum_j \chi_{ij} \\
     \delta_{i} &= \sum_j \delta_{ij} 
 \end{align}
-In this form, both the resonator frequency at the ground and first excited state of the qubit is shifted by an amount. This alters the effective dispersive shift between these two:
+In this form, both the resonator frequency at the ground and first excited state of the qubit is shifted by an amount. This alters the effective dispersive shift between these two to\cite{krantz_quantum_2019}:
 \begin{marginfigure}
     \centering
     \includegraphics[]{Simulations/readout_simulations/dispersive_shift_3_level.pdf}
     \includegraphics[]{Simulations/readout_simulations/dispersive_shift_5_level.pdf}
     \caption{Same simulating driving as figure \ref{fig:dispersive_two_level_qubit}, but with a 3 and 5 level qubit respectively.}
     \label{fig:dispersive_multi_level}
-\end{marginfigure}to\cite{krantz_quantum_2019}: 
+\end{marginfigure}
 \begin{equation}
-    \chi = \chi_{01} + \chi_{12}/2 = - g_{01}^2/\Delta \left(\frac{1}{1 + \Delta / \alpha}\right)
+    \chi \approx \chi_{01} + \chi_{12}/2 = - g_{01}^2/\Delta \left(\frac{1}{1 + \Delta / \alpha}\right)
 \end{equation}
 The effect can be seen in figure \ref{fig:dispersive_multi_level} where the second excited state moves the frequncy of the first much closer. This repeats when adding a third, fourth or higher excited state.
-
 When deriving the equations the dispersive model, we neglect terms of order $\lambda^2$ or above. If we were to keep this term, it would have been multiplied with a $a^\dagger a$. If the mean photon number would have more than order $1 / \lambda^2$, it is no longer valid to throw the terms out. To be sure the dispersive model is a good approximation, one should therefore stay under a critical photon number, where $n_{\text{crit}} = \Delta^2 / 4 g^2$ \cite{krantz_quantum_2019}.
 When calibrating our qubit in chapter \ref{chap:calibration}, we will find a critical photon number of $n_{\text{crit}} \approx 81$,and since we will be driving the resonator to around $\expval{n} \approx 21 \approx n_{\text{crit}} / 4$, this is well below the critical number. The dispersive approximation should therefore still provide a good model \cite{boissonneault_dispersive_2009}. 
 
@@ -381,22 +380,22 @@ The $Q$-function is a powerful tool, which allows us to visualize some state in 
 \subsection{The Driven Resonator in the IQ Plane}\label{sec:driving_resonator_iq_plane}
 With the new formulation of Q-functions we can visualize the readout drive as a separation in the IQ plane. Let us explore what happens, when we drive the resonator while considering the qubit to be a two level system subject to the Hamiltonian:
 \begin{equation}
-    H_{eff} =  \left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + i\epsilon(a - a^\dagger)
+    H_{eff} =  \left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a +\epsilon(a + a^\dagger)
 \end{equation}
-If we were to take the time-derivative of the lowering operator of the resonator, we find:
+We can find the equation of motion of the operator $a$ in the Heisenberg picture \cite{sakurai_modern_2021}:
 \begin{equation}
-    \dot{a}(t) = i\comm{H_{eff}}{a} = -i\comm{\left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + i\epsilon(a - a^\dagger)}{a}
+    \dot{a}(t) = i\comm{H_{eff}}{a} = -i\comm{\left(\omega_r - \omega_d + \chi \sigma_z\right)a^\dagger a + \epsilon(a + a^\dagger)}{a}
 \end{equation}
-\todo{This is Heisenberg picture, do we need the equation somewhere?}
-And using the commutation relatons, we find:
+And using the commutation relations, we find:
 \begin{equation}
-    \dot{a}(t) = -i \left(\left(\omega_r - \omega_d + \chi \sigma_z\right) a(t) + i\epsilon\right)
+    \dot{a}(t) = -i \left(\left(\omega_r - \omega_d + \chi \sigma_z\right) a(t) - \epsilon\right)
 \end{equation}
-We now consider the resonator to be in a coherent state $\ket{\alpha}$ (initially we consider $\alpha(t=0) = 0$) and the qubit is in $\ket{k}$ with $k = 0,  1$. Applying our field operator from above, now gives us \cite{blais_circuit_2021}:
-\begin{equation}\label{eq:resonator_movement}
-    \dot{\alpha}(t) \ket{\alpha(t), k} = - i \left(\left(\omega_r - \omega_d \pm \chi \right) \alpha(t) + i\epsilon\right) \ket{\alpha(t), k} 
-\end{equation}
-Giving us a differential equation for the pointing vector $\alpha$. If we were to start in a coherent state, for example the vacuum state, the equation also tells us that we would stay in a coherent state. An example of driving the qubit-state-dependent resonator can be seen in figure \ref{fig:IQ_movement_without_kappa} where the drive is a both the frequency of $\ket{1}$ and in between the two. We should also notice that if we just use the absorption as a parameter (that is how far away the state is from origin), then we would in this case still get some signal if the qubit were in the $\ket{0}$ state. If we instead could readout the phase of $\alpha$ then we would have a much better way of separating the qubits in this case.
+We now consider the resonator to be in a coherent state $\ket{\alpha}$ (initially we consider $\alpha(t=0) = 0$) and the qubit is in $\ket{k}$ with $k = 0,  1$. By looking at the expectation value of the operator, which will be the same in the Heisenberg and Schrödinger pictures, we get: % \cite{blais_circuit_2021}:
+\begin{align}
+    \dfrac{d}{dt} \bra{\alpha, k} a \ket{\alpha, k} &= \bra{\alpha, k}- i  \left(\omega_r - \omega_d \pm \chi \right) a(t) + i\epsilon\ket{\alpha, k} \nonumber \\
+    \dfrac{d}{dt} \alpha(t) &= - i  \left(\omega_r - \omega_d \pm \chi \right) \alpha(t) + i\epsilon \label{eq:resonator_movement}
+\end{align}
+Which is a differential equation for the pointing vector $\alpha$. If we were to start in a coherent state, for example the vacuum state, the equation also tells us that we would stay in a coherent state. An example of driving the qubit-state-dependent resonator can be seen in figure \ref{fig:IQ_movement_without_kappa} where the drive is a both the frequency of $\ket{1}$ and in between the two. We should also notice that if we just use the absorption as a parameter (that is how far away the state is from origin), then we would in this case still get some signal if the qubit were in the $\ket{0}$ state. If we instead could readout the phase of $\alpha$ then we would have a much better way of separating the qubits in this case.
 
 \todo{Include legend in the figure}
 \begin{figure}
