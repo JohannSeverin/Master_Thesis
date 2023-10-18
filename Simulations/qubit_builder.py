@@ -24,10 +24,10 @@ from analysis.auto import automatic_analysis
 def build_qubit(config, timescale):
     return SimpleQubit(
         frequency=config["f01"] * timescale,
-        anharmonicity=config["alpha"] * timescale,
-        T1=config["T1"] / timescale,
-        Tphi=config["Tphi"] / timescale,
-        temperature=config["temperature"],
+        anharmonicity=config["alpha"] * timescale if config["alpha"] else None,
+        T1=config["T1"] / timescale if "T1" in config else 0.0,
+        Tphi=config["Tphi"] / timescale if "Tphi" in config else 0.0,
+        temperature=config["temperature"] if "temperature" in config else 0.0,
     )
 
 

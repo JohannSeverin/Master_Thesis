@@ -19,7 +19,7 @@ from simulation.experiment import (
 config = json.load(open("../qubit_calibration_2.json", "r"))
 
 
-ntraj = 100
+ntraj = 500
 save_path = "data/"
 overwrite = False
 show_plots = False
@@ -28,16 +28,16 @@ timescale = 1e-9  # ns
 
 
 def scale(eta, factor):
-    return 1 / factor * eta
+    return eta / factor
 
 
 ### Run Following options of config files
 config_dicts = {
-    r"eta_10_increase": {"eta": scale(config["eta"], 1.10)},
+    r"eta_10_increase": {"eta": scale(config["eta"], 1.25)},
     # r"eta": {"eta": scale(config["eta"], 1.0)},
-    r"eta_10_reduction": {"eta": scale(config["eta"], 0.9)},
-    r"eta_25_reduction": {"eta": scale(config["eta"], 0.75)},
-    r"eta_50_reduction": {"eta": scale(config["eta"], 0.50)},
+    r"eta_10_reduction": {"eta": scale(config["eta"], 0.75)},
+    r"eta_25_reduction": {"eta": scale(config["eta"], 0.50)},
+    r"eta_50_reduction": {"eta": scale(config["eta"], 0.25)},
     # r"eta_100_reduction": {"eta": scale(config["eta"], 0.00)},
 }
 

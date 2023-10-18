@@ -106,7 +106,8 @@ def max_fidelity_score(score, truth, return_all=False):
     max_fidelity = fidelity.max()
     best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
     fidelity_error = np.sqrt(
-        best_fpr * (1 - best_fpr) / len(truth) + best_fnr * (1 - best_fnr) / len(truth)
+        best_fpr * (1 - best_fpr) / len(truth / 2)
+        + best_fnr * (1 - best_fnr) / len(truth / 2)
     )
     if not return_all:
         return max_fidelity, threshholds[np.argmax(fidelity)], fidelity_error
@@ -284,7 +285,7 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
 
 
 def scale_eta(eta, factor):
-    return 1 - (1 - eta) * factor
+    return eta / factor
 
 
 def scale_T1(T1, factor):
@@ -302,13 +303,14 @@ def scale_temperature(temperature, factor):
 
 
 ### Run Following options of config files
+
 config_dicts_efficiency = {
-    r"eta_10_increase": {"eta": scale_eta(config["eta"], 1.1)},
+    r"eta_25_increase": {"eta": scale_eta(config["eta"], 1.25)},
     r"realistic": {"eta": scale_eta(config["eta"], 1.0)},
-    r"eta_10_reduction": {"eta": scale_eta(config["eta"], 0.9)},
     r"eta_25_reduction": {"eta": scale_eta(config["eta"], 0.75)},
     r"eta_50_reduction": {"eta": scale_eta(config["eta"], 0.50)},
-    r"perfect_efficiency": {"eta": scale_eta(config["eta"], 0.00)},
+    r"eta_75_reduction": {"eta": scale_eta(config["eta"], 0.25)},
+    r"perfect_efficiency": {"eta": 1.00},
 }
 
 config_dicts_decay = {

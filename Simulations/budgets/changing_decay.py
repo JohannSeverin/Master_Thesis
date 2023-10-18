@@ -19,7 +19,7 @@ from simulation.experiment import (
 config = json.load(open("../qubit_calibration_2.json", "r"))
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
-ntraj = 100
+ntraj = 500
 save_path = "data/"
 overwrite = False
 show_plots = False
@@ -122,6 +122,9 @@ for name, config_dict in config_dicts.items():
         if show_plots:
             automatic_analysis(results)
             plt.show()
+
+        del results
+        gc.collect()
 
     # Stochastic Master Equation
     if not os.path.exists(save_path + "_sme.pkl") or overwrite:

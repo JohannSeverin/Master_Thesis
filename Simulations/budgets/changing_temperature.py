@@ -18,7 +18,7 @@ from simulation.experiment import (
 
 config = json.load(open("../qubit_calibration_2.json", "r"))
 
-ntraj = 100
+ntraj = 500
 save_path = "data/"
 overwrite = False
 show_plots = False
