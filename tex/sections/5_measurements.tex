@@ -431,7 +431,7 @@ The $\mathcal{D}[c]$ is exactly the one we found in the Lindblad equation and de
     dr(t) = \frac{\expval{c + c^\dagger}}{2}dt + \frac{dW}{\sqrt{4}}
 \end{equation}
 
-\subsection{Multiple Observers and Inefficienct Measurement}
+\subsection{Multiple Observers and Inefficienct Measurement}\label{sec:sme_inefficient}
 If we consider two observers of a system measuring one operator each $c_A$ and $c_B$ then the full stochastic master equation gets contributions from each:
 \begin{align*}
     d\rho(t) = -i[H, \rho] &+ \mathcal{D}[c_A]\rho(t) dt + \mathcal{H}[c_A]\rho(t) dW \\
@@ -525,7 +525,7 @@ Where we have associated the two quadratures with $I$ and $Q$. Both of which com
 
 
 
-\section{Measurement Induced Backaction on the Qubit}
+\section{Measurement Induced Backaction on the Qubit}\label{sec:qubit_backaction}
 The section above, does not directly measure the qubit, but is indirectly measuring it by determining the state of the resonator. It is however possible\footnote{but difficult} to see how the measurements interact with the qubit, if we trace the out the resonator. In section \ref{sec:driving_resonator_iq_plane}, we considered how the resonator coherent states: $\alpha_g, \alpha_e$ associated with $\ket{0}$ and $\ket{1}$ behaves under dispersive readout. 
 
 The idea is to use the transformation $P = \ket{g}\bra{g}D(\alpha_g) + \ket{e}\bra{e}D(\alpha_e)$ where $D(\alpha)$ is the displacement operator moving the coherent state with an amount $\alpha$ in phase space. By applying this transformation, the dynamics are moved from the resonator and unto the qubit such that we can trace out the resonator and see how the qubit is affected \cite{gambetta_quantum_2008}. 

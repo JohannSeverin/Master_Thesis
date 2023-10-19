@@ -1,49 +1,74 @@
 \chapter{Building a Model of the System}\label{chap:model}
-In the previous chapter, we have covered, how one calibrates and extracts the parameters necessary to model a qubit-resonator system under readout. We are now in a position to model it, however, with both many different levels of complexity and different available approximations at hand, we have a trade-off between run time of our simulations and the realism of them. 
+With a theory of superconducting qubit readout and a set of parameters that describe our system with respect to this theory, we will in this chapter built up the simulation. We will will present this simulation work in three steps. First, we will take a look at four different methods of simulating the system. Next, we will argument for the use of the dispersive model compared to the full time-dependent Hamilton. Finally, we will adjust some parameters of the simulation such as the dimensions of our Hilbert Space and the size of the time steps.
 
 \section{Different Simulation Approaches}
-Thoughout the first few chapter, we covered different ways of representing and numerically integrating a quantum system. In this chapter, we will summarize the few methods. Some of the properties are summed up in table \ref{tab:simulation_types}
+Throughout the first few chapter, we covered different ways of representing and numerically integrating a quantum system. In this chapter, we will summarize the few methods. Some of the properties are summed up in table \ref{tab:simulation_types}
 
-\begin{margintable}
-    \caption{Caption}
+\begin{itemize}
+    \item \textbf{Unitary} - This is a time evolution of the Schrödinger Equation \ref{sec:scroedinger}. In Qutip this is done by the Adams algorithm which we covered in section \ref{sec:numerical_implementations}. This is the fastest and simplest to run, but does not support interaction with the environment.  
+    \item \textbf{Lindblad Equation} - The Lindblad equation simulates the density matrix and allows us to include dissipation terms. Like the Schrödinger equation, the Lindblad Master Equation is also deterministic, so it is only necessary to run it once for each configuration. All dynamics can then be extracted from $\rho$. 
+    \item \textbf{Monte Carlo} - The Monte Carlo method is described in sec \ref{sec:monte_carlo} and the main idea is that dissipation are applied stochastically and in between the dynamics are governed by the Schrödinger Equation. This allows for faster simulation than the Lindblad Master Equation. However, multiple trajectories will have to be taken to make sure the dynamics represent the full dynamics.
+    \item \textbf{Stochastic Master Equation} - The Stochastic Master Equation is described in chapter \ref{chap:measurements} and the most complicated of the simulation tools. This includes the dynamics of the Lindblad Equation, but in addition also supports the weak measurement which is obtained during a readout.
+\end{itemize}\todo{Citations}
+
+\begin{margintable}[-10 cm]
     \centering
+    \caption{Overview of what the different simulation schemes support. The abbreviations correspond to SE: Schödingers Equation, ME: Master Equation, MC: Monte Carlo, SME: Stochastic Master Equation}
+    \vspace{0.3 cm}
     \begin{tabular}{c|c|c|c|c}
-                    &  SE   & ME    & MC    & SME \\ \hline 
-    deterministic   & x     & x     &       &      \\
-    dissipation     &       & x     & x     & x    \\ 
-    backaction      &       &       &       & x    \\
+                    &  SE   & ME    & MC    & SME    \\ \hline 
+    deterministic   & x     & x     &       &        \\
+    dissipation     &       & x     & x     & x      \\ 
+    mixed states    &       & x     &       & x      \\ 
+    measurements    &       &       &       & x      \\ 
+    state           & $\psi$& $\rho$&$\psi$ & $\rho$ \\
     state size      & $n$   & $n^2$ & $n$   & $n^2$
     \end{tabular}
     \label{tab:simulation_types}
 \end{margintable}
 
-\begin{itemize}
-    \item \textbf{Unitary} - This is a time evolution of the Schoedinger Equation \ref{sec: Time Evolution}. In Qutip this is done by the Adams algorithm which we covered in section \ref{sec:adams}. This is the fastest and simplest to run, but does not support interaction with the environment.  
-    \item \textbf{Lindblad Equation} - The Lindblad equation simulates the density matrix and allows us to include dissipation terms. Like the Schoedinger equation, the Lindblad Master Equation is also deterministic, so it is only necessary to run it once for each configuration. All dynamics can then be extracted from $\rho$. 
-    \item \textbf{Monte Carlo} - The Monte Carlo method is described in sec \ref{sec:monte_carlo} and the main idea is that the dissipations are applied stochastically and in between the dynamics are governed by the Schoedinger Equation. This allows for faster simulation than the Lindblad Master Equation. However, multiple trajectories will have to be taken to make sure the dynamics represent the full dynamics.
-    \item \textbf{Stochastic Master Equation} - The Stochastic Master Equation is described in chapter \ref{sec:stochastic_master_equation} and the most complicated of the simulation tools. This includes the dynamics of the Lindblad Equation, but in addition also supports the weak measurement which is obtained during a readout.
-\end{itemize}\todo{Citations}
-
-\subsection{"Calibrating" the simulation}
-To compare the different simulation methods, we repeat some of the calibration protocols from chapter \ref{chapter:calibrations}. Since the goal of this thesis is to model the readout, we are focusing on replicating the features relevant for readout. Since the Stochastic Master Equation is expensive to run, we will only use it, when the measurement records are necessary. We will thus test the Schoedinger Equation, Monte Carlo and Lindblad equation on some simple calibration schemes. 
-
-The simulation are made by using the Hamiltonian for the full time-dependent Hamiltonian for the system given by equation \ref{eq:full_hamilton} and adding a contribution from a drive, where it is applicable. The parameters are taken from table \ref{tab:cali}made using $f_{01}$ ... from the cal
-
-A collection of the simulation results from resonator spectroscopy, $T_1$ calibration and ... are found on page \pageref{fig:big_figure_test}. We note the following :
+\subsection{Comparing Simulations for $T_1$ Calibration}
+\begin{figure*}[t]
+    % \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[angle=90, width=\linewidth]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
+    % \end{minipage}
+    %     \begin{minipage}{0.45\textwidth}
+    %     \centering
+    %     \includegraphics[]{Simulations/simulations_of_calibrations/Figs/resonator_spectroscopy.pdf}
+    % \end{minipage}
+    \caption{Illustration of the $T_1$ and resonator spectroscopy run with different simulations schemes.}
+    \label{fig:calibrations_in_simulation}
+\end{figure*}
+To perform a test, we have run the simulation for both the full Hamiltonian and the dispersive approximation. The result of these simulations can be seen in figure \ref{fig:calibrations_in_simulation} and the running time\footnote{On a laptop with processor Intel i7-1260P} can be seen in table \ref{tab:simulation_t1_running_time}. The simulations were run with Hilbert space size of ... \todo{This section still needs work}
 
 \begin{margintable}
+    \caption{Running time of the different simulation approaches to running the $T_1$ calibration scheme.}
+    \vspace{0.3 cm}
     \centering
-    \caption{Simulation Time Comparison for the figures seen in  ... }
-    \begin{tabular}{c|c}
-         &  \\
-         & 
+    \begin{tabular}{r|llll}
+                    &  SE   & ME    & MC    & SME   \\ \hline 
+    Full            & 1000  & 1000  & 1000  & 1000  \\
+    Dispersive      & 1     & 1     & 1     & 1     \\ 
     \end{tabular}
-    \label{tab:my_label}
+    \label{tab:simulation_t1_running_time}
 \end{margintable}
+Deciding which simulation to use for which task is a trade-off between complexity and computation time. If one could ignore the interactions with the environment and have a completely unitary system, then there is no doubt that the Schrödinger equation should be used. When adding dissipation, we can either make use of the Lindblad Master Equation or the Monte Carlo solver. Here the benefit is a deterministic nature of Lindblad, where all information can be extracted from a single run. With a large Hilbert space this can however be tough, and we should instead consider the Monte Carlo solver.
 
-In calibrating photon decay rate $\kappa$ and the temperature, we use more data from a single trace than just its average expectation value. Thus we will also include simulation in the Stochastic Master Equation.  \todo{Use MC as well? Don't need it, but need an argument} 
+The Stochastic Master Equation Solver was not used on the full system since it is a combination of the Lindblad and another stochastic element making it even more complex. With the dispersive approximation, it becomes manageable and only uses a few seconds to run. 
 
-\todo{Comment on the figure and the results.}
+\todo{Some dynamics might become more clear, when we have the proper figures and times, so give this section a revamp}
+
+
+% To compare the different simulation methods, we repeat some of the calibration protocols from chapter \ref{chapter:calibrations}. Since the goal of this thesis is to model the readout, we are focusing on replicating the features relevant for readout. Since the Stochastic Master Equation is expensive to run, we will only use it, when the measurement records are necessary. We will thus test the Schrödinger Equation, Monte Carlo and Lindblad equation on some simple calibration schemes. 
+
+% The simulation are made by using the Hamiltonian for the full time-dependent Hamiltonian for the system given by equation \ref{eq:full_hamilton} and adding a contribution from a drive, where it is applicable. The parameters are taken from table \ref{tab:cali}made using $f_{01}$ ... from the cal
+
+% A collection of the simulation results from resonator spectroscopy, $T_1$ calibration and ... are found on page \pageref{fig:big_figure_test}. We note the following :
+
+% In calibrating photon decay rate $\kappa$ and the temperature, we use more data from a single trace than just its average expectation value. Thus we will also include simulation in the Stochastic Master Equation.  \todo{Use MC as well? Don't need it, but need an argument} 
+
+% \todo{Comment on the figure and the results.}
 
 % \begin{figure*}[h]
 %     \centering
@@ -59,19 +84,6 @@ In calibrating photon decay rate $\kappa$ and the temperature, we use more data 
 %     \includegraphics[]{Readout/Figs/Introduction.pdf}
 % \end{figure*}
 
-\begin{figure}[h]
-    \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
-    \end{minipage}
-        \begin{minipage}{0.45\textwidth}
-        \centering
-        \includegraphics[]{Simulations/simulations_of_calibrations/Figs/resonator_spectroscopy.pdf}
-    \end{minipage}
-    \caption{Illustration of the $T_1$ and resonator spectroscopy run with different simulations schemes.}
-    \label{fig:calibrations_in_simulation}
-\end{figure}
-
 
 
 % \begin{figure}
@@ -85,16 +97,32 @@ In calibrating photon decay rate $\kappa$ and the temperature, we use more data 
 \FloatBarrier
 
 \subsection{Q Function and Trajectories}
-When we consider the Lindblad equation, the result is a deterministic list of density matrices at each point in time. This is also a possiblity, when we integrate the Stochastic Master Equation, but in addition, we have the simulated trajectories which resemble the contious weak readout done in the laboratory. In order to compare these two methods, we will make use of the Q-function represented in \ref{sec:QFunc} which illustrates a 2-dimensional probability density of the quadratures in the resonator. 
-
-If we simulate the readout process of the qubit-resonator system under the dispersive approximation, we can compare the measurement records from the Stochastic Master Equation with the evolution of the Q-function from the Lindblad Equation. This is summarized in figure \ref{fig:trajectories_and_qfunc}
-
-\begin{figure*}[h]
+In section \ref{sec:IQ_phase_space}, we introduce the Q-Function to determine the phase space probability of finding the resonator with a specific $I, Q$ value set. It might be worth it to compare this Q function to the measurement record, we achieve by doing a stochastic master equation measurement.
+\todo{This section needs a treatment}
+\begin{figure*}[t]
     \centering
     \includegraphics[]{Simulations/readout_simulations/figures/qfunc_trajectories.pdf}
     \caption{Comparison of the Q Function and the scatter plot for a 10 ns readout record. In the top plot the Q Function distribution is shown at $t = 0, 200$ and $400 \text{ ns}$. In the two lower rows the the measurement record for 250 $\ket{0}$ and $\ket{1}$ trajectories are shown. Furthermore, the Q-Function is convolved by a 2d Gaussian with covariance matrix $2 \Delta t / \eta \identity$ to match the error of the records.}
     \label{fig:trajectories_and_qfunc}
 \end{figure*}
+\begin{itemize}
+    \item A paragraph: Philosophical differences between measuring and not measuring. Lindblad is the average of many stochastic master equation. This is represented in the mixed state of the density matrix.
+    \item We can covelute the Q function with a Gaussian, which we can find by comparing with the stochastic master equation. This can give the distribution of points at any time.
+    \item The stochastic master equation is necessary for the inter-trajectory correlation. We could sample points from the Q-function, but it would as an example give us 90\% from the $0$ state and $10\%$ for the excited state. However, in reality one trajectory will have 100\% of its measurements from one distribution from just one of them.
+\end{itemize}
+
+\vspace{1 cm}
+Old $\downarrow$ \\
+
+
+
+
+
+
+When we consider the Lindblad equation, the result is a deterministic list of density matrices at each point in time. This is also a possiblity, when we integrate the Stochastic Master Equation, but in addition, we have the simulated trajectories which resemble the contious weak readout done in the laboratory. In order to compare these two methods, we will make use of the Q-function represented in \ref{sec:QFunc} which illustrates a 2-dimensional probability density of the quadratures in the resonator. 
+
+If we simulate the readout process of the qubit-resonator system under the dispersive approximation, we can compare the measurement records from the Stochastic Master Equation with the evolution of the Q-function from the Lindblad Equation. This is summarized in figure \ref{fig:trajectories_and_qfunc}
+
 
 The measurement record is given by a term proportional to the expectation value of the measured quantity and a noise term, which in the derivation from chapter \ref{sec:} was a Gaussian. For a perfect coherent state, this is closely to the distribution of its Q function. Especially in the hetereodyne measurements. For a state, we can get a somewhat approximation. We need to scale the standard deviation with eta. Furthermore, we get a reductioon depending on the time of the measurement. This gives the good idea of measuring.... \todo{This is really just me writing sentences which could be included}
 
@@ -102,7 +130,7 @@ The measurement record is given by a term proportional to the expectation value 
 
 
 
-\section{Validity of the Dispersive Approximation}
+\subsection{Validity of the Dispersive Approximation}
 The full time-dependent Hamiltonian, we simulated to get the results shown in figure \ref{fig:calibrations_in_simulation} are expensive to run. The largest part of this process is to calculate the time-dependent function of the pulse. In the dispersive approximation which we covered in section \ref{sec:dispersive} we could eliminate the time-dependence of the pulse by going to another basis.
 
 Before continuing with the approximation, we will first test whether it still exhibits the behaviours, we need to investigate the readout. 
