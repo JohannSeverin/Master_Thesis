@@ -53,7 +53,7 @@ ax.set(
 ax = axes[2]
 
 times = monte_carlo_data.times[::250] * 1e-3
-y_data = monte_carlo_data.exp_vals.mean(0)[::250]
+y_data = monte_carlo_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Monte Carlo")
 

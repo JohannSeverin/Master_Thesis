@@ -81,7 +81,7 @@ experiment = MonteCarloExperiment(
     times,
     expectation_operators=[system.qubit_state_occupation_operator()],
     only_store_final=False,
-    ntraj=10,
+    ntraj=100,
     exp_val_method="average",
     store_states=False,
     save_path=os.path.join(save_path, name + "_monte_carlo_dispersive.pkl"),
@@ -137,7 +137,7 @@ experiment = StochasticMasterEquationExperiment(
     store_states=False,
     store_measurements=True,
     save_path=os.path.join(save_path, name + "_sme_dispersive.pkl"),
-    ntraj=10,
+    ntraj=100,
     nsubsteps=20,
 )
 

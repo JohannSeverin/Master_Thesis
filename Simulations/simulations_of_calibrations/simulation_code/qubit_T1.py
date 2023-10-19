@@ -90,6 +90,7 @@ experiment = LindbladExperiment(
     times,
     only_store_final=False,
     store_states=False,
+    expectation_operators=[system.qubit_state_occupation_operator()],
     save_path=os.path.join(save_path, name + "_lindblad.pkl"),
 )
 

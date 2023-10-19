@@ -366,12 +366,13 @@ for col_idx, experiments_to_loop in enumerate(
                 f.write(
                     f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}\n"
                 )
+                f.write(f"\n{config_dict}")
         else:
             with open("log.txt", "w") as f:
                 f.write(
                     f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}\n"
                 )
-
+                f.write(f"\n{config_dict}")
         # break
     fidelities.append(fidelities_for_experiment)
     fidelities_errors.append(fidelities_errors_for_experiment)
@@ -404,45 +405,60 @@ big_fig.savefig(
 )
 
 ### Plot Fidelities
-fig, ax = plt.subplots(ncols=3, sharey=True)
+fig, ax = plt.subplots(ncols=3, sharey=True, sharex=True, figsize=(14, 4))
 
-symbols = ["$1 - \eta$", "$1 / T_1$", "$\\tau$"]
+symbols = ["$(1 - \eta)$", "$1 / T_1$", "$\\tau$"]
+
+ax[0].set_ylim(0.50, 1.00)
 
 for i, (fidelities_for_experiment, label) in enumerate(
-    zip(fidelities, ["Efficiency", "Decay", "Temperature"])
+    zip(fidelities, ["Inefficiency", "Decay", "Temperature"])
 ):
+    if label == "Efficiency":
+        x_vals = [1.25, 1.0, 0.75, 0.50, 0.25, 0.0]
+        x_vals = [1 - scale_eta(config["eta"], x) if x != 0 else 0 for x in x_vals]
+        x_vals = np.array([x / (1 - config["eta"]) for x in x_vals])
+    else:
+        x_vals = np.array([1.1, 1.0, 0.9, 0.75, 0.50, 0.0])
+
     ax[i].plot(
-        [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
+        100 * x_vals,
         fidelities_for_experiment,
         marker="o",
         linestyle="None",
         label=label,
+        color=f"C{i}",
     )
 
     ax[i].errorbar(
-        [1.1, 1.0, 0.9, 0.75, 0.5, 0.0],
+        100 * x_vals,
         fidelities_for_experiment,
         yerr=fidelities_errors[i],
         linestyle="None",
-        color="k",
+        color=f"C{i}",
+        elinewidth=1,
+        capsize=2,
     )
 
     ax[i].set(
-        xlabel=f"{label} ({symbols[i]})",
-        ylabel="Fidelity",
+        xlabel=f"{label}, fraction of {symbols[i]} (%)",
+        ylabel="Fidelity" if i == 0 else "",
         title=label,
         # ylim=(0, 1),
     )
 
     ax[i].vlines(
-        1.0,
+        100.0,
         *ax[i].get_ylim(),
         linestyle="--",
         color="k",
         label="Original",
-        alpha=0.75,
+        alpha=0.35,
     )
 
     ax[i].legend(fontsize=12)
 
-fig.savefig(os.path.join(save_path, "fidelities_at_different_parameters.pdf"))
+fig.savefig(
+    os.path.join(save_path, "fidelities_at_different_parameters.pdf"),
+    bbox_inches="tight",
+)
