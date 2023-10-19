@@ -11,16 +11,14 @@ sys.path.append("../..")
 
 name = "qubit_T1"
 
-schroedinger_data = pickle.load(open("../data/" + name + "_schoedinger.pkl", "rb"))
-monte_carlo_data = pickle.load(open("../data/" + name + "_monte_carlo.pkl", "rb"))
-lindblad_data = pickle.load(open("../data/" + name + "_lindblad.pkl", "rb"))
-
-import xarray as xr
-
-experimental_data = xr.open_dataset(
-    "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/Calibrations/Data/T1/dataset.nc"
+schroedinger_data = pickle.load(
+    open("../data/" + name + "_schoedinger_dispersive.pkl", "rb")
 )
-x_data = experimental_data.readout_delay
+monte_carlo_data = pickle.load(
+    open("../data/" + name + "_monte_carlo_dispersive.pkl", "rb")
+)
+lindblad_data = pickle.load(open("../data/" + name + "_lindblad_dispersive.pkl", "rb"))
+sme_data = pickle.load(open("../data/" + name + "_sme_dispersive.pkl", "rb"))
 
 # Setup Figure
 plt.rcParams["axes.titlesize"] = 16
@@ -33,6 +31,8 @@ axes[2].set_yticklabels([])
 axes[3].set_yticklabels([])
 
 
+
+
 # Plotting Simulation Data
 ax = axes[1]
 
@@ -42,10 +42,10 @@ y_data = schroedinger_data.exp_vals[::250]
 ax.plot(times, y_data, "o", label="Schroedinger")
 
 ax.set(
-    ylabel=r"$\langle P_{1} \rangle$",
-    ylim=(-0.05, 1.05),
+    ylabel=r"$\langle P_1 \rangle$",
     xlabel="Time (µs)",
-    title="SE - Full",
+    ylim=(-0.05, 1.05),
+    title="SE - Dispersive",
 )
 # ax.legend()
 
@@ -53,7 +53,7 @@ ax.set(
 ax = axes[2]
 
 times = monte_carlo_data.times[::250] * 1e-3
-y_data = monte_carlo_data.exp_vals.mean(0)[::250]
+y_data = monte_carlo_data.exp_vals[::250]
 
 ax.plot(times, y_data, "o", label="Monte Carlo")
 
@@ -61,7 +61,7 @@ ax.set(
     # ylabel=r"Expectation Value of $P_{1}$",
     xlabel="Time (µs)",
     ylim=(-0.05, 1.05),
-    title="MC - Full",
+    title="MC - Dispersive",
 )
 # ax.legend()
 
@@ -77,29 +77,24 @@ ax.set(
     # ylabel=r"Expectation Value of $P_{1}$",
     xlabel="Time (µs)",
     ylim=(-0.05, 1.05),
-    title="ME - Full",
+    title="ME - Dispersive",
 )
 # ax.legend()
 
 
-# # Plotting Experimental Data
-title = "Experiment"
-xlabel = "Waiting Time (µs)"
-scale_x = 1e-6
+# SME Plot
+measurements = np.array(sme_data.measurements)
+I_measurements = measurements.mean(0)[:-1, 0, 0]
 
-ylabel = "Readout Signal I (a. u.)"
-scale_y = 1e-3
-
-y_data = experimental_data.readout__final__I__avg
-y_err = experimental_data.readout__final__I__avg__error
+measurements = I_measurements.reshape(-1, 20).mean(1).real
+measurements_err = (I_measurements.reshape(-1, 20).real.std(1)) / np.sqrt(20)
 
 ax = axes[0]
-ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
-
+ax.plot(sme_data.times[:-1:20] * 1e-3, measurements, "o", label="SME")
 ax.errorbar(
-    x_data / scale_x,
-    y_data / scale_y,
-    yerr=y_err / scale_y,
+    sme_data.times[:-1:20] * 1e-3,
+    measurements,
+    yerr=measurements_err,
     ls="none",
     color="C0",
     capsize=2,
@@ -107,15 +102,12 @@ ax.errorbar(
 )
 
 ax.set(
-    title=title,
+    title="SME - Dispersive",
     xlabel="Time (µs)",
-    ylabel=ylabel,
-    xlim=(-1, 11),
+    ylabel="Readout Signal I (a. u.)",
 )
-
-# ax.legend()
 
 fig.tight_layout()
 
-fig.align_ylabels(axes)
-fig.savefig("../Figs/" + name + ".pdf")
+# fig.align_ylabels(axes)
+fig.savefig("../Figs/" + name + "_dispersive.pdf")

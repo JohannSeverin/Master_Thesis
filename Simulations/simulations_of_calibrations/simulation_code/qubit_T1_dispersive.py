@@ -32,15 +32,26 @@ from simulation.experiment import (
     SchroedingerExperiment,
     MonteCarloExperiment,
     LindbladExperiment,
+    StochasticMasterEquationExperiment,
 )
 from analysis.auto import automatic_analysis
+
+from devices.pulses import SquareCosinePulse
+
+dummy_pulse = SquareCosinePulse(
+    amplitude=0,
+    frequency=config["fr"] * timescale,
+    phase=0,
+)
+
 
 system = QubitResonatorSystem(
     qubit,
     resonator,
+    resonator_pulse=dummy_pulse,
     coupling_strength=config["g"] * timescale,
-    readout_efficiency=1,
-)
+    readout_efficiency=None,
+).dispersive_approximation(config["chi"] * timescale)
 
 
 initial_states = [system.get_states(1)]
@@ -54,7 +65,7 @@ experiment = SchroedingerExperiment(
     expectation_operators=[system.qubit_state_occupation_operator()],
     only_store_final=False,
     store_states=False,
-    save_path=os.path.join(save_path, name + "_schoedinger.pkl"),
+    save_path=os.path.join(save_path, name + "_schoedinger_dispersive.pkl"),
 )
 
 start_time = time.time()
@@ -70,10 +81,10 @@ experiment = MonteCarloExperiment(
     times,
     expectation_operators=[system.qubit_state_occupation_operator()],
     only_store_final=False,
-    ntraj=100,
+    ntraj=10,
     exp_val_method="average",
     store_states=False,
-    save_path=os.path.join(save_path, name + "_monte_carlo.pkl"),
+    save_path=os.path.join(save_path, name + "_monte_carlo_dispersive.pkl"),
 )
 
 start_time = time.time()
@@ -88,14 +99,51 @@ experiment = LindbladExperiment(
     system,
     initial_states,
     times,
+    expectation_operators=[system.qubit_state_occupation_operator()],
     only_store_final=False,
     store_states=False,
-    save_path=os.path.join(save_path, name + "_lindblad.pkl"),
+    save_path=os.path.join(save_path, name + "_lindblad_dispersive.pkl"),
 )
 
 start_time = time.time()
 results = experiment.run()
 print(f"Time for Lindblad: {time.time() - start_time}")
+
+automatic_analysis(results)
+
+
+# # SME Experiment
+times = np.linspace(0, 10000, 1000 + 1)
+dummy_pulse = SquareCosinePulse(
+    amplitude=config["drive_power"] * timescale * 2 * np.pi / 5,
+    frequency=config["fr"] * timescale,
+    phase=0,
+)
+
+system = QubitResonatorSystem(
+    qubit,
+    resonator,
+    resonator_pulse=dummy_pulse,
+    coupling_strength=config["g"] * timescale,
+    readout_efficiency=0.50,
+).dispersive_approximation(config["chi"] * timescale)
+
+experiment = StochasticMasterEquationExperiment(
+    system,
+    initial_states,
+    times,
+    # expectation_operators=[system.qubit_state_occupation_operator()],
+    only_store_final=False,
+    store_states=False,
+    store_measurements=True,
+    save_path=os.path.join(save_path, name + "_sme_dispersive.pkl"),
+    ntraj=10,
+    nsubsteps=20,
+)
+
+start_time = time.time()
+results = experiment.run()
+print(f"Time for SME: {time.time() - start_time}")
 
 
 automatic_analysis(results)

@@ -33,11 +33,11 @@ def scale(eta, factor):
 
 ### Run Following options of config files
 config_dicts = {
-    r"eta_10_increase": {"eta": scale(config["eta"], 1.25)},
+    r"eta_25_increase": {"eta": scale(config["eta"], 1.25)},
     # r"eta": {"eta": scale(config["eta"], 1.0)},
-    r"eta_10_reduction": {"eta": scale(config["eta"], 0.75)},
-    r"eta_25_reduction": {"eta": scale(config["eta"], 0.50)},
-    r"eta_50_reduction": {"eta": scale(config["eta"], 0.25)},
+    r"eta_25_reduction": {"eta": scale(config["eta"], 0.75)},
+    r"eta_50_reduction": {"eta": scale(config["eta"], 0.50)},
+    r"eta_100_reduction": {"eta": scale(config["eta"], 0.25)},
     # r"eta_100_reduction": {"eta": scale(config["eta"], 0.00)},
 }
 
