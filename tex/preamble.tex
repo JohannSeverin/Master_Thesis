@@ -88,3 +88,15 @@
   {0 cm}% horizontal separation between label and title body
   {}% before the title body
   []% after the title body
+
+\usepackage[pages=some]{background}
+% Background picture of title page
+\backgroundsetup{
+    scale=1,
+    color=black,
+    opacity=0.4,
+    angle=0,
+    contents={%
+      \includegraphics[width=\paperwidth,height=\paperheight]{Figs/Theory/stochastic_signal.png}
+      }%
+}
