@@ -191,7 +191,7 @@ While this is a purely mathematical construction, the naming of variables should
 \subsection{Numerical Lindblad Master Equation}
 To solve the Lindblad equation numerically, we need it in a form solve able by the methods covered in section \ref{sec:numerical_implementations}. To numerical integrate the equation, the Qutip library reformulates the equations to the super operator formalism \cite{johansson_qutip_2012}. The general idea is to represent a density matrix as a vector by concatenating the axis. By representing the density matrices as (very long) vectors, the super operators can be represented as a matrix\footnote{This is much deeper topic one could use to look at the properties of quantum maps. In this thesis, we just use it to make suitable numerical contribution, so the small introduction will have to suffice. }. With this formulation, we again achieve a linear differential equation with a matrix multiplied by vectors which is convenient to implement. Since we also need to keep track of the coherences of the density matrix, the size of the vectors are now $n^2$ and matrices $n^2\times n^2$. In conclusion, the Lindblad Master Equation can be solved just like the Schrödinger equation, but we will now have a much larger space to keep track off. 
 
-\subsection{Monte Carlo Approximation ** }
+\subsection{Monte Carlo Approximation ** }\label{sec:monte_carlo}
 While the Lindblad Equation is a very strong mathematical tool for describing quantum mechanics, numerically simulating it scales heavily with the size of our hilbert space. Another approximation is do a Monte Carlo Approximation. Since the Lindblad operators \todo{Make sure the reader knows this} $\sqrt{\gamma}L$ happen with the rate $\gamma$ we can instead of simulating the whole density matrix simulate the state vector many times and at every time step apply the Lindblad operator with probability $\gamma dt$. In between application of the Lindblad Operators the system will just be integrated by the normal schödinger equation.\todo{This is actually more sophisticated, the time of the collapse is chosen from the distribution and we integrate to that point. } One can then take the average over either the states or the expectation values of interest.\cite{qutip}
 
 \section{Dissipation and Decoherence in Qubits} \label{sec:qubit_lindblad}
@@ -309,10 +309,9 @@ So if were to combine the decays from this section and the last, the total depha
     \Gamma_2 = \Gamma_\phi + \frac12\Gamma_1 
 \end{equation}
 This is often described by the characteristic time of decoherence:
-\begin{equation}
+\begin{equation}\label{eq:t2_equation}
     T_2 = \frac{1}{\Gamma_2} = \frac{1}{\Gamma_\phi + \frac12\Gamma_1 } 
 \end{equation}
-\todo{Consider $T_2$ figures. Don't really know if we need it.}
 
 
 
@@ -350,11 +349,10 @@ This dissipative term takes the effect of pushing the coherent state closer to t
 \begin{equation}
     \alpha_{\text{ss}} = \frac{-\epsilon}{(\omega_r - \omega_d \pm \chi) - i \kappa / 2}
 \end{equation}
-From which we can extract the steady state amplitude:
-\begin{equation}
+From which we can extract the steady state amplitude from equation \ref{eq:steady_state_amplitude}:
+\begin{equation}\label{eq:steady_state_amplitude}
     |\alpha_{\text{ss}}| = \frac{\epsilon}{\sqrt{(\omega_r - \omega_d \pm \chi)^2 + \kappa^2 / 4}}
 \end{equation}
-\todo{Add figures.}
 
 
 % One could follow the same calculations and arguments as with the qubit $T_1$ and would find the Lindblad operator $\sqrt{\kappa}a$. Ultimately this also gives a decay of resonator towards its equlibrium which we can assume to be ground state if it is cold enough. The rate $\kappa$ described the rate at which photons escape the resonator.
