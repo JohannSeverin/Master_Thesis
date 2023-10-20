@@ -31,7 +31,8 @@ Throughout the first few chapter, we covered different ways of representing and 
 \begin{figure*}[t]
     % \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[angle=90, width=\linewidth]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
+    \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
+    \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1_dispersive.pdf}
     % \end{minipage}
     %     \begin{minipage}{0.45\textwidth}
     %     \centering
@@ -39,137 +40,121 @@ Throughout the first few chapter, we covered different ways of representing and 
     % \end{minipage}
     \caption{Illustration of the $T_1$ and resonator spectroscopy run with different simulations schemes.}
     \label{fig:calibrations_in_simulation}
-\end{figure*}
-To perform a test, we have run the simulation for both the full Hamiltonian and the dispersive approximation. The result of these simulations can be seen in figure \ref{fig:calibrations_in_simulation} and the running time\footnote{On a laptop with processor Intel i7-1260P} can be seen in table \ref{tab:simulation_t1_running_time}. The simulations were run with Hilbert space size of ... \todo{This section still needs work}
-
+\end{figure*} \todo{Align figures}
 \begin{margintable}
     \caption{Running time of the different simulation approaches to running the $T_1$ calibration scheme.}
     \vspace{0.3 cm}
     \centering
     \begin{tabular}{r|llll}
                     &  SE   & ME    & MC    & SME   \\ \hline 
-    Full            & 1000  & 1000  & 1000  & 1000  \\
-    Dispersive      & 1     & 1     & 1     & 1     \\ 
+    Full            & 384   & 1022  & 7069  & -     \\
+    Dispersive      & 0.6   & 1.2   & 282     & 614     \\ 
     \end{tabular}
     \label{tab:simulation_t1_running_time}
-\end{margintable}
-Deciding which simulation to use for which task is a trade-off between complexity and computation time. If one could ignore the interactions with the environment and have a completely unitary system, then there is no doubt that the Schrödinger equation should be used. When adding dissipation, we can either make use of the Lindblad Master Equation or the Monte Carlo solver. Here the benefit is a deterministic nature of Lindblad, where all information can be extracted from a single run. With a large Hilbert space this can however be tough, and we should instead consider the Monte Carlo solver.
+\end{margintable}\todo{Add times from the updated figure}
+To illustrate the differences of the different simulations and get some idea of the run-time, we have simulated the $T_1$ calibration experiment. We do this with the full interacting Hamiltonian in the lab frame (equation \ref{eq:full_interaction_term}) without any drive. We try the simulation with the Schödinger, Monte Carlo and Lindblad approach. These simulations can be seen along with the experimental results in the top panel of figure \ref{fig:calibrations_in_simulation}. In the lower panel, we see simulations run on the dispersive Hamiltonian in a rotating frame of the resonator. In addition, we have also simulated the dispersive Hamiltonian with the Stochastic Master Equation to simulate the readout process. Here it is necessary to apply a resonator pulse\footnote{We did this at a fifth of the calibrated value and upped the efficiency to $50\%$ to get a measurement for illustrating purposes which can be run in the same size Hilbert space.}. All simulations were run in a finite Hilbert space with a 3-level qubit and 10-level resonator.
 
-The Stochastic Master Equation Solver was not used on the full system since it is a combination of the Lindblad and another stochastic element making it even more complex. With the dispersive approximation, it becomes manageable and only uses a few seconds to run. 
+In table \ref{tab:simulation_t1_running_time}, the running time\footnote{On a laptop with processor Intel i7-1260P} of the simulations are written down. For the stochastic simulations, the 100 trajectories were calculated to get representative dynamics. The $T_1$ experiment is however long ($10 \text{ µs}$ and we run with a resolution of $0.5 \text{ ns}$, so this will also be a larger experiment compared to the readout process as an example. 
 
-\todo{Some dynamics might become more clear, when we have the proper figures and times, so give this section a revamp}
+The main takeaways from the simulations are that the biggest difference in running time comes from going from a full Hamiltonian to the dispersive limit\footnote{This is primarily because we omit the fast oscillating terms, we could do similar transformations for the Jaynes Cummings model if we were to study high power readouts}. The most noteable difference between the dispersive/full Hamiltonian is the small oscillations seen in the qubit state of the Schroedinger equation. This is however small scale behaviours when we add dissipation which is clearly dominating the dynamics of the occupation of the excited state. 
 
 
-% To compare the different simulation methods, we repeat some of the calibration protocols from chapter \ref{chapter:calibrations}. Since the goal of this thesis is to model the readout, we are focusing on replicating the features relevant for readout. Since the Stochastic Master Equation is expensive to run, we will only use it, when the measurement records are necessary. We will thus test the Schrödinger Equation, Monte Carlo and Lindblad equation on some simple calibration schemes. 
+\subsection{Validity of the Dispersive Approximation}
+The full Hamiltonians, we simulated to get the results shown in figure \ref{fig:calibrations_in_simulation} are expensive to run. This was even without calculating the time-dependent pulses necessary for simulating the readout process. In section \ref{sec:dispersive_regime}, we mentioned a critical photon number, which in our system is $\approx 80$ which is four times as much as the steady state photon number in our readout. Theoretically, we should be far below this number and the dispersive approximation should be fine.
 
-% The simulation are made by using the Hamiltonian for the full time-dependent Hamiltonian for the system given by equation \ref{eq:full_hamilton} and adding a contribution from a drive, where it is applicable. The parameters are taken from table \ref{tab:cali}made using $f_{01}$ ... from the cal
+To confirm, we have also done a simulation of a "weak" readout pulse both in the dispersive limit and the full-time-dependent Hamiltoninan. This was done with a Lindbladian simulation. The expectation value of $I$ and $Q$ are displayed along with the $Q$-function at three different times in figure \ref{fig:dispersive_slash_full_readout}. Qualitatively, we see great correspondence between the two figures. However, it looks like the full simulation has some numerical artifacts in the Q-function from the simulation. This is probably due to built up of small numerical errors in a fast rotating basis. Thus, we should not only use the dispersive model because of its significant speed-up, but also to avoid these kind of numerical errors.
 
-% A collection of the simulation results from resonator spectroscopy, $T_1$ calibration and ... are found on page \pageref{fig:big_figure_test}. We note the following :
+\begin{figure}
+    \centering
+    \includegraphics[width = \textwidth]{Simulations/readout_simulations/figures/dispersive_approx.pdf}
+    \caption{Simulated readout drive using the dispersive approximation and full time-dependent Hamiltonian. The expectectation value for the I and Q quadratures are shown along with the Q function at three different times.}
+    \label{fig:dispersive_slash_full_readout}
+\end{figure}\todo{Strip figure and prettify it a bit}
 
-% In calibrating photon decay rate $\kappa$ and the temperature, we use more data from a single trace than just its average expectation value. Thus we will also include simulation in the Stochastic Master Equation.  \todo{Use MC as well? Don't need it, but need an argument} 
+% In the dispersive limit, we consider that $g/(\omega_r - \omega_q) \ll 1$, which has be sufficient for us since we consider low-photon-number readout. If we were to increase this to the high power regime, one starts to see a lot of interesting physics. The point of increasing $n > n_{\text{crit}}$, the approximation is no longer good. Doing the experiment in the laboratory we see that the resonator at some point get completely decoupled from the qubit.
 
-% \todo{Comment on the figure and the results.}
-
-% \begin{figure*}[h]
+% \begin{marginfigure}
 %     \centering
-%     % \missingfigure{$T_1$ Calibration for the different simulations. }
-%     % \label{fig:enter-label}
-%     % \missingfigure{$T_2$ Calibration for the different simulations. }
-%     \caption{Caption 2}
-%     \label{fig:big_figure_test}
-%     \includegraphics[]{Readout/Figs/Introduction.pdf}
-%     \hspace{2 cm}
-%     \includegraphics[]{Readout/Figs/Introduction.pdf}
-%     \includegraphics[]{Readout/Figs/Introduction.pdf}
-%     \includegraphics[]{Readout/Figs/Introduction.pdf}
-% \end{figure*}
-
-
-
-% \begin{figure}
-%     \centering
-%     \missingfigure{Calibration Scheme of $\kappa$ measurements}
-%     \missingfigure{Calibration Scheme of $\tau$ IQ plot ? } 
+%     \missingfigure{Punchout visualization}
 %     \caption{Caption}
-%     \label{fig:enter-label}
-% \end{figure}
+%     \label{fig:experiment_punchout}
+% \end{marginfigure}
+
+% In this regime the dispersive approximation is definetly wrong and we would have to resort back to the full time-dependent Hamiltonian. However, since the ciritcal photon number is $\approx 400$, we are nowhere near able to run these simulation anyways. 
 
 \FloatBarrier
 
 \subsection{Q Function and Trajectories}
-In section \ref{sec:IQ_phase_space}, we introduce the Q-Function to determine the phase space probability of finding the resonator with a specific $I, Q$ value set. It might be worth it to compare this Q function to the measurement record, we achieve by doing a stochastic master equation measurement.
-\todo{This section needs a treatment}
+In section \ref{sec:IQ_phase_space}, we introduce the Q-Function to determine the phase space probability of finding the resonator with a specific $I, Q$ value set. With the speed-up and accuracy\footnote{Going from order $1.5 \rightarrow 12$ reduces errors significantly} the Lindblad equation has over the Stochastic Master Equation, one might ask, why we went through the trouble of introducing and coding it. The short answer is that it was a lot of fun. The longer answer requires us to compare the Q function to the measurement trajectories of the Stochastic Master Equation.
+
+As a start, we might have to revisit the interpretation of the density matrix. In the example, we had in section \ref{sec:density_with_env} the mixed state came from someone (or something) measuring our state without our knowledge. This left us with a state that if we repeat the experiment would yield $\ket{0}$ half of the time and $\ket{1}$ in the other half. In the Lindbladian formulation the density matrix can be formulated as an ensemble average, that if we do it multiple times, we would arrive at this outcome. For the SME, we measure it in the meantime. The information here, would no longer be an ensemble average in the same way, but slowly collapse to which of trajectories in the ensemble, we are unraveling. Thus, it can be understood as: if we were to repeat the experiment, with the knowledge that we acquired until now, what is the probability that we have either $\ket{0}$ or $\ket{1}$. \todo{This needs a revisit and probably a source for both the interpretations.}
 \begin{figure*}[t]
     \centering
     \includegraphics[]{Simulations/readout_simulations/figures/qfunc_trajectories.pdf}
     \caption{Comparison of the Q Function and the scatter plot for a 10 ns readout record. In the top plot the Q Function distribution is shown at $t = 0, 200$ and $400 \text{ ns}$. In the two lower rows the the measurement record for 250 $\ket{0}$ and $\ket{1}$ trajectories are shown. Furthermore, the Q-Function is convolved by a 2d Gaussian with covariance matrix $2 \Delta t / \eta \identity$ to match the error of the records.}
     \label{fig:trajectories_and_qfunc}
 \end{figure*}
-\begin{itemize}
-    \item A paragraph: Philosophical differences between measuring and not measuring. Lindblad is the average of many stochastic master equation. This is represented in the mixed state of the density matrix.
-    \item We can covelute the Q function with a Gaussian, which we can find by comparing with the stochastic master equation. This can give the distribution of points at any time.
-    \item The stochastic master equation is necessary for the inter-trajectory correlation. We could sample points from the Q-function, but it would as an example give us 90\% from the $0$ state and $10\%$ for the excited state. However, in reality one trajectory will have 100\% of its measurements from one distribution from just one of them.
-\end{itemize}
 
-\vspace{1 cm}
-Old $\downarrow$ \\
+If we were to not look at the measurement record provided from the measurement\footnote{equal to a measurement with efficiency $\eta = 0$} then the SME reduces to the Lindblad equation, since it described the state, if we obtain no knowledge during the dynamics. It also goes the other way, if we averaged over all possible SME trajectories, we would also be back at the Lindblad equation, and the average measurement record would follow the expectation value of the Lindblad evolved state. If we were to assume that the expectation value of $I$ and $Q$ does not change during a small interval. We could use the Q function distribution and convelute it with the expected Gaussian width of our measurement record. This leads to the distribution of measurements records in that time interval. This is illustrated in \ref{fig:trajectories_and_qfunc}.
 
+This correspondance means that we can use the Lindblad if the interest is in the distribution of records. But we would not be able to create a trajectory by just sampling from the distribution at different time since it do not include the correlation between points as the SME does.
+\todo{This section needs a treatment. I think content is good now, but need sources and sharper formulations.}
+% \begin{itemize}
+%     \item A paragraph: Philosophical differences between measuring and not measuring. Lindblad is the average of many stochastic master equation. This is represented in the mixed state of the density matrix.
+%     \item We can covelute the Q function with a Gaussian, which we can find by comparing with the stochastic master equation. This can give the distribution of points at any time.
+%     \item The stochastic master equation is necessary for the inter-trajectory correlation. We could sample points from the Q-function, but it would as an example give us 90\% from the $0$ state and $10\%$ for the excited state. However, in reality one trajectory will have 100\% of its measurements from one distribution from just one of them.
+% \end{itemize}
 
-
-
-
-
-When we consider the Lindblad equation, the result is a deterministic list of density matrices at each point in time. This is also a possiblity, when we integrate the Stochastic Master Equation, but in addition, we have the simulated trajectories which resemble the contious weak readout done in the laboratory. In order to compare these two methods, we will make use of the Q-function represented in \ref{sec:QFunc} which illustrates a 2-dimensional probability density of the quadratures in the resonator. 
-
-If we simulate the readout process of the qubit-resonator system under the dispersive approximation, we can compare the measurement records from the Stochastic Master Equation with the evolution of the Q-function from the Lindblad Equation. This is summarized in figure \ref{fig:trajectories_and_qfunc}
-
-
-The measurement record is given by a term proportional to the expectation value of the measured quantity and a noise term, which in the derivation from chapter \ref{sec:} was a Gaussian. For a perfect coherent state, this is closely to the distribution of its Q function. Especially in the hetereodyne measurements. For a state, we can get a somewhat approximation. We need to scale the standard deviation with eta. Furthermore, we get a reductioon depending on the time of the measurement. This gives the good idea of measuring.... \todo{This is really just me writing sentences which could be included}
+% \vspace{1 cm}
+% Old $\downarrow$ \\
 
 
 
 
 
-\subsection{Validity of the Dispersive Approximation}
-The full time-dependent Hamiltonian, we simulated to get the results shown in figure \ref{fig:calibrations_in_simulation} are expensive to run. The largest part of this process is to calculate the time-dependent function of the pulse. In the dispersive approximation which we covered in section \ref{sec:dispersive} we could eliminate the time-dependence of the pulse by going to another basis.
 
-Before continuing with the approximation, we will first test whether it still exhibits the behaviours, we need to investigate the readout. 
+% When we consider the Lindblad equation, the result is a deterministic list of density matrices at each point in time. This is also a possiblity, when we integrate the Stochastic Master Equation, but in addition, we have the simulated trajectories which resemble the contious weak readout done in the laboratory. In order to compare these two methods, we will make use of the Q-function represented in \ref{sec:QFunc} which illustrates a 2-dimensional probability density of the quadratures in the resonator. 
 
-\begin{figure}
-    \centering
-    \includegraphics[width = \textwidth]{Simulations/readout_simulations/figures/dispersive_approx.pdf}
-    \caption{Caption}
-    \label{fig:enter-label}
-\end{figure}
+% If we simulate the readout process of the qubit-resonator system under the dispersive approximation, we can compare the measurement records from the Stochastic Master Equation with the evolution of the Q-function from the Lindblad Equation. This is summarized in figure \ref{fig:trajectories_and_qfunc}
 
-\subsection{The Punchout}
-In the dispersive limit, we consider that $g/(\omega_r - \omega_q) \ll 1$, which has be sufficient for us since we consider low-photon-number readout. If we were to increase this to the high power regime, one starts to see a lot of interesting physics. The point of increasing $n > n_{\text{crit}}$, the approximation is no longer good. Doing the experiment in the laboratory we see that the resonator at some point get completely decoupled from the qubit.
 
-\begin{marginfigure}
-    \centering
-    \missingfigure{Punchout visualization}
-    \caption{Caption}
-    \label{fig:experiment_punchout}
-\end{marginfigure}
+% The measurement record is given by a term proportional to the expectation value of the measured quantity and a noise term, which in the derivation from chapter \ref{sec:} was a Gaussian. For a perfect coherent state, this is closely to the distribution of its Q function. Especially in the hetereodyne measurements. For a state, we can get a somewhat approximation. We need to scale the standard deviation with eta. Furthermore, we get a reductioon depending on the time of the measurement. This gives the good idea of measuring.... \todo{This is really just me writing sentences which could be included}
 
-In this regime the dispersive approximation is definetly wrong and we would have to resort back to the full time-dependent Hamiltonian. However, since the ciritcal photon number is $\approx 400$, we are nowhere near able to run these simulation anyways. 
 
-\section{Size of the Hilbert Space}
+
+
+
+
+\section{Timesteps and the Size of the Hilbert Space}
+To complete our simulation tool, we still have to decide on the proper size of the Hilbert Space and the size of the time steps. 
+
+The time-step size is probably the easier. One trick in Qutip is that the Adams algorithm actually calculates a 13th order integration step. If the taylor series converges, then the difference between the 13. and 12. order term will be larger than the leftover error and we can set a threshold on the accuracy we accept \cite{KALKULUS}. Qutip then raises a flag if our error is larger than the threshold \cite{johansson_qutip_2012}. This mean, we should just set the resolution to the lowest without raising an error. To be safe, we set it a bit higher and simulate the readout of $600 \text{ ns}$ in $10 \text{ ns}$. \todo{The Adams algorithm further allows up to a certain amount of subcalls to algorithm which is adjusted based on the error}
+
+The Taylor Milstein 1.5 scheme also checks error bounds. With the stochastic term it is however not as reliable and with a low time resolution the measurement records included NaN values. A resolution which seems to work is running $2 \text{ ns}$ when the efficiency is low, and increasing the resolutino to $1 \text{ ns}$ when testing the efficiencies $\eta > \frac13$. 
+
+% \begin{figure*}
+%     \centering
+%     \missingfigure{Something showing hilbert space problems}
+%     \caption{Caption}
+%     \label{fig:enter-label}
+% \end{figure*}
 The size of the Hilbert Space affects the complexity of the simulation significantly, since the entries of the density matrix scales as $n^2$ with $n$ the dimension of the Hilbert Space. However, picking the size is like most of these considerations a trade off between accuracy and speed of simulations. 
 
-For the Qubit we need to have at a two dimensional system, but with temperatures around $100$ to $150 \text{ mK}$, there will also be non-negligible part in the second excited state of order $\approx 1\%$. Thus we will include this as well to have a three dimensional Hilbert Space for the Qubit.
+For the Qubit we need to have at a two dimensional system but we have include a third to be able to calculate the dispersive shift when we are doing the full model. This would further allow for transitions leakage to and from the excited state. This is however not fully implemented in the models yet since the occupancy would be $<1\%$ with temperatures around $140$ mK making it less of a priority. \todo{Do the calculation to confirm!} 
 
-For the resonator, we have to make sure, we do not miss any of the dynamics. Thus the size of the Hilbert space should be significantly larger than the maximum number of photon, we will have at any point during the simulation. The coherent states can be represented by a Poisson Distribution around the mean photon number \todo{Write Formula}, thus we take the maximum photon number and add around 5-10 dimensions more to make sure, we limit the numerical artifacts in the simulations.
+For the resonator, we have to make sure, we do not miss any of the dynamics. Thus the size of the Hilbert space should be significantly larger than the maximum number of photon, we will have at any point during the simulation. The coherent states are decomposed into fock space states near the mean photon number. With the values of $\kappa$ and $\chi$ in our system, the resonator does not directly enter the steady state, but overshoots it by a bit\footnote{We saw this when calculating the trajectories in section \ref{sec:resonator_decays}}. When we further add the stochastic nature in the SME, we had to increase it even more to make sure, we do not get near the border. With resonator hilbert space of dimension 50 seemed to include all the desired effects without being to large. Again a few trajectories with high $\eta$ has some numerical problems which results in incorrect movements in the IQ plane. 
 
 \section{Readout in Simulation}
-We are now in a position, where we have a qubit calibrated in experiment and recreated in simulation. By using the dispersive approximation, we can eliminate the time-dependence of the Hamiltonian to significantly speed-up the simulation process. And we have build up a framework of different simulation tools giving us a set off trade-offs between speed and complexity. \todo{This gives a bit conclusion-vibes}
+With calibrated device parameters, implemented simulations, trust in the dispersive model and the numerical settings, we are ready to do the readout simulations. By using the SME with the dispersive model and the parameters calibrated and summarized in section \ref{sec:overview_section}, we recreate the readout experiment from chapter \ref{chap:readout}. We create 500 trajectories for the equilibrium state calculated from the temperature and 500 times with an x-gate applied to the equilibrium state.
 
-Before using the simulation to learn about the system, we will first see if the readout fidelity in the two situations agree. Thus we set up a SME simulation giving us data corresponding to what we analyzed in chapter \ref{sec:improving_readout_fidelity}. One advantage of the simulation is that we already entered the rotating frame, so there is no need to demodulate the signal. Now we can repeat the process from earlier, and by using the matched weight filter, we can obtain the fidelity score.
-
-\begin{figure*}
+The IQ trajectories was combined with optimal weights and the maximum separating line was found. The process can be seen in figure \ref{fig:simulation_readout} where we remember that the phase of the IQ plot is our choice, so we are free to rotate it when comparing with figure \ref{fig:readout_process}. The state initialization and measurement error of our readout process in the simulated system is:
+\begin{equation}
+    F_{\text{SPAM}} = 0.654 \pm 0.017
+\end{equation}
+Which is close to the actual experiment. Comparing the two, we find a $z$-score\footnote{$F_e - F_s / \sqrt{\sigma_s^2 + \sigma_e}^2$ where subscript e is the fidelity and error of the experiment and s is for simulation} of 1.33. A fidelity from the same distribtuion as the experiment would have probability of  $p = 18.4 \%$ of being further from the actual value. This is a good indication that we are on the right track. Eventhough we still have multiple additions left. This includes the ramp-up and down of the experimental readout pulse, a realistic X-gate and proper inclusion of the dynamics associated with the second excited state. 
+\begin{figure*}[t]
     \centering
     \includegraphics[]{Simulations/readout_simulations/figures/weigted_simulation.pdf}
-    \caption{Caption}
-    \label{fig:enter-label}
+    \caption{The weights, IQ plots and a histrogram of the simulated dataset. The histogram is combined with the fidelity of setting a threshhold at the particular value. The maximum is chosen.}
+    \label{fig:simulation_readout}
 \end{figure*}
-
