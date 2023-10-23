@@ -190,10 +190,10 @@ We can now calibrate the photon counting steady state by driving the resonator u
     \label{fig:photon_counting_circuit}
 \end{marginfigure}
 
-\begin{figure}[h]
+\begin{figure*}[h]
     % \begin{minipage}{0.60\linewidth}
     \centering
-    \includegraphics[width = \linewidth]{Calibrations/Figures/Qubit Spectroscopy with Driven Resonator.pdf}
+    % \includegraphics[width = \linewidth]{Calibrations/Figures/Qubit Spectroscopy with Driven Resonator.pdf}
     % \end{minipage}
     % \begin{minipage}{0.40\linewidth}
         % \centering
@@ -201,7 +201,7 @@ We can now calibrate the photon counting steady state by driving the resonator u
     % \end{minipage}
     \caption{Scan of readout-pulse-amplitude and the frequency of qubit-pulse.}
     \label{fig:calibration_photon_counting_scan}
-\end{figure}
+\end{figure*}
 
 From this analysis, we extract the mean photon number as:
 \begin{equation}
@@ -359,7 +359,7 @@ For finding the relation between the amplitude and backaction, the qubit is init
 \end{equation}
 the readout drive will now be applied\footnote{Just as pulse because we're not interested in the signal}. During the readout signal the off-diagonal elements will be reduced by two factors: inherent dephasing by $T_2$-processes and qubit back action by the signal. To determine the amount of dephasing, we will perform a $\pi/2$ rotation around an axis along the $\phi$ angle in the x-y-plane before reading out the signal. The entire sequence is illustrated in figure \ref{fig:efficiency_dephasing_experiment}.
 
-\begin{marginfigure}[-10 cm]
+\begin{marginfigure}[-4 cm]
     \centering
     \includegraphics[]{Figs/circuits/dephasing.png}
     \caption{The phasing experiment circuit. First the qubit is rotated $\pi/2$ around the X-axis, whereafter it is subject to the readout pulse without demodulating and saving the signal. Now the qubit is rotated $\pi$ around a vector $\phi$ in the $x-y-$plane and finally readout.}
