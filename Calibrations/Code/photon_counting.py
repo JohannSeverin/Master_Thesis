@@ -5,7 +5,7 @@ import xarray as xr
 import sys
 import iminuit
 
-plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
+plt.style.use("../../code/matplotlib_style/fullwidth_figure.mplstyle")
 
 data_folder = "../Data/photon_calibration_in_readout_140531"
 title = "Qubit Spectroscopy with Driven Resonator"
@@ -87,7 +87,10 @@ from matplotlib.colors import LinearSegmentedColormap
 
 cmap = LinearSegmentedColormap.from_list("cmap", ["black", "C0", "C1", "white"])
 
-fig, ax = plt.subplots()
+fig, axes = plt.subplots(
+    ncols=2, gridspec_kw={"width_ratios": [1, 0.6], "wspace": 0.15}
+)
+ax = axes[0]
 
 img = ax.imshow(
     z_data / scale_z,
@@ -104,13 +107,16 @@ img = ax.imshow(
 
 ax.set_xlabel(ylabel)
 ax.set_ylabel(xlabel)
-ax.set_title(title)
+ax.set_title(title, pad=20)
 
-cbar = fig.colorbar(img, ax=ax, label=z_label, pad=0.01)
-cbar.ax.yaxis.set_label_position("right")
+cbar = fig.colorbar(img, ax=ax, label=z_label, pad=0.15)
+cbar.ax.yaxis.set_label_position("left")
+cbar.ax.yaxis.set_ticks_position("left")
+cbar.ax.get_yaxis().labelpad = 5
+# cbar.ax.yaxis.set_tick_params()
 
 # cbar.ax.yaxis.tick_left()
-cbar.ax.yaxis.label.set_rotation(-90)
+cbar.ax.yaxis.label.set_rotation(90)
 
 # Plot the fitted frequencies
 ax.plot(y_data / scale_y, frequence_at_amplitude / scale_x, "x", color="black")
@@ -139,7 +145,8 @@ fig.savefig(f"../Figures/{title}.pdf")
 
 
 # Figure with conversion from amplitude to photon number
-fig, ax = plt.subplots()
+# fig, ax = plt.subplots()
+ax = axes[1]
 
 distance_to_zero = frequence_at_amplitude - minimizer.values["c"]
 distance_to_zero_err = np.sqrt(
@@ -173,8 +180,9 @@ photons_from_fit = (
 )
 ax.plot(y_data / scale_y, photons_from_fit, "-", color="black", alpha=0.75)
 
+ax.set_title("Photon Number Extrapolation", pad=20)
 ax.set(
-    title="Photon Number vs. Amplitude Scaling",
+    # title="Photon Number Extrapolation",
     xlabel=ylabel,
     ylabel="Photon Number",
 )
@@ -217,7 +225,8 @@ ax.text(
     f"Photon Number: ${int(np.round(photons_at_100_percent, 0))} \pm {int(np.round(photon_at_100_percent_err, 0))}$",
     va="bottom",
     ha="center",
+    fontsize=16,
 )
 
-fig.tight_layout()
+# fig.tight_layout()
 fig.savefig(f"../Figures/photon_number.pdf")
