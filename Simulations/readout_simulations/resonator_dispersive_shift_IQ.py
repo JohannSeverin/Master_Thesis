@@ -75,7 +75,10 @@ ax[1].plot(results_ground.y[0].real, results_ground.y[0].imag)
 ax[1].plot(results_excited.y[0].real, results_excited.y[0].imag)
 
 circ = Circle(
-    [results_ground.y[0, -1].real, results_ground.y[0, -1].imag], radius=0.5, color="C0"
+    [results_ground.y[0, -1].real, results_ground.y[0, -1].imag],
+    radius=0.5,
+    color="C0",
+    label=r"$|0\rangle$",
 )
 ax[1].add_patch(circ)
 
@@ -83,6 +86,7 @@ circ = Circle(
     [results_excited.y[0, -1].real, results_excited.y[0, -1].imag],
     radius=0.5,
     color="C1",
+    label=r"$|1\rangle$",
 )
 ax[1].add_patch(circ)
 
@@ -92,6 +96,8 @@ ax[1].set(
     title="Drive at $f_r - \chi$",
     xlabel="I (photon count)",
 )
+
+ax[1].legend(fontsize=20, loc="lower right")
 
 fig.savefig("IQ_movement_without_kappa.pdf", bbox_inches="tight")
 

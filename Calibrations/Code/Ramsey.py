@@ -23,7 +23,7 @@ x_data = data.wait_time
 y_data = data.readout__final__I__avg
 y_err = data.readout__final__I__avg__error
 
-fit_name = "Decayingng Cosine"
+fit_name = "Decayingng Two Cosine"
 fit_resolution = 1000
 fit_delay = 40
 
@@ -64,6 +64,77 @@ pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 exec(open("log_and_plot/code_to_run.txt").read())
 
 
+ax.tick_params(labelsize=24, axis="both")
+ax.set_xlabel("Waiting Time (ns)", fontsize=28)
+ax.set_ylabel("Readout Signal I (a. u.)", fontsize=28)
+
+fig.savefig(f"../Figures/{title}.pdf", bbox_inches="tight")
+
+
+# Imports
+import numpy as np
+import matplotlib.pyplot as plt
+import xarray as xr
+import sys
+import iminuit
+
+plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
+# plt.rcParams["figure.figsize"] = (8, 4)
+# plt.rcParams["axes.leg"]
+
+data_folder = "../Data/old/Ramsey"
+title = "Ramsey Old Data"
+xlabel = "Waiting Time (ns)"
+scale_x = 1e-9
+
+ylabel = "Readout Signal I (a. u.)"
+scale_y = 1e-3
+
+data = xr.open_dataset(data_folder + "/dataset.nc")
+
+x_data = data.wait_time
+y_data = data.readout__final__I__avg
+y_err = data.readout__final__I__avg__error
+
+fit_name = "Decayingng Cosine"
+fit_resolution = 1000
+fit_delay = 40
+
+
+def fit_func(x, offset, Amplitude, Frequency, Phase, T2):
+    return offset + Amplitude * np.cos(2 * np.pi * Frequency * x + Phase) * np.exp(
+        -x / T2
+    )
+
+
+guesses = {
+    "Amplitude": 0.0004,
+    "Frequency": 5e6,
+    "Phase": 0.01,
+    "offset": -0.0001,
+    "T2": 1e-6,
+}
+
+# Fitting
+from iminuit import Minuit
+from iminuit.cost import LeastSquares
+from scipy.stats import chi2
+
+ls = LeastSquares(x_data, y_data, y_err, model=fit_func)
+minimizer = Minuit(ls, **guesses)
+minimizer.migrad()
+
+pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
+
+
+exec(open("log_and_plot/code_to_run.txt").read())
+
+
+ax.tick_params(labelsize=24, axis="both")
+ax.set_xlabel("Waiting Time (ns)", fontsize=28)
+ax.set_ylabel("Readout Signal I (a. u.)", fontsize=28)
+
+fig.savefig(f"../Figures/{title}.pdf", bbox_inches="tight")
 # # Priting
 # with open(f"../Fit_log/{title}.txt", "w") as f:
 #     print(

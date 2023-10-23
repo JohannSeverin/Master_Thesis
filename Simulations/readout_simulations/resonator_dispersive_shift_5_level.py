@@ -66,13 +66,13 @@ for i in range(5):
 
 dispersive_shift = system.calculate_dispersive_shift() / 2 / np.pi
 xticks = config["fr"] * 1e-9 + dispersive_shift
-xticks = np.append(xticks, config["fr"])
+# xticks = np.append(xticks, config["fr"] * 1e-9 - 0.03)
 
 xticklabels = [f"$f_r + \\chi_{i}$" for i in range(5)]
-xticklabels.append("$f_r$")
+# xticklabels.append("$f_r$")
 
 ax.set_xticks(xticks)
-ax.set_xticklabels(xticklabels, fontsize=18, rotation=90)
+ax.set_xticklabels(xticklabels, fontsize=18, rotation=80)
 
 # ax.set_xticks(
 #     [
@@ -91,7 +91,7 @@ ax.set_xticklabels(xticklabels, fontsize=18, rotation=90)
 ax.set_ylabel("Expectation Photons (a .u.)")
 ax.set_yticks([])
 ax.set(
-    title="Dispersive Shift - 2 Levels",
+    title="Dispersive Shift - 5 Levels",
     xlabel="Drive Frequency",
     xlim=(config["fr"] * 1e-9 - 0.01, config["fr"] * 1e-9 + 0.012),
     ylim=(0, 1.1),

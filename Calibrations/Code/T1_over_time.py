@@ -25,7 +25,7 @@ title = "T1 Scans at Different Times"
 
 fig, ax = plt.subplots(figsize=(6, 4))
 
-ax.plot(x_data / scale_x, y_data / scale_y, "o", label="Data")
+ax.plot(x_data / scale_x, y_data / scale_y, ".", label="Data")
 
 ax.errorbar(
     x_data / scale_x,
@@ -43,7 +43,7 @@ ax.set(
     ylabel=ylabel,
 )
 
-fig.savefig(f"../Figures/{title}.pdf")
+fig.savefig(f"../Figures/{title}.pdf", bbox_inches="tight")
 
 # fit_resolution = 1000
 # fit_delay = 40
