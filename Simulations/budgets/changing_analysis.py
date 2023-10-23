@@ -13,10 +13,10 @@ plt.style.use("../../code/matplotlib_style/fullwidth_figure.mplstyle")
 plt.rcParams["font.size"] = 16
 plt.rcParams["figure.figsize"] = (18, 6)
 cmap = LinearSegmentedColormap.from_list("mycmap", ["C0", "C1"], N=2)
-config = json.load(open("../qubit_calibration.json", "r"))
+config = json.load(open("../qubit_calibration_2.json", "r"))
 
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config["eta"] *= 9
+# config["g"] *= 2  # Looks like a small error in the coupling strength.
+# config["eta"] *= 9
 # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 timescale = 1e-9  # ns
@@ -106,9 +106,10 @@ def max_fidelity_score(score, truth, return_all=False):
     max_fidelity = fidelity.max()
     best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
     fidelity_error = np.sqrt(
-        best_fpr * (1 - best_fpr) / len(truth / 2)
-        + best_fnr * (1 - best_fnr) / len(truth / 2)
-    )
+        best_fpr * (1 - best_fpr) + best_fnr * (1 - best_fnr)
+    ) / np.sqrt(len(truth) / 2)
+    # print(best_fpr, best_fnr, len(truth) / 2, fidelity_error)
+    # print(len(truth))
     if not return_all:
         return max_fidelity, threshholds[np.argmax(fidelity)], fidelity_error
     else:
@@ -364,15 +365,15 @@ for col_idx, experiments_to_loop in enumerate(
         if os.path.exists("log.txt"):
             with open("log.txt", "a") as f:
                 f.write(
-                    f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}\n"
+                    f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}"
                 )
-                f.write(f"\n{config_dict}")
+                f.write(f"\n{config_dict}\n")
         else:
             with open("log.txt", "w") as f:
                 f.write(
-                    f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}\n"
+                    f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}"
                 )
-                f.write(f"\n{config_dict}")
+                f.write(f"\n{config_dict}\n")
         # break
     fidelities.append(fidelities_for_experiment)
     fidelities_errors.append(fidelities_errors_for_experiment)

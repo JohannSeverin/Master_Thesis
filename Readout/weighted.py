@@ -220,10 +220,17 @@ def make_histogram_plot():
     ax_histogram.legend(fontsize=12, loc="upper left")
     ax_fidelity.legend(fontsize=12, loc="upper right")
 
+    best_fpr = fpr[np.argmax(1 - fpr - fnr)]
+    best_fnr = fnr[np.argmax(1 - fpr - fnr)]
+    fidelity_error = np.sqrt(
+        best_fpr * (1 - best_fpr) / len(transformed) * 2
+        + best_fnr * (1 - best_fnr) / len(transformed) * 2
+    )
+
     with open("Logs/Weighted.txt", "w") as f:
         f.write(f"Optimal threshold: {threshholds[np.argmax(1 - fpr - fnr)]}\n")
         f.write(
-            f"Optimal fidelity: {1 - fpr[np.argmax(1 - fpr - fnr)] - fnr[np.argmax(1 - fpr - fnr)]}\n"
+            f"Optimal fidelity: {1 - fpr[np.argmax(1 - fpr - fnr)] - fnr[np.argmax(1 - fpr - fnr)]} +- {fidelity_error}\n"
         )
 
 

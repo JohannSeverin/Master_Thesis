@@ -2,19 +2,20 @@
 import json, sys, os, pickle, gc
 import time
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.constants import hbar, Boltzmann
 from qutip import ket2dm
 
 sys.path.append("..")
 from qubit_builder import build_qubit, build_resonator
-from analysis.auto import automatic_analysis
+
+# from analysis.auto import automatic_analysis
 from devices.device import SimpleQubit
 from devices.system import QubitResonatorSystem
 from devices.pulses import SquareCosinePulse
 from simulation.experiment import (
     SchroedingerExperiment,
 )
+
 
 config = json.load(open("../qubit_calibration_2.json", "r"))
 # config["fr"] = 7.552e9
@@ -54,7 +55,10 @@ experiment = SchroedingerExperiment(
 
 results = experiment.run()
 
-plt.rcParams["figure.figsize"] = (6, 6)
+# plt.rcParams["figure.figsize"] = (6, 6)
+import matplotlib.pyplot as plt
+
+plt.style.use("../../code/matplotlib_style/margin_figure.mplstyle")
 fig, ax = plt.subplots()
 
 ax.plot(frequencies, results.exp_vals[:, 0], label=r"$|0\rangle$")
@@ -70,15 +74,16 @@ ax.set_xticks(
 )
 
 ax.set_xticklabels([r"$f_r - \chi$", r"$f_r$", r"$f_r + \chi$"], fontsize=18)
-ax.set_ylabel("Expectation Photons (a .u.)")
+ax.set_ylabel(r"Expectation Photons, $\langle a^\dagger a \rangle$ (a .u.)")
 ax.set_yticks([])
 ax.set(
     title="Dispersive Shift - 2 Levels",
     xlabel="Drive Frequency",
     xlim=(config["fr"] * 1e-9 - 0.01, config["fr"] * 1e-9 + 0.01),
+    ylim=(0, 1.1),
 )
 
-ax.legend()
+ax.legend(loc="upper right")
 
 fig.tight_layout()
 fig.savefig("dispersive_shift_2_level.pdf")

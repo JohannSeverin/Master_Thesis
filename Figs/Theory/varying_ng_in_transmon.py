@@ -42,7 +42,7 @@ ax[1].set(
 ax[1].legend(fontsize=14)
 
 
-fig.suptitle("Energy Spacing of Transmon Levels", y=0.95, va="top")
+# fig.suptitle("Energy Spacing of Transmon Levels", y=0.95, va="top")
 fig.tight_layout()
 
 fig.savefig("Transmon_energy_vs_ng.pdf", bbox_inches="tight")

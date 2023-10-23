@@ -42,7 +42,7 @@ ax.plot(phi, potential(phi), color="black")
 
 ax.set(
     xlabel="phase, $\\varphi \;(\phi_0)$",
-    ylabel="Energy $E \;(E_J)$",
+    ylabel="Energy, $E \;(E_J)$",
     title="Potential and Energy Levels of CPB",
 )
 
@@ -112,7 +112,7 @@ ns_to_look_at = 2
 ax.plot(ns, charge_potential(ns), color="black")
 ax.set(
     xlabel="Charge, $n$",
-    ylabel="Energy $E \;(E_J)$",
+    ylabel="Energy, $E \;(E_J)$",
     title="Potential and Energy Levels of CPB",
     xlim=(-ns_to_look_at, ns_to_look_at),
     ylim=(0, charge_potential(-ns_to_look_at)),

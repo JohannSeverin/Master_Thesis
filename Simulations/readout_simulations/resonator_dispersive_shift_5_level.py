@@ -54,7 +54,9 @@ experiment = SchroedingerExperiment(
 
 results = experiment.run()
 
-plt.rcParams["figure.figsize"] = (6, 6)
+# plt.rcParams["figure.figsize"] = (6, 6)
+plt.style.use("../../code/matplotlib_style/margin_figure.mplstyle")
+
 fig, ax = plt.subplots()
 
 for i in range(5):
@@ -89,12 +91,13 @@ ax.set_xticklabels(xticklabels, fontsize=18, rotation=45)
 ax.set_ylabel("Expectation Photons (a .u.)")
 ax.set_yticks([])
 ax.set(
-    title="Dispersive Shift - 5 Levels",
+    title="Dispersive Shift - 2 Levels",
     xlabel="Drive Frequency",
-    xlim=(config["fr"] * 1e-9 - 0.01, config["fr"] * 1e-9 + 0.01),
+    xlim=(config["fr"] * 1e-9 - 0.01, config["fr"] * 1e-9 + 0.012),
+    ylim=(0, 1.1),
 )
 
-ax.legend(fontsize=14)
+ax.legend(loc="upper right", fontsize=14)
 
-fig.tight_layout()
+# fig.tight_layout()
 fig.savefig("dispersive_shift_5_level.pdf")

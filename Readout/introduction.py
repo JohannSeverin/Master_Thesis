@@ -249,9 +249,10 @@ def make_histogram_plot():
 
     best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
     fidelity_error = np.sqrt(
-        best_fpr * (1 - best_fpr) / sum(states == 0)
-        + best_fnr * (1 - best_fnr) / sum(states == 0)
-    )
+        best_fpr * (1 - best_fpr) + best_fnr * (1 - best_fnr)
+    ) / np.sqrt(sum(states == 0))
+
+    print(sum(states == 0))
 
     with open("Logs/Introduction.txt", "w") as f:
         f.write("SIMPLE WEIGHTS")
@@ -490,9 +491,10 @@ def make_histogram_plot():
 
     best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
     fidelity_error = np.sqrt(
-        best_fpr * (1 - best_fpr) / sum(states == 0)
-        + best_fnr * (1 - best_fnr) / sum(states == 0)
-    )
+        best_fpr * (1 - best_fpr) + best_fnr * (1 - best_fnr)
+    ) / np.sqrt(sum(states == 0))
+
+    # print(best_fpr, best_fnr, sum(states == 0), fidelity_error)
 
     with open("Logs/Introduction.txt", "a") as f:
         f.write("OPTIMAL WEIGHTS")
@@ -516,6 +518,12 @@ func = lambda x, mu1, sigma1, mu2, sigma2, p: (1 - p) * norm.pdf(
 
 
 transformed = lda.transform(np.stack([all_I, all_Q]).T)
+states = np.concatenate(
+    [
+        np.zeros_like(data.I_ground.sum("adc_timestamp").values),
+        np.ones_like(data.I_excited.sum("adc_timestamp").values),
+    ]
+)
 cost = UnbinnedNLL(transformed.flatten(), func)
 minimizer = Minuit(cost, mu1=-1.5, sigma1=0.75, mu2=+1.5, sigma2=0.75, p=0.5)
 minimizer.migrad()
@@ -531,5 +539,71 @@ with open("Logs/Introduction.txt", "a") as f:
 
 
 fig.savefig("Figs/Introduction.pdf")
+
+
+# Check with simulated data
+import pickle
+
+transformed_sim = pickle.load(
+    open(
+        "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/Simulations/budgets/transformed.pkl",
+        "rb",
+    )
+)
+
+plt.figure()
+plt.hist(
+    transformed_sim["transformed"],
+    density=True,
+    bins=30,
+    cumulative=True,
+    histtype="step",
+    linewidth=5,
+)
+plt.hist(
+    transformed, density=True, bins=30, cumulative=True, histtype="step", linewidth=5
+)
+
+
+fig, axes = plt.subplots(ncols=2)
+
+axes[0].hist(
+    transformed_sim["transformed"][transformed_sim["states"] == 0],
+    density=True,
+    bins=30,
+    linewidth=5,
+    histtype="step",
+)
+axes[0].hist(
+    transformed[states == 0], density=True, bins=30, linewidth=5, histtype="step"
+)
+
+axes[1].hist(
+    transformed_sim["transformed"][transformed_sim["states"] == 1],
+    density=True,
+    bins=30,
+    linewidth=5,
+    histtype="step",
+)
+axes[1].hist(
+    transformed[states == 1], density=True, bins=30, linewidth=5, histtype="step"
+)
+
+from scipy.stats import ks_2samp
+
+print(ks_2samp(transformed_sim["transformed"].flatten(), transformed.flatten()))
+print(
+    ks_2samp(
+        transformed_sim["transformed"][transformed_sim["states"] == 0].flatten(),
+        transformed[states == 0].flatten(),
+    )
+)
+print(
+    ks_2samp(
+        transformed_sim["transformed"][transformed_sim["states"] == 1].flatten(),
+        transformed[states == 1].flatten(),
+    )
+)
+
 
 # fig.tight_layout()

@@ -1,8 +1,3 @@
-# To do actual experiment
-# - Run for a long time (35 µs)
-
-
-## Setup
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -11,17 +6,17 @@ import time
 
 sys.path.append("..")
 
-config = json.load(open("../qubit_calibration.json", "r"))
+config = json.load(open("../qubit_calibration_2.json", "r"))
 
-config["g"] *= 2  # Looks like a small error in the coupling strength.
-config[
-    "eta"
-] *= 9  # This is to make up for the fact that the experiment has a steady state photon count of 30
+# config["g"] *= 2  # Looks like a small error in the coupling strength.
+# config[
+#     "eta"
+# ] *= 9  # This is to make up for the fact that the experiment has a steady state photon count of 30
 
 ntraj = 500
 
 save_path = "data/"
-name = "trajectory_sample_realistic_n1000"
+name = "realistic"
 overwrite = False
 
 timescale = 1e-9  # ns
@@ -64,34 +59,34 @@ initial_excited = (1 - initial_temperature_prob) * ket2dm(
 initial_states = [initial_ground, initial_excited]
 times = np.arange(0, 1000, 10)
 
-# # Lindblad Experiment
-experiment = LindbladExperiment(
-    system,
-    initial_states,
-    times,
-    expectation_operators=[
-        system.resonator_I(),
-        system.resonator_Q(),
-        system.photon_number_operator(),
-    ],
-    only_store_final=False,
-    store_states=True,
-    save_path=os.path.join(save_path, name + "_lindblad.pkl"),
-)
+# # # Lindblad Experiment
+# experiment = LindbladExperiment(
+#     system,
+#     initial_states,
+#     times,
+#     expectation_operators=[
+#         system.resonator_I(),
+#         system.resonator_Q(),
+#         system.photon_number_operator(),
+#     ],
+#     only_store_final=False,
+#     store_states=True,
+#     save_path=os.path.join(save_path, name + "_lindblad.pkl"),
+# )
 
-start_time = time.time()
-results = experiment.run()
-print(f"Time for Lindblad: {time.time() - start_time}")
+# start_time = time.time()
+# results = experiment.run()
+# print(f"Time for Lindblad: {time.time() - start_time}")
 
-from analysis.Q_func import qfunc_plotter_with_time_slider
+# from analysis.Q_func import qfunc_plotter_with_time_slider
 
-automatic_analysis(results)
-plt.show()
-# qfunc_plotter_with_time_slider(results, interval=10, resolution=100, time_steps=1)
+# automatic_analysis(results)
+# plt.show()
+# # qfunc_plotter_with_time_slider(results, interval=10, resolution=100, time_steps=1)
 
-import gc
+# import gc
 
-gc.collect()
+# gc.collect()
 
 
 # Stochastic Master Equation Experiment

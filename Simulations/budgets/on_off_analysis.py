@@ -106,15 +106,17 @@ def max_fidelity_score(score, truth, return_all=False):
     max_fidelity = fidelity.max()
     best_fpr, best_fnr = fpr[np.argmax(fidelity)], fnr[np.argmax(fidelity)]
     fidelity_error = np.sqrt(
-        best_fpr * (1 - best_fpr) / len(truth) + best_fnr * (1 - best_fnr) / len(truth)
-    )
+        best_fpr * (1 - best_fpr) + best_fnr * (1 - best_fnr)
+    ) / np.sqrt(len(truth) / 2)
     if not return_all:
         return max_fidelity, threshholds[np.argmax(fidelity)], fidelity_error
     else:
         return max_fidelity, threshholds[np.argmax(fidelity)], fidelity, fidelity_error
 
 
-def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure=None):
+def calculate_fidelity_and_create_plots(
+    name, config_dict, ax_scatter_big_figure=None, return_transformed=False
+):
     eta = config_dict["eta"] if "eta" in config_dict else config["eta"]
     measurements, results = load_measurements(name, eta)
     weights_I, weights_Q = calculate_weights(measurements)
@@ -285,7 +287,10 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
         f"Fidelity Analysis for {name[:-8]}",
     )
 
-    return fig, max_fidelity
+    if return_transformed:
+        return fig, max_fidelity, {"states": states, "transformed": transformed}
+    else:
+        return fig, max_fidelity
 
 
 ### Setup figure
@@ -310,14 +315,14 @@ config_dict_combinations = {
         "temperature": config["temperature"],
         "T1": 0,
     },
-    "zero_temperature": {
-        "eta": config["eta"],
-        "temperature": 0,
-        "T1": config["T1"],
-    },
     "perfect_efficiency": {
         "eta": 1,
         "temperature": config["temperature"],
+        "T1": config["T1"],
+    },
+    "zero_temperature": {
+        "eta": config["eta"],
+        "temperature": 0,
         "T1": config["T1"],
     },
 }
@@ -355,7 +360,11 @@ for col_idx, experiments_to_loop in enumerate(
                 f.write(
                     f"{name} - max fidelity:  {max_fidelity[0]:.3f} +- {max_fidelity[2]:.3f}\n"
                 )
-
+        if name == "realistic":
+            fig, max_fidelity, transformed = calculate_fidelity_and_create_plots(
+                name + "_sme.pkl", config_dict, return_transformed=True
+            )
+            pickle.dump(transformed, open("transformed.pkl", "wb"))
 
 big_fig.tight_layout()
 big_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01)
@@ -366,9 +375,9 @@ for i in range(2):
 for i in range(3):
     axes_for_big_fig[1, i].set_xlabel("I (a. u.)")
 
-# big_fig.savefig(
-#     os.path.join(save_path, "iq_scatter_budgetting_on_off.pdf"), bbox_inches="tight"
-# )
+big_fig.savefig(
+    os.path.join(save_path, "iq_scatter_budgetting_on_off.pdf"), bbox_inches="tight"
+)
 
 two_fig.tight_layout()
 two_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01, va="bottom")
@@ -379,9 +388,9 @@ for i in range(2):
 for i in range(2):
     axes_for_two_fig[i].set_xlabel("I (a. u.)")
 
-# two_fig.savefig(
-#     os.path.join(save_path, "iq_scatter_budgetting_on_off_two.pdf"), bbox_inches="tight"
-# )
+two_fig.savefig(
+    os.path.join(save_path, "iq_scatter_budgetting_on_off_two.pdf"), bbox_inches="tight"
+)
 
 
 ### Plot Fidelities
