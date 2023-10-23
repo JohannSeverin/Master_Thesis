@@ -55,7 +55,7 @@ where a and b are complex numbers and $|a|^2, |b|^2$ are the respective probabil
 \begin{equation}\label{eq:general_2_state}
     \ket{\psi} = \cos (\theta / 2) \ket{0} + e^{i\phi}\sin(\theta / 2)\ket{1}
 \end{equation}
-where we end up with the two angles $\theta$ and $\phi$ which respectively determining the relative occupation in these two states and a phase between them. With these two angles, it is convenient to represent a qubit geometrically. \todo{Citation}
+where we end up with the two angles $\theta$ and $\phi$ which respectively determining the relative occupation in these two states and a phase between them. With these two angles, it is convenient to represent a qubit geometrically \cite{krantz_quantum_2019}.
 
 \subsection{The Bloch Sphere}
 Two angles $\theta$ and $\phi$ and a length of 1 makes the unit sphere a perfect place to visualize the qubit state. The depiction of a qubit state on a sphere is called a Bloch Sphere and an example can be seen in \ref{fig:bloch_sphere}. On the Bloch Sphere, the state $\ket{0}$ will be positive along the z-axis and $\ket{1}$ in the negative direction. with this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively. The x-y plane is determined by the $\phi$ component and will be the phase difference between the two states. \cite{krantz_week_2019}
@@ -171,10 +171,9 @@ And the third order differential by:
     \caption{How the Adams algorithm works. Here the second order derivative is found by the finite difference method to be $f'(x_i) = (f(x_i) - f(x_{i-1}))/\Delta t$}
     \label{fig:Adams integration}
 \end{marginfigure}
-\todo{The label need to be switched!}
-and onwards. A visualization of the second order method can be seen in figure \ref{fig:Adams integration}. The computation of the Adams algorithm is more precise since it considers higher order terms and it runs fast since it reuses the old calculations. Thus we just have to do one operation\footnote{in the sense that no operation has to wait for another operation before it can be run.} for calculating the next value of $y$. One challenge is that the algorithm requires $n$ points to get started. Thus we can either assume that every differential beyond order $m$ is $0$ when calculating the $0$th point. Such that we effectively would do an Euler integration for the first point, a second order Adams for the second and so on. The default order of the methods in this thesis will be order 12, so this way we lose a lot of precision in the beginning. Alternatively, we can use another algorithm which moves forward in time to approximate the higher order differentials. An example of such an algorithms is the Runge-Kutta method.
+and onwards. A visualization of the second order method can be seen in figure \ref{fig:Adams integration}. The computation of the Adams algorithm is more precise since it considers higher order terms and it runs fast since it reuses the old calculations. Thus we just have to do one operation\footnote{in the sense that no operation has to wait for another operation before it can be run.} for calculating the next value of $y$. One challenge is that the algorithm requires $n$ points to get started. Thus we can either assume that every differential beyond order $m$ is $0$ when calculating the $0$th point. Such that we effectively would do an Euler integration for the first point, a second order Adams for the second and so on. The default order of the methods in this thesis will be order 12, so this way we lose a lot of precision in the beginning. Alternatively, we can use another algorithm which moves forward in time to approximate the higher order differentials. An example of such an algorithms is the Runge-Kutta method, which is used in most modern initial value problem integration solvers \cite{Butcher}. 
 
-\todo{Check with source here: \url{https://link.springer.com/book/10.1007/978-3-540-78862-1} should be accessible within KU }
+% \todo{Check with source here: \url{https://link.springer.com/book/10.1007/978-3-540-78862-1} should be accessible within KU }
 % \textit{The Runge-Kutta method goes forward in time to find intermediate time steps, where the differential equation again is evaluated. When summing the different paths, the errors cancel out up the order $n$, where $n$ is the amount of intermediate steps. To second order, the Runge-Kutta algorithm calculates half a time step: $k_1 = \Delta t / 2 \psi$ and averages the slope of the slope of the given point and the next. 
 % }
 % $ takes $\Vec{\psi_i} = \Vec{\psi_{i-1}} + k_1 + \mathcal{O}(\Delta t^3)$. To higher orders this lets us suppress the error for the first few steps using multiple steps with the Runge-Kutte method and when we have the first $n$ values, we can switch to the Adams method to improve speed while keeping the error small. \todo{Same source as above? } 
@@ -187,7 +186,7 @@ and onwards. A visualization of the second order method can be seen in figure \r
 \section{Computational Framework of the Thesis}
 \begin{figure}[b]
     \centering
-    \includegraphics[width = 0.9 \textwidth]{Figs/Sections/Introduction/module_v2.png}
+    \includegraphics[width = 0.80 \textwidth]{Figs/Sections/Introduction/module_v2.png}
     \caption{Module structure divided into the Parent Classes maintainining parameters and sweeping and the Phyics classes which serves as containers for Hamiltonian, dissipation operators or simulation schemes.}
     \label{fig:module_overview}
 \end{figure}

@@ -125,7 +125,7 @@ This correspondance means that we can use the Lindblad if the interest is in the
 
 
 
-\section{Timesteps and the Size of the Hilbert Space}
+\section{Timesteps and the Size of the Hilbert Space}\label{sec:hilbert_space}
 To complete our simulation tool, we still have to decide on the proper size of the Hilbert Space and the size of the time steps. 
 
 The time-step size is probably the easier. One trick in Qutip is that the Adams algorithm actually calculates a 13th order integration step. If the taylor series converges, then the difference between the 13. and 12. order term will be larger than the leftover error and we can set a threshold on the accuracy we accept \cite{KALKULUS}. Qutip then raises a flag if our error is larger than the threshold \cite{johansson_qutip_2012}. This mean, we should just set the resolution to the lowest without raising an error. To be safe, we set it a bit higher and simulate the readout of $600 \text{ ns}$ in $10 \text{ ns}$. \todo{The Adams algorithm further allows up to a certain amount of subcalls to algorithm which is adjusted based on the error}
@@ -144,17 +144,18 @@ For the Qubit we need to have at a two dimensional system but we have include a 
 
 For the resonator, we have to make sure, we do not miss any of the dynamics. Thus the size of the Hilbert space should be significantly larger than the maximum number of photon, we will have at any point during the simulation. The coherent states are decomposed into fock space states near the mean photon number. With the values of $\kappa$ and $\chi$ in our system, the resonator does not directly enter the steady state, but overshoots it by a bit\footnote{We saw this when calculating the trajectories in section \ref{sec:resonator_decays}}. When we further add the stochastic nature in the SME, we had to increase it even more to make sure, we do not get near the border. With resonator hilbert space of dimension 50 seemed to include all the desired effects without being to large. Again a few trajectories with high $\eta$ has some numerical problems which results in incorrect movements in the IQ plane. 
 
-\section{Readout in Simulation}
+\section{Readout in Simulation}\label{sec:readout_in_simulation}
 With calibrated device parameters, implemented simulations, trust in the dispersive model and the numerical settings, we are ready to do the readout simulations. By using the SME with the dispersive model and the parameters calibrated and summarized in section \ref{sec:overview_section}, we recreate the readout experiment from chapter \ref{chap:readout}. We create 500 trajectories for the equilibrium state calculated from the temperature and 500 times with an x-gate applied to the equilibrium state.
 
 The IQ trajectories was combined with optimal weights and the maximum separating line was found. The process can be seen in figure \ref{fig:simulation_readout} where we remember that the phase of the IQ plot is our choice, so we are free to rotate it when comparing with figure \ref{fig:readout_process}. The state initialization and measurement error of our readout process in the simulated system is:
 \begin{equation}
-    F_{\text{SPAM}} = 0.654 \pm 0.017
+    F_{\text{SPAM}} = 0.654 \pm 0.024
 \end{equation}
-Which is close to the actual experiment. Comparing the two, we find a $z$-score\footnote{$F_e - F_s / \sqrt{\sigma_s^2 + \sigma_e}^2$ where subscript e is the fidelity and error of the experiment and s is for simulation} of 1.33. A fidelity from the same distribtuion as the experiment would have probability of  $p = 18.4 \%$ of being further from the actual value. This is a good indication that we are on the right track. Eventhough we still have multiple additions left. This includes the ramp-up and down of the experimental readout pulse, a realistic X-gate and proper inclusion of the dynamics associated with the second excited state. 
+Which is close to the actual experiment. Comparing the two, we find a $z$-score\footnote{$|F_e - F_s| / \sqrt{\sigma_s^2 + \sigma_e}^2$ where subscript e is the fidelity and error of the experiment and s is for simulation} of 1.33. A fidelity from the same distribution as the experiment would have probability of  $p = 18.4 \%$ of being further from the actual value. This is a good indication that we are on the right track. Even though we still have multiple additions left. This includes the ramp-up and down of the experimental readout pulse, a realistic X-gate and proper inclusion of the dynamics associated with the second excited state. 
 \begin{figure*}[t]
     \centering
-    \includegraphics[]{Simulations/readout_simulations/figures/weigted_simulation.pdf}
+    \includegraphics[]{Simulations/budgets/figures/realistic_sme.pdf}
     \caption{The weights, IQ plots and a histrogram of the simulated dataset. The histogram is combined with the fidelity of setting a threshhold at the particular value. The maximum is chosen.}
     \label{fig:simulation_readout}
 \end{figure*}
+\todo{calculate the two tailed sf again with the correct error on the fidelity}

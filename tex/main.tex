@@ -12,13 +12,47 @@
 \BgThispage
 \maketitlepage
 
+% To do notes
+\listoftodos
+\chapter*{\centering Abstract}
+For superconducting qubits to be a viable platform for large scale quantum information processing, high-fidelity readout is required. Since state initialization errors and measurement (SPAM) errors are inseparable in quantum algorithms, this thesis deals with the physics behind the readout sequence. Doing a list of calibrations, the experimental setup is mapped to a simulation model which uses the stochastic master equation to simulate the dispersive approximation of a qubit-resonator system. The model is capable of producing realistic plots of IQ measurements which have similar distributions and SPAM fidelity as measured in the laboratory. The model is used to estimate the contribution to the SPAM errors from three factors: non-zero temperature, energy decay during measurement and inefficient measurement. Finally, a use case is presented, where marginal improvements are mapped to expected SPAM fidelities. This is used to spark a discussion of how one can improve the readout of superconducting qubits.
+
+
+% To implement large scale quantum information protocols on superconducting qubits, high-fidelity readout is required. 
+
+% Since state initialization and measurement errors are inseparable in quantum algorithms, this thesis goes into the physics in the readout process. 
+
+% To fully map the system a list of calibrations are worked out. 
+
+% By introducing the dispersive approximation for a qubit resonator system and simulating it using the stochastic master equation, this thesis uses the calibrated parameters to make realistic IQ plots which resemble that of the experimental setup. 
+
+% The thesis uses the models to estimate the contributions to state preparation and measurements errors from three sources: non-zero temperature, energy decay during measurement and inefficient measurement.  
+
+% Finally, a use case is presented, where marginal improvements are mapped to expected SPAM fidelities. This is used to spark a discussion of how one can improve the readout of superconducting qubits. zz 
+
+
+% \vspace{2 cm}
+
+
+
+% \todo{This is a chatgpt abstract, rewrite it so it is not cheating.}
+% \thispagestyle{empty}
+% This study delves into the theory, calibration, and simulation of readout in a superconducting system. The theoretical framework encompasses three key stages: unitary evolution, elucidating the coupling between qubit and resonator for qubit measurement; interaction with the environment, addressing challenges arising from coherence loss and energy exchange; and stochastic evolution, depicting single trajectory unraveling. These theoretical underpinnings provide essential tools for dynamic simulation, contingent upon a set of determinable parameters for a realistic model.
+
+% Calibration efforts yield a comprehensive list of parameter estimates for integration into the simulation model. Comparative analysis against laboratory readout sequences reveals similar state initialization and measurement fidelity, although certain features of the distribution hint that further scrutiny is required, particularly regarding X-gate fidelity and proper inclusion of the second excited state.
+
+% Optimal parameter settings enable an assessment of three distinct sources contributing to SPAM (State Preparation and Measurement) infidelity. Results indicate that, for our system employing a 600 ns readout pulse, the primary source of infidelity stems from high temperature, followed by low efficiency and diminished coherence time.
+
+% Furthermore, the model serves as a platform for estimating SPAM-fidelity enhancements through marginal improvements in efficiency, temperature, or coherence time. These estimates serve as a foundation for discussing strategies for initialization and readout sequences, offering insights into mitigating the impact of low efficiency, elevated temperature, or diminished coherence, provided that other parameters are optimized.
+
+\chapter*{Acknowledgements}
+\thispagestyle{empty}
+
 % Setup TOC and proper page numbers
+\newpage
 \setcounter{page}{0}
 \tableofcontents
 \pagestyle{empty}
-
-% To do notes
-\listoftodos
 
 %%% Include files
 % Introduction
