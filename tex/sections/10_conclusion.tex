@@ -1,16 +1,32 @@
 \chapter{Conclusion}\label{chap:conclusion}
-\textbf{The following is chatgpt of some bullets. Thats why is seems so prentious...}
-In this thesis, we embarked on a comprehensive journey into the realm of superconducting readout, delving deep into the dispersive approximation and its underlying theory. Through the introduction of pivotal concepts such as the Lindblad equation for environmental interactions and the Stochastic Master Equation for trajectory analysis, we established a robust foundation for modeling this intricate process.
+We have now reached the end of the journey into the theory, calibration and simulation of readout in a superconducting system. 
 
-A pivotal aspect of our work was the calibration of a real-world qubit from the laboratory, enabling us to assign realistic parameters to our model. This not only bolsters the practicality of our findings but also establishes a direct link between theoretical insights and tangible experimental devices.
+In order to provide a model of the readout process, we have reviewed the theory behind it in three stages. The unitary evolution of the system, where we described how the coupling between qubit and resonator allow us to measure the qubit by driving the resonator. The interaction with the environment, where we have described the challenges of a qubit and resonator that loses coherence or exchange energy with the environment. And finally, the stochastic evolution which describes the unraveling of a single trajectory. The review of theory have given us the tools for simulating the dynamics and a list of parameters which we need to determine to make a realistic model.
 
-Upon conducting a thorough comparison with actual readout experiments, we observed a remarkable qualitative similarity in behavior. Further fine-tuning of parameters, tailored to the available computational resources, yielded closely aligned results. This convergence serves as a testament to the efficacy of our model in capturing the essence of real-world scenarios.
+Following the list of parameters, we have performed a sequence of calibrations which lead to a complete list of parameters estimate to enter the simulation model. By running the model and comparing to the readout sequence experiment from the laboratory, we conclude that we get a similar state initialization and measurement fidelity. However, the distributions do fit perfectly, hinting that X-gate fidelity and the second excited state should be included in the analysis \todo{Check}. 
 
-One of the paramount contributions of our study lies in the identification and quantification of factors contributing to SPAM errors. We discovered that in our specific system, temperature fluctuations at $\tau = 150 \text{ mK}$ accounted for approximately $22\%$ of the infidelity, while a characteristic decay time of $T_1 = 2.9 \text{ µs}$ contributed around $9\%$. Additionally, a reduced efficiency of $\eta = 13.5 \%$ led to a roughly $2\%$ impact on fidelity.
+By changing parameters to the ideal values, we could use the realistic model to estimate the contributions from three different sources to the SPAM infidelity. We find for our system and a $600 \text{ ns}$ readout pulse that the primary contributor to infidelity is a high temperature, followed by a low efficiency and low coherence time.
 
-By conducting systematic adjustments, we demonstrated the potential of our approach in pinpointing avenues for enhancing fidelity. Notably, we discussed various strategies to mitigate and balance the influences of each error source. Our analysis suggests that, in the presence of fixed efficiency and decay rates, optimizing the readout duration stands as a pivotal step towards obtaining more representative estimates of potential improvements.
+Lastly, we have used the model to estimate the improvements to the SPAM-fidelity by marginal improvements in efficiency, temperature or coherence time. These estimates were used to enter a discussion of how different strategies to the initialization and readout sequence can be used to reduce the impact of low efficiency, high temperature or low coherence given that the other parameters are better. 
 
-In essence, our work not only lays a robust theoretical foundation for superconducting readout but also offers practical insights into fine-tuning parameters for improved fidelity. As we navigate the frontier of quantum computing, these findings pave the way for more refined and efficient quantum information processing protocols.
+
+
+
+% By reviewing the theory behind the dispersive model which described how the resonator couples to the qubit and be used to do readout we have characterized which parameters are necessary to 
+
+
+% \textbf{The following is chatgpt of some bullets. Thats why is seems so prentious...}
+% In this thesis, we embarked on a comprehensive journey into the realm of superconducting readout, delving deep into the dispersive approximation and its underlying theory. Through the introduction of pivotal concepts such as the Lindblad equation for environmental interactions and the Stochastic Master Equation for trajectory analysis, we established a robust foundation for modeling this intricate process.
+
+% A pivotal aspect of our work was the calibration of a real-world qubit from the laboratory, enabling us to assign realistic parameters to our model. This not only bolsters the practicality of our findings but also establishes a direct link between theoretical insights and tangible experimental devices.
+
+% Upon conducting a thorough comparison with actual readout experiments, we observed a remarkable qualitative similarity in behavior. Further fine-tuning of parameters, tailored to the available computational resources, yielded closely aligned results. This convergence serves as a testament to the efficacy of our model in capturing the essence of real-world scenarios.
+
+% One of the paramount contributions of our study lies in the identification and quantification of factors contributing to SPAM errors. We discovered that in our specific system, temperature fluctuations at $\tau = 150 \text{ mK}$ accounted for approximately $22\%$ of the infidelity, while a characteristic decay time of $T_1 = 2.9 \text{ µs}$ contributed around $9\%$. Additionally, a reduced efficiency of $\eta = 13.5 \%$ led to a roughly $2\%$ impact on fidelity.
+
+% By conducting systematic adjustments, we demonstrated the potential of our approach in pinpointing avenues for enhancing fidelity. Notably, we discussed various strategies to mitigate and balance the influences of each error source. Our analysis suggests that, in the presence of fixed efficiency and decay rates, optimizing the readout duration stands as a pivotal step towards obtaining more representative estimates of potential improvements.
+
+% In essence, our work not only lays a robust theoretical foundation for superconducting readout but also offers practical insights into fine-tuning parameters for improved fidelity. As we navigate the frontier of quantum computing, these findings pave the way for more refined and efficient quantum information processing protocols.
 
 % \chapter{Conclusion}
 % \begin{itemize}

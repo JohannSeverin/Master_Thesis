@@ -118,14 +118,14 @@ One example is in a relaxation during the readout. If the qubit state halfway th
 
 
 
-\section{Postselection}
+\section{Postselection}\label{sec:postselection}
 In some instances, we do not mind running with a large overhead in order to increase our readout fidelity. In these cases, we can instead associate a probability of a given trajectory belonging to the $0$ or $1$ group and then pick the fraction $f$ with the most certain classifications. Since $T_1$ decay tends to happen somewhere during the measurement, the points will often be placed in some tail going from $1 \to 0$. Furthermore, the overlap between the two distributions will be in between them. So by sacrificing the middle points, the leftover errors are mainly due to inseparable distributions. 
 
 Wrong initialization gives a mixed state, which will lead to a part of the distribution identitical to the other initialization. For this reason, the state initialization fidelity can be cruedly approximated by taking the fidelity from SPAM in the limit where $f\to 0$. In figure \ref{fig:postselection_plot}, we have done this post selection with the samples used in figure \ref{fig:readout_process}. By fitting a polynomial, here 3rd order, we can approximate the limit for the fraction of data going to 0 as:
 \begin{equation}
     F_{\text{init}} \approx \lim_{f \to 0} F_{\text{SPAM}} = 0.82 \pm 0.02
 \end{equation}
-which should not be taken as a direct measure, but more one that we can return to in a discussion after some more work.
+which should not be taken as a direct measure, but more one that we can return to in a discussion after some more work.\todo{Return to this statistic at some point to conclude.}
 
 
 \begin{figure}[t]
