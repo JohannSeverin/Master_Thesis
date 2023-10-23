@@ -72,7 +72,7 @@ xticklabels = [f"$f_r + \\chi_{i}$" for i in range(5)]
 xticklabels.append("$f_r$")
 
 ax.set_xticks(xticks)
-ax.set_xticklabels(xticklabels, fontsize=18, rotation=45)
+ax.set_xticklabels(xticklabels, fontsize=18, rotation=90)
 
 # ax.set_xticks(
 #     [
@@ -97,7 +97,9 @@ ax.set(
     ylim=(0, 1.1),
 )
 
+ax.tick_params(labelsize=24, axis="both")
+
 ax.legend(loc="upper right", fontsize=14)
 
 # fig.tight_layout()
-fig.savefig("dispersive_shift_5_level.pdf")
+fig.savefig("dispersive_shift_5_level.pdf", bbox_inches="tight")

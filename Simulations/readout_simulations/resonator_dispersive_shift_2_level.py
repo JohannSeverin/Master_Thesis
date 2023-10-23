@@ -76,6 +76,9 @@ ax.set_xticks(
 ax.set_xticklabels([r"$f_r - \chi$", r"$f_r$", r"$f_r + \chi$"], fontsize=18)
 ax.set_ylabel(r"Expectation Photons, $\langle a^\dagger a \rangle$ (a .u.)")
 ax.set_yticks([])
+
+ax.tick_params(labelsize=24, axis="both")
+
 ax.set(
     title="Dispersive Shift - 2 Levels",
     xlabel="Drive Frequency",
@@ -83,7 +86,7 @@ ax.set(
     ylim=(0, 1.1),
 )
 
-ax.legend(loc="upper right")
+ax.legend(loc="upper right", fontsize=14)
 
 fig.tight_layout()
-fig.savefig("dispersive_shift_2_level.pdf")
+fig.savefig("dispersive_shift_2_level.pdf", bbox_inches="tight")

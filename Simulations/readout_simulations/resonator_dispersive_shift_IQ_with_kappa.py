@@ -3,6 +3,7 @@ import json, sys, os, pickle, gc
 import time
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Circle
 
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
 from scipy.constants import hbar, Boltzmann
@@ -172,7 +173,7 @@ ax[1].set(
     xlabel="I (photon count)",
 )
 
-fig.savefig("IQ_movement_without_kappa.pdf", bbox_inches="tight")
+fig.savefig("IQ_movement_with_kappa.pdf", bbox_inches="tight")
 
 
 # Distance between circles

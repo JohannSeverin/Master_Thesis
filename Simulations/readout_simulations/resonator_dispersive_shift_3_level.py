@@ -76,7 +76,7 @@ ax.set_xticks(
 ax.set_xticklabels(
     [r"$f_r + \chi_0$", r"$f_r$", r"$f_r + \chi_1$", "$f_r + \chi_2$"],
     fontsize=18,
-    rotation=45,
+    rotation=80,
 )
 ax.set_ylabel("Expectation Photons (a .u.)")
 ax.set_yticks([])
@@ -87,8 +87,11 @@ ax.set(
     ylim=(0, 1.25),
 )
 
+ax.tick_params(labelsize=24, axis="both")
+
+
 ax.legend(loc="upper right", fontsize=14)
 # ax.legend()
 
 # fig.tight_layout()
-fig.savefig("dispersive_shift_3_level.pdf")
+fig.savefig("dispersive_shift_3_level.pdf", bbox_inches="tight")
