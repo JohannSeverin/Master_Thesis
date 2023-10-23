@@ -15,13 +15,13 @@ axes.spines.top: False
 ## Fontsizes
 font.size : 20
 
-# axes.titleweight: bold
+axes.titleweight: normal
 
 
 #### Following is used to set individual sizes
 axes.titlesize : 32
 #axes.labelsize : 18
-lines.linewidth : 3
+# lines.linewidth : 3
 lines.markersize : 10
 xtick.labelsize : 18
 ytick.labelsize : 18
