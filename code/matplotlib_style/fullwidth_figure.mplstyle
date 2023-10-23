@@ -20,6 +20,7 @@ axes.titleweight: normal
 
 #### Following is used to set individual sizes
 axes.titlesize : 24
+axes.titlepad:   20 
 #axes.labelsize : 18
 lines.markersize : 10
 xtick.labelsize : 18

@@ -6,6 +6,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 import json, sys, os, pickle
 
 sys.path.append("..")
@@ -30,6 +31,9 @@ from devices.system import QubitResonatorSystem
 from simulation.experiment import LindbladExperiment, SchroedingerExperiment
 from analysis.auto import automatic_analysis
 from devices.pulses import SquareCosinePulse
+
+
+plt.rcParams["axes.titlesize"] = 18
 
 pulse_frequency = config["fr"] * timescale + 0.0025
 
@@ -100,6 +104,7 @@ else:
 
 # # Plotting
 plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
+plt.rcParams["axes.titlesize"] = 24
 plt.rcParams["font.size"] = 16
 
 from matplotlib.colors import LinearSegmentedColormap
@@ -236,4 +241,4 @@ ax[1].set(
 )
 
 
-fig.savefig("figures/dispersive_approx.pdf")
+fig.savefig("figures/dispersive_approx.pdf", bbox_inches="tight")

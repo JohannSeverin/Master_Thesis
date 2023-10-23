@@ -279,7 +279,7 @@ ax[1].set(
 )
 
 # fig.tight_layout()
-fig.savefig(f"../Figures/SNR_vs_amplitude.pdf")
+fig.savefig(f"../Figures/SNR_vs_amplitude.pdf", bbox_inches="tight")
 
 # Write in log
 with open("../Fit_log/efficiency_SNR.txt", "w") as f:

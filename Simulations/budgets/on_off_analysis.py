@@ -129,6 +129,10 @@ def calculate_fidelity_and_create_plots(
     transformed, lda = lda_transformation(I, Q, states)
     max_fidelity = max_fidelity_score(transformed, states)
 
+    name = name.split("_")
+    name = [n.capitalize() for n in name]
+    name = " ".join(name)
+
     # Setup Figure
     fig = plt.figure(tight_layout=True)
     gs = GridSpec(2, 3, figure=fig)
@@ -158,13 +162,15 @@ def calculate_fidelity_and_create_plots(
     # Scatter Plot
     for ax in [ax_scatter, ax_scatter_big_figure]:
         if ax:
+            random_order = np.random.permutation(len(I))
             ax.scatter(
-                I,
-                Q,
-                c=states,
-                alpha=0.5,
+                I[random_order],
+                Q[random_order],
+                c=states[random_order],
+                alpha=0.75,
                 cmap=cmap,
                 rasterized=True,
+                s=15,
             )
 
             ax.plot(
@@ -202,21 +208,23 @@ def calculate_fidelity_and_create_plots(
                 lda.transform(np.stack([xx.flatten(), yy.flatten()]).T).reshape(
                     xx.shape
                 )
-                > 0.5
+                > max_fidelity[1]
             )
 
             ax.contour(
-                xx[:, 50:],
-                yy[:, 50:],
-                labels[:, 50:],
+                xx[:, :],
+                yy[:, :],
+                labels[:, :],
                 levels=[0.5],
                 linestyles="--",
-                alpha=0.50,
+                alpha=1.0,
                 colors="k",
             )
 
+            ax.plot([], [], color="k", linestyle="--", label="Decision Boundary")
+
             if ax == ax_scatter_big_figure:
-                ax.set_title(f"IQ for {name[:-8]}")
+                ax.set_title(f"IQ for {name[:-8]}", fontsize=12)
                 ax.set_aspect("equal")
                 ax.text(
                     0.05,
@@ -367,7 +375,7 @@ for col_idx, experiments_to_loop in enumerate(
             pickle.dump(transformed, open("transformed.pkl", "wb"))
 
 big_fig.tight_layout()
-big_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01)
+# big_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01)
 
 for i in range(2):
     axes_for_big_fig[i, 0].set_ylabel("Q (a. u.)")
@@ -380,7 +388,7 @@ big_fig.savefig(
 )
 
 two_fig.tight_layout()
-two_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01, va="bottom")
+# two_fig.suptitle("IQ Scatter Plots for Different Parameters", y=1.01, va="bottom")
 
 for i in range(2):
     axes_for_two_fig[i].set_ylabel("Q (a. u.)")

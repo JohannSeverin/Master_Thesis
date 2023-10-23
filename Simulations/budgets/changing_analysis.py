@@ -124,6 +124,10 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
     transformed, lda = lda_transformation(I, Q, states)
     max_fidelity = max_fidelity_score(transformed, states)
 
+    name = name.split("_")
+    name = [n.capitalize() for n in name]
+    name = " ".join(name)
+
     # Setup Figure
     fig = plt.figure(tight_layout=True)
     gs = GridSpec(2, 3, figure=fig)
@@ -153,13 +157,15 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
     # Scatter Plot
     for ax in [ax_scatter, ax_scatter_big_figure]:
         if ax:
+            random_order = np.random.permutation(len(I))
             ax.scatter(
-                I,
-                Q,
-                c=states,
-                alpha=0.5,
+                I[random_order],
+                Q[random_order],
+                c=states[random_order],
+                alpha=0.50,
                 cmap=cmap,
                 rasterized=True,
+                s=15,
             )
 
             ax.plot(
@@ -197,16 +203,17 @@ def calculate_fidelity_and_create_plots(name, config_dict, ax_scatter_big_figure
                 lda.transform(np.stack([xx.flatten(), yy.flatten()]).T).reshape(
                     xx.shape
                 )
-                > 0.5
+                > max_fidelity[1]
             )
+            ax.plot([], [], color="k", linestyle="--", label="Decision Boundary")
 
             ax.contour(
-                xx[:, 50:],
-                yy[:, 50:],
-                labels[:, 50:],
+                xx[:, :],
+                yy[:, :],
+                labels[:, :],
                 levels=[0.5],
                 linestyles="--",
-                alpha=0.50,
+                alpha=1.00,
                 colors="k",
             )
 
@@ -379,14 +386,19 @@ for col_idx, experiments_to_loop in enumerate(
     fidelities_errors.append(fidelities_errors_for_experiment)
 
 
-for col_idx, parameter in enumerate([r"$(1 - \eta)$", r"$(1 / T_1)$", r"$\tau$"]):
-    for row_idx, amount in enumerate(
+for col_idx, parameter in enumerate([r"$\eta$", r"$(1 / T_1)$", r"$\tau$"]):
+    amounts = (
         [r"$1.1$", r"$1.0$", r"$0.9$", r"$0.75$", r"$0.5$", r"$0.0$"]
-    ):
+        if col_idx != 0
+        else [r"$0.75$", r"$1.00$", r"$1.33$", r"$2.0$", r"$4.0$", "perfect "]
+    )
+    for row_idx, amount in enumerate(amounts):
         axes_for_big_fig[row_idx, col_idx].text(
             0.05,
             1.00,
-            f"{amount} $\\times$ {parameter}",
+            f"{amount} $\\times$ {parameter}"
+            if amount != "perfect "
+            else f"amount {parameter}",
             va="top",
             transform=axes_for_big_fig[row_idx, col_idx].transAxes,
         )
@@ -425,7 +437,7 @@ for i, (fidelities_for_experiment, label) in enumerate(
     ax[i].plot(
         100 * x_vals,
         fidelities_for_experiment,
-        marker="o",
+        marker=".",
         linestyle="None",
         label=label,
         color=f"C{i}",
@@ -437,7 +449,7 @@ for i, (fidelities_for_experiment, label) in enumerate(
         yerr=fidelities_errors[i],
         linestyle="None",
         color=f"C{i}",
-        elinewidth=1,
+        elinewidth=2,
         capsize=2,
     )
 

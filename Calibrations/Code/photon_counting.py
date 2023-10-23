@@ -229,4 +229,4 @@ ax.text(
 )
 
 # fig.tight_layout()
-fig.savefig(f"../Figures/photon_number.pdf")
+fig.savefig(f"../Figures/photon_number.pdf", bbox_inches="tight")

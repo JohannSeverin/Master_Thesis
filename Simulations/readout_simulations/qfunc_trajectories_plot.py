@@ -143,14 +143,16 @@ for i, time in enumerate([10, 50, 90]):
         measurements_ground[time - 2 : time + 3, :, 0].mean(axis=0),
         measurements_ground[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C0",
-        alpha=0.5,
+        alpha=0.75,
+        s=15,
     )
 
     ax[1, i].scatter(
         measurements_excited[time - 2 : time + 3, :, 0].mean(axis=0),
         measurements_excited[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C1",
-        alpha=0.5,
+        alpha=0.75,
+        s=15,
     )
 
     ax[1, i].set(
@@ -219,20 +221,34 @@ for i, time in enumerate([10, 50, 90]):
         measurements_ground[time - 2 : time + 3, :, 0].mean(axis=0),
         measurements_ground[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C0",
-        alpha=0.5,
+        alpha=0.75,
+        s=15,
     )
 
     ax[2, i].scatter(
         measurements_excited[time - 2 : time + 3, :, 0].mean(axis=0),
         measurements_excited[time - 2 : time + 3, :, 1].mean(axis=0),
         color="C1",
-        alpha=0.5,
+        alpha=0.75,
+        s=15,
     )
 
     ax[2, i].set(title=f"With $\eta = 100\%$", xlabel="I (photons)")
 
 for i in range(3):
     ax[i, 0].set(ylabel="Q (photons)")
+
+for i in range(1, 3):
+    ax[1, i].set(
+        xlim=ax[1, 0].get_xlim(),
+        ylim=ax[1, 0].get_ylim(),
+    )
+
+for i in range(3):
+    ax[2, i].set(
+        xlim=ax[1, 0].get_xlim(),
+        ylim=ax[1, 0].get_ylim(),
+    )
 
 fig.suptitle(f"Readout Q Functions and 50 ns records")
 fig.tight_layout()

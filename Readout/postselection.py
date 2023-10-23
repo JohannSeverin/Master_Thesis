@@ -121,6 +121,7 @@ def parabola(x, a, b, c, d):
 
 cost = LeastSquares(thresholds_to_include, fidelities, fidelities_err, parabola)
 minimizer = Minuit(cost, a=-1, b=0, c=1, d=1)
+# minimizer.fixed["b"]
 
 minimizer.migrad()
 

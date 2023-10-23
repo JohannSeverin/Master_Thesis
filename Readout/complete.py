@@ -31,7 +31,7 @@ ax_scatter = fig.add_subplot(gs[:2, 1])
 ax_histogram = fig.add_subplot(gs[:2, 2])
 
 
-sample = 18
+sample = 587
 
 
 # LDA
@@ -84,10 +84,13 @@ def make_scatter_plot():
         ]
     )
 
+    random_order = np.random.permutation(len(all_I))
+
     ax_scatter.scatter(
-        all_I,
-        all_Q,
-        c=states,
+        all_I[random_order],
+        all_Q[random_order],
+        c=states[random_order],
+        s=15,
         alpha=0.5,
         cmap=cmap,
         rasterized=True,
@@ -119,18 +122,47 @@ def make_scatter_plot():
 
     ax_scatter.autoscale(False)
 
-    projection_line_x = np.linspace(*ax_scatter.get_xlim(), 100)
-    projection_line_y = (
-        lda.coef_[0][1] * (projection_line_x - lda.xbar_[0]) + lda.xbar_[1]
+    # projection_line_x = np.linspace(*ax_scatter.get_xlim(), 100)
+    # projection_line_y = (
+    #     lda.coef_[0][1] * (projection_line_x - lda.xbar_[0]) + lda.xbar_[1]
+    # )
+
+    # ax_scatter.plot(
+    #     projection_line_x,
+    #     projection_line_y,
+    #     color="black",
+    #     linestyle="--",
+    #     label="projection_axis",
+    # )
+
+    x_min, x_max = ax_scatter.get_xlim()
+    y_min, y_max = ax_scatter.get_ylim()
+
+    # new_min = min(x_min, y_min)
+    # new_max = max(x_max, y_max)
+
+    ax_scatter.set(xlim=(x_min, x_max), ylim=(y_min, y_max))
+    # ax_scatter.autoscale(False)
+
+    projection_line_x = np.linspace(x_min, x_max, 200)
+    projection_line_y = np.linspace(y_min, y_max, 200)
+    xx, yy = np.meshgrid(projection_line_x, projection_line_y)
+    labels = (
+        lda.transform(np.stack([xx.flatten(), yy.flatten()]).T).reshape(xx.shape) > 0
     )
 
-    ax_scatter.plot(
-        projection_line_x,
-        projection_line_y,
-        color="black",
-        linestyle="--",
-        label="projection_axis",
+    ax_scatter.contour(
+        xx[:, :],
+        yy[:, :],
+        labels[:, :],
+        levels=[0.5],
+        linestyles="--",
+        alpha=1.00,
+        colors="k",
     )
+
+    ax_scatter.plot([], [], color="k", linestyle="--", label="Decision Boundary")
+
     ax_scatter.legend(fontsize=12)
     # ax_scatter.plot(projection_line_y, projection_line_x, color="gray", linestyle="--")
 
@@ -368,10 +400,13 @@ def make_scatter_plot():
         ]
     )
 
+    random_order = np.random.permutation(len(all_I))
+
     ax_scatter.scatter(
-        all_I,
-        all_Q,
-        c=states,
+        all_I[random_order],
+        all_Q[random_order],
+        c=states[random_order],
+        s=15,
         alpha=0.5,
         cmap=cmap,
         rasterized=True,
@@ -390,21 +425,34 @@ def make_scatter_plot():
         title="Integrated Signal w Weights",
     )
 
-    ax_scatter.set(xlim=ax_scatter.get_xlim(), ylim=ax_scatter.get_ylim())
-    ax_scatter.autoscale(False)
+    x_min, x_max = ax_scatter.get_xlim()
+    y_min, y_max = ax_scatter.get_ylim()
 
-    projection_line_x = np.linspace(*ax_scatter.get_xlim(), 100)
-    projection_line_y = (
-        lda.coef_[0][1] * (projection_line_x - lda.xbar_[0]) + lda.xbar_[1]
+    # new_min = min(x_min, y_min)
+    # new_max = max(x_max, y_max)
+
+    ax_scatter.set(xlim=(x_min, x_max), ylim=(y_min, y_max))
+    # ax_scatter.autoscale(False)
+
+    projection_line_x = np.linspace(x_min, x_max, 200)
+    projection_line_y = np.linspace(y_min, y_max, 200)
+    xx, yy = np.meshgrid(projection_line_x, projection_line_y)
+    labels = (
+        lda.transform(np.stack([xx.flatten(), yy.flatten()]).T).reshape(xx.shape) > 0
     )
 
-    ax_scatter.plot(
-        projection_line_x,
-        projection_line_y,
-        color="black",
-        linestyle="--",
-        label="projection_axis",
+    ax_scatter.contour(
+        xx[:, :],
+        yy[:, :],
+        labels[:, :],
+        levels=[0.5],
+        linestyles="--",
+        alpha=1.00,
+        colors="k",
     )
+
+    ax_scatter.plot([], [], color="k", linestyle="--", label="Decision Boundary")
+
     ax_scatter.legend(fontsize=12)
     # ax_scatter.plot(projection_line_y, projection_line_x, color="gray", linestyle="--")
 
@@ -542,68 +590,68 @@ fig.savefig("Figs/Introduction.pdf")
 
 
 # Check with simulated data
-import pickle
+# import pickle
 
-transformed_sim = pickle.load(
-    open(
-        "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/Simulations/budgets/transformed.pkl",
-        "rb",
-    )
-)
+# transformed_sim = pickle.load(
+#     open(
+#         "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/Simulations/budgets/transformed.pkl",
+#         "rb",
+#     )
+# )
 
-plt.figure()
-plt.hist(
-    transformed_sim["transformed"],
-    density=True,
-    bins=30,
-    cumulative=True,
-    histtype="step",
-    linewidth=5,
-)
-plt.hist(
-    transformed, density=True, bins=30, cumulative=True, histtype="step", linewidth=5
-)
-
-
-fig, axes = plt.subplots(ncols=2)
-
-axes[0].hist(
-    transformed_sim["transformed"][transformed_sim["states"] == 0],
-    density=True,
-    bins=30,
-    linewidth=5,
-    histtype="step",
-)
-axes[0].hist(
-    transformed[states == 0], density=True, bins=30, linewidth=5, histtype="step"
-)
-
-axes[1].hist(
-    transformed_sim["transformed"][transformed_sim["states"] == 1],
-    density=True,
-    bins=30,
-    linewidth=5,
-    histtype="step",
-)
-axes[1].hist(
-    transformed[states == 1], density=True, bins=30, linewidth=5, histtype="step"
-)
-
-from scipy.stats import ks_2samp
-
-print(ks_2samp(transformed_sim["transformed"].flatten(), transformed.flatten()))
-print(
-    ks_2samp(
-        transformed_sim["transformed"][transformed_sim["states"] == 0].flatten(),
-        transformed[states == 0].flatten(),
-    )
-)
-print(
-    ks_2samp(
-        transformed_sim["transformed"][transformed_sim["states"] == 1].flatten(),
-        transformed[states == 1].flatten(),
-    )
-)
+# plt.figure()
+# plt.hist(
+#     transformed_sim["transformed"],
+#     density=True,
+#     bins=30,
+#     cumulative=True,
+#     histtype="step",
+#     linewidth=5,
+# )
+# plt.hist(
+#     transformed, density=True, bins=30, cumulative=True, histtype="step", linewidth=5
+# )
 
 
-# fig.tight_layout()
+# fig, axes = plt.subplots(ncols=2)
+
+# axes[0].hist(
+#     transformed_sim["transformed"][transformed_sim["states"] == 0],
+#     density=True,
+#     bins=30,
+#     linewidth=5,
+#     histtype="step",
+# )
+# axes[0].hist(
+#     transformed[states == 0], density=True, bins=30, linewidth=5, histtype="step"
+# )
+
+# axes[1].hist(
+#     transformed_sim["transformed"][transformed_sim["states"] == 1],
+#     density=True,
+#     bins=30,
+#     linewidth=5,
+#     histtype="step",
+# )
+# axes[1].hist(
+#     transformed[states == 1], density=True, bins=30, linewidth=5, histtype="step"
+# )
+
+# from scipy.stats import ks_2samp
+
+# print(ks_2samp(transformed_sim["transformed"].flatten(), transformed.flatten()))
+# print(
+#     ks_2samp(
+#         transformed_sim["transformed"][transformed_sim["states"] == 0].flatten(),
+#         transformed[states == 0].flatten(),
+#     )
+# )
+# print(
+#     ks_2samp(
+#         transformed_sim["transformed"][transformed_sim["states"] == 1].flatten(),
+#         transformed[states == 1].flatten(),
+#     )
+# )
+
+
+# # fig.tight_layout()
