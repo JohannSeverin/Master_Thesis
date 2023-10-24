@@ -1,5 +1,5 @@
 \chapter{Calibration Methods}\label{chap:calibration}
-To simulate qubit-resonator trajectories of a readout, we will have to create a model of our system. Throughout chapter \ref{chap:cQED}-\ref{chap:measurements}, we introduced new theory to describe the system, however, this also come with many parameters, we are still left to determine. Determining these parameters from the qubit in the Laboratory will be our the focus this chapter. 
+To simulate qubit-resonator trajectories of a readout, we will have to create a model of our system. Throughout chapter \ref{chap:cQED}-\ref{chap:measurements}, we introduced new theory to describe the system, however, this also come with many parameters, we are still left to determine. Determining these parameters from the qubit in the Laboratory will be our the focus this chapter. This chapter includes many fits to determine the parameters. Only the desired parameter is written explicitly, the rest can be found along with the goodness of fit in appendix \ref{chap:fit_params}.
 
 
 % In order to use a qubit and in particular if we want to simulate said qubit, we need to learn the most important parameters. In this section, we will go through the different methods used for calibrating a qubit and the connected resonator in order to have a useful qubit along with the possibilities of simulating the system.
@@ -11,17 +11,17 @@ We will start with a calibration of the Transmon. While we could solve the syste
 \subsection{Spectroscopy}\label{sec:qubit_spectroscopy}
 To control the qubit and to simulate its Hamiltonian, perhaps the most important quantity is the frequency/energy. The frequency is found by doing spectroscopy, where a pulse is sent to the qubit at different frequencies. The qubit is then measured to see if it has changed states. The qubit frequency $f_{01}$ will now be the center of a Lorentzian distribution \cite{Find citation}. Thus we can determine $f_{01}$ by fitting such a curve. This is done in the left panel in figure \ref{fig:qubit_spectroscopy}.
 
-Since the design of the transmon gives a negative anharmonicty \todo{Reference transmon sections}, we can extend the qubit spectroscopy, to also look for a transition from $\ket{0}\to \ket{2}$. This can be done either with $f_{02}$ or to stay in the frequency regime, we can instead look for a transition from absorption of two photons. Here the two photon will have frequency $f_{02} / 2$. Or formulating it in terms of the anharmonicity at $f_{01} + \alpha / 2$. A fit with two Lorenzians can be found in the right panel in figure \ref{fig:qubit_spectroscopy}. 
-\begin{margintable}
-    \caption{Goodness of Fit for the spectroscopy and anharmonicity experiments.}
-    \centering
-    \begin{tabular}{r|ll}
-        Experiment      & $\chi^2$      &p-value   \\ \hline
-        Spectroscopy    & $127.3$       & $1.8 \%$   \\
-        Anharmonicity   & $882.1$       & $0.0 \%$   \\
-    \end{tabular}
-    \label{tab:spectroscopy fit}
-\end{margintable}
+Since the design of the transmon gives a negative anharmonicty, we can extend the qubit spectroscopy, to also look for a transition from $\ket{0}\to \ket{2}$. This can be done either with $f_{02}$ or to stay in the frequency regime, we can instead look for a transition from absorption of two photons. Here the two photon will have frequency $f_{02} / 2$. Or formulating it in terms of the anharmonicity at $f_{01} + \alpha / 2$. A fit with two Lorenzians can be found in the right panel in figure \ref{fig:qubit_spectroscopy}. 
+% \begin{margintable}
+%     \caption{Goodness of Fit for the spectroscopy and anharmonicity experiments.}
+%     \centering
+%     \begin{tabular}{r|ll}
+%         Experiment      & $\chi^2$      &p-value   \\ \hline
+%         Spectroscopy    & $127.3$       & $1.8 \%$   \\
+%         Anharmonicity   & $882.1$       & $0.0 \%$   \\
+%     \end{tabular}
+%     \label{tab:spectroscopy fit}
+% \end{margintable}
 \begin{figure*}[t]
     \caption{Qubit spectroscopy for the $f_{01}$ transition frequency to the left. On the right is an extended scan where another peak is seen, this is the $f_{02}/2$ where two photons are absorbed to go from $ 0 \to 2$. The fits are Lorentzian for one peak and the sum of two Lorenzian for the two peak spectroscopy. }
     \begin{minipage}{0.50\linewidth}
@@ -34,7 +34,7 @@ Since the design of the transmon gives a negative anharmonicty \todo{Reference t
     \end{minipage}
     \label{fig:qubit_spectroscopy}
 \end{figure*}
-\todo{Decide if we want to keep all the chi-squares. We can also make a big table in the appendix...}
+% \todo{Decide if we want to keep all the chi-squares. We can also make a big table in the appendix...}
 
 From the two experiments, we can extract the qubit frequency and from the difference of the two, we get the anharmonicity. We extract the qubit frequency
 \begin{equation}
@@ -89,7 +89,7 @@ Doing the experiment on our qubit, we obtain the results displayed in figure \re
     \label{fig:calibration_T_1_decay}
 \end{figure}
 
-The $T_1$ comes from interaction between qubit and environment which unfortunately changes over time. This leads to a fluctuating $T_1$ time, so even though one can determine the current $T_1$ with a high precision, it might change just few hours later. This experiment was run just seconds before the readout sequence described in \ref{chap:readout}. But in section \ref{sec:sec:continuous_calibratino}, we will see that an experiment done on the same device just a few months before will have significantly higher $T_1$. To see an example of $T_1$ fluctuations of our device over just a few hours, see figure \ref{fig:changing_t1} \todo{Replace with own figure after uplaod.}. 
+The $T_1$ comes from interaction between qubit and environment which unfortunately changes over time. This leads to a fluctuating $T_1$ time, so even though one can determine the current $T_1$ with a high precision, it might change just few hours later. This experiment was run just seconds before the readout sequence described in \ref{chap:readout}. But in section \ref{sec:sec:continuous_calibratino}, we will see that an experiment done on the same device just a few months before will have significantly higher $T_1$. To see an example of $T_1$ fluctuations of our device over just a few hours, see figure \ref{fig:changing_t1}.
 \begin{marginfigure}[-5 cm]
     \centering
     \includegraphics[]{Calibrations/Figures/T1 Scans at Different Times.pdf}
@@ -148,7 +148,6 @@ Like the qubit, we can perform resonator spectroscopy to find the frequency. Bec
     \caption{Spectroscopy of the resonator signal where the qubit is either in $\ket{0}$ (purple) or in $\ket{1}$ (light blue). Since $1$ is somewhat decayed into $0$, the curve for $1$ is fitted with two Lorentzians.}
     \label{fig:spectroscopy_resonator}
 \end{figure}
-\todo{The label is wrong here, it should be absolute value.}
 The two frequencies come out to be:
 \begin{equation}
      f_{r0} = 7.55590 \text{ GHz} \pm 3 \text{ KHz} ;\quad f_{r1} =  7.55439 \text{ GHz} \pm 11 \text{ KHz}
@@ -270,6 +269,15 @@ Lastly, the dynamics of the combined system are subject to two additional outsid
 \subsection{Temperature and $T_1$ Calibration in Continuous Time}\label{sec:continuous_calibratino}
 In section \ref{sec:theory_t1}, we covered how $T_1$ and $\tau$ has effects on the dynamics and equilbrium positions of the density matrix. In this section, we have developed a method (very similar to the $T_1$ calibration from section \ref{sec:calibration_t1}) that uses continuous time-traces to determine these parameters. It should be noted that the experiment run here is made a few months before the other calibration schemes at a time where $T_1$ was significantly higher. The temperature is however still very representative of the state of the qubit when the readout experiments in chapter \ref{chap:readout} were made.
 
+
+\begin{marginfigure}
+    \centering
+    \includegraphics{projects/in_measurement_calibration/Distributions_long_pulse.pdf}
+    \caption{The IQ distribution of points from a 1 microsecond demodulation window. The two distributions are well separated, so we expect no overlap.}
+    \label{fig:IQ_distribution}
+\end{marginfigure}
+
+
 In this experiment, we will do a long continuous readout pulse of the resonator. By splitting it up into small chunks, we will see the state of the qubit at that given time. If we repeat this experiment $n$ times, then we can estimate $\rho_{00}(t)$ and $\rho_{11}(t)$ at a given time during the readout. Since the readout primarily adds dephasing of the qubit, this should not influence the diagonal components of the density matrix. The time dependent elements of the density matrix can now be fitted with the equations derived in section \ref{sec:theory_t1}. The data from a thousand trajectories of $50 \text{ µs}$ classified by demodulating sections of $1 \text{ µs}$ is shown in figure \ref{fig:continous_calibration_decays}.
 % \begin{marginfigure}
 %     \centering
@@ -284,25 +292,28 @@ In this experiment, we will do a long continuous readout pulse of the resonator.
     \caption{The dynamics of our qubit system from $50 \text{ µs}$ readout split into $1 \text{ µs}$ pieces which are all classified.}
     \label{fig:continous_calibration_decays}
 \end{figure}
-\begin{margintable}[3 cm]
-    \centering
-    \caption{Table of results from experiment}
-    \begin{tabular}{c|cc}
-        & Ground State & Excited state \\
-        \hline
-        $\rho(\infty)$&$0.951 \pm 0.254$&$0.099 \pm 0.004$ \\
-        $\rho(0)$&$0.875 \pm 0.003$&$0.124 \pm 0.008$\\
-        $T_1$ &$(159 \pm 615) \text{ µs}$&$(11.1 \pm 0.3)  \text{ µs}$\\
-    \end{tabular}
-    \label{tab:continous_calibration_decays_results}
-\end{margintable}
+% \begin{margintable}[3 cm]
+%     \centering
+%     \caption{Table of results from experiment}
+%     \begin{tabular}{c|cc}
+%         & Ground State & Excited state \\
+%         \hline
+%         $\rho(\infty)$&$0.951 \pm 0.254$&$0.099 \pm 0.004$ \\
+%         $\rho(0)$&$0.875 \pm 0.003$&$0.124 \pm 0.008$\\
+%         $T_1$ &$(159 \pm 615) \text{ µs}$&$(11.1 \pm 0.3)  \text{ µs}$\\
+%     \end{tabular}
+%     \label{tab:continous_calibration_decays_results}
+% \end{margintable}
 From the results of the fitted parameters (see table \ref{tab:continous_calibration_decays_results}), we can extract the decay time, the initial fraction and the steady state fraction of occupancy in the excited state $\ket{1}$. We initilized both in $\ket{1}$ and $\ket{0}$, but since the state ground state initialization is already in steady state, we will not trust the fit parameters. While the idea of the method originally was to determine $T_1$ with a fast scheme, the important aspect for this thesis is to extract the temperature from the steady state fraction. We find the temperature from the Boltzmann factor in the steady state:
 \begin{fullwidth}
 \begin{equation}
-    \frac{p(\ket{1)}}{p(\ket{0})} = e^{(E_1 - E_0) / k_b \tau} \Rightarrow \tau = - \frac{\hbar \omega_{01}}{k_b} / \log\left(\frac{p(\ket{1)}}{p(\ket{0})} \right)  = 147.5 \text{ mK}
+    \frac{\rho_{00}(t=\infty)}{\rho_{11}(t=\infty)} = e^{(E_1 - E_0) / k_b \tau} \Rightarrow \tau = - \frac{\hbar \omega_{01}}{k_b} / \log\left(\frac{\rho_{00}(t=\infty)}{\rho_{11}(t=\infty)}\right)  =  (0.13 \pm 0.04) \text{ K}
 \end{equation}
-\end{fullwidth}\todo{Calculate the errors on this quantity!}
-One might compare the temperature of the superconducting qubit with the temperature of the cryostat of around 30 mK. The difference is suspected to come from electronic heating and other sources of microwaves leaking out into the material. \todo{Inset image of the distributions from 0 to 1000 ns a comment on them being very well separated.}
+\end{fullwidth}
+One might compare the temperature of the superconducting qubit with the temperature of the cryostat of around 30 mK. The difference is suspected to come from electronic heating and other sources of microwaves leaking out into the material. \todo{Comment on well separated distributions.}
+
+In reality, we use $\tau =  147.5 \text{ mK}$ cause that was the initial result of the analysis. This is well within the confidence interval
+
 
 \subsection{Readout Efficiency}\label{sec:readout_efficiency}
 The amplification chain from the resonator signal and up to room-temperature and digitziationn is by no means lossless. Each amplification and thermalization adds noise to the coherent state of the resonator state which we are trying to measure. This ultimately gives us a state which is severely blurred if we compare it to the crisp coherent states with widths of only $\frac12$. In this subsection, we will estimate the efficiency parameter which fraction how much of the signal $\eta$ will be left in our measurement record. We will follow the excellent method developed by Bultink et al. \cite{bultink_general_2018} where they perform this calibration in general for the whole amplification chain.
@@ -316,7 +327,7 @@ To use this method, one must first create a readout pulse with a signal that is 
 
 \begin{marginfigure}
     \centering
-    \includegraphics{Figs/calibrations/efficiency/pulse_shape.png}
+    \includegraphics{Calibrations/Figures/Efficiency Experiment Pulse.pdf}
     \caption{The signal in the resonator during the readout signal.}
     \label{fig:efficiency_pulse_shape}
 \end{marginfigure}
@@ -329,7 +340,7 @@ From these parameters, the readout efficiency can then be calculated as \cite{bu
 \begin{equation}
     \eta = a^2\sigma^2
 \end{equation}
-where our equation deviates from the one in \cite{bultink_general_2018} by a factor $2$, since they define $\SNR$ with respect to the variance of a single trajectory\footnote{assuming that the trajetory for ground and excited state has the same trajectory}, whereas we combine the two $\text{Var} = \text{Var}_{\ket{0}} + \text{Var}_{\ket{0}}$ reducing the SNR with $1/\sqrt{2}$ compared to their definition.
+where our equation deviates from the one in \cite{bultink_general_2018} by a factor $2$, since they define $\SNR$ with respect to the variance of a single trajectory\footnote{assuming that the trajetory for the ground and excited state has the same variance.}, whereas we combine the two $\text{Var} = \text{Var}_{\ket{0}} + \text{Var}_{\ket{0}}$ reducing the SNR with $1/\sqrt{2}$ compared to their definition.
 
 \paragraph{Amplitude Dependence of SNR - }
 To determine the Signal to Noise ratio from the readout pulse, one does a simple experiment, which is close to what we have done before. We do a readout experiment like the one in chapter \ref{chap:readout}: by initializing the qubit in $\ket{0}$ and then performing an $X$-gate to every other initialization before reading it out, one can see determine the separation between $\ket{0}$ and $\ket{1}$. We make sure to use optimal weights here, to make sure all the available information is used.
@@ -411,7 +422,7 @@ In this chapter, we have calibrated the necessary values of the qubit, resonator
 \hline
 \textbf{Qubit}                &          & value & error  & unit \\ \hline
 Frequency                     & $f_{01}$ &  5.98203       &  0.00008* & Ghz  \\
-Anharmonicity                 & $\alpha$ &  $-288.81$     &  0.15     & MHz  \\
+Anharmonicity                 & $\alpha$ &  $-288.81$     &  0.15*    & MHz  \\
 Decay Time                    & $T_1$    &  4.30          &  0.12     & µs   \\
 Dephasing Time                & $T_\phi$ &  1.38*         &  0.08*    & µs   \\ 
 & & & & \\ \hline 
@@ -427,7 +438,7 @@ Mean Photon Number            & $\Bar{n}$  &  21        & 1        &  -  \\
 \textbf{System}                &          & value & error & unit \\ \hline
 Coupling                       & $g$      &  87.0         & 0.4    & Mhz  \\
 Efficiency                     & $\eta$   &  3.3          & 1.2    & \% \\
-Temperature                    & $\tau$   &  147.5        &        & mK \\
+Temperature                    & $\tau$   &  0.13         & 0.04   & K \\
 & & & & \\ \hline
 
 \hline

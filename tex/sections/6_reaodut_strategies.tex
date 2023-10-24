@@ -100,7 +100,7 @@ The SNR can be maximized by differentiating with respect to the weights and sett
 \begin{equation}
     k_{x, t} = \frac{\expval{X_0 - X_1}}{\Var(\Delta S)}
 \end{equation}
-Where we will determine the variance and average expected difference experimentally by performing a set of measurement and calculating the mean difference and variance to determine the weights \cite{ryan}.
+Where we will determine the variance and average expected difference experimentally by performing a set of measurement and calculating the mean difference and variance to determine the weights \cite{ryan_tomography_2015}.
 
 In the lower row in figure \ref{fig:readout_process} the experiment is repeated but with calculated linear weights before rotating. As we can see the readout fidelity is now:
 \begin{equation}
@@ -112,7 +112,7 @@ This is very close to readout fidelity of the simple weights. While it appears t
 \subsection{Non-Linear Classification Schemes ** }
 The classification scheme above is very common, since it can be combined with the demodulation (both linear operation) and is able to be run in most FPGA processers like the one installed in the OPX control in our laboratory. This allows for fast executions and easy to calibration. However, the assumptions for assumption are not entirely realistic. 
 
-One example is in a relaxation during the readout. If the qubit state halfway through changes from $\ket{1}\to \ket{0}$ our measurement record will then start to follow the trajectory of the ground state. In this case, we should weigh the points differently depending on the information provided by the rest of the trajectories. We can do such a generalization either by allowing for a covariant weights\cite{gambetta_protocols_2007} or by applying machine learning methods like neural networks \cite{Lienhardt}.
+One example is in a relaxation during the readout. If the qubit state halfway through changes from $\ket{1}\to \ket{0}$ our measurement record will then start to follow the trajectory of the ground state. In this case, we should weigh the points differently depending on the information provided by the rest of the trajectories. We can do such a generalization either by allowing for a covariant weights\cite{gambetta_protocols_2007} or by applying machine learning methods like neural networks \cite{lienhard_deep-neural-network_2022}.
 
 % This becomes very clear, when we think about the effects of $T_1$ which splits ... \todo{Is $T_1$ a good example? What else do we violate}. One could setup allow for covariance between measurements or nonlinear kernels. Or a different method is to use Machine Learning methods to distinguish the trajectories. This allows for the possibility of weighting the inputs differently depending on the beginning of the signal beyond the average behaviour.\todo{Do we want to try this quick? Otherwise, we can reduce this to a comment in the above section.}
 
