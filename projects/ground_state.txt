@@ -1,4 +1,4 @@
-chi-squared: 19.69 for 47 dof with p-value 1.000
-steady_state = 9.35013e+02 +- 1.61621e+02
-initial_error = 8.75143e+02 +- 3.71799e+00
-decay_time = 1.20234e+02 +- 3.94611e+02
+chi-squared: 19.71 for 47 dof with p-value 1.000
+steady_state = 9.89330e+02 +- 1.97840e+01
+offset = -1.13795e+02 +- 1.97654e+01
+decay_time = 2.54218e+02 +- 8.00796e+01

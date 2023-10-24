@@ -12,7 +12,7 @@ title = "Resonator Spectroscopy"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9
 
-ylabel = "Readout Signal I (a. u.)"
+ylabel = "Readout Signal Abs (a. u.)"
 scale_y = 1e-3
 
 data = xr.open_dataset(data_folder + "/dataset.nc")

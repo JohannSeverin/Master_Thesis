@@ -67,17 +67,19 @@ exec(open("log_and_plot/code_to_run.txt").read())
 
 
 # Overwrite plotting
-fig, axes = plt.subplots(2, 1, sharex=True)
+fig, axes = plt.subplots(3, 1, sharex=True, gridspec_kw={"height_ratios": [1, 1, 2]})
+
 
 axes[0].plot(
     data.adc_timestamp / scale_x, y_data_I.values / scale_y, "-", label="I", alpha=0.75
 )
-axes[0].plot(
+axes[1].plot(
     data.adc_timestamp / scale_x, y_data_Q.values / scale_y, "-", label="Q", alpha=0.75
 )
 axes[0].legend()
+axes[1].legend()
 
-ax = axes[1]
+ax = axes[2]
 ax.plot(x_data / scale_x, y_data / scale_y, "o", label="$|I + iQ|$")
 
 xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
@@ -102,13 +104,15 @@ ax.errorbar(
 
 axes[0].set(
     title=title,
-    ylabel="Readout Signal (mV)",
 )
 
 ax.set(
     xlabel=xlabel,
-    ylabel=ylabel,
 )
+fig.supylabel(
+    "Readout Signal (mV)",
+)
+
 
 fig.align_ylabels(axes)
 
