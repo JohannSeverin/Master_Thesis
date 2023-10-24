@@ -31,17 +31,17 @@ Throughout the first few chapter, we covered different ways of representing and 
 \begin{figure*}[t]
     % \begin{minipage}{0.45\textwidth}
     \centering
-    \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
+    % \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1.pdf}
     \includegraphics[]{Simulations/simulations_of_calibrations/Figs/qubit_T1_dispersive.pdf}
     % \end{minipage}
     %     \begin{minipage}{0.45\textwidth}
     %     \centering
     %     \includegraphics[]{Simulations/simulations_of_calibrations/Figs/resonator_spectroscopy.pdf}
     % \end{minipage}
-    \caption{Illustration of the $T_1$ and resonator spectroscopy run with different simulations schemes.}
+    \caption{Illustration of the $T_1$ experiment run with different simulation techniques. In the Schrödinger experiment, a zoom-in is made to show the oscillations from qubit-resonator interaction which are not present in the dispersive model. }
     \label{fig:calibrations_in_simulation}
-\end{figure*} \todo{Align figures}
-\begin{margintable}
+\end{figure*}
+\begin{margintable}[1 cm]
     \caption{Running time of the different simulation approaches to running the $T_1$ calibration scheme.}
     \vspace{0.3 cm}
     \centering
@@ -69,7 +69,7 @@ To confirm, we have also done a simulation of a "weak" readout pulse both in the
     \includegraphics[width = \textwidth]{Simulations/readout_simulations/figures/dispersive_approx.pdf}
     \caption{Simulated readout drive using the dispersive approximation and full time-dependent Hamiltonian. The expectectation value for the I and Q quadratures are shown along with the Q function at three different times.}
     \label{fig:dispersive_slash_full_readout}
-\end{figure}\todo{Strip figure and prettify it a bit}
+\end{figure}
 
 % In the dispersive limit, we consider that $g/(\omega_r - \omega_q) \ll 1$, which has be sufficient for us since we consider low-photon-number readout. If we were to increase this to the high power regime, one starts to see a lot of interesting physics. The point of increasing $n > n_{\text{crit}}$, the approximation is no longer good. Doing the experiment in the laboratory we see that the resonator at some point get completely decoupled from the qubit.
 
