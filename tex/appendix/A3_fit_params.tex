@@ -1,0 +1,329 @@
+\chapter{Fit Parameters}\label{chap:code_documentation}
+During this project as code bases was developed to ease the implementation of simulating many different situations with different simulation schemes. In this appendix, the documentation for the code is a attached.
+
+
+\section{Qubit}
+In the following tables, the fits for the qubit parameters are shown.
+\subsection{Qubit Spectroscopy}
+Qubit spectroscopy was fitted with 
+\begin{equation}
+    y = \text{offset} + A\gamma^2/(\gamma^2 + (x - f_0)^2)
+\end{equation}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 127.33 for 96 dof with p-value 0.018 \\
+$f_0$ & $5.98203 \times 10^9 \pm 8.24256 \times 10^4$ \\
+$A$ & $6.63190 \times 10^{-4} \pm 1.44000 \times 10^{-5}$ \\
+$\gamma$ & $3.93462 \times 10^6 \pm 1.40260 \times 10^5$ \\
+Offset & $9.01520 \times 10^{-5} \pm 4.01262 \times 10^{-6}$ \\
+\hline
+\end{tabular}
+\caption{The results from fitting the qubit spectroscopy data.}
+\label{tab:fit_outcomes_third}
+\end{table}
+\FloatBarrier
+and anharmonicity by:
+\begin{fullwidth}
+\begin{equation}
+    y = \text{offset} + A_1\gamma_1^2/(\gamma_1^2 + (x - f_{01})^2) + A_2\gamma_2^2/(\gamma_2^2 + (x - (f_{02} / 2)^2) 
+\end{equation}
+\end{fullwidth}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 882.06 for 293 dof with p-value 0.000 \\
+$f_{01}$ & $5.97946 \times 10^9 \pm 6.11718 \times 10^4$ \\
+$A_1$ & $7.76935 \times 10^{-4} \pm 2.37875 \times 10^{-5}$ \\
+$\gamma_1$ & $1.96132 \times 10^6 \pm 8.54273 \times 10^4$ \\
+Offset & $2.41042 \times 10^{-4} \pm 1.74947 \times 10^{-6}$ \\
+$f_{02}$ & $5.83506 \times 10^9 \pm 4.57718 \times 10^4$ \\
+$A_2$ & $8.02353 \times 10^{-4} \pm 2.68230 \times 10^{-5}$ \\
+$\gamma_2$ & $1.30993 \times 10^6 \pm 6.32462 \times 10^4$ \\
+Anharmonicity & $-2.88806 \times 10^8 \pm 1.52801 \times 10^5$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the anharmonicity experiment.}
+\label{tab:fit_outcomes_fourth}
+\end{table}
+\FloatBarrier
+
+
+\subsection{Rabi}
+Rabi was fitted with:
+\begin{fullwidth}
+\begin{equation}
+    y = \text{Offset} + \text{Amplitude} \cdot \cos\left(2\pi \cdot \text{Frequency}\cdot x + \text{Phase}\right) 
+\end{equation}
+\end{fullwidth}
+\FloatBarrier
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 85.54 for 96 dof with p-value 0.769 \\
+Amplitude & $-5.87664 \times 10^{-4} \pm 3.89923 \times 10^{-6}$ \\
+Frequency & $5.54590 \pm 1.17750 \times 10^{-2}$ \\
+Phase & $-4.06622 \times 10^{-3} \pm 7.75219 \times 10^{-3}$ \\
+Offset & $7.76880 \times 10^{-4} \pm 3.05453 \times 10^{-6}$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the Rabi experiment.}
+\label{tab:fit_outcomes_second}
+\end{table}
+
+
+
+\subsection{T1}
+T1 time was fitted with:
+\begin{fullwidth}
+\begin{equation}
+    y = \text{Offset} + \text{Amplitude} \cdot \exp \left(- x / T_1 \right)
+\end{equation}
+\end{fullwidth}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 95.49 for 72 dof with p-value 0.034 \\
+Amplitude & $1.38798 \times 10^{-3} \pm 2.10499 \times 10^{-5}$ \\
+Offset & $-1.65994 \times 10^{-3} \pm 5.65962 \times 10^{-6}$ \\
+T1 & $4.30197 \times 10^{-6} \pm 1.23942 \times 10^{-7}$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the T1 experiment.}
+\label{tab:fit_outcomes}
+\end{table}
+\FloatBarrier
+
+\subsection{T2}
+T2 was fitted with:
+\begin{fullwidth}
+    \begin{equation}
+        y = \text{Offset} + \exp(- x / T_2) \sum_{i}  \text{Amplitude}_i \cdot \cos\left(2\pi \cdot \text{Frequency}_i\cdot x + \text{Phase}_i\right) 
+    \end{equation}
+\end{fullwidth}
+where $i\in\{1, 2\}$ for the new data and $i = 1$ for the old data. 
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 621.01 for 179 dof with p-value 0.000 \\
+Amplitude$_1$ & $2.52602 \times 10^{-4} \pm 1.15859 \times 10^{-5}$ \\
+Frequency$_1$ & $4.40050 \times 10^6 \pm 1.41730$ \\
+Phase$_1$ & $3.96978 \times 10^{-1} \pm 3.75929 \times 10^{-2}$ \\
+Amplitude$_2$ & $1.56321 \times 10^{-4} \pm 9.88497 \times 10^{-6}$ \\
+Frequency$_2$ & $5.00000 \times 10^6 \pm 1.41485$ \\
+Phase$_2$ & $3.98596 \times 10^{-1} \pm 5.71422 \times 10^{-2}$ \\
+Offset & $-8.71766 \times 10^{-4} \pm 2.87661 \times 10^{-6}$ \\
+$T_2$ & $1.64514 \times 10^{-6} \pm 1.18271 \times 10^{-7}$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the two oscillating model to the new data in the T2 model.}
+\label{tab:fit_outcomes_fifth}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 188.50 for 161 dof with p-value 0.068 \\
+Amplitude & $1.29900 \times 10^{-4} \pm 2.17201 \times 10^{-6}$ \\
+Frequency & $5.01652 \times 10^6 \pm 3.39729 \times 10^3$ \\
+Phase & $-1.00263 \times 10^{-3} \pm 1.67711 \times 10^{-2}$ \\
+Offset & $-1.69752 \times 10^{-4} \pm 6.03841 \times 10^{-7}$ \\
+$T_2$ & $1.69875 \times 10^{-6} \pm 5.92495 \times 10^{-8}$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the old data with the proper model.}
+\label{tab:fit_outcomes_sixth}
+\end{table}
+
+\newpage
+\section{Resonator}
+And the resonator fits
+\subsection{Spectroscopy}
+Spectroscopy of the resonator in the ground state is fitted by:
+\begin{equation}
+    y = \text{offset} + A\gamma^2/(\gamma^2 + (x - f_0)^2)
+\end{equation}
+and for the excited state:
+\begin{equation}
+    y = \text{offset} + \sum_{i\in{0, 1}} A_i\gamma_i^2/(\gamma_i^2 + (x - f_0)^2)
+\end{equation}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+\multicolumn{2}{|c|}{Ground State} \\
+\hline
+Chi-squared & 33.35 for 16 dof with p-value 0.007 \\
+$f_0$ & $7.555893 \times 10^9 \pm 3.293863 \times 10^3$ \\
+$A_0$ & $-1.853905 \times 10^{-3} \pm 1.942156 \times 10^{-5}$ \\
+$\gamma_0$ & $6.164246 \times 10^5 \pm 1.185079 \times 10^4$ \\
+Offset & $3.480317 \times 10^{-3} \pm 2.088801 \times 10^{-5}$ \\
+\hline
+\multicolumn{2}{|c|}{Excited State} \\
+\hline
+Chi-squared & 77.24 for 37 dof with p-value 0.000 \\
+$f_0$ & $7.555801 \times 10^9 \pm 1.983607 \times 10^4$ \\
+$A_0$ & $-7.907930 \times 10^{-4} \pm 1.692275 \times 10^{-5}$ \\
+$\gamma_0$ & $1.042611 \times 10^6 \pm 4.626130 \times 10^4$ \\
+Offset & $3.689660 \times 10^{-3} \pm 1.987719 \times 10^{-5}$ \\
+$f_1$ & $7.554366 \times 10^9 \pm 6.967312 \times 10^3$ \\
+$A_1$ & $-1.491251 \times 10^{-3} \pm 1.863746 \times 10^{-5}$ \\
+$\gamma_1$ & $5.562317 \times 10^5 \pm 1.150527 \times 10^4$ \\
+\hline
+\end{tabular}
+\caption{Fit Outcomes for Ground and Excited States of the resonator spectroscopy.}
+\label{tab:fit_outcomes_states}
+\end{table}
+\FloatBarrier
+
+\subsection{Kappa}
+kappa was fitted with:
+\begin{fullwidth}
+\begin{equation}
+    y = \text{Offset} + \text{Amplitude} \cdot \exp \left(- \kappa x\right)
+\end{equation}
+\end{fullwidth}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+\multicolumn{2}{|c|}{New Set} \\
+\hline
+Chi-squared & 46.67 for 73 dof with p-value 0.993 \\
+Amplitude & $6.45500 \times 10^{-2} \pm 2.40723 \times 10^{-2}$ \\
+Offset & $1.26682 \times 10^{-3} \pm 2.49725 \times 10^{-4}$ \\
+$\kappa$ & $3.80033 \times 10^6 \pm 5.75194 \times 10^5$ \\
+\hline
+\end{tabular}
+\caption{Fit Outcomes from the model to fit kappa.}
+\label{tab:fit_outcomes_new}
+\end{table}
+\FloatBarrier
+
+
+\subsection{Photon Counting}
+For the photon counting, the fit was done with a parabola:
+\begin{equation}
+    y = ax^2 + bx + c 
+\end{equation}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 56.91 for 47.0 dof with p-value 0.153 \\
+$a$ & $-1.89715 \times 10^7 \pm 3.78078 \times 10^5$ \\
+$b$ & $3.04349 \times 10^6 \pm 5.67926 \times 10^5$ \\
+$c$ & $5.97798 \times 10^9 \pm 1.75053 \times 10^5$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the photon counting experiment.}
+\label{tab:fit_outcomes_seventh}
+\end{table}
+\FloatBarrier
+\newpage
+\section{System}
+Finally, fits used to extract temperature and efficiency.
+\subsection{Temperature}
+The temperature was extracted by fitting with the t1 decay in a continuous measurement. For the ground, it was fitted with:
+\begin{fullwidth}
+\begin{equation}
+    y = \text{steady\_state} - (\text{steady\_state} - \text{initial\_error}) \cdot \exp(-x / \text{decay\_time})
+\end{equation}
+and for the excited state:
+\begin{equation}
+    y = \text{steady\_state} + (1-  (\text{steady\_state} - \text{initial\_error})) \cdot \exp(-x / \text{decay\_time})
+\end{equation}
+\end{fullwidth}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+\multicolumn{2}{|c|}{Ground State} \\
+\hline
+Chi-squared & 19.69 for 47 dof with p-value 1.000 \\
+Steady State & $9.35013 \times 10^2 \pm 1.61621 \times 10^2$ \\
+Initial Error & $8.75143 \times 10^2 \pm 3.71799 \times 10^0$ \\
+Decay Time & $1.20234 \times 10^2 \pm 3.94611 \times 10^2$ \\
+\hline
+\multicolumn{2}{|c|}{Excited State} \\
+\hline
+Chi-squared & 54.26 for 47 dof with p-value 0.217 \\
+Steady State & $1.01789 \times 10^2 \pm 3.24616 \times 10^0$ \\
+Initial Error & $-8.77383 \times 10^2 \pm 7.12052 \times 10^0$ \\
+Decay Time & $1.07728 \times 10^1 \pm 2.22305 \times 10^{-1}$ \\
+\hline
+\end{tabular}
+\caption{Results from fitting the continuous modeled data to determine temperature.}
+\label{tab:combined_fit_outcomes}
+\end{table}
+
+
+\subsection{Efficiency}
+The SNR was fitted by a linear fit:
+\begin{equation}
+    y = ax + b
+\end{equation}
+and the dephasing experiment with a gaussian:
+\begin{equation}
+    y = Ae^{-(x-\mu)^2 / \sigma^2}
+\end{equation}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 17.40 for 49 dof with p-value 1.000 \\
+$a$ & $2.43444 \pm 1.45927 \times 10^{-1}$ \\
+$b$ & $4.36653 \times 10^{-2} \pm 2.55083 \times 10^{-2}$ \\
+\hline
+\end{tabular}
+\caption{Results from linear fit to determine SNR as a function of amplitude strength.}
+\label{tab:fit_outcomes_ninth}
+\end{table}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Value \\
+\hline
+Chi-squared & 45.67 for 48 dof with p-value 0.569 \\
+$A$ & $1.24481 \times 10^{-5} \pm 2.36924 \times 10^{-7}$ \\
+$\mu$ & $-8.97090 \times 10^{-4} \pm 1.52904 \times 10^{-3}$ \\
+$\sigma$ & $6.93066 \times 10^{-2} \pm 1.51261 \times 10^{-3}$ \\
+\hline
+\end{tabular}
+\caption{Results from gaussian fit to determine the width of the dephasing experiment for determining efficiency.}
+\label{tab:fit_outcomes_eighth}
+\end{table}
