@@ -1,11 +1,11 @@
 Ground state
-chi-squared: 33.35 for 96 dof with p-value 1.000
+chi-squared: 33.35 for 16.0 dof with p-value 0.007
 f0 = 7.555893e+09 +- 3.293863e+03
 A0 = -1.853905e-03 +- 1.942156e-05
 gamma0 = 6.164246e+05 +- 1.185079e+04
 offset = 3.480317e-03 +- 2.088801e-05
 Excited state
-chi-squared: 77.24 for 93 dof with p-value 0.881
+chi-squared: 77.24 for 37.0 dof with p-value 0.000
 f0 = 7.555801e+09 +- 1.983607e+04
 A0 = -7.907930e-04 +- 1.692275e-05
 gamma0 = 1.042611e+06 +- 4.626130e+04

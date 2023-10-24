@@ -13,9 +13,6 @@ The following subclasses are available:
 The `SimulationExperiment` call the overwritten `simulate` method to simulate a configuration. This now takes care of looping over the swept parameters defined in the [[Systems]] simulated. At the moment it supports sweeps over 1 or 2 parameters as well as the possibility to save the state or density matrix at each time in the simulation.
 
 # Subclasses
-> [!NOTE]
-> Maybe move the subclasses to each its own file. It is probably nice with a guide how to use it and an example for each.
-
 ## Schrödinger Experiment
 The simplest implemented experiment is the Schrödinger experiment which takes states and simply evolves them using the Schrödinger equation:
 $$\frac{d}{dt}\ket{\psi} = -i\hbar\hat{H}\ket{\psi}$$
@@ -95,6 +92,9 @@ The parameters are also the same as `SchroedinerExperiment`:
 |save_path|What path the final results should be saved to|
 
 ## Monte Carlo Experiment
+> [!NOTE]
+> While the Monte Carlo method uses parallel processes, it is done at a python level and runs inefficient. This method should instead be changed like the [[#Stochastic Master Equation]], where qutip handles the parallel calls internally. 
+
 For larger dimensions it can be beneficial to add the collapse operators stochastically by using the Monte Carlo Simulation. This simulation will apply a collapse operator depending on the given rate and time step. By doing this, the problem is still one dimensional and can be repeated multiple times to approximate the Lindblad equation. 
 
 A Monte Carlo Experiment is setup using:
@@ -140,16 +140,16 @@ The Stochastic Master Equation takes the form:
 $$    d\rho = -i [H, \rho]dt + \mathcal{D}[c]\rho dt + \mathcal{H}[c] \rho dW$$
 Where the superoperators refer to the Lindblad dissipator:
 $$\mathcal{D}[c]\rho(t) = c \rho(t) c^\dagger - \frac12 c c^\dagger \rho(t) - \frac12 \rho(t) cc^\dagger$$
-And the stochastic part given by:
+And a stochastic part given by:
 $$\mathcal{H}[c]\rho(t) = c\rho(t) + \rho(t)c - \langle c + c^{\dagger}\rangle \rho(t)$$
-And $dW$ is a stochastic variable of the wiener process with variance $dt$.
+Here $dW$ is a stochastic variable of the wiener process with variance $dt$.
 
 Currently this is simulated either by using a homodyne or heterodyne setup of the collapse operator using the `method` keyword, depending on whether one or two quadratures should be measured. 
 
-When using `StochasticMasterEquation` the system parameter `system.stochastic_dissipators` will also be considered. 
+When using `StochasticMasterEquation` the system parameter `system.stochastic_dissipators` will also be considered and add the stochastic term with weighted by the efficiency of the system: `system.readout_efficiency`.
 
-The results of the `StochasticMasterEquation` will include `measurements`. Which are equal to the measurement record given by:
-$$    dr = \langle X \rangle dt + \frac{dW}{\sqrt{8k}}$$
+The results of the `StochasticMasterEquation` will include `measurements`. The measurements are the result of a record of outcomes from the measurement at each timestep. In the heterodyne measurements (which is the only one implemented), the measurement record takes the form of:
+$$    dr = \eta \left(  \langle I \rangle + i\langle Q \rangle\right) dt + \frac{dW_{I} + dW_{Q}}{\sqrt{2}}$$
 The experiment is defined using:
 ```python
 experiment = StochasticMasterEquation(

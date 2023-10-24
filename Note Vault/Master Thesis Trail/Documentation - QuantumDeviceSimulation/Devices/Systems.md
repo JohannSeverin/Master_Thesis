@@ -119,32 +119,21 @@ QubitResonatorSystem.resonator_Q()
 ## Approximated Systems
 As some system very complex to simulate. For this reason a few approximations are made and implemented in order to get simpler simulations.
 
-### DispersiveQubitResonatorSystem
-The dispersive qubit resonator system uses the Jaynes Cummings model and by going into the interaction picture of a square resonator drive one can completely eliminate the time-dependence in the Hamiltonian.  Furthermore, the interaction term is reduced to the linear version where the interaction term is in the eigenstates.
+### DispersiveQubitResonatorSystem 
+By taking the dispersive approximation of the [[#QubitResonatorSystem]] subject to a [[Pulses#Square Cosine Pulse]], one can do the dispersive approximation. The dispersive approximation, is most easily calculated by using the `.dispersive_approximation()` when a *QubitResonatorSystem* is defined with a *Square Cosine Pulse*.
 
-> [!NOTE]
-> Not correctly implemented yet. This version does not include qubit drives
-> 
-> Since this system does not have any pulse the duration of the pulse the effective pulse will be always on. The duration of the pulse is equal to the simulation time.
-
-One define such a system by:
+As an example, the system can be defined by:
 
 ```python
-DispersiveQubitResonatorSystem(
-   qubit: Device, 
-   resonator: Device, 
-   drive_frequency: float,
-   drive_amplitude: float, 
-   coupling_strength: float
-)
+QubitResonatorSystem(
+	qubit: Device,
+	resonator: Device,
+	coupling_strength: float,
+	resonator_pulse: Pulse = None,
+	qubit_pulse: Pulse = None,
+).dispersive_approximation(dispersive_shift: float = None)
+
 ```
- Where the drive_frequency, drive_amplitude are the parameters that would go into [[Pulses#SquareCosinePulse]]. 
 
-States and methods for operators are the same as the ones found in the [[#QubitResonatorSystem]]:
-
-
-#todo
-- [ ] Reimplement
-	- [ ] Any way to keep the qubit pulse? 
-	- [ ] Maybe as subclass to the <code>QubitResonatorSystem</code> 
+where the `resonator_pulse ` must be a **SquareCosinePulse** and the **qubit_pulse** is ignored if defined. The DispersiveQubitResonatorSystem inherits the dissipators and stochastic dissipators from the QubitResonatorSystem, but redefines. One can give the function explicit dispersive shifts, otherwise it will be calculated using the frequencies of the qubit and the resonator together with the coupling strength. 
 

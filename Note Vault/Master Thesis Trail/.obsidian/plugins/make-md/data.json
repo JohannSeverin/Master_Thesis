@@ -54,11 +54,16 @@
       "Continuos Time Investigation",
       "Documentation - QuantumDeviceSimulation/Devices",
       "Excalidraw",
-      "Calibration Notes",
       "Calibration Notes/Photon Calibration",
       "Calibration Notes/Photon Calibration",
-      "Continuous Time Investigation",
-      "Calibration Notes/Photon Calibration"
+      "Calibration Notes/Photon Calibration",
+      "Documentation - QuantumDeviceSimulation",
+      "Documentation - QuantumDeviceSimulation",
+      "Documentation - QuantumDeviceSimulation/Simulation",
+      "Documentation - QuantumDeviceSimulation/Devices",
+      "Documentation - QuantumDeviceSimulation/Simulation",
+      "Documentation - QuantumDeviceSimulation/Analysis",
+      "Documentation - QuantumDeviceSimulation"
     ],
     "QuantumDeviceSimulation": [
       "Documentation - QuantumDeviceSimulation/Analysis"
@@ -99,7 +104,7 @@
   "spacesSyncTimeoutSeconds": 10,
   "spacesAutoBackup": true,
   "spacesAutoBackupInterval": 10,
-  "spacesAutoBackupLast": 1692732914711,
+  "spacesAutoBackupLast": 1698134017537,
   "spacesUseAlias": false,
   "precreateVaultSpace": true,
   "fmKeyAlias": "alias",

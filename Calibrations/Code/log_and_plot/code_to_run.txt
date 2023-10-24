@@ -1,7 +1,7 @@
 # Priting
 with open(f"../Fit_log/{title}.txt", "w") as f:
     print(
-        f"chi-squared: {minimizer.fval:.2f} for {len(x_data) - len(guesses)} dof with p-value {pval:.3f}",
+        f"chi-squared: {minimizer.fval:.2f} for {minimizer.ndof} dof with p-value {pval:.3f}",
         file=f,
     )
     for name in guesses:

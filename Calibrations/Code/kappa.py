@@ -60,7 +60,7 @@ minimizer = Minuit(ls, **guesses)
 # minimizer.interactive()
 minimizer.migrad()
 
-pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
+pval = chi2.sf(minimizer.fval, minimizer.ndof)
 
 
 exec(open("log_and_plot/code_to_run.txt").read())

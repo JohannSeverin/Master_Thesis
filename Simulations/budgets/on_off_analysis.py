@@ -224,7 +224,7 @@ def calculate_fidelity_and_create_plots(
             ax.plot([], [], color="k", linestyle="--", label="Decision Boundary")
 
             if ax == ax_scatter_big_figure:
-                ax.set_title(f"IQ for {name[:-8]}", fontsize=12)
+                ax.set_title(f"IQ for {name[:-8]}", fontsize=22)
                 ax.set_aspect("equal")
                 ax.text(
                     0.05,

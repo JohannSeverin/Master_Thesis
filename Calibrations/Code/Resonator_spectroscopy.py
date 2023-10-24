@@ -60,7 +60,7 @@ minimizer_ground = Minuit(ls, **guesses_ground)
 minimizer_ground.migrad()
 minimizer_ground.visualize()
 
-pval_ground = chi2.sf(minimizer_ground.fval, len(x_data) - len(guesses_ground))
+pval_ground = chi2.sf(minimizer_ground.fval, minimizer_ground.ndof)
 
 
 def fit_func_excited(x, f0, A0, gamma0, f1, A1, gamma1, offset):
@@ -98,14 +98,14 @@ ls = LeastSquares(
 minimizer_excited = Minuit(ls, **guesses_excited)
 minimizer_excited.migrad()
 
-pval_excited = chi2.sf(minimizer_excited.fval, len(x_data) - len(guesses_excited))
+pval_excited = chi2.sf(minimizer_excited.fval, minimizer_excited.ndof)
 
 
 # Priting
 with open(f"../Fit_log/{title}.txt", "w") as f:
     print("Ground state", file=f)
     print(
-        f"chi-squared: {minimizer_ground.fval:.2f} for {len(x_data) - len(guesses_ground)} dof with p-value {pval_ground:.3f}",
+        f"chi-squared: {minimizer_ground.fval:.2f} for {minimizer_ground.ndof} dof with p-value {pval_ground:.3f}",
         file=f,
     )
     for name in guesses_ground:
@@ -115,7 +115,7 @@ with open(f"../Fit_log/{title}.txt", "w") as f:
         )
     print("Excited state", file=f)
     print(
-        f"chi-squared: {minimizer_excited.fval:.2f} for {len(x_data) - len(guesses_excited)} dof with p-value {pval_excited:.3f}",
+        f"chi-squared: {minimizer_excited.fval:.2f} for {minimizer_excited.ndof} dof with p-value {pval_excited:.3f}",
         file=f,
     )
     for name in guesses_excited:

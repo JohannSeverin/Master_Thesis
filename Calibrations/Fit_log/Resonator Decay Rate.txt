@@ -1,4 +1,4 @@
-chi-squared: 46.67 for 139 dof with p-value 1.000
+chi-squared: 46.67 for 73.0 dof with p-value 0.993
 Amplitude = 6.45500e-02 +- 2.40723e-02
 offset = 1.26682e-03 +- 2.49725e-04
 kappa = 3.80033e+06 +- 5.75194e+05

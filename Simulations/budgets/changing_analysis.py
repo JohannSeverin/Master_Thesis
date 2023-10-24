@@ -398,7 +398,7 @@ for col_idx, parameter in enumerate([r"$\eta$", r"$(1 / T_1)$", r"$\tau$"]):
             1.00,
             f"{amount} $\\times$ {parameter}"
             if amount != "perfect "
-            else f"amount {parameter}",
+            else f"perfect {parameter}",
             va="top",
             transform=axes_for_big_fig[row_idx, col_idx].transAxes,
         )

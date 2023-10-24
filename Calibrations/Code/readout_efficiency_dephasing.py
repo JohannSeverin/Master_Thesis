@@ -82,6 +82,19 @@ func = lambda x, A, f, phi, c: A * np.cos(2 * np.pi * f * x + phi) + c
 amplitudes = np.zeros(x_data.shape[0])
 amplitudes_err = np.zeros(x_data.shape[0])
 
+
+# Find the frequency and phase
+i = x_data.shape[0] // 2
+ls = LeastSquares(
+    y_data.values.flatten(),
+    z_data[i].values.flatten(),
+    z_err[i].values.flatten(),
+    model=func,
+)
+minimizer = Minuit(ls, A=2e-3, f=1, phi=0, c=0)
+minimizer.migrad()
+
+# Do for rest with fixed frequency and phase
 for i in range(x_data.shape[0]):
     ls = LeastSquares(
         y_data.values.flatten(),
@@ -89,7 +102,12 @@ for i in range(x_data.shape[0]):
         z_err[i].values.flatten(),
         model=func,
     )
-    minimizer = Minuit(ls, A=2e-3, f=1, phi=0, c=0)
+    minimizer = Minuit(
+        ls, A=2e-3, f=minimizer.values["f"], phi=minimizer.values["phi"], c=0
+    )
+    minimizer.fixed["f"] = True
+    minimizer.fixed["phi"] = True
+
     minimizer.migrad()
 
     if i == 0:
@@ -228,3 +246,19 @@ with open("../Fit_log/efficiency_dephasing.txt", "w") as f:
     f.write(
         f"sigma = {minimizer.values['sigma']:.3e} +/- {minimizer.errors['sigma']:.3e} \n"
     )
+
+
+from scipy.stats import chi2
+
+pval = chi2.sf(minimizer.fval, len(x_data) - len(minimizer.values))
+# Write in log
+with open("../Fit_log/efficiency_dephasing.txt", "a") as f:
+    print(
+        f"chi-squared: {minimizer.fval:.2f} for {len(x_data) - len(minimizer.values)} dof with p-value {pval:.3f}",
+        file=f,
+    )
+    for name in minimizer.values.to_dict():
+        print(
+            f"{name} = {minimizer.values[name]:.5e} +- {minimizer.errors[name]:.5e}",
+            file=f,
+        )

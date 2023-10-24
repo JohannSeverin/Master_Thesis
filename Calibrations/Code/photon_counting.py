@@ -8,7 +8,7 @@ import iminuit
 plt.style.use("../../code/matplotlib_style/fullwidth_figure.mplstyle")
 
 data_folder = "../Data/photon_calibration_in_readout_140531"
-title = "Qubit Spectroscopy with Driven Resonator"
+title = "Photon Counting"
 xlabel = "Frequency (GHz)"
 scale_x = 1e9
 
@@ -81,6 +81,22 @@ ls = LeastSquares(
 )
 minimizer = Minuit(ls, a=-1e2, b=0, c=5.98e9)
 minimizer.migrad()
+
+from scipy.stats import chi2
+
+pval = chi2.sf(minimizer.fval, minimizer.ndof)
+
+with open(f"../Fit_log/{title}.txt", "w") as f:
+    print(
+        f"chi-squared: {minimizer.fval:.2f} for {minimizer.ndof} dof with p-value {pval:.3f}",
+        file=f,
+    )
+    for name in minimizer.values.to_dict():
+        print(
+            f"{name} = {minimizer.values[name]:.5e} +- {minimizer.errors[name]:.5e}",
+            file=f,
+        )
+
 
 # Setup the Image Plot
 from matplotlib.colors import LinearSegmentedColormap

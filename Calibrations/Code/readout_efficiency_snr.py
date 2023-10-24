@@ -281,9 +281,21 @@ ax[1].set(
 # fig.tight_layout()
 fig.savefig(f"../Figures/SNR_vs_amplitude.pdf", bbox_inches="tight")
 
+from scipy.stats import chi2
+
+pval = chi2.sf(minimizer.fval, len(x_data) - len(guesses))
 # Write in log
 with open("../Fit_log/efficiency_SNR.txt", "w") as f:
     f.write(f"a = {minimizer.values['a']} +- {minimizer.errors['a']}\n")
+    print(
+        f"chi-squared: {minimizer.fval:.2f} for {len(x_data) - len(guesses)} dof with p-value {pval:.3f}",
+        file=f,
+    )
+    for name in minimizer.values.to_dict():
+        print(
+            f"{name} = {minimizer.values[name]:.5e} +- {minimizer.errors[name]:.5e}",
+            file=f,
+        )
 
 # x_data = data.pulse_frequency
 # y_data = data.resonator_drive_amplitude_scaling

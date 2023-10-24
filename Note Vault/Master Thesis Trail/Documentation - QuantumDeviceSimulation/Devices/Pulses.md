@@ -1,6 +1,3 @@
-#todo 
-- [ ] Create a Pulse Sequence, which simply adds multiple pulses in parallel or series
-
 ## Pulse Parent Class
 At the moment the Pulse Parent class mostly serves a typing help. It just has single abstract method inheriting most functionality from the [Device Parent Class](Devices#Device Parent Class). A Pulse class takes the structure:
 
