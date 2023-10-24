@@ -7,7 +7,7 @@ In this section, we will hypothesize three contributions to our SPAM fidelity. B
     \item The temperature, $\tau$, is contributing significantly to the initialization error. At non-zero temperature, we will expect to see a mixed state with non-zero elements for $\ket{1}\bra{1}$. These errors will not be detected during readout. 
     \item Energy exchanges with the environment can give a low coherence time $T_1$. Since relaxation or excitation during the readout will make the system behave like it is in the other state, this will lead to wrong classifications.
 \end{enumerate}
-By using the model which we built up in chapter \ref{chap:model}, we can now turn off the different contributions and see the resulting fidelity of the readout sequence. As a start, we will model the perfect system. That is a system where the qubit has infinite lifetime $T_1 = \infty$, the system will be zero temperature, $\tau = 0$ and we detect all of the signal $\eta = 1$. A comparison of the Fidelity of this perfect system and the realistic one, which we also simulated in section \ref{sec:readout_in_simulation} can be seen in table \ref{tab:realistic_perfect_comparison} and the corresponding IQ plot is found in figure \ref{fig:realistic_perfect_comparison}. To see weights, histograms and other details, we refer to the appendix in section. \todo{Do and refer to the appendix here}.
+By using the model which we built up in chapter \ref{chap:model}, we can now turn off the different contributions and see the resulting fidelity of the readout sequence. As a start, we will model the perfect system. That is a system where the qubit has infinite lifetime $T_1 = \infty$, the system will be zero temperature, $\tau = 0$ and we detect all of the signal $\eta = 1$. A comparison of the Fidelity of this perfect system and the realistic one, which we also simulated in section \ref{sec:readout_in_simulation} can be seen in table \ref{tab:realistic_perfect_comparison} and the corresponding IQ plot is found in figure \ref{fig:realistic_perfect_comparison}. To see weights, histograms and other details, we refer to appendix \ref{chap:IQ_plots}.
 
 
 \begin{figure}
@@ -39,7 +39,7 @@ In an attempt to single out the effect on readout fidelity from the individual c
     % \missingfigure[figheight = \textheight / 3]{IQ Plots for the simulation, we ran in the table}
     \caption{The IQ results from turning on the different sources of errors one by one. The IQ scatter plots are displayed along side the decision boundary and the readout fidelity.}
     \label{fig:on_off_IQ_scatter_combinations}
-\end{figure}\todo{Larger labels and ticks}
+\end{figure}
 \begin{table}[h]
 \centering
 \caption{The Fidelity results of running the simulation experiment with 1000 samples given parameters that sets one or two of the three parameters to the ideal setting.}
@@ -121,11 +121,11 @@ For our system, the temperature decreases the Fidelitity drammatically, since th
 \paragraph{Active Reset} One way of artificially "cooling down" the qubit is by initializing with readout. If the readout fidelity is larger than the state preparation, it is beneficial to start with a readout and apply an X-gate if the qubit is in state $\ket{1}$. The qubit can the be read out and the X-gate reapplied until the outcome of the measurement is $\ket{0}$.
 
 To gain an advantage from active reset, we require the qubit to have long coherence time and high efficiency such that we are confident in our readout. The long coherence time is necessary since a normal readout tries to determine the state at the beginning of the pulse, but since an x-gate should only be performed if the qubit is in state $\ket{1}$ many repetitions would be required if it decays in the meantime. In addition, a readout pulse leaves the resonator with photon pushing the qubit frequency. If one does not take this into account when applying gates, the gate fidelity will be highly affected. The easiest approach is to wait for the resonator to return to the vacuum state, but again this requires the qubit to stay coherent in that timescale.  
-\begin{marginfigure}
+\begin{marginfigure}[- 5 cm]
     \centering
-    \missingfigure{Active Reset}
-    \caption{Caption}
-    \label{fig:enter-label}
+    \includegraphics[]{Figs/circuits/active_reset.png}
+    \caption{Illustration of the active reset process. A readout is performed, if it measures $\ket{1}$ an $X$-gate and another readout is applied. This is repeat till the readout gives $\ket{0}$.}
+    \label{fig:active_reset}
 \end{marginfigure}
 
 \subsection{Qubit Decay}
@@ -137,11 +137,11 @@ Unwanted changes of the qubit between $\ket{0}\leftrightarrow\ket{1}$ is also a 
 \begin{tabular}{lll|c}
 \hline
 \textbf{Reduction}         &  $\Gamma_1$                  &  $T_1$        & Fidelity (\%)\\ \hline
--10 \%                     &  $0.256 \text{µs}^{-1}$         &  $3.91$ µs   &  $66 \pm 2$\\
-0   \%                     &  $0.232 \text{µs}^{-1}$         &  $4.30$ µs   &  $65 \pm 2$\\
-10  \%                     &  $0.209 \text{µs}^{-1}$         &  $4.78$ µs   &  $59 \pm 3$\\
-25  \%                     &  $0.175 \text{µs}^{-1}$         &  $5.73$ µs   &  $64 \pm 2$\\
-50  \%                     &  $0.116 \text{µs}^{-1}$         &  $8.60$ µs   &  $70 \pm 2$\\
+-10 \%                     &  $0.256 \text{ µs}^{-1}$         &  $3.91$ µs   &  $66 \pm 2$\\
+0   \%                     &  $0.232 \text{ µs}^{-1}$         &  $4.30$ µs   &  $65 \pm 2$\\
+10  \%                     &  $0.209 \text{ µs}^{-1}$         &  $4.78$ µs   &  $59 \pm 3$\\
+25  \%                     &  $0.175 \text{ µs}^{-1}$         &  $5.73$ µs   &  $64 \pm 2$\\
+50  \%                     &  $0.116 \text{ µs}^{-1}$         &  $8.60$ µs   &  $70 \pm 2$\\
 100 \%                     &  $0$         &  $\infty$                       &  $70 \pm 2$\\
 \end{tabular}
 \label{tab:decay_contribution_estimation}
@@ -169,12 +169,12 @@ The efficiency plays a delicate role for reading out. Primarily, it scales the s
 \begin{tabular}{rr|c}
 \hline
 \textbf{Increase}       &  Efficiency       & Fidelity (\%)\\ \hline
--25 \%                  &  \;2.64 \%        &  65 $\pm$ 2\\
-0   \%                  &  \;3.30 \%        &  65 $\pm$ 2\\
-33  \%                  &  \;4.40 \%        &  68 $\pm$ 2\\
-100  \%                 &  \;6.60 \%        &  68 $\pm$ 2\\
-300  \%                 &  13.2 \%          &  73 $\pm$ 2\\
-max                     &  100.0 \%         &  75 $\pm$ 2\\
+-25 \%                  &  $\;2.64$ \%        &  $65 \pm 2$\\
+0   \%                  &  $\;3.30$ \%        &  $65 \pm 2$\\
+33  \%                  &  $\;4.40$ \%        &  $68 \pm 2$\\
+100  \%                 &  $\;6.60$ \%        &  $68 \pm 2$\\
+300  \%                 &  $13.2$ \%          &  $73 \pm 2$\\
+max                     &  $100.0$ \%         &  $75 \pm 2$\\
 \end{tabular}
 \label{tab:readout_infidelity_contribution_estimation}
 \end{margintable}
@@ -189,17 +189,16 @@ max                     &  100.0 \%         &  75 $\pm$ 2\\
     \includegraphics{Simulations/budgets/figures/iq_scatter_budgetting.pdf}
     \caption{The IQ Plots for the models  with different parameters. The seperation line, fidelity and parameter scaling is shown.}
     \label{fig:budgetting_IQ_plots}
-\end{figure}\todo{Efficiency label is wrong scale. It is $1 / \eta$ that is scaled. Maybe just write 0.75 eta, 1.00 eta ...}
-
+\end{figure}
 \FloatBarrier
 
 \section{Further Path to Optimization}
 In the sections above, we have very much considered a first order optimization, where all except one parameter was kept constant. This gives significant improvements for reductions in temperature, less for increased $\eta$ and marginal increases from better $T_1$. In addition to the improvements from a colder, more coherent and more efficient setup, we also discussed the possibility of "trading" a good performing parameter to improvements in the others. Some of the trade-offs are illustrated in figure \ref{fig:trading_performance}. 
 
-\begin{marginfigure}[- 2 cm]
+\begin{marginfigure}
     \centering
-    \missingfigure{Trading parameters}
-    \caption{Illustration of trading the good parameters to improvements in the others. }
+    \includegraphics[]{Figs/trading_parameters.png}
+    \caption{Illustration of how good coherence, low temperatures or efficient measurement can be used to reduce infidelity contribution from the other sources. }
     \label{fig:trading_performance}
 \end{marginfigure}
 
