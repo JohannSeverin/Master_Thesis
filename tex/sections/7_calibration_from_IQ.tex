@@ -320,7 +320,7 @@ The amplification chain from the resonator signal and up to room-temperature and
 
 The general idea can be found in the inefficient stochastic master equation (see section \ref{sec:sme_inefficient}). Here the back action term is applied no matter the efficiency we measure with. So by comparing the amount of information with the back action, we can estimate the efficiency. In section \ref{sec:qubit_backaction}, we mentioned that measuring the resonator adds a back action to the qubit which takes the form of a dephasing Lindbladian. Furthermore, the signal measured will be of the coherent states associated with $\alpha_0$ and $\alpha_1$ and be divided by the noise in the system.
 
-To use this method, one must first create a readout pulse with a signal that is zero at start and end: $S(t = 0) = S(t = T) = 0$. To limit decoherence during the readout, one would choose a short pulse and readout during a cooldown of the resonator for $\approx 5 / \kappa$.\footnote{One can optimzie this further by applying a stimulated depopulation pulse. Write this in here if we do it.} The shape and resonator signal in pulse is shown in figure \ref{fig:efficiency_pulse_shape}. \todo{Do a better figure here} With this pulse, the method now consists of two parts:
+To use this method, one must first create a readout pulse with a signal that is zero at start and end: $S(t = 0) = S(t = T) = 0$. To limit decoherence during the readout, one would choose a short pulse and readout during a cooldown of the resonator for $\approx 5 / \kappa$.\footnote{One can optimzie this further by applying a stimulated depopulation pulse.} The shape and resonator signal in pulse is shown in figure \ref{fig:efficiency_pulse_shape}. With this pulse, the method now consists of two parts:
 
 % \vspace{2 cm}
 % The amplification chain from the qubit and resonator up to our digitization of the signal is by no means lossless. As mentioned in section \ref{sec: Amplifiers}\todo{Write section about amplifiers} there is a lower bound on the amount of noise added by an amplification. But in addition, the signal sees multiple amplification and thermalization at different stages ultimately giving us a much noisier signal than what is actually extracted from the qubit. To include this effect in our simulation and just to benchmark the amplification chain we will extract the quantum efficiency, $\eta$ by a method presented in \cite{bultink},\todo{Cite properly the Bultink et al. article} where the backaction of the qubit is compared to the Signal to Noise Ratio of the output signal. 
@@ -328,7 +328,7 @@ To use this method, one must first create a readout pulse with a signal that is 
 \begin{marginfigure}
     \centering
     \includegraphics{Calibrations/Figures/Efficiency Experiment Pulse.pdf}
-    \caption{The signal in the resonator during the readout signal.}
+    \caption{The signal in the resonator during the readout pulse used for the efficiency calibration.}
     \label{fig:efficiency_pulse_shape}
 \end{marginfigure}
 
