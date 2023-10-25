@@ -100,3 +100,49 @@
       \includegraphics[width=\paperwidth,height=\paperheight]{Figs/Theory/stochastic_signal.png}
       }%
 }
+
+% Include Subtitle on front page
+\makeatletter
+\newcommand{\plainsubtitle}{}%     plain-text-only subtitle
+\newcommand{\subtitle}[1]{%
+  \gdef\@subtitle{#1}%
+  \renewcommand{\plainsubtitle}{#1}% use provided plain-text title
+  \ifthenelse{\isundefined{\hypersetup}}%
+    {}% hyperref is not loaded; do nothing
+    {\hypersetup{pdftitle={\plaintitle: \plainsubtitle{}}}}% set the PDF metadata title
+}
+\renewcommand{\maketitlepage}[0]{%
+  \cleardoublepage%
+  {%
+  \sffamily%
+  \begin{fullwidth}%
+   \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessauthor}}%
+  \vspace{11.5pc}%
+  \fontsize{36}{40}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}%
+  \vspace{0.5 cm}%
+  \fontsize{20}{24}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\plainsubtitle}}%
+  \vfill%
+  \fontsize{14}{16}\selectfont\par\noindent\allcaps{\thanklesspublisher}%
+  \end{fullwidth}%
+  }
+  \thispagestyle{empty}%
+  \clearpage%
+}
+\makeatother
+
+% \newcommand{\maketitlepage}[0]{%
+%   \cleardoublepage%
+%   {%
+%   \sffamily%
+%   \begin{fullwidth}%
+%   \fontsize{18}{20}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklessauthor}}%
+%   \vspace{11.5pc}%
+%   \fontsize{36}{40}\selectfont\par\noindent\textcolor{darkgray}{\allcaps{\thanklesstitle}}%
+%   \vspace{2 cm}%
+%   \fontsize{28}{30}\selectfont\par\noindent\allcaps{\thanklesspublisher}%
+%   \end{fullwidth}%
+%   \vfill{}
+%   }
+%   \thispagestyle{empty}%
+%   \clearpage%
+% }
