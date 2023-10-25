@@ -257,7 +257,7 @@ ax.set(
     ylabel="Readout Signal I (a. u.)",
 )
 
-fig.align_ylabels(axes)
+fig.align_ylabels(two_row_axes)
 fig.tight_layout()
 
 # fig.align_ylabels(axes)

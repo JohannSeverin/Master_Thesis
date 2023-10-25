@@ -80,7 +80,7 @@ axes[0].legend()
 axes[1].legend()
 
 ax = axes[2]
-ax.plot(x_data / scale_x, y_data / scale_y, "o", label="$|I + iQ|$")
+ax.plot(x_data / scale_x, y_data / scale_y, ".", label="$|I + iQ|$")
 
 xs_fit = np.linspace(*ax.get_xlim(), fit_resolution) * scale_x
 xs_fit = xs_fit[fit_delay:]
