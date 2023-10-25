@@ -238,7 +238,7 @@ def make_histogram_plot():
         transformed[states == 0],
         bins=30,
         color="C0",
-        alpha=0.5,
+        alpha=0.50,
         label="Ground",
         density=True,
     )
@@ -246,7 +246,7 @@ def make_histogram_plot():
         transformed[states == 1],
         bins=30,
         color="C1",
-        alpha=0.5,
+        alpha=0.50,
         label="Excited",
         density=True,
     )
@@ -497,7 +497,7 @@ def make_histogram_plot():
         transformed[states == 0],
         bins=30,
         color="C0",
-        alpha=0.5,
+        alpha=0.50,
         label="Ground",
         density=True,
     )
@@ -505,7 +505,7 @@ def make_histogram_plot():
         transformed[states == 1],
         bins=30,
         color="C1",
-        alpha=0.5,
+        alpha=0.50,
         label="Excited",
         density=True,
     )
@@ -590,30 +590,192 @@ fig.savefig("Figs/Introduction.pdf")
 
 
 # Check with simulated data
-# import pickle
+import pickle
 
-# transformed_sim = pickle.load(
-#     open(
-#         "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/Simulations/budgets/transformed.pkl",
-#         "rb",
+transformed_sim = pickle.load(
+    open(
+        "/mnt/c/Users/johan/OneDrive/Skrivebord/Master_Thesis/Simulations/budgets/transformed.pkl",
+        "rb",
+    )
+)
+
+plt.style.use("../code/matplotlib_style/inline_figure.mplstyle")
+
+fig, all_axes = plt.subplots(ncols=2, nrows=2, figsize=(12, 12), sharex=True)
+
+plt.rcParams["axes.titlesize"] = 22  # because of three subplots this size is better
+axes = all_axes[0, :]
+
+# axes.figure()
+densities, bins, _ = axes[0].hist(
+    transformed_sim["transformed"],
+    density=True,
+    bins=30,
+    color="C4",
+    label="Simulated",
+    histtype="step",
+    linewidth=3,
+    zorder=5,
+    alpha=0.8,
+)
+axes[0].hist(
+    transformed,
+    density=True,
+    bins=bins,
+    color="k",
+    label="Experimental",
+    histtype="step",
+    linewidth=3,
+    linestyle="--",
+)
+
+axes[0].set(
+    ylabel="Density",
+    title="Full Distributions",
+    ylim=(axes[0].get_ylim()[0], 1.3 * axes[0].get_ylim()[1]),
+)
+
+
+# Cumulative distribution
+densities_sim, bins, _ = axes[1].hist(
+    transformed_sim["transformed"],
+    density=True,
+    bins=30,
+    color="C4",
+    label="Simulated",
+    histtype="step",
+    linewidth=3,
+    cumulative=True,
+    alpha=0.8,
+    zorder=5,
+)
+
+densities_exp, _, _ = axes[1].hist(
+    transformed,
+    density=True,
+    bins=bins,
+    color="k",
+    linestyle="--",
+    label="Experiment",
+    histtype="step",
+    linewidth=3,
+    cumulative=True,
+)
+
+axes[1].set(
+    ylabel="Density",
+    title="Cumulative Distributions (Full)",
+    xlim=(np.min(transformed), 0.999 * np.max(transformed)),
+)
+
+axes[0].legend(fontsize=18, loc="upper right")
+axes[1].legend(fontsize=18, loc="upper left")
+
+# fig.savefig("Figs/Weighted_comparison_with_simmulation.pdf", bbox_inches="tight")
+
+# Another figure where we compare the ground and excited state distributions
+# fig, axes = plt.subplots(ncols=2)
+axes = all_axes[1, :]
+
+densities, bins, _ = axes[0].hist(
+    transformed_sim["transformed"][transformed_sim["states"] == 0],
+    density=True,
+    bins=30,
+    color="C0",
+    label="Simulated",
+    histtype="step",
+    linewidth=3,
+    alpha=0.8,
+    zorder=5,
+)
+axes[0].hist(
+    transformed[states == 0],
+    density=True,
+    bins=bins,
+    color="k",
+    label="Experimental",
+    histtype="step",
+    linewidth=3,
+    linestyle="--",
+)
+
+axes[0].set(
+    xlabel="LDA - projection",
+    ylabel="Density",
+    title="Ground State Distribution",
+)
+axes[0].legend(fontsize=18, loc="upper right")
+
+densities, bins, _ = axes[1].hist(
+    transformed_sim["transformed"][transformed_sim["states"] == 1],
+    density=True,
+    bins=30,
+    color="C1",
+    label="Simulated",
+    histtype="step",
+    alpha=0.8,
+    linewidth=3,
+    zorder=5,
+)
+axes[1].hist(
+    transformed[states == 1],
+    density=True,
+    bins=bins,
+    color="k",
+    label="Experimental",
+    histtype="step",
+    linewidth=3,
+    linestyle="--",
+)
+
+axes[1].set(
+    xlabel="LDA - projection",
+    ylabel="Density",
+    title="Excited State Distribution",
+)
+
+axes[1].legend(fontsize=18, loc="upper left")
+
+fig.tight_layout()
+fig.savefig("Figs/Weighted_comparison_with_simmulation.pdf", bbox_inches="tight")
+
+from scipy.stats import ks_2samp
+
+ks_full = ks_2samp(transformed_sim["transformed"].flatten(), transformed.flatten())
+
+ks_ground = ks_2samp(
+    transformed_sim["transformed"][transformed_sim["states"] == 0].flatten(),
+    transformed[states == 0].flatten(),
+)
+
+ks_excited = ks_2samp(
+    transformed_sim["transformed"][transformed_sim["states"] == 1].flatten(),
+    transformed[states == 1].flatten(),
+)
+
+with open("Logs/Comparison.txt", "w") as f:
+    f.write(f"KS test for full data: {ks_full}\n")
+    f.write(f"KS test for ground state: {ks_ground}\n")
+    f.write(f"KS test for excited state: {ks_excited}\n")
+
+print(f"KS test for full data: {ks_full}\n")
+print(f"KS test for ground state: {ks_ground}\n")
+print(f"KS test for excited state: {ks_excited}\n")
+
+# print(ks_2samp(transformed_sim["transformed"].flatten(), transformed.flatten()))
+# print(
+#     ks_2samp(
+#         transformed_sim["transformed"][transformed_sim["states"] == 0].flatten(),
+#         transformed[states == 0].flatten(),
+#     )
+# )
+# print(
+#     ks_2samp(
+#         transformed_sim["transformed"][transformed_sim["states"] == 1].flatten(),
+#         transformed[states == 1].flatten(),
 #     )
 # )
 
-# plt.figure()
-# plt.hist(
-#     transformed_sim["transformed"],
-#     density=True,
-#     bins=30,
-#     cumulative=True,
-#     histtype="step",
-#     linewidth=5,
-# )
-# plt.hist(
-#     transformed, density=True, bins=30, cumulative=True, histtype="step", linewidth=5
-# )
-
-
-# fig, axes = plt.subplots(ncols=2)
 
 # axes[0].hist(
 #     transformed_sim["transformed"][transformed_sim["states"] == 0],
@@ -637,21 +799,5 @@ fig.savefig("Figs/Introduction.pdf")
 #     transformed[states == 1], density=True, bins=30, linewidth=5, histtype="step"
 # )
 
-# from scipy.stats import ks_2samp
 
-# print(ks_2samp(transformed_sim["transformed"].flatten(), transformed.flatten()))
-# print(
-#     ks_2samp(
-#         transformed_sim["transformed"][transformed_sim["states"] == 0].flatten(),
-#         transformed[states == 0].flatten(),
-#     )
-# )
-# print(
-#     ks_2samp(
-#         transformed_sim["transformed"][transformed_sim["states"] == 1].flatten(),
-#         transformed[states == 1].flatten(),
-#     )
-# )
-
-
-# # fig.tight_layout()
+# fig.tight_layout()

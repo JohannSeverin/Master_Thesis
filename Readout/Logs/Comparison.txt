@@ -1,0 +1,3 @@
+KS test for full data: KstestResult(statistic=0.0355, pvalue=0.36746357230968224)
+KS test for ground state: KstestResult(statistic=0.075, pvalue=0.046216714722432224)
+KS test for excited state: KstestResult(statistic=0.072, pvalue=0.06207388827127402)
