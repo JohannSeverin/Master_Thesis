@@ -1,12 +1,59 @@
-\chapter{Readout Fidelity}\label{chap:readout}
+\chapter{Readout Experiment}\label{chap:readout}
 With the knowledge of how readout are carried out, we are now ready to take on the actual readout process. In this chapter, we will be performing the analysis of a readout process from the laboratory to determine how good it is.
+
+\section{Experimental Setup}
+While most of the work in this thesis will be theoretical and computational, we will try to understand, calibrate and model a physical system. This section will serve as a short overview of the setup.
+% \todo{Write this section properly.}
+
+\subsection{Soprano Chip}
+The experiments are run on the Soprano 6 qubit Chip on qubit ? (see figure \ref{fig:soprano}), a flux tuneable transmon connected to a resonator, drive line and flux line to tune the transmon. The resonator is connected to a feed line which is further connected to the five other resonators (some through a Purcell filter).
+
+\begin{figure}[h]
+    \begin{minipage}{0.50\textwidth}
+        \centering
+        \includegraphics[height = 5 cm]{Figs/hardware/layout.png}
+    \end{minipage}
+        \begin{minipage}{0.50\textwidth}
+        \centering
+        \includegraphics[height = 5 cm]{Figs/hardware/layout_photo.png}
+    \end{minipage}
+    \caption{The Soprano Chip layout and a picture.}
+    \label{fig:soprano}
+\end{figure}
+
+\subsection{Control Hardware}
+In order to control the qubit and resonator, an arbitrary waveform generator and processing device is used. In this experiment, this is done with an OPX \cite{noauthor_opx_nodate}. The OPX outputs two signals to drive the qubit and one to the readout line. It has an envelope resolution of 1 GS/s and can process waves with a frequency of 400 MHz. In addition, it is connected with two channels for incoming signal from the readout line which can be demodulated on the onboard FPGA chip. 
+
+Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and downconversion is needed. Here, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has multiple local oscillators for down converting signal one of which support up conversion as well. This one is used for readout, and one of the others are used for qubit control. All signal support IQ mixibng interal IQ mixers allowing us to split the signal. 
+
+The two devices can be controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave. 
+
+In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so it will mostly be forgotten. 
+
+\subsection{Cooling and Amplifiation}
+To keep the soprano chip cold, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$ while keeping the chip in vaccum to reduce thermal fluctuations and interactions with the environment. 
+
+\begin{itemize}
+    \item Down Conversion Line
+    \item Up Conversion Line -> TWPA -> higher temperature amplifiers 
+\end{itemize}
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{Figs//hardware/Setup.png}
+    \caption{A crude schematic of the setup. Qubit control and resonator lines are sent through the octave where they are up converted before going to T5. In the other direction, the signal is downconverted and mixed in the IQ mixer before reentering the OPX where it gets demodulated.}
+    \label{fig:enter-label}
+\end{figure}
+
 
 \section{Readout Fidelity}
 First, we need to define a goodness measure for the readout. As a start, we formulate the goal of the readout process as following:
 \begin{itemize}
     \item Given a quantum state $\rho$ a readout is a scheme that predicts a state $\sigma$, such that $\sigma$ is on average as close to $\rho$ as possible.
 \end{itemize}
-While this is a bit easier to work with, we still need to find a quantity for "closeness" between a density matrix and our prediction. Mathematically, we can achieve this by defining a formal distance, such as the trace-norm on the vector space of $2\times2$ matrices: $\mathcal{M}^2$ \cite{wilde}:
+While this is a bit easier to work with, we still need to find a quantity for "closeness" between a density matrix and our prediction. Mathematically, we can achieve this by defining a formal distance, such as the trace-norm on the vector space of $2\times2$ matrices: $\mathcal{M}^2$ \cite{wilde_classical_2016}:
 \begin{equation}
     ||\rho - \sigma|| = \Tr \left[\sqrt{\left(\rho - \sigma \right)^\dagger \left(\rho - \sigma \right)} \right]
 \end{equation}
@@ -14,7 +61,7 @@ which has the desired properties like being $||\rho_{\text{pred}} - \rho_{\text{
 \begin{equation}
     F(\sigma, \rho) = \left(\Tr\sqrt{\sqrt{\rho} \sigma \sqrt{\rho}}\right)^2
 \end{equation}
-Here $\sqrt{\rho}$ is the matrix, which satisfies $(\sqrt{\rho})^2 \rho$. The relation to the trace norm is by bounds of the Fidelity \footnote{both upper and lower bound by $1 - \sqrt{F(\rho, \sigma)} \leq \frac{1}{2} ||\rho - \sigma|| \leq \sqrt{1 - F(\rho, \sigma)}$ \cite{wilde}}.  In addition, it has other nice properties: it is symmetric in $\sigma \leftrightarrow \rho$ and it reduce significantly if one of the states are pure. In our schemes the readout will always predict pure state of either $\ket{1}\bra{1}$ or $\ket{0}\bra{0}$. In this case $\sigma = \ket{k}\bra{k}$ and the full equation can be written as:
+Here $\sqrt{\rho}$ is the matrix, which satisfies $(\sqrt{\rho})^2 \rho$. The relation to the trace norm is by bounds of the Fidelity \footnote{both upper and lower bound by $1 - \sqrt{F(\rho, \sigma)} \leq \frac{1}{2} ||\rho - \sigma|| \leq \sqrt{1 - F(\rho, \sigma)}$ \cite{wilde_classical_2016}}.  In addition, it has other nice properties: it is symmetric in $\sigma \leftrightarrow \rho$ and it reduce significantly if one of the states are pure. In our schemes the readout will always predict pure state of either $\ket{1}\bra{1}$ or $\ket{0}\bra{0}$. In this case $\sigma = \ket{k}\bra{k}$ and the full equation can be written as:
 \begin{align*}
     F(\sigma, \rho) = F(\rho, \sigma) &= \left(\Tr\sqrt{\sqrt{\sigma} \rho \sqrt{\sigma}}\right)^2 \\
     &= \Big(\Tr \left(\ket{k}\mel{k}{\rho}{k}\bra{k}\right)\Big)^2\\
@@ -43,6 +90,9 @@ where "ro" is short for readout and "init" for initialization. Or writing it in 
     F_{\text{SPAM}} = 1 - P(\text{ro} = "0"| \text{ init} = 1) - P(\text{ro} = "1"| \text{ init} = 0)  
 \end{equation}
 
+
+
+
 \section{Determining the Readout Fidelity}
 We will now what we are learned into a scheme for determining the readout fidelity of our superconducting qubit. The scheme is visualized in figure \ref{fig:circuit_qubit_readout_test} and goes as:
 \begin{marginfigure}
@@ -57,7 +107,7 @@ We will now what we are learned into a scheme for determining the readout fideli
     \item We now apply a square\footnote{We have a 10 $ns$ ramp-up and ramp-down period to avoid "kicking" the system". This is neglected in our analysis and later in simulations} resonator pulse at frequency $f_d = f_r$ (in between the two states shift) lasting $600 \text{ns}$. This starts movement in the IQ plane  analogous to what was described in section \ref{sec:resonator_decays}. The feed line output signal is monitored using a hetereodyne measurement-scheme which we described in section \ref{sec:heterodyne_measurement}. This leads to I and Q signal which is tracked digitized every $ns$ and stored for post processing.
     \item Steps 1-3 is repeated 1000 times for intialization $0$ and for initialization $1$.
 \end{enumerate}
-In the post processing (which is visualized in the top row of figure \ref{fig:readout_process}), we have the initialization label and the I and Q trajectories of the readout pulse. By demodulating them at the intermediate frequency and integrating the signal we arrive at one value set for $(I, Q)$. Plotting the distribution of our, we can find the projection line with the largest separation using Linear Discriminant Analysis. This is done by using the implementation in SKLearn \cite{sklearn}. This allows us to project all points onto the axis resulting in a 1D histogram. At every value on this axis, we can calculate the fidelity by:
+In the post processing (which is visualized in the top row of figure \ref{fig:readout_process}), we have the initialization label and the I and Q trajectories of the readout pulse. By demodulating them at the intermediate frequency and integrating the signal we arrive at one value set for $(I, Q)$. Plotting the distribution of our, we can find the projection line with the largest separation using Linear Discriminant Analysis. This is done by using the implementation in SKLearn \cite{Pedregosa_sklearn}. This allows us to project all points onto the axis resulting in a 1D histogram. At every value on this axis, we can calculate the fidelity by:
  By picking the threshhold which maximized the fidelity, we have a measure for the fidelity of this readout protocol. In our experiment this lead to the fidelity.
 \begin{equation}
     F_{\text{SPAM}} = 0.613\pm 0.018
@@ -83,7 +133,7 @@ It is worth noting that this is not the best optimized readout signal, we can ac
 Summing the points to get a better classification works well if the points are from a steady distribution, as they are in the steady state. In reality however, we might have different other attributes in the readout signal, that we want to weigh differently. A typical example, is that the qubit ramp-up interval will have less separation than in the steady state. Further, the qubit will also experiment energy decay from $\ket{1}\to \ket{0}$\footnote{Or absorb energy to go the other way} or we might even want to include signal during resonator depletion. A solution to this is by weighing the signal at different times. 
 
 \subsection{Weighting of the Input}
-Under the assumption that the measured signal from the resonator will be Gaussian in the IQ plane, the points at different times are uncorrelated and symmetric \cite{magesan}  it is possible to derive optimal linear weights. To do this, we first allow for a weighting parameters at each time step in each quadrature. The signal from equation \ref{fig:stochastic_signal_hetereodyne} takes the form of $\sum_{x = I, Q}\sum_t k_{x, t} \cdot x_t$. And defining the signal as the difference between the signal from $\ket{0}$ and $\ket{1}$ we have:
+Under the assumption that the measured signal from the resonator will be Gaussian in the IQ plane, the points at different times are uncorrelated and symmetric \cite{magesan_machine_2015}  it is possible to derive optimal linear weights. To do this, we first allow for a weighting parameters at each time step in each quadrature. The signal takes the form of $\sum_{x = I, Q}\sum_t k_{x, t} \cdot x_t$. And defining the signal as the difference between the signal from $\ket{0}$ and $\ket{1}$ we have:
 \begin{equation}
     \Delta S = \sum_X \sum_t k_{x, t} (\expval{X_0 - X_1} + \xi_t)
 \end{equation}
