@@ -411,7 +411,7 @@ If we were to do the same for the $dW$ expression, we would have:
     0 &= c + c^\dagger
       % &= \expval{c + c^\dagger} + \expval{L^\dagger L}
 \end{align}
-To preserve the trace, we would need to have $c + c^\dagger = 0$. We could see this as a condition on $c$, where $c$ is taken to be anti-hermitian \cite{adler_derivation_2000}, or we can do as \cite{jacobs_straightforward_2006} and accept the non-linearity in the renormalization step, and actively renormalize at each time step to preserve the trace by subtracting $\expval{c + c^\dagger}dW$ at each timestep. If we do this, we  canwrite the mapping from $\rho(t)$ into $\rho(t+dt)$:
+To preserve the trace, we would need to have $c + c^\dagger = 0$. We could see this as a condition on $c$, where $c$ is taken to be anti-hermitian \cite{adler_derivation_2000}, or we can do as \cite{jacobs_straightforward_2006} and accept the non-linearity in the renormalization step, and actively renormalize at each time step to preserve the trace by subtracting $\expval{c + c^\dagger}dW$. If we do this, we  can write the mapping from $\rho(t)$ into $\rho(t+dt)$:
 \begin{align}
     \rho(t+dt) &= M \rho(t) M^\dagger \\
                &= \left(-i \comm{H}{\rho(t)} + K\rho(t) + \rho(t)K + c\rho(t)c^\dagger \right) dt \\
@@ -525,13 +525,23 @@ To improve this method further, it is also possible multiple terms in the Ito-Ta
 
 
 \section{Measurement of a Qubit}
-With the stochastic master equation, we can look at how the qubit is actually measured. This is not an instantaneous process, but one where the resonator is driven for hundreds of nanosecond while its leakage back into the feed line in monitored. In the formulation of this chapter, this means that we measure with the operator $\sqrt{\kappa} a$. It is however not all of the photons that escape the resonator that we measure. In addition, the signal from the resonator will also be amplified multiple times which of course is not free. Ultimately, this leads to an inefficient measurement, where we measure $\sqrt{\kappa\eta} a$ while the back action term is simply given by $\sqrt{\kappa}a$.
-% We are now in a position to look at, how the qubit is actually measured. The first thing to remark is that the we are actually not measuring the qubit but the resonator as described in earlier section. While driving the resonator with a pulse, we measure the absorption/transmission from the feed line. In terms of the system it means that we measure the the operator $a$ of the system since photon leaking from the resonator will be visible to us. While the photons escape with a rate of $\kappa$ we only see a fraction of them. Further, we have to amplify the signal from a countable amount of photons to something that still has signal at room temperature. This amplification chain introduces a lot of noise to the signal and we lose information here as well. We will return to determine the efficiency $\eta$ again in section \ref{sec:efficiency_calibration}, but for now, we can consider measurement of the resonator to be of the form $\sqrt{\kappa}a$ up to some phase, where a fraction $\eta$ of the information is collected by us.
-In experiment the resonator is connected to a feed line which is driven by a pulse. Photons around the resonance frequency enter the resonator and escape to the feed line where interacting destructively with the rest of the signal. In the end, we see a signal (or a lack of signal), which takes the form of a microwave pulse \cite{krantz_quantum_2019}:
+With the stochastic master equation, we can look at how the qubit is actually measured. This is not an instantaneous process, but one where the resonator is driven for hundreds of nanosecond while its leakage back into the feed line is monitored. In the formulation of this chapter, this means that we measure with the operator $\sqrt{\kappa} a$. 
+However,  the measurement is not perfect, and we both have a decay of photon which do not reenter the feed line but instead leak out in the environment. In addition, the signal from the feed line has to be amplified multiple times for us to detect it at room temperature. These amplification also blur our signal. Together, this leads to an inefficient measurement, where we measure $\sqrt{\kappa\eta} a$ while the back action term is given by $\sqrt{\kappa}a$.
+
+In the experiment, we can choose to measure one or both of the quadratues. These methods are called homodyne where only one is measured, or if we measure both,  we have a hetereodyne measurement. This is done by sending the signal into an IQ mixer, and we can split the signal in an I and a Q component, measuring both a half strength. 
+
+The corresponding operators to this process, can be thought of by splitting the Heterodyne measurement in two Homodyne processes with half the signal each. Such that we have
 \begin{equation}
-    s(t) = A \cos(\omega_{ro}t + \theta_{RO}) 
+    c_0 = \sqrt{\frac{\kappa}{2}}\; a, \quad c_{\frac{\pi}{2}} = i \sqrt{\frac{\kappa}{2}} \; a
 \end{equation}
-by demodulating this signal, we now find the measurement record described previous in this chapter. Often two different methods are considered, the homodyne measurement where only one quadrature is monitored and the hereodyne measurement, which is used in our experiment and will be described next.
+Which we can model as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
+\begin{equation}
+    dr_{\text{heterodyne}}(t) = \left(\expval{I} + i\expval{Q}\right)dt  + \frac{1}{\sqrt{2\eta\kappa}}(dW_I + i dW_Q)
+\end{equation}
+Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$ such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two \cite{campagne-ibarcq_measurement_nodate}. 
+% We are now in a position to look at, how the qubit is actually measured. The first thing to remark is that the we are actually not measuring the qubit but the resonator as described in earlier section. While driving the resonator with a pulse, we measure the absorption/transmission from the feed line. In terms of the system it means that we measure the the operator $a$ of the system since photon leaking from the resonator will be visible to us. While the photons escape with a rate of $\kappa$ we only see a fraction of them. Further, we have to amplify the signal from a countable amount of photons to something that still has signal at room temperature. This amplification chain introduces a lot of noise to the signal and we lose information here as well. We will return to determine the efficiency $\eta$ again in section \ref{sec:efficiency_calibration}, but for now, we can consider measurement of the resonator to be of the form $\sqrt{\kappa}a$ up to some phase, where a fraction $\eta$ of the information is collected by us.
+
+
 
 % We will look at two methods of extracting the signal: a homodyne and a heterodyne measurement scheme.  Where the name comes from the amount of quadratures we readout. And differs in how the signal in mixed in an IQ-mixer.
 
@@ -550,33 +560,33 @@ by demodulating this signal, we now find the measurement record described previo
 %     \label{fig:homodyne_detection}
 % \end{figure}
 
-\subsection{Heterodyne Measurement}\label{sec:heterodyne_measurement}
-% \begin{figure}[t]
-%     \centering
-%     \includegraphics{Figs/Theory/stochastic_signal.png}
-%     \caption{The trajectories given by driving a resonator in between the two peaks for $\ket{0}$ and $\ket{1}$ respectively.}
-%     \label{fig:stochastic_signal_hetereodyne}
-% \end{figure}
-In heterodyne measurements, the signal is mixed in an IQ-mixer with a local oscillator. By delaying one part of local oscillator pulse with a phase of $\pi / 2$, it is possible to measure two quadrature components with half strength. The signals become:
-\begin{align}
-    V_0               &= A_{RO}A_{LO} \cos(\omega_{IF}t + \theta_{RO}) \\
-    V_{\frac{\pi}{2}} &= A_{RO}A_{LO} \sin(\omega_{IF}t + \theta_{RO})
-\end{align}
-If we combine the two signals into a complex number, we can demodulate it by multiplying with $e^{-i\omega_{IF}t}$:
-\begin{equation}
-    V(t) = e^{-i\omega_{IF} t} (V_0 + i V_{\frac{\pi}{2}}) = A_{RO} e^{i\theta_{RO}}
-\end{equation}
-Thus we at each timestep get a signal in the complex plane. 
+% \subsection{Heterodyne Measurement}\label{sec:heterodyne_measurement}
+% % \begin{figure}[t]
+% %     \centering
+% %     \includegraphics{Figs/Theory/stochastic_signal.png}
+% %     \caption{The trajectories given by driving a resonator in between the two peaks for $\ket{0}$ and $\ket{1}$ respectively.}
+% %     \label{fig:stochastic_signal_hetereodyne}
+% % \end{figure}
+% In heterodyne measurements, the signal is mixed in an IQ-mixer with a local oscillator. By delaying one part of local oscillator pulse with a phase of $\pi / 2$, it is possible to measure two quadrature components with half strength. The signals become:
+% \begin{align}
+%     V_0               &= A_{RO}A_{LO} \cos(\omega_{IF}t + \theta_{RO}) \\
+%     V_{\frac{\pi}{2}} &= A_{RO}A_{LO} \sin(\omega_{IF}t + \theta_{RO})
+% \end{align}
+% If we combine the two signals into a complex number, we can demodulate it by multiplying with $e^{-i\omega_{IF}t}$:
+% \begin{equation}
+%     V(t) = e^{-i\omega_{IF} t} (V_0 + i V_{\frac{\pi}{2}}) = A_{RO} e^{i\theta_{RO}}
+% \end{equation}
+% Thus we at each timestep get a signal in the complex plane. 
 
-The corresponding operators to this process, can be thought of by splitting the Heterodyne measurement in two Homodyne processes with half the signal each. Such that we have
-\begin{equation}
-    c_0 = \sqrt{\frac{\kappa}{2}}\; a, \quad c_{\frac{\pi}{2}} = i \sqrt{\frac{\kappa}{2}} \; a
-\end{equation}
-Which we can model as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
-\begin{equation}
-    dr_{\text{heterodyne}}(t) = \left(\expval{I} + i\expval{Q}\right)dt  + \frac{1}{\sqrt{2\eta\kappa}}(dW_I + i dW_Q)
-\end{equation}
-Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$ such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two. 
+% The corresponding operators to this process, can be thought of by splitting the Heterodyne measurement in two Homodyne processes with half the signal each. Such that we have
+% \begin{equation}
+%     c_0 = \sqrt{\frac{\kappa}{2}}\; a, \quad c_{\frac{\pi}{2}} = i \sqrt{\frac{\kappa}{2}} \; a
+% \end{equation}
+% Which we can model as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
+% \begin{equation}
+%     dr_{\text{heterodyne}}(t) = \left(\expval{I} + i\expval{Q}\right)dt  + \frac{1}{\sqrt{2\eta\kappa}}(dW_I + i dW_Q)
+% \end{equation}
+% Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$ such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two. 
 %\footnote{since $\mathcal{D}[ia] \rho = ia\rho (-ia^\dagger) - \frac12 \left(-ia^\dagger ia \rho + \rho (-ia^\dagger ia\right) = \mathcal{D}[a]$ when canceling the $i \cdot (-i) = 1$ factors}
 
 
