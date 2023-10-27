@@ -4,19 +4,19 @@
 \title{Superconducting \\ \\Qubit Readout}
 \author{Johann Bock Severin}
 \subtitle{In theory, experiment and \\simulation}
-\publisher{Supervised by: Jacob Hastrup \& Morten Kjaergaard\\Handed in \today}
+\publisher{Supervised by: Jacob Hastrup \& Morten Kjaergaard\\ \\Handed in \today}
 \date{\today}
 
 \begin{document}
 % \subfile{TODO.tex}
 % Make title page
-\BgThispage
+% \BgThispage
 \maketitlepage
 
 % To do notes
 \listoftodos
 \chapter*{\centering Abstract}
-For superconducting qubits to be a viable platform for large scale quantum information processing, high-fidelity readout is required. Since state initialization errors and measurement (SPAM) errors are inseparable in quantum algorithms, this thesis deals with the physics behind the readout sequence. Doing a list of calibrations, the experimental setup is mapped to a simulation model which uses the stochastic master equation to simulate the dispersive approximation of a qubit-resonator system. The model is capable of producing realistic plots of IQ measurements which have similar distributions and SPAM fidelity as measured in the laboratory. The model is used to estimate the contribution to the SPAM errors from three factors: non-zero temperature, energy decay during measurement and inefficient measurement. Finally, a use case is presented, where marginal improvements are mapped to expected SPAM fidelities. This is used to spark a discussion of how one can improve the readout of superconducting qubits.
+For superconducting qubits to be a viable platform for large scale quantum information processing, high-fidelity readout is required. State Preparation and Measurements (SPAM) errors are however inseparable in quantum algorithms. This thesis will look into the underlying physics describing the system and time evolution in an initialization and readout sequence to closer study, how different physical parameters contribute to the SPAM errors. By calibrating a single superconducting qubit, a simulation model is built using the stochastic master equation to simulate the dispersive approximation of a qubit-resonator system. The model is capable of producing realistic plots of IQ measurements which have similar distributions and SPAM fidelity as measured in the laboratory. The model is used to estimate the contribution to the infidelity from three factors: non-zero temperature, energy decay during measurement and inefficient measurement concluding that non-zero temperature is the biggest contributor in the system. The model is further used to simulate the system with marginal improvements which serves as a basis for discussing improvements of superconducting qubit readout.
 
 
 % To implement large scale quantum information protocols on superconducting qubits, high-fidelity readout is required. 
