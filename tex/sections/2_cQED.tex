@@ -1,4 +1,6 @@
+\begin{fullwidth}
 \chapter{Circuit Quantum Electrodynamics}\label{chap:cQED}
+\end{fullwidth}
 While many platforms can be used as quantum processors, our focus will be on circuits consisting of superconducting materials. In this chapter, we will go through how these qubits are designed to create qubits and how we can model these numerically. \\
 
 \section{Circuit QED}
@@ -199,43 +201,56 @@ With a discrete matrix representation of the charge matrix and flux operators, w
 % \end{itemize}
 
 
-\section{Experimental Setup}
-While most of the work in this thesis will be theoretical and computational, we will try to understand, calibrate and model a physical system. This section will serve as a short introduction.
-\todo{Write this section properly.}
+% \section{Experimental Setup}
+% While most of the work in this thesis will be theoretical and computational, we will try to understand, calibrate and model a physical system. This section will serve as a short overview of the setup.
+% % \todo{Write this section properly.}
 
-\subsection{Soprano Chip}
-The experiments are run on the Soprano 6 qubit Chip on qubit ? (see figure \ref{fig:soprano}), a flux tuneable transmon connected to a resonator, drive line and flux line to tune the transmon. The resonator is connected to a feed line which is further connected to the five other resonators (some through a Purcell filter).
+% \subsection{Soprano Chip}
+% The experiments are run on the Soprano 6 qubit Chip on qubit ? (see figure \ref{fig:soprano}), a flux tuneable transmon connected to a resonator, drive line and flux line to tune the transmon. The resonator is connected to a feed line which is further connected to the five other resonators (some through a Purcell filter).
 
-\begin{figure}[h]
-    \begin{minipage}{0.50\textwidth}
-        \centering
-        \includegraphics[height = 5 cm]{Figs/hardware/layout.png}
-    \end{minipage}
-        \begin{minipage}{0.50\textwidth}
-        \centering
-        \includegraphics[height = 5 cm]{Figs/hardware/layout_photo.png}
-    \end{minipage}
-    \caption{The Soprano Chip layout and a picture.}
-    \label{fig:soprano}
-\end{figure}
+% \begin{figure}[h]
+%     \begin{minipage}{0.50\textwidth}
+%         \centering
+%         \includegraphics[height = 5 cm]{Figs/hardware/layout.png}
+%     \end{minipage}
+%         \begin{minipage}{0.50\textwidth}
+%         \centering
+%         \includegraphics[height = 5 cm]{Figs/hardware/layout_photo.png}
+%     \end{minipage}
+%     \caption{The Soprano Chip layout and a picture.}
+%     \label{fig:soprano}
+% \end{figure}
 
-\subsection{Control Hardware}
+% \subsection{Control Hardware}
+% In order to control the qubit and resonator, an arbitrary waveform generator and processing device is used. In this experiment, this is done with an OPX \cite{noauthor_opx_nodate}. The OPX outputs two signals to drive the qubit and one \todo{or two} to the readout line. It has an envelope resolution of 1 GS/s and can process waves with a frequency of 400 MHz. In addition, it is connected with two channels for incoming signal from the readout line which can be demodulated on the onboard FPGA chip. 
+
+% Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and downconversion is needed. Here, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has multiple local oscillators for down converting signal one of which support up conversion as well. This one is used for readout, and one of the others are used for qubit control. All signal support IQ mixibng interal IQ mixers allowing us to split the signal. 
+
+% The two devices can be controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave. 
+
+% In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so it will mostly be forgotten. 
+
+% \subsection{Cooling and Amplifiation}
+% To keep the soprano chip cold, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$ while keeping the chip in vaccum to reduce thermal fluctuations and interactions with the environment. 
+
+% \begin{itemize}
+%     \item Down Conversion Line
+%     \item Up Conversion Line -> TWPA -> higher temperature amplifiers 
+% \end{itemize}
 
 
 
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=1\linewidth]{Figs//hardware/Setup.png}
+%     \caption{A crude schematic of the setup. Qubit control and resonator lines are sent through the octave where they are up converted before going to T5. In the other direction, the signal is downconverted and mixed in the IQ mixer before reentering the OPX where it gets demodulated.}
+%     \label{fig:enter-label}
+% \end{figure}
 
-To keep the soprano chip cold, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$ while keeping the chip in vaccum to reduce thermal fluctuations and interactions with the environment. 
 
-\begin{itemize}
-    \item Down Conversion Line
-    \item Up Conversion Line -> TWPA -> higher temperature amplifiers 
-\end{itemize}
+% At room temperature the microwave pulses are generated by an Arbitary Waveform Generator in the form of an OPX. The signal from the OPX enters an Octave where it is mixed by an internal local oscillator to convert the microwaves from $\approx 500 \text{ MHz}$ to the suitable $5$ to $10 \text{ GHz}$ before interacting with the qubit or resonator. 
 
-
-\subsection{Control Hardware}
-At room temperature the microwave pulses are generated by an Arbitary Waveform Generator in the form of an OPX. The signal from the OPX enters an Octave where it is mixed by an internal local oscillator to convert the microwaves from $\approx 500 \text{ MHz}$ to the suitable $5$ to $10 \text{ GHz}$ before interacting with the qubit or resonator. 
-
-In the down-conversion line, the readout signal from the cryostate enters the octave, where it enters and IQ mixer splitting the signal in two. After mixing with the local oscillator again it is send back to OPX where it enters a digital to analogue converter before being demodulated and integrated.
+% In the down-conversion line, the readout signal from the cryostate enters the octave, where it enters and IQ mixer splitting the signal in two. After mixing with the local oscillator again it is send back to OPX where it enters a digital to analogue converter before being demodulated and integrated.
 
 
 

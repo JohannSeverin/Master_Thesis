@@ -147,7 +147,7 @@ Meaning that the variance of the random process will not itself be random but be
 \begin{equation}
     dW^2 = dt
 \end{equation}
-The last thing to remark is that we now also neglect terms of $dWdt$\todo{Rune says we need to argue for neglecting dW?}. One way to think about this, is that a normal distributed variable will be of the order given by the standard deviation. In a maybe exploitative notation, this can be written as $\sqrt{dt}$ meaning that $dWdt$ is of order $dt^\frac32$ and in the limit be much smaller than terms of order $dW, dt$ and $dW^2$ \cite{Gheorghiu}.
+The last thing to remark is that we now also neglect terms of $dWdt$\todo{Rune says we need to argue for neglecting dW?}. One way to think about this, is that a normal distributed variable will be of the order given by the standard deviation. In a maybe exploitative notation, this can be written as $\sqrt{dt}$ meaning that $dWdt$ is of order $dt^\frac32$ and in the limit be much smaller than terms of order $dW, dt$ and $dW^2$ \cite{gheorghiu_ito_nodate}.
 
 
 % The introduction of a stochastic variable forces us to cover some of the fundamental results from stochastic calculus. Most importantly, we use Ito's rules, which governs how to think about the dynamics in an infinitesimal time interval: $dt$ and $dW$.
@@ -458,7 +458,7 @@ In the simplest scheme, one can do a type of Euler integration, by picking a sma
     X(t + \Delta t) = f(X(t))\Delta t + g(X(t)) \Delta W
 \end{equation}
 
-In the limit of $\Delta t \to dt$, we had $dW^2 = dt$, but with a finite step, this will not be entirely true, and we need a small correction. This is called the Milstein method \cite{giles} and we update according to:
+In the limit of $\Delta t \to dt$, we had $dW^2 = dt$, but with a finite step, this will not be entirely true, and we need a small correction. This is called the Milstein method \cite{giles_numerical_nodate} and we update according to:
 \begin{fullwidth}
 \raggedleft
 \begin{equation}

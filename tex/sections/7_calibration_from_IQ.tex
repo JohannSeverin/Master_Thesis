@@ -9,7 +9,7 @@ To simulate qubit-resonator trajectories of a readout, we will have to create a 
 We will start with a calibration of the Transmon. While we could solve the system by finding the values of $E_C$ and $E_J$, we will instead model the Transmon as a three level system and simulate the charge matrix as $\mel{k}{n}{k} = a + a^\dagger$\footnote{This gives us the right correlation between $\ket{0}\leftrightarrow \ket{1}$ and a close to correct connection from $\ket{1}\leftrightarrow\ket{2}$}. Thus we need the frequency $f_{01}$ and the anharmonicity $\alpha$ to determine the second level. Furthermore, to control the qubit experimentally, we will also have to calibrate a Rabi pulse, this will however only be used for the following calibrations and not in simulation. In addition to these parameters, we will determine the dissipative elements through $T_1$ and $T_2$.
 
 \subsection{Spectroscopy}\label{sec:qubit_spectroscopy}
-To control the qubit and to simulate its Hamiltonian, perhaps the most important quantity is the frequency/energy. The frequency is found by doing spectroscopy, where a pulse is sent to the qubit at different frequencies. The qubit is then measured to see if it has changed states. The qubit frequency $f_{01}$ will now be the center of a Lorentzian distribution \cite{Find citation}. Thus we can determine $f_{01}$ by fitting such a curve. This is done in the left panel in figure \ref{fig:qubit_spectroscopy}.
+To control the qubit and to simulate its Hamiltonian, perhaps the most important quantity is the frequency/energy. The frequency is found by doing spectroscopy, where a pulse is sent to the qubit at different frequencies. The qubit is then measured to see if it has changed states. The qubit frequency $f_{01}$ will now be the center of a Lorentzian distribution \cite{asdfasdfasdf}\todo{Find Citation}. Thus we can determine $f_{01}$ by fitting such a curve. This is done in the left panel in figure \ref{fig:qubit_spectroscopy}.
 
 Since the design of the transmon gives a negative anharmonicty, we can extend the qubit spectroscopy, to also look for a transition from $\ket{0}\to \ket{2}$. This can be done either with $f_{02}$ or to stay in the frequency regime, we can instead look for a transition from absorption of two photons. Here the two photon will have frequency $f_{02} / 2$. Or formulating it in terms of the anharmonicity at $f_{01} + \alpha / 2$. A fit with two Lorenzians can be found in the right panel in figure \ref{fig:qubit_spectroscopy}. 
 % \begin{margintable}
@@ -65,7 +65,7 @@ The amplitude is determined by an experiment, where we initialize the qubit in s
 
 One could further improve the transition from $\ket{0}\to\ket{2}$ by applying envelopes derived from the DRAG scheme \cite{motzoi_simple_2009}. While these experiments are necessary to create an X-pulse and initilize our qubit in the $\ket{1}$ state, this calibration is not necessary for making the initialization in simulation, since we can just apply the x-gate directly. 
 
-It is possible to determine the average fidelity of gates by a randomized benchmarking scheme \cite{Knil}. Without going into much depth, this was done to find an average gate fidelity of $F_{\text{gate}} = 0.9913 \pm 0.0003$. The infidelity contribution here will however be much lower than the other contributions from example temperature, so we will assume that we do a perfect X-gate in experiment. 
+It is possible to determine the average fidelity of gates by a randomized benchmarking scheme \cite{knill_randomized_2008}. Without going into much depth, this was done to find an average gate fidelity of $F_{\text{gate}} = 0.9913 \pm 0.0003$. The infidelity contribution here will however be much lower than the other contributions from example temperature, so we will assume that we do a perfect X-gate in experiment. 
 
 
 \subsection{Decay Calibration}\label{sec:calibration_t1}
@@ -429,7 +429,7 @@ Dephasing Time                & $T_\phi$ &  1.38*         &  0.08*    & µs   \\
 
 \textbf{Resonator}                &        & value      & error    & unit \\ \hline
 Frequency                     & $f_{r}$    &  7.555130  & 0.000004*& Ghz  \\
-Dispersive Shift              & $\chi$     &  763.5     &  4       & KHz \\
+Dispersive Shift              & $\chi$     &  763.5     & 4*       & KHz \\
 Decay rate                    & $\kappa$   &  3.8       & 0.6      & Mhz  \\
 Mean Photon Number            & $\Bar{n}$  &  21        & 1        &  -  \\
  
