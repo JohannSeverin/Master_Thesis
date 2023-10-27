@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.style.use("../../code/matplotlib_style/inline_figure.mplstyle")
-plt.rcParams["figure.figsize"] = (12, 6)
+plt.style.use("../../code/matplotlib_style/margin_figure.mplstyle")
+plt.rcParams["figure.figsize"] = (6, 7)
 
 n_cutoff = 30
 
@@ -11,7 +11,10 @@ from devices.device import Transmon
 ngs_to_try = np.linspace(-3, 3, 61)
 EJs_to_try = (1, 50)
 
-fig, ax = plt.subplots(ncols=2)
+fig, ax = plt.subplots(
+    nrows=2,
+    sharex=True,
+)
 
 
 for i, EJ in enumerate(EJs_to_try):
@@ -28,7 +31,7 @@ for i, EJ in enumerate(EJs_to_try):
 
 ax[0].set(
     title="$E_J = E_C$",
-    xlabel="$n_g$",
+    # xlabel="$n_g$",
     ylabel="Energy ($E_C$)",
 )
 
@@ -39,8 +42,9 @@ ax[1].set(
     ylabel="Energy ($E_C$)",
 )
 
-ax[1].legend(fontsize=14)
+ax[0].legend(fontsize=16)
 
+fig.align_ylabels(ax)
 
 # fig.suptitle("Energy Spacing of Transmon Levels", y=0.95, va="top")
 fig.tight_layout()

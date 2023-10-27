@@ -65,7 +65,7 @@ circ = Circle(
 )
 ax[0].add_patch(circ)
 
-for kap in [0, kappa]:
+for kap in [kappa]:
     times = np.linspace(start, end, 100)
     results_ground = solve_ivp(
         func, (start, end), y0=[0 + 0j], args=(0, omega_r, kap), t_eval=times
@@ -111,7 +111,7 @@ ax[0].set(
     ylim=(-5, 5),
 )
 
-for kap in [0, kappa]:
+for kap in [kappa]:
     results_ground = solve_ivp(
         func, (start, end), y0=[0 + 0j], args=(0, omega_r - chi, kap), t_eval=times
     )
@@ -132,6 +132,7 @@ for kap in [0, kappa]:
         radius=0.5,
         color="C0",
         alpha=alpha,
+        label="Ground",
     )
     ax[1].add_patch(circ)
 
@@ -140,6 +141,7 @@ for kap in [0, kappa]:
         radius=0.5,
         color="C1",
         alpha=alpha,
+        label="Excited",
     )
     ax[1].add_patch(circ)
 
@@ -153,6 +155,7 @@ circ = Circle(
     facecolor="None",
     linewidth=2,
     linestyle="--",
+    label="Steady State Ground",
 )
 ax[1].add_patch(circ)
 
@@ -163,10 +166,13 @@ circ = Circle(
     facecolor="None",
     linewidth=2,
     linestyle="--",
+    label="Steady State Excited",
 )
 ax[1].add_patch(circ)
 
 ax[1].set_aspect("equal")
+
+ax[1].legend(fontsize=16)
 
 ax[1].set(
     title="Drive at $f_r - \chi$",
