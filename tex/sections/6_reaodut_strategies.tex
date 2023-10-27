@@ -6,7 +6,7 @@ While most of the work in this thesis will be theoretical and computational, we 
 % \todo{Write this section properly.}
 
 \subsection{Soprano Chip}
-The experiments are run on the Soprano 6 qubit Chip on qubit ? (see figure \ref{fig:soprano}), a flux tuneable transmon connected to a resonator, drive line and flux line to tune the transmon. The resonator is connected to a feed line which is further connected to the five other resonators (some through a Purcell filter).
+The experiments are run on the Soprano 6 qubit Chip on qubit 2 (see figure \ref{fig:soprano}), a flux tuneable transmon connected to a resonator, drive line and flux line to tune the transmon. The resonator is connected to a feed line which is further connected to the five other resonators (some through a Purcell filter).
 
 \begin{figure}[h]
     \begin{minipage}{0.50\textwidth}
@@ -30,22 +30,40 @@ The two devices can be controlled by using accessing an API using Python. For th
 
 In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so it will mostly be forgotten. 
 
-\subsection{Cooling and Amplifiation}
-To keep the soprano chip cold, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$ while keeping the chip in vaccum to reduce thermal fluctuations and interactions with the environment. 
 
-\begin{itemize}
-    \item Down Conversion Line
-    \item Up Conversion Line -> TWPA -> higher temperature amplifiers 
-\end{itemize}
-
-
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1\linewidth]{Figs//hardware/Setup.png}
+\begin{figure*}[t]
     \caption{A crude schematic of the setup. Qubit control and resonator lines are sent through the octave where they are up converted before going to T5. In the other direction, the signal is downconverted and mixed in the IQ mixer before reentering the OPX where it gets demodulated.}
-    \label{fig:enter-label}
-\end{figure}
+    \begin{minipage}{0.50\linewidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{Figs//hardware/Setup.png}
+        % \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Spectroscopy.pdf} % first figure itself
+    \end{minipage}
+    \begin{minipage}{0.50\linewidth}
+        \centering
+        \includegraphics[width=1.0\linewidth]{Figs//hardware/Fridge Schematic.png}
+        % \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Anharmonicity.pdf} % second figure itself
+    \end{minipage}
+    \label{fig:Fridge_control_hardware_setup}
+\end{figure*}
+
+
+\subsection{Cooling and Amplifiation}
+To keep the soprano chip cold, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$. In figure \ref{fig:Fridge_control_hardware_setup}, we have illustrated the qubit and resonator drive line from room temperature to the chip, and the returning signal from the resonator and up to room temperature again \footnote{There are many others which share similar ideas. These consists of other qubit conotrl lines, flux lines and a line for a local oscillator to drive the TWPA}.
+
+The down conversion lines receive signal from the Octave and decreases the amplitude of the signal at multiple stages. At low temperatures high frequency signals are filtered out before the signal is applied to the qubit or to the resonator through the drive line.
+
+Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{twpa}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
+
+
+% \footnote{Examples are the Flux line for the qubit and a local oscillator which is driving the TWPA.}. First a line for 
+
+% \begin{itemize}
+%     \item Down Conversion Line
+%     \item Up Conversion Line -> TWPA -> higher temperature amplifiers 
+% \end{itemize}
+
+
+
 
 
 \section{Readout Fidelity}
@@ -159,8 +177,8 @@ In the lower row in figure \ref{fig:readout_process} the experiment is repeated 
 This is very close to readout fidelity of the simple weights. While it appears that these weights are only a marginal improvement, we should still notice that the two IQ distributions become narrower. In quantifying this, we can calculate the Signal to Noise ratio for the two example. We see that $\SNR = 2.54$ goes to $\SNR = 2.19$ when we apply the weights. This corresponds to reduce the overlap from the distributions from $1.43\%$ to $0.55\%$. With 2000 samples (1000 $\ket{0}$ and 1000 $\ket{1}$), we would win around 10-20 additional correct classifications\footnote{In the actual experiment, we find 7, but this is subject to some randomness and still a lot smaller than the uncertainties.}, but if the distributions were to be closer, the increase in SNR by $0.25$ would have had an even bigger impact on the fidelity.
 
 
-\subsection{Non-Linear Classification Schemes ** }
-The classification scheme above is very common, since it can be combined with the demodulation (both linear operation) and is able to be run in most FPGA processers like the one installed in the OPX control in our laboratory. This allows for fast executions and easy to calibration. However, the assumptions for assumption are not entirely realistic. 
+\subsection{Non-Linear Classification Schemes}
+The classification scheme above is very common, since it can be combined with the demodulation (both linear operation) and is able to be run in most FPGA processors like the one installed in the OPX control in our laboratory. This allows for fast executions and easy to calibration. However, the assumptions for assumption are not entirely realistic. 
 
 One example is in a relaxation during the readout. If the qubit state halfway through changes from $\ket{1}\to \ket{0}$ our measurement record will then start to follow the trajectory of the ground state. In this case, we should weigh the points differently depending on the information provided by the rest of the trajectories. We can do such a generalization either by allowing for a covariant weights\cite{gambetta_protocols_2007} or by applying machine learning methods like neural networks \cite{lienhard_deep-neural-network_2022}.
 
@@ -178,9 +196,9 @@ Wrong initialization gives a mixed state, which will lead to a part of the distr
 which should not be taken as a direct measure, but more one that we can return to in a discussion after some more work.\todo{Return to this statistic at some point to conclude.}
 
 
-\begin{figure}[t]
+\begin{figure}[b]
     \centering
-    \includegraphics[]{Readout/Figs/fidelity_vs_included_fraction.pdf}
+    \includegraphics[width = 0.75 \textwidth]{Readout/Figs/fidelity_vs_included_fraction.pdf}
     \caption{The Fidelity of an initialize and measure experiment depending on the fraction of most certain points, we include. The curve is fitted with a second order polynomial to estimate the limit for the fraction going to $0$.}
     \label{fig:postselection_plot}
 \end{figure}

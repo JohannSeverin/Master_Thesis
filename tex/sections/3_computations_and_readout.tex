@@ -1,10 +1,10 @@
 \chapter{Computations and Readout}\label{chap:computations_and_readout}
-To control and do read out of a superconducting qubit, it is coupled to both several feed lines and a resonator. In this section, we will cover the theory of how a qubit is controlled and how the coupling allows us to do dispersive readout of the qubit.
+To control and do read out of a superconducting qubit, it is coupled to a control line and a resonator. In this section, we will see how  this allows us to control the qubit and measure it by using the resonator as a probe.
 
 \section{Qubit Control}\label{sec:qubit_control}
-The state of the qubit is modelled as a two level system and can be visualized as a vector on the Bloch sphere. In this view, any qubit operation can be thought of a rotation around the sphere. While we need two angles to represent a state, we need three to describe an arbitary rotation.\footnote{Since a rotation consist of an axis (a vector represented by two angles $\theta, \phi$) and an angle, $\psi$, determining how much we rotate around that axis, we need in total the three values $\theta, \phi$ and $\psi$ to describe the arbitary rotation.}
+The state of the qubit is modelled as a two level system and can be visualized as a vector on the Bloch sphere. In this view, any qubit operation can be thought of a rotation around the sphere. While we need two angles to represent a state, we need three to describe an arbitrary rotation.\footnote{Since a rotation consist of an axis and the angle of rotation. The vector is represented by two angles $\theta, \phi$ and the angle, $\psi$, determines how much we rotate around that axis}
 
-To describe all the rotation, we thus need the identity and three generators of rotations. This is called a \textit{Universal Gate Set} for one qubit, from which every other rotation/unitary transformation can be build. A common representation is to choose the Pauli gate set consisting of $\{\identity, \sigma_x, \sigma_y, \sigma_z\}$:
+All possible rotations can be created by three linearly independent generators and the identity. Together they are called a \textit{Universal Gate Set} in this case for one qubit. Every other rotation can then be made by combining these. A common set of generators spanning a Universal Gate Set is the Pauli matrices $\{\identity, \sigma_x, \sigma_y, \sigma_z\}$:
 \begin{fullwidth}
 \begin{equation}
     \identity = \begin{pmatrix}
@@ -25,45 +25,51 @@ To describe all the rotation, we thus need the identity and three generators of 
     \end{pmatrix}, \quad
 \end{equation}
 \end{fullwidth}
-these gates are also considered the generators of the gates, since the rotations are made by taking the exponential of the gates. An example is a $\pi/2$ rotation around the $x$-axis is made by:
+\vspace{0.15 cm}
+these gates are also considered the generators, since rotations are made by taking the exponential. An example is a $\pi/2$ rotation around the $x$-axis is made by:
 \begin{equation}
     R_X^{\pi/2} = e^{i \frac{\pi}{2} \hat{X}} = \frac{1}{\sqrt{2}}\begin{pmatrix}
         1  & -i \\
         -i & 1
     \end{pmatrix} 
 \end{equation}
-which sends the $\ket{0}$ to $\frac{1}{\sqrt{2}}(\ket{0} - i\ket{1})$, a state along the y-axis. 
-When comparing this to the time evolution described in section \ref{sec: Time Evolution}, the gates correspond to the Hamiltonian and by applying the gate a certain amount of time, we can adjust the angle of the rotation. To completely control a qubit, the goal is now clearer: we need the ability to apply a full gate set to a qubit, which can be done by adding terms to the Hamiltonian. 
+which transforms the $\ket{0}$ to $\frac{1}{\sqrt{2}}(\ket{0} - i\ket{1})$, a state along the y-axis. When Comparing this to the time evolution described in section \ref{sec: Time Evolution}, the gates correspond to the Hamiltonian and by applying the gate a certain amount of time and strength, the angle of the rotation can be adjusted. %To completely control a qubit, the goal is now clearer: we need the ability to apply a full gate set to a qubit, which can be done by adding terms to the Hamiltonian. 
 
-If we were to further extend the scope to multi qubit gates, we would also need one fully-entangling two qubit gate to have complete the Universal Gate Set. Most commonly, this would be the Control-Not or a Control-phase gate, but we will only consider one qubit in this thesis \cite{krantz_quantum_2019}.
+If we were to further extend the scope to multi qubit gates, we would also need one fully-entangling two qubit gate to have complete the Universal Gate Set for two qubits. This could be the  Control-Not or a Control-phase gate, but in this thesis, we will only deal with one qubit \cite{krantz_quantum_2019}.
 
 
-\subsection{Capacitative Coupling}
-By running a voltage line to the qubit and coupling it capacitatively, we couple to the charge in the qubit. This adds a term proportional $\hat{n}V(t)$ to the Hamiltonian, where the factors are given by the capacitance of the device and the capacitor coupling them. If we were to consider the charge matrix in the energy basis of the LC-basis (harmonic oscillator), it can be decomposed into $n \propto -i(a - a^\dagger)$ coupling the different energy levels. While the transmon Hamiltonian differs a bit from the LC-circuit its diagonal terms of $\mel{k}{n}{k} = 0$ and only the off diagonal elements remain. Applying the same logic\footnote{Which is a bit of stretch because of the anharmonicity, but it works out when we truncate to only two energy levels. For higher level terms, we calculate the $n$ operator in the energy basis and use that operator instead of this approximation.}, we can get $n \propto i(\sigma_+ - \sigma_-)$ for the qubit as well. Here $\sigma_+ = \ket{1}\bra{0}$ and $\sigma_- = \ket{0}\bra{1}$ \cite{krantz_quantum_2019}. The applied voltage gives a contributions to the Hamiltonian of the form:
+\subsection{Capacitive Coupling}
+By running a voltage line to the qubit and coupling it capacitively, we add a term proportional to the charge in the qubit. We have $g_V n V(t)$ to the Hamiltonian, where $g_V$ is the coupling strength and is determined by capacitance of the device and the capacitor coupling them.
+
+In the energy eigenbasis of the LC-circuit, the charge can be written in terms of the ladder operators $n \propto -i(a - a^\dagger)$ which couples the different energy levels. While this is not exactly the case for the Transmon, it is a good approximation\footnote{And a perfect one, if we just consider two energy levels. For higher level terms, we calculate the $n$ operator in the energy basis and use that operator instead of this approximation.}, and restricting ourselves to the computational basis, we can write $n \propto i(\sigma_+ - \sigma_-)$ for the qubit as well. Here $\sigma_+ = \ket{1}\bra{0}$ and $\sigma_- = \ket{0}\bra{1}$ \cite{krantz_quantum_2019}. The applied voltage gives a contributions to the Hamiltonian of the form:
 \begin{equation}
     H_{QD} = - \Omega(t) i \left(\sigma_+ - \sigma_- \right) = \Omega(t) \sigma_y
 \end{equation}
-Where $\Omega(t)$ consist of our controlled voltage along with a scaling dependent on the coupling to qubit.  
+Where the factor of $g_V$ and the constants from the operators are collected in in  $\Omega(t)$.
+
+
+% \vspace{1 cm}
+% f we were to consider the charge matrix in the energy basis of the LC-basis (harmonic oscillator), it can be decomposed into $n \propto -i(a - a^\dagger)$ coupling the different energy levels. While the transmon Hamiltonian differs a bit from the LC-circuit its diagonal terms of $\mel{k}{n}{k} = 0$ and only the off diagonal elements remain. Applying the same logi\footnote{Which is a bit of stretch because of the anharmonicity, but it works out when we truncate to only two energy levels. For higher level terms, we calculate the $n$ operator in the energy basis and use that operator instead of this approximation.}c\footnote{Which is a bit of stretch because of the anharmonicity, but it works out when we truncate to only two energy levels. For higher level terms, we calculate the $n$ operator in the energy basis and use that operator instead of this approximation.}, we can get $n \propto i(\sigma_+ - \sigma_-)$ for the qubit as well. Here $\sigma_+ = \ket{1}\bra{0}$ and $\sigma_- = \ket{0}\bra{1}$ \cite{krantz_quantum_2019}. The applied voltage gives a contributions to the Hamiltonian of the form:
+% \begin{equation}
+%     H_{QD} = - \Omega(t) i \left(\sigma_+ - \sigma_- \right) = \Omega(t) \sigma_y
+% \end{equation}
+% Where $\Omega(t)$ consist of our controlled voltage along with a scaling dependent on the coupling to qubit.  
 
 \subsection{The Qubit in the Interaction Picture}
-A truncated qubit in its eigenbasis has the Hamiltonian:
-\begin{equation}
-    H = \frac{1}{2} \omega_{q} \sigma_z
+A truncated qubit with a control line capacitively coupled has a Hamilton:
+\begin{equation}\label{eq:qubit_hamilton}
+    H = \frac{1}{2} \omega_{q} \sigma_z + \Omega(t) \sigma_y
 \end{equation}
-where the $\omega_q = \omega_{01} = E_1 - E_0$ (where we still omit the factor of $\hbar$). After adding the contribution from the control line, we have:
-\begin{equation}
-    H = \frac{1}{2} \hbar \omega_{q} \sigma_z + \Omega V(t) \sigma_y
-\end{equation}
-To go into the interaction picture, we consider $H_0 = \frac{1}{2} \omega_{q} \sigma_z$ and $H_d = \Omega V(t) \sigma_y$, such that the full Hamiltonian is $H = H_0 + H_d$. The transformation to the rotating is:
+where the $\omega_q = \omega_{01} = E_1 - E_0$ (where we still omit the factor of $\hbar$). 
+To go into the interaction picture, we consider $H_0 = \frac{1}{2} \omega_{q} \sigma_z$ and $H_d = \Omega V(t) \sigma_y$, such that the full Hamiltonian is $H = H_0 + H_d$. We now go into a rotating frame using:
 \begin{equation}
     \ket{\psi} \to \ket{\tilde{\psi}} = \mathcal{U}(t)\ket{\psi}, \quad \text{with}\quad \unitary(t) = e^{iH_0 t}
 \end{equation}
 In this basis, the Schrödinger equation becomes:
 \begin{align*}
-    i\partial_t \ket{\tilde{\psi}(t)} &= i \partial_t (\mathcal{U}(t) \ket{{\psi}(t)}) \\
-    &= i \dot{\mathcal{U}}(t)\ket{\psi(t)} + i \mathcal{U}(t) {\ket{\Dot{{\psi}}(t)}}
+    i\partial_t \ket{\tilde{\psi}(t)} = i \partial_t (\mathcal{U}(t) \ket{{\psi}(t)})= i \dot{\mathcal{U}}(t)\ket{\psi(t)} + i \mathcal{U}(t) {\ket{\Dot{{\psi}}(t)}}
 \end{align*}
-And using the original Schrödinger equation:$\partial_t\ket{\psi(t)} = i H \ket{\psi}$ and the transformed state $\ket{\psi(t)} = \mathcal{U}^\dagger(t) \ket{\tilde{\psi}(t)}$, we get:
+And using the Schrödinger equation in the original basis: $\partial_t\ket{\psi(t)} = i H \ket{\psi}$ and the transformed state $\ket{\psi(t)} = \mathcal{U}^\dagger(t) \ket{\tilde{\psi}(t)}$, we get:
 \begin{equation}
     i \partial_t \ket{\Tilde{\psi}(t)}= \left[(\dot{i \mathcal{U}}{(t)}\unitary^\dagger(t) + \unitary(t) H \unitary^\dagger(t)\right]\ket{\tilde{\psi}(t)}
 \end{equation}
@@ -71,12 +77,11 @@ Such that the effective Hamiltonian in the rotating frame is given as:
 \begin{equation}
     H_{eff} = \dot{i \mathcal{U}}{(t)}\unitary^\dagger(t)) + \unitary(t) H \unitary^\dagger(t)
 \end{equation}
-or in the case of the rotating frame of the qubit:
+By splitting the Hamilton in the two terms $H = H_0+H_d$, we arrive at:
 \begin{equation}
     H_{eff} = - H_0 + H_0 + \unitary(t) H_d \unitary^\dagger(t)
 \end{equation}
-where we have used that the transformation is unitary $\unitary^\dagger \unitary = \identity$ and that it commutes with $H_0$ $\comm{\unitary}{H_0} = 0$. Substituting $H_D$ and $\unitary(t)$ we get\footnote{Writing $\sigma_y = i (\ket{1}\bra{0} - \ket{0}\bra{1})$ makes this calculation much easier.}\cite{krantz_quantum_2019}:
-
+where we have used that the transformation is unitary $\unitary^\dagger \unitary = \identity$ and that it commutes with $H_0$ $\comm{\unitary}{H_0} = 0$. Substituting $H_D$ and $\unitary(t)$ we get \cite{krantz_quantum_2019}:
 \begin{fullwidth}
 \begin{align}
     H_{eff} &= \Omega V(t) i \exp\left(it\frac{\omega_q \sigma_z}{2}\right)  (\ket{1}\bra{0} - \ket{0}\bra{1} )\exp\left(-it\frac{\omega_q \sigma_z}{2}\right) \\
@@ -85,10 +90,10 @@ where we have used that the transformation is unitary $\unitary^\dagger \unitary
             &= \Omega V(t) \left(\cos(\omega_q t)\sigma_y - \sin(\omega_q t) \sigma_x \right)
 \end{align}
 \end{fullwidth}
-Here we see that in the rotating frame, we get both a contribution of $\sigma_x$ and $\sigma_y$ \cite{krantz_quantum_2019}. 
+Here we see that in the rotating frame, the coupling from the control line adds terms proportional to both $\sigma_x$ and $\sigma_y$ to the Hamiltonian. \cite{krantz_quantum_2019}. 
 
 \subsection{X, Y and virtual Z}\label{sec:how_to_make_gates}
-To arrive at the gates, we consider the qubit in its rotating frame. Now we apply a pulse through the control line. Normmally this will have an oscillating term and an envelope:
+To arrive at the gates, we consider the qubit in its rotating frame. Now we apply a pulse through the control line which consists of an oscillating term and an envelope:
 \begin{equation}
     V(t) = s(t) (\sin(\omega_d t + \phi))
 \end{equation}
@@ -102,19 +107,19 @@ Such that the effective driving Hamiltonian becomes:
     H_{eff} = \Omega s(t) \left(I \cos(\omega_d t) + Q \sin(\omega_d t)\right)   \left(\cos(\omega_q t)\sigma_y - \sin(\omega_q t) \sigma_x \right)
 \end{equation}
 \end{fullwidth}
-It is now time to perform the infamous rotating wave approximation (RWA). The basic idea is to decompose our Hamiltonian into fast and slow oscillating term $H = H_{slow}(t) + H_{fast}(t)$. The time evolution operator becomes\footnote{Here we assume that the Hamiltonian commutes with itself at different times, which is the case for the one we are dealing with} $\unitary(t) = \exp(i\int_0^tdt'H_{slow}(t') + i\int_0^tdt'H_{fast}(t'))$, but at any oscillation rate were the slow oscillating term gives a non-vanishing value, the fast oscillating term will cancel in the integral. We thus get $\unitary(t) \approx \exp(i\int_0^tdt'H_{slow}(t'))$ and for relevant dynamics, we can just consider $H\approx H_{slow}(t)$. 
+It is now time to perform the infamous rotating wave approximation (RWA). The basic idea is to decompose our Hamiltonian into fast and slow oscillating term $H = H_{slow}(t) + H_{fast}(t)$. The fast part of the Hamiltonian will oscillate quickly and will cancel in the time evolution operator\sidenote[][-0.5 cm]{This works as the time-evolution operator is given by $U = \exp(i\int dt H)$ so fast oscillating term will cancel if the time interval is sufficiently large.}
+. % The time evolution operator becomes\footnote{Here we assume that the Hamiltonian commutes with itself at different times, which is the case for the one we are dealing with} $\unitary(t) = \exp(i\int_0^tdt'H_{slow}(t') + i\int_0^tdt'H_{fast}(t'))$, but at any oscillation rate were the slow oscillating term gives a non-vanishing value, the fast oscillating term will cancel in the integral. We thus get $\unitary(t) \approx \exp(i\int_0^tdt'H_{slow}(t'))$ and for relevant dynamics, we can just consider $H\approx H_{slow}(t)$. 
 % \todo{Tighten this section, it is because it averages, maybe also check the footnote with Sakurai}
-\sidenote[][-0.5 cm]{This works as the time-evolution operator is given by $U = \exp(i\int dt H)$ so fast oscillating term will cancel if the time interval is sufficiently large.}
-Rewriting the Hamiltonian with the product to sum trigonometric identities\sidenote[][-0.0 cm]{An example is the $\cos(\alpha)\cos(\beta)=\frac{1}{2}(\cos(\alpha-\beta) + \cos(\alpha + \beta))$}, one would get: 
 
+Rewriting the Hamiltonian with the product to sum trigonometric identities, one would get: %\sidenote[][-0.0 cm]{An example is the $\cos(\alpha)\cos(\beta)=\frac{1}{2}(\cos(\alpha-\beta) + \cos(\alpha + \beta))$}
 \begin{fullwidth}
-    
 \begin{align}
 H_{eff} &= \Omega s(t) \left((I \cos(\omega_d t) + Q \sin(\omega_d t)) \cdot \cos(\omega_q t)\sigma_y - \left(I \cos(\omega_d t) + Q \sin(\omega_d t)\right) \cdot \sin(\omega_q t) \sigma_x \right) \\
 H_{eff} &\approx \Omega s(t) \left((-I \cos(\delta t) + Q \sin(\delta t))\sigma_y + \left(I \cos(\delta t) - Q \sin(\delta t)\right) \sigma_x \right)
 \end{align}
 \end{fullwidth}
-where $\delta = \omega_q - \omega_d$ and the RWA was applied in the the second line to eliminate fast oscillating terms of frequency $\omega_q + \omega_d \gg \omega_q - \omega_d$. In our driving hardware, we can control the driving frequency, the phase $\phi$ and by extension $I$ and $Q$. If we want to perform an x-gate, we can set$I = 1, Q = 0$ and drive the qubit at the qubit frequency $\delta = 0$. The $y$-gate is done exactly the same, but at a $\pi/2$ rotation, such that $I = 0, Q = 1$. 
+where $\delta = \omega_q - \omega_d$ and the RWA was applied in the the second line to eliminate fast oscillating terms of frequency $\omega_q + \omega_d \gg \omega_q - \omega_d$. In our driving hardware, we can control the driving frequency, the phase $\phi$ and by extension $I$ and $Q$. If we want to perform an x-gate, we can set$I = 1, Q = 0$ and drive the qubit at the qubit frequency $\delta = 0$. The $y$-gate is done in the same way with a $\pi/2$ rotation, such that $I = 0, Q = 1$. 
+
 To complete our 1-qubit universal gate set, we now just need the $\sigma_z$ gate. Since $\sigma_y$ and $\sigma_x$ pulses are defined in a rotating frame, we can just virtually rotate the phases to make a "virtual" z-gate. Thus a z-gate is not made by applying a gate, but by simply moving our reference frame, and corresponds to us rotating $I$ and $Q$ into each other. \cite{krantz_quantum_2019}
 
 % \begin{marginfigure}[-5 cm]
@@ -126,13 +131,13 @@ To complete our 1-qubit universal gate set, we now just need the $\sigma_z$ gate
 
 
 \section{Coupling to a Resonator} 
-In order to readout the qubit, without altering its state, we couple it do a resonator which will be used as a probe (see fig \ref{fig:schematic_qubit_res}). As mentioned in section \ref{sec:forming_qubits}, the resonator works as an harmonic oscillator. This makes the physics in this section closely resemble what happens when placing an atom in a cavity. 
+In order to readout the qubit, without altering its state, we couple it do a resonator which will be used as a probe (see fig \ref{fig:schematic_qubit_res}). The resonator is an LC-circuit, so it has a harmonic potential. By coupling the Qubit to an LC-circuit, the physics of the qubit closely resembles that of an atom in a cavity. 
 
-In our model, the resonator contributes with a contribution to our Hamiltonian:
+In our model, the resonator has energy given by, where we move the energy scale to absorb the zero point energy:
 \begin{equation}
     H_r = \omega_r \; a^\dagger a
 \end{equation}
-The resonator can now be coupled to the qubit by connecting capacitatively. This gives another interactive contribution: $C_g V_r V_t$. By using $V_{r/t} = 2e n_{t/r} / C_{t/r}$ the additional term can be written as $4e^2C_g  n_t n_r / C_r C_t$ or by defining the coefficient as $g$, the coupling is given by:
+The resonator can now be coupled to the qubit by connecting capacitively. This gives another interactive contribution: $C_g V_r V_t$. By using $V_{r/t} = 2e n_{t/r} / C_{t/r}$ the additional term can be written as $4e^2C_g  n_t n_r / C_r C_t$ or by collected the constants in a coupling strength $g$:
 \begin{marginfigure}
     \centering
     \includegraphics{Figs/Sections/computations_and_readout/qubit_resonator_feedline.png}
@@ -150,7 +155,7 @@ Where the factors of $n_c, n_t, C$ and the other constants are all absorbed into
 
 
 \subsection{Rotating Wave Approximation}
-To optimize the computation time, it is beneficial to get rid of fast oscillating terms. First we choose to go into the interaction picture, where we try to cancel the time evolution of the non-interacting Hamiltonian.
+To optimize the computation time, it is beneficial to get rid of fast oscillating terms. First we choose to go into the interaction picture, where we cancel the time evolution of the non-interacting Hamiltonian.
 \begin{equation}
     H_0 = \omega_r \; a^\dagger a + \omega_q\frac{\sigma_z}{2} 
 \end{equation}
@@ -167,22 +172,22 @@ We now perform the rotating wave approximation, where we drop fast oscillating t
 \begin{equation}
     H_{int}(t) \approx H_0 + g \left(e^{it\Delta}a^\dagger\sigma_- +  e^{-it\Delta}a\sigma_+\right)
 \end{equation}
-Here $\Delta = \omega_r - \omega_q$ is the detuning between the resonator and the transmon. Back in the Schrödinger picture, we get the interaction as \cite{blais_circuit_2021}:
+Here $\Delta = \omega_r - \omega_q$ is the detuning between the resonator and the qubit. Transforming back to the Schödinger picture, we have \cite{blais_circuit_2021}:
 \begin{equation}
     H_{S} = H_0 + g \left(a^\dagger\sigma_- +  a\sigma_+\right)
 \end{equation}
 
 \subsection{Dispersive Regime}\label{sec:dispersive_regime}
-In most resonator-qubit systems, they are designed to have a dispersive interaction, that is:
+In most resonator-qubit systems, the coupling are designed to have a dispersive interaction, that is:
 \begin{equation}
     \lambda = \frac{g}{\Delta} \ll 1
 \end{equation}
-Here the system has nice properties for readout which we can analyze by doing some approximations. We can obtain a form of the Hamiltonian which is diagonal to first order in $\lambda$ by using the \textit{Schrieffer Wolff transformation}. For a Hamiltonian of type $H = H_0 + \lambda V$, the idea is to apply a transformation $\boldsymbol{D} = e^{\lambda S}$ to get: \footnote{Here we use, that the exponential of an operator is given by its power series: $e^{\lambda S} = \sum_n (\lambda S)^n / n!$ and $e^{-\lambda  S} = \sum_n (-1)^n (\lambda S)^n / n!$}
+Here the system can be approximated to simple form. We can obtain a form of the Hamiltonian which is diagonal to first order in $\lambda$ by using the \textit{Schrieffer Wolff transformation}. For a Hamiltonian of type $H = H_0 + \lambda V$, the idea is to apply a transformation $\boldsymbol{D} = e^{\lambda S}$ to get: \footnote{Here we use, that the exponential of an operator is given by its power series: $e^{\lambda S} = \sum_n (\lambda S)^n / n!$ and $e^{-\lambda  S} = \sum_n (-1)^n (\lambda S)^n / n!$}
 \begin{align*}
     H' = \boldsymbol{D}^\dagger H \boldsymbol{D} &= e^{-\lambda S} (H_0 + \lambda V) e^{\lambda  S} \\
     &= H_0 + \lambda V + \comm{\lambda S}{H_0 + \lambda V} + \frac{1}{2!} \comm{S}{\comm{S}{H}} + \dots
 \end{align*}
-Since $\lambda \ll 1$, we approximate the system by neglecting terms of second order or higher in $\lambda$. We can further diagonalize the Hamiltonian to first order if we choose $S$ such that $V + \comm{S}{H_0} = 0$. With a transmon dressed by a resonator, we choose the transformation given by:
+Since $\lambda \ll 1$, we approximate the system by neglecting terms of second order or higher in $\lambda$. We can further diagonalize the Hamiltonian to first order if we choose $S$ such that $V + \comm{S}{H_0} = 0$. With a qubit dressed by a resonator, we a good choice is:
 \begin{equation}
     S = (a \sigma_+ - a^\dagger \sigma_-)
 \end{equation}
@@ -208,7 +213,7 @@ Here we have defined $\chi= g^2 / \Delta$ as the dispersive shift, which here is
 \begin{equation}\label{eq:dispersive_shift_tls}
     H = \left(\Tilde{\omega}_r a^\dagger a + \chi \sigma_z a^\dagger a \right)  + \frac12 \Tilde{\omega}_{01} \sigma_z
 \end{equation}
-Where the qubit and resonator frequency are altered to include the shift they impose on each other \cite{boissonneault_dispersive_2009}. To see the effect, one could drive the resonator at different frequencies and plot the expectation photon number $\expval{n}$ at the end for different qubit states. A result of such a simulation can be seen in \ref{fig:dispersive_two_level_qubit}. In this case, the width of the curves are dependent on the drive time, often one will however see them Lorentzian shaped, with a width determined by the lifetime of the photons in the resonator.
+Where the qubit and resonator frequency are altered to include the shift they impose on each other \cite{boissonneault_dispersive_2009}. To see the effect, one could drive the resonator at different frequencies and plot the expected photon number $\expval{n}$ at the end of the simulation and repeat for different qubit states. A result of such a simulation can be seen in \ref{fig:dispersive_two_level_qubit}. In this case, the width of the curves are dependent on the drive time, often one will however see them Lorentzian shaped, with a width determined by the lifetime of the photons in the resonator.
 \begin{marginfigure}
     \centering
     \includegraphics[]{Simulations/readout_simulations/dispersive_shift_2_level.pdf}
@@ -216,7 +221,7 @@ Where the qubit and resonator frequency are altered to include the shift they im
     \label{fig:dispersive_two_level_qubit}
 \end{marginfigure}
 
-If we were to consider multiple levels of the qubit, the calculation require a  bit more work. This has been done in appendix \ref{appendix:} and leads to a general form of the Hamiltonian for a multi level qubit:
+If we were to consider multiple levels of the qubit, the calculation require a  bit more work. This has been done in appendix \ref{appendix:multiqubit} and leads to a general form of the Hamiltonian for a multi level qubit:
 \begin{equation}\label{eq:multi_qubit_dispersive_hamiltonian}
     H' = \left(\omega_r + \sum_k \chi_k \ket{k}\bra{k} \right) a^\dagger a + \sum_k (\omega_k + \delta_k)\ket{k}\bra{k}
 \end{equation}
@@ -239,15 +244,16 @@ In this form, both the resonator frequency at the ground and first excited state
     \chi \approx \chi_{01} + \chi_{12}/2 = - g_{01}^2/\Delta \left(\frac{1}{1 + \Delta / \alpha}\right)
 \end{equation}
 The effect can be seen in figure \ref{fig:dispersive_multi_level} where the second excited state moves the frequncy of the first much closer. This repeats when adding a third, fourth or higher excited state.
+
 When deriving the equations the dispersive model, we neglect terms of order $\lambda^2$ or above. If we were to keep this term, it would have been multiplied with a $a^\dagger a$. If the mean photon number would have more than order $1 / \lambda^2$, it is no longer valid to throw the terms out. To be sure the dispersive model is a good approximation, one should therefore stay under a critical photon number, where $n_{\text{crit}} = \Delta^2 / 4 g^2$ \cite{krantz_quantum_2019}.
-When calibrating our qubit in chapter \ref{chap:calibration}, we will find a critical photon number of $n_{\text{crit}} \approx 81$,and since we will be driving the resonator to around $\expval{n} \approx 21 \approx n_{\text{crit}} / 4$, this is well below the critical number. The dispersive approximation should therefore still provide a good model \cite{boissonneault_dispersive_2009}. 
+When calibrating our qubit in chapter \ref{chap:calibration}, we will find a critical photon number of $n_{\text{crit}} \approx 81$, and since we will be driving the resonator to around $\expval{n} \approx 21 \approx n_{\text{crit}} / 4$, this is well below the critical number. The dispersive approximation should therefore still provide a good model \cite{boissonneault_dispersive_2009}. 
 
 
 
 \subsection{Readout Drive in the Dispersive Approximation}
-When we perform a readout, we drive a capacitatively coupled line on the resonator like what we did with the qubit in section \ref{sec:qubit_control}. Choosing a driving pulse with a rectangular envelope and phase 0, we have a contribution to the Hamiltonian of the form:
+When we perform a readout, we drive a capacitatively coupled line on the resonator like what we did with the qubit in section \ref{sec:qubit_control}. Choosing a driving pulse with a rectangular envelope and phase $0$, we have a contribution to the Hamiltonian of the form:
 \begin{equation}
-    H_{drive} = \epsilon\cos(\omega_d t)(a + a^\dagger) = \frac{\epsilon}{2} \left(e^{i\omega_d t} + e^{-i\omega_d t}\right)(a + a^\dagger)    
+    H_{\text{drive}} = \epsilon\cos(\omega_d t)(a + a^\dagger) = \frac{\epsilon}{2} \left(e^{i\omega_d t} + e^{-i\omega_d t}\right)(a + a^\dagger)    
 \end{equation}
 where $\epsilon$ is the amplitude of the drive and $\omega_d$ is the drive frequency. As with the last few times we encountered fast rotations, we now enter the rotating frame to cancel the rapidly oscillating terms. We choose the time dependent transformation:
 \begin{equation}
@@ -275,14 +281,14 @@ Such that the total effictive Hamiltonian now becomes:
 \begin{equation}
     H_{eff} =  \left(\omega_r - \omega_d + \sum_k \chi_k \ket{k}\bra{k}\right)a^\dagger a + \epsilon(a + a^\dagger)
 \end{equation}
-Which gives a nice time-independent Hamiltonian for m-level qubit which will prove ideal for simulation purposes. % Here we chose to have a $\cos$ pulse with no phase, but we could (like in section \ref{sec:qubit_control}) have chosen a phase $\phi$, to get the last term as $\cos(\phi)\epsilon(a + a^\dagger) + \sin(\phi)i\epsilon(a - a^\dagger)$. Since this is only a matter of a phase, the actual form used may vary throughout the thesis. \todo{Would be nice with some figures/physics here. Maybe comment on the approximations.}
+Which gives a nice time-independent Hamiltonian for m-level qubit which will prove ideal for simulation purposes. One could have driven with a sine instead of a cosine and the form would have been $i\epsilon(a^\dagger - a)$. % Here we chose to have a $\cos$ pulse with no phase, but we could (like in section \ref{sec:qubit_control}) have chosen a phase $\phi$, to get the last term as $\cos(\phi)\epsilon(a + a^\dagger) + \sin(\phi)i\epsilon(a - a^\dagger)$. Since this is only a matter of a phase, the actual form used may vary throughout the thesis. \todo{Would be nice with some figures/physics here. Maybe comment on the approximations.}
 
 
 
 \section{I-Q Phase Space}\label{sec:IQ_phase_space}
-In the last section, we showed how the resonator experiences a state dependent shift of its frequency depending on the qubit. A valid way of doing readout is to drive the resonator at the frequency associated with $\ket{1}$. If the photon are now absorbed by the resonator, we can label the state "1". Often it is however beneficial to drive the resonators in between the two frequencies \cite{blais_cavity_2004}. In this section, we will built up the tools for visualizing the two dimensional information in the IQ-plane which will allow us to understand why this is the case.
+In the last section, we showed how the resonator experiences a state dependent shift of its frequency depending on the qubit. A valid way of doing readout is to drive the resonator at the frequency associated with $\ket{1}$. If we experience photon absorption by the resonator, we label the state "$1$". Often it is however beneficial to drive the resonators in between the two frequencies \cite{blais_cavity_2004}. In this section, we will built up the tools for visualizing the two dimensional information in an IQ-plane which will allow us to understand why this is the case.
 
-For a quantum harmonical oscillator, we represent the state by introducing the raising and lowering operator from the position and momentum: $a \propto x + ip$ and $a^\dagger \propto x - ip$. We can of course always measure $x$ or $p$ by representing them as $x \propto a + a^\dagger$ and $p\propto i (a - a^\dagger)$. Because of Heisenbergs uncertainty principle, we can however not know both of them at once. This is summed up in the between their uncertainties: $\sigma_x \sigma_p \geq 1/2$.  The same ideas can also be used to think about the state of the resonator. Here we define the \textit{quadrature operators} which also obey Heisenberg's uncertainty principle. They are defined  as\cite{gerry_introductory_2004}: 
+For a quantum harmonic oscillator, we represent the state by introducing the raising and lowering operator from the position and momentum: $a \propto x + ip$ and $a^\dagger \propto x - ip$. We can of course always measure $x$ or $p$ by representing them as $x \propto a + a^\dagger$ and $p\propto i (a - a^\dagger)$. Because of Heisenberg's uncertainty principle, we can however not know both of them at once. This is summed up in the relation between their uncertainties: $\sigma_x \sigma_p \geq 1/2$.  The same ideas can also be used to think about the state of the resonator. Here we define the \textit{quadrature operators} which also obey Heisenberg's uncertainty principle. They are defined  as\cite{gerry_introductory_2004}: 
 \begin{equation}
     Q = a + a^\dagger \hspace{2 cm} I = i(a^\dagger - a)
 \end{equation}
@@ -297,7 +303,7 @@ For a quantum harmonical oscillator, we represent the state by introducing the r
 
 
 \subsection{Coherent States}
-In a Harmonic Oscillator, the number states have expectation values $\expval{x} = \expval{p} = 0$. To get non-zero values of these expectation values, one is required to have superposition states with adjacent components. Example: $c_n\ket{n} + c_{n+1} \ket{n+1}$, which would satisfy $\expval{x} \propto \expval{a + a^\dagger} \neq 0$. The more natural states which would have position and momentum would be the eigenstates to the lowering operator:
+In a Harmonic Oscillator, the number states have expectation values $\expval{x} = \expval{p} = 0$. To get non-zero values of these expectation values, one is required to have superposition states with adjacent components. An example is $c_n\ket{n} + c_{n+1} \ket{n+1}$, which would satisfy $\expval{x} \propto \expval{a + a^\dagger} \neq 0$. The more natural states would be the eigenstates to the lowering operator:
 \begin{equation}
     a \ket{\alpha} = \alpha \ket{\alpha}
 \end{equation}
@@ -317,11 +323,11 @@ Ultimately, we can find an expression for the state $\ket{\alpha}$ in terms of t
 \begin{equation}
     \ket{\alpha} = C_0 \sum_n \frac{\alpha^n} {\sqrt{n!}} (a^\dagger)^n \ket{0}
 \end{equation}
-and $C_0$ is fonud from the normalization to be $C_0 = e^{- |\alpha|^2 / 2}$. Thus a coherent state is given as:
+and $C_0$ is found from the normalization to be $C_0 = e^{- |\alpha|^2 / 2}$. To represent the coherent state in the Fock space, we now have:
 \begin{equation}
     \ket{\alpha} = e^{-|\alpha|^2 / 2} \sum_n \frac{\alpha^n}{\sqrt{n!}} \ket{n}
 \end{equation}
-Where each complex $\alpha$ corresponds to a coherent state. If $\alpha = 0$, we have the vacuum state which is the same as the vacuum Fock state $\ket{\alpha = 0} = \ket{n = 0}$. 
+Where each complex $\alpha$ corresponds to a coherent state. If $\alpha = 0$, we have the vacuum state which is the same as the vacuum Fock state $\ket{\alpha = 0} = \ket{n = 0}$ \cite{gerry_introductory_2004}. 
 
 
 
@@ -340,7 +346,7 @@ Where each complex $\alpha$ corresponds to a coherent state. If $\alpha = 0$, we
 % \textbf{This is probably relevant for the Q function} 
 
 \subsection{Phase Space Representations}
-With the coherent states we have a set of state that span a two-dimensional plane. We can use these to formulate a two dimensional pseudo-probability density function for values the values in $I$ and $Q$. This should take the Heisenberg uncertainity principle into account, such that the vacuum state for example should be a two dimensional Gaussian with standard deviation $\frac12$. Another desired property of this distribution should be the ability to express expectation values, $\expval{O} = \mel{\psi}{O}{\psi}$ in phase space. If we were to represent an operator in a coherent basis, it would take the form:
+With the coherent states we have a set of states that span a two-dimensional plane. We can use these to formulate a two dimensional pseudo-probability density function for values sets of the quadrature components $(I, Q)$. Such a distribution should take the Heisenberg uncertainty principle into account, such that the vacuum state for example should be a two dimensional Gaussian with standard deviation $\frac12$. Another desired property of this distribution should be the ability to express expectation values, $\expval{O} = \mel{\psi}{O}{\psi}$ in phase space. If we were to represent an operator in a coherent basis, it would take the form:
 \begin{equation}
     O = \int d\alpha^2 O(\alpha, \alpha^*)\ket{\alpha}\bra{\alpha} 
 \end{equation}
