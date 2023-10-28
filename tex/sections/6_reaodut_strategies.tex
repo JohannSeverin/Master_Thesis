@@ -29,7 +29,7 @@ In order to control the qubit and drive the resonator, we need to be able to cre
 
 Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and down-conversion is needed. In our experiment, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has multiple local oscillators for down converting signal one of which support up conversion as well. The upconversion is used for the readout line while another local oscillator is used to generate pulses for qubit control. A schematic of the control hardware setup can be seen to the left in figure \ref{fig:Fridge_control_hardware_setup}.
 
-The two control devices are controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave \cite{github}. 
+The two control devices are controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave \cite{hastrup_cqed_nodate}. 
 
 In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so we will for the most part ignore it for now. 
 
@@ -47,7 +47,7 @@ To keep the soprano chip just above the absolute zero, it is places in a Cryosta
 
 The down conversion lines receive signal from the Octave and decreases the amplitude of the signal at multiple stages. At low temperatures high frequency signals are filtered out before the signal is applied to the qubit or to the resonator through the drive line.
 
-Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{macklin_twpa}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
+Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{mac}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
 
 
 \subsection{Demodulation of Readout Signal}\label{sec:demodulation}
