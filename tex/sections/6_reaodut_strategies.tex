@@ -1,12 +1,15 @@
 \chapter{Readout Experiment}\label{chap:readout}
-With the knowledge of how readout are carried out, we are now ready to take on the actual readout process. In this chapter, we will be performing the analysis of a readout process from the laboratory to determine how good it is.
+We will now determine how well readout can be done on our experimental setup. In this chapter, we will first present the setup, then describe the metric we use for determining the quality of a readout, before doing an experiment to determine it.
+% With the knowledge of how readout are carried out, we are now ready to take on the actual readout process. In this chapter, we will be performing the analysis of a readout process from the laboratory to determine how good it is.
 
 \section{Experimental Setup}
-While most of the work in this thesis will be theoretical and computational, we will try to understand, calibrate and model a physical system. This section will serve as a short overview of the setup.
+We will first provide an overview of the experimental setup consisting of three main parts: the quantum device, where the qubit is, the control hardware at room temperature and how it is connected as well as cooled.
+
+% While most of the work in this thesis will be theoretical and computational, we will try to understand, calibrate and model a physical system. This section will serve as a short overview of the setup.
 % \todo{Write this section properly.}
 
 \subsection{Soprano Chip}
-The experiments are run on the Soprano 6 qubit Chip on qubit 2 (see figure \ref{fig:soprano}), a flux tuneable transmon connected to a resonator, drive line and flux line to tune the transmon. The resonator is connected to a feed line which is further connected to the five other resonators (some through a Purcell filter).
+The experiments are run on the Soprano Chip with 6 qubits. We run all experiment on qubit 2 (see figure \ref{fig:soprano}) and will effectively think of the whole system as a one qubit system. Qubit 2 is a flux tuneable transmon which is connected to a resonator, a control line and flux line used to tune the frequency. The resonator is connected to a feed line which is further connected to the five other resonators. While the qubit is flux tuneable, we will throughout all experiments have it set to the sweet spot,  where we are the least sensitive to flux noise. 
 
 \begin{figure}[h]
     \begin{minipage}{0.50\textwidth}
@@ -17,43 +20,87 @@ The experiments are run on the Soprano 6 qubit Chip on qubit 2 (see figure \ref{
         \centering
         \includegraphics[height = 5 cm]{Figs/hardware/layout_photo.png}
     \end{minipage}
-    \caption{The Soprano Chip layout and a picture.}
+    \caption{The Soprano Chip layout and a picture of the chip. Experiments are run on Qubit 2 labeled "q2" in the schematic.}
     \label{fig:soprano}
 \end{figure}
 
 \subsection{Control Hardware}
-In order to control the qubit and resonator, an arbitrary waveform generator and processing device is used. In this experiment, this is done with an OPX \cite{noauthor_opx_nodate}. The OPX outputs two signals to drive the qubit and one to the readout line. It has an envelope resolution of 1 GS/s and can process waves with a frequency of 400 MHz. In addition, it is connected with two channels for incoming signal from the readout line which can be demodulated on the onboard FPGA chip. 
+In order to control the qubit and drive the resonator, we need to be able to create pulses with the right frequency and envelope. For this, we use an arbitrary waveform generator and data processing device. In this experiment, this is done with an OPX \cite{noauthor_opx_nodate}. The OPX outputs two signals to drive the qubit and two to the readout line corresponding to the $I$ and $Q$ signal. And has two input channels for readout signal. The envelope of the pulses can be made with a resolution of 1 GS/s and can process waves with a frequency of 400 MHz. In addition, it has an on-board Field-programmable gate array (FPGA) which is used to compile pulses and demodulate the signal. 
 
-Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and downconversion is needed. Here, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has multiple local oscillators for down converting signal one of which support up conversion as well. This one is used for readout, and one of the others are used for qubit control. All signal support IQ mixibng interal IQ mixers allowing us to split the signal. 
+Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and down-conversion is needed. In our experiment, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has multiple local oscillators for down converting signal one of which support up conversion as well. The upconversion is used for the readout line while another local oscillator is used to generate pulses for qubit control. A schematic of the control hardware setup can be seen to the left in figure \ref{fig:Fridge_control_hardware_setup}.
 
-The two devices can be controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave. 
+The two control devices are controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave \cite{github}. 
 
-In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so it will mostly be forgotten. 
+In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so we will for the most part ignore it for now. 
 
 
 \begin{figure*}[t]
     \caption{A crude schematic of the setup. Qubit control and resonator lines are sent through the octave where they are up converted before going to T5. In the other direction, the signal is downconverted and mixed in the IQ mixer before reentering the OPX where it gets demodulated.}
-    \begin{minipage}{0.50\linewidth}
-        \centering
-        \includegraphics[width=1.0\linewidth]{Figs//hardware/Setup.png}
-        % \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Spectroscopy.pdf} % first figure itself
-    \end{minipage}
-    \begin{minipage}{0.50\linewidth}
-        \centering
-        \includegraphics[width=1.0\linewidth]{Figs//hardware/Fridge Schematic.png}
-        % \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Anharmonicity.pdf} % second figure itself
-    \end{minipage}
+    \includegraphics[]{Figs/hardware/fridge_and_control.png}
+   % \includegraphics[width=1.0\linewidth]{Calibrations/Figures/Qubit Anharmonicity.pdf} % second figure itself
     \label{fig:Fridge_control_hardware_setup}
 \end{figure*}
 
 
 \subsection{Cooling and Amplifiation}
-To keep the soprano chip cold, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$. In figure \ref{fig:Fridge_control_hardware_setup}, we have illustrated the qubit and resonator drive line from room temperature to the chip, and the returning signal from the resonator and up to room temperature again \footnote{There are many others which share similar ideas. These consists of other qubit conotrl lines, flux lines and a line for a local oscillator to drive the TWPA}.
+To keep the soprano chip just above the absolute zero, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$. In the right side of  figure \ref{fig:Fridge_control_hardware_setup}, we have illustrated the qubit and resonator drive line from room temperature to the chip, and the returning signal from the resonator and up to room temperature again. For simplicity, we have only illustrated one microwave control line, one readout drive line and one readout signal line\footnote{There are many others which share similar ideas. These consists of other qubit conotrl lines, flux lines and a line for a local oscillator to drive the TWPA}.
 
 The down conversion lines receive signal from the Octave and decreases the amplitude of the signal at multiple stages. At low temperatures high frequency signals are filtered out before the signal is applied to the qubit or to the resonator through the drive line.
 
-Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{twpa}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
+Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{macklin_twpa}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
 
+
+\subsection{Demodulation of Readout Signal}\label{sec:demodulation}
+To do a readout of the resonator, a pulse is send at an intermediafe frequency, $\omega_{IF}$ from the waveform generator to the octave where it is mixed with a local oscillator signal, $\omega_{LO}$. This results in a high frequency pulse send to the fridge at the readout frequency.
+
+After interacting with the resonator it is amplified and it enters the Octave with the form:
+\begin{equation}
+    s(t) = A \cos(\omega_{ro}t + \theta_{RO}) 
+\end{equation}
+In the heterodyne measurement scheme, the signal is again mixed in an IQ-mixer with a local oscillator. By delaying one part of local oscillator pulse with a phase of $\pi / 2$, it is possible to measure two quadratures simultaneously. The signals become:
+\begin{align}
+    V_0               &= A_{RO}A_{LO} \cos(\omega_{IF}t + \theta_{RO}) \\
+    V_{\frac{\pi}{2}} &= A_{RO}A_{LO} \sin(\omega_{IF}t + \theta_{RO})
+\end{align}
+Which is at frequency slow enough that we can digitize the values. To perform the readout\footnote{The following can either be done live on the FPGA or in post processing by storing the data}, we now combine the two signals into a complex number and demodulate it by multiplying with $e^{-i\omega_{IF}t}$:
+\begin{equation}
+    V(t) = e^{-i\omega_{IF} t} (V_0 + i V_{\frac{\pi}{2}}) = A_{RO} e^{i\theta_{RO}}
+\end{equation}
+At each timestep, we will now have a value pair for $(I(t), Q(t) = (\Re{V(t), \Im(V(t))}$ which can be integrated to get a point in the IQ plane \cite{krantz_quantum_2019}:. 
+
+% In the upconversion line, this signal is amplified multiple times until it arrive back in the octave. Here it is again mixed by a local oscillator 
+
+
+% In thesetup the resonator is connected to a feed line which is driven by a pulse. Photons around the resonance frequency enter the resonator and escape to the feed line where they interact destructively with the rest of the signal. In the end, we see a signal (or a lack of signal), which takes the form of a microwave pulse \cite{krantz_quantum_2019}:
+% by multiplying the signal with a local oscillator with frequency $\omega_{lo}$ the signal will be split in a fast and a slow oscillating term. Over multiple periods the fast term will cancel, and we will instead measure the signal at the difference between the local oscillator and the readout frequency. This is called the intermediate frequency, $\omega_{IF}$.Often two different methods are considered, the homodyne measurement where only one quadrature is monitored and the hereodyne measurement, which is used in our experiment and will be described next.
+
+% \subsection{Heterodyne Measurement}\label{sec:heterodyne_measurement}
+% \begin{figure}[t]
+%     \centering
+%     \includegraphics{Figs/Theory/stochastic_signal.png}
+%     \caption{The trajectories given by driving a resonator in between the two peaks for $\ket{0}$ and $\ket{1}$ respectively.}
+%     \label{fig:stochastic_signal_hetereodyne}
+% \end{figure}
+% In heterodyne measurements, the signal is mixed in an IQ-mixer with a local oscillator. By delaying one part of local oscillator pulse with a phase of $\pi / 2$, it is possible to measure two quadrature components with half strength. The signals become:
+% \begin{align}
+%     V_0               &= A_{RO}A_{LO} \cos(\omega_{IF}t + \theta_{RO}) \\
+%     V_{\frac{\pi}{2}} &= A_{RO}A_{LO} \sin(\omega_{IF}t + \theta_{RO})
+% \end{align}
+% If we combine the two signals into a complex number, we can demodulate it by multiplying with $e^{-i\omega_{IF}t}$:
+% \begin{equation}
+%     V(t) = e^{-i\omega_{IF} t} (V_0 + i V_{\frac{\pi}{2}}) = A_{RO} e^{i\theta_{RO}}
+% \end{equation}
+% Thus we at each timestep get a signal in the complex plane. 
+
+% The corresponding operators to this process, can be thought of by splitting the Heterodyne measurement in two Homodyne processes with half the signal each. Such that we have
+% \begin{equation}
+%     c_0 = \sqrt{\frac{\kappa}{2}}\; a, \quad c_{\frac{\pi}{2}} = i \sqrt{\frac{\kappa}{2}} \; a
+% \end{equation}
+% Which we can model as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
+% \begin{equation}
+%     dr_{\text{heterodyne}}(t) = \left(\expval{I} + i\expval{Q}\right)dt  + \frac{1}{\sqrt{2\eta\kappa}}(dW_I + i dW_Q)
+% \end{equation}
+% Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$ such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two. 
 
 % \footnote{Examples are the Flux line for the qubit and a local oscillator which is driving the TWPA.}. First a line for 
 
@@ -67,9 +114,9 @@ Since the output signal is of order of 10-100 photons, it is a high risk to be l
 
 
 \section{Readout Fidelity}
-First, we need to define a goodness measure for the readout. As a start, we formulate the goal of the readout process as following:
+To help define a goodness metric for the readout process, we try to refine the goal of it.
 \begin{itemize}
-    \item Given a quantum state $\rho$ a readout is a scheme that predicts a state $\sigma$, such that $\sigma$ is on average as close to $\rho$ as possible.
+    \item Given a quantum state $\rho$ a readout process is a scheme that predicts a state $\sigma$, such that $\sigma$ is on average as close to $\rho$ as possible.
 \end{itemize}
 While this is a bit easier to work with, we still need to find a quantity for "closeness" between a density matrix and our prediction. Mathematically, we can achieve this by defining a formal distance, such as the trace-norm on the vector space of $2\times2$ matrices: $\mathcal{M}^2$ \cite{wilde_classical_2016}:
 \begin{equation}
@@ -79,7 +126,7 @@ which has the desired properties like being $||\rho_{\text{pred}} - \rho_{\text{
 \begin{equation}
     F(\sigma, \rho) = \left(\Tr\sqrt{\sqrt{\rho} \sigma \sqrt{\rho}}\right)^2
 \end{equation}
-Here $\sqrt{\rho}$ is the matrix, which satisfies $(\sqrt{\rho})^2 \rho$. The relation to the trace norm is by bounds of the Fidelity \footnote{both upper and lower bound by $1 - \sqrt{F(\rho, \sigma)} \leq \frac{1}{2} ||\rho - \sigma|| \leq \sqrt{1 - F(\rho, \sigma)}$ \cite{wilde_classical_2016}}.  In addition, it has other nice properties: it is symmetric in $\sigma \leftrightarrow \rho$ and it reduce significantly if one of the states are pure. In our schemes the readout will always predict pure state of either $\ket{1}\bra{1}$ or $\ket{0}\bra{0}$. In this case $\sigma = \ket{k}\bra{k}$ and the full equation can be written as:
+Here $\sqrt{\rho}$ is the matrix, which satisfies $(\sqrt{\rho})^2 = \rho$. The relation to the trace norm is by bounds of the Fidelity \footnote{both upper and lower bound by $1 - \sqrt{F(\rho, \sigma)} \leq \frac{1}{2} ||\rho - \sigma|| \leq \sqrt{1 - F(\rho, \sigma)}$ \cite{wilde_classical_2016}}.  It also has other beneficial properties like being  symmetric in $\sigma \leftrightarrow \rho$ and it reduces significantly if one of the states are pure. In our schemes the readout will be always be pure since we predict either $\ket{1}\bra{1}$ or $\ket{0}\bra{0}$. In this case $\sigma = \ket{k}\bra{k}$ and the full equation can be written as:
 \begin{align*}
     F(\sigma, \rho) = F(\rho, \sigma) &= \left(\Tr\sqrt{\sqrt{\sigma} \rho \sqrt{\sigma}}\right)^2 \\
     &= \Big(\Tr \left(\ket{k}\mel{k}{\rho}{k}\bra{k}\right)\Big)^2\\
@@ -93,13 +140,13 @@ In the full readout scheme, we should be able to properly measure both $\rho = \
 \begin{equation}
      \frac12 \left(\mathbf{E}\left[F(\sigma(\rho_0), \rho_0)\right] +  \mathbf{E}\left[F(\sigma(\rho_1), \rho_1)\right]\right)
 \end{equation}
-Here $\rho_k$ refers to the best initialization of $\ket{k}\bra{k}$, we can make and $\sigma(\rho_i)$ the prediction our readout scheme produces given that state. It is important to note, that if we are not capable of initializing the qubit in a desired pure state\footnote{which we are not}, the initialization and the readout of the initialization are both contributors to the fidelity measure. Together these two factor are referred to as the State Preparation and Measurement errors or SPAM for short.
+Here $\rho_k$ refers to the best initialization of $\ket{k}\bra{k}$, we can make and $\sigma(\rho_i)$ the prediction our readout scheme produces given that state. It is important to note, that if we are not capable of initializing the qubit in a desired pure state\footnote{which we are not}, the initialization and the readout are both factors in  the fidelity measure. Together these two factors are referred to as the State Preparation and Measurement errors or SPAM for short.
 
 One drawback of this fidelity scheme is that it is $\frac12$ for a completely random classification\footnote{And a classification scheme with $F<\frac12$ can be better by just swapping the output labels}. For this reason, most definitions of the SPAM fidelity \cite{gambetta_protocols_2007, blais_circuit_2021} is re-scaled such that the fidelity score lies between $0$ and $1$:
 \begin{equation}
     F_{\text{SPAM}} = \mathbf{E}[F(\sigma(\rho_1), \rho_1)] + \mathbf{E}[F(\sigma(\rho_0), \rho_0)] - 1
 \end{equation}
-Which is the definition we will be using to define the "goodness" of a readout (and initialization, which will be implicit if nothing else is mentioned). Over many repetetions and with pure state predictions, the expectation value of the fidelity, can be found by probability of classifying correctly:
+Which is the definition we will be using to define the "goodness" of a readout (and initialization). Over many repetitions and with pure state predictions, the expectation value of the fidelity, can be found by probability of classifying correctly:
 \begin{equation}
      \mathbf{E}[F(\sigma(\rho_k), \rho_k)] = P(\text{ro} = "k"| \text{ init} = k)
 \end{equation}
@@ -112,7 +159,7 @@ where "ro" is short for readout and "init" for initialization. Or writing it in 
 
 
 \section{Determining the Readout Fidelity}
-We will now what we are learned into a scheme for determining the readout fidelity of our superconducting qubit. The scheme is visualized in figure \ref{fig:circuit_qubit_readout_test} and goes as:
+To determine the readout fidelity of our superconducting qubit, we will now do the following experiment.  The scheme is visualized in figure \ref{fig:circuit_qubit_readout_test} and goes as:
 \begin{marginfigure}
     \centering
     \includegraphics[]{Figs/circuits/readout_test.png}
@@ -120,13 +167,12 @@ We will now what we are learned into a scheme for determining the readout fideli
     \label{fig:circuit_qubit_readout_test}
 \end{marginfigure}
 \begin{enumerate}
-    \item The Qubit is initialized by waiting a duration of 10 (5?) times the $T_1$ such that it is in its equilibrium state. This will be the initilization $\rho_0$.
+    \item The Qubit is initialized by waiting a duration of 10 times the $T_1$ such that it is in its equilibrium state. This will be the initialization $\rho_0$.
     \item In half the experiments, we apply an $X_\pi$ pulse, to excite the qubit into the first excited state. This gives us our $\rho_1$.
-    \item We now apply a square\footnote{We have a 10 $ns$ ramp-up and ramp-down period to avoid "kicking" the system". This is neglected in our analysis and later in simulations} resonator pulse at frequency $f_d = f_r$ (in between the two states shift) lasting $600 \text{ns}$. This starts movement in the IQ plane  analogous to what was described in section \ref{sec:resonator_decays}. The feed line output signal is monitored using a hetereodyne measurement-scheme which we described in section \ref{sec:heterodyne_measurement}. This leads to I and Q signal which is tracked digitized every $ns$ and stored for post processing.
-    \item Steps 1-3 is repeated 1000 times for intialization $0$ and for initialization $1$.
+    \item We now apply a rectangular\footnote{We have a 10 $ns$ ramp-up and ramp-down period to avoid "kicking" the system". This is neglected in our analysis and later in simulations} resonator pulse at frequency $f_d = f_r$ (in between the two states shift) lasting $600 \text{ns}$. This starts movement in the IQ plane  analogous to what was described in section \ref{sec:resonator_decays}. The feed line output signal is monitored using a heterodyne measurement-scheme which we described in section \ref{sec:demodulation}. This leads to I and Q signal which is tracked digitized every $ns$ and stored for post processing.
+    \item Steps 1-3 are repeated 1000 times for initialization $\rho_0$ and for initialization $\rho_1$.
 \end{enumerate}
-In the post processing (which is visualized in the top row of figure \ref{fig:readout_process}), we have the initialization label and the I and Q trajectories of the readout pulse. By demodulating them at the intermediate frequency and integrating the signal we arrive at one value set for $(I, Q)$. Plotting the distribution of our, we can find the projection line with the largest separation using Linear Discriminant Analysis. This is done by using the implementation in SKLearn \cite{Pedregosa_sklearn}. This allows us to project all points onto the axis resulting in a 1D histogram. At every value on this axis, we can calculate the fidelity by:
- By picking the threshhold which maximized the fidelity, we have a measure for the fidelity of this readout protocol. In our experiment this lead to the fidelity.
+In the post processing (which is visualized in the top row of figure \ref{fig:readout_process}), we have the initialization label and the I and Q trajectories of the readout pulse. By demodulating them at the intermediate frequency and integrating the signal we arrive at one value set for $(I, Q)$. Plotting the distribution, we can find the projection line with the largest separation using Linear Discriminant Analysis. This is done by using the implementation in SKLearn \cite{predregoske_sklearn}. This allows us to project all points onto the axis resulting in a 1D histogram. By picking the threshold which maximizes the fidelity, we have a measure for the fidelity of this readout protocol. In our experiment this lead to the fidelity.
 \begin{equation}
     F_{\text{SPAM}} = 0.613\pm 0.018
 \end{equation}
@@ -148,10 +194,10 @@ It is worth noting that this is not the best optimized readout signal, we can ac
 
 
 \section{Filtering and Weights}
-Summing the points to get a better classification works well if the points are from a steady distribution, as they are in the steady state. In reality however, we might have different other attributes in the readout signal, that we want to weigh differently. A typical example, is that the qubit ramp-up interval will have less separation than in the steady state. Further, the qubit will also experiment energy decay from $\ket{1}\to \ket{0}$\footnote{Or absorb energy to go the other way} or we might even want to include signal during resonator depletion. A solution to this is by weighing the signal at different times. 
+Summing the points to get a better classification works well if the points are from a steady distribution. In reality, we might have different other attributes in the readout signal, that we want to weigh differently. A typical example, is that the qubit ramp-up interval will have less separation than in the steady state. Further, the qubit will also experience energy decay from $\ket{1}\to \ket{0}$\footnote{Or absorb energy to go the other way} or we might even want to include signal during resonator depletion. A solution to this is by applying different integration weighs at different times. 
 
 \subsection{Weighting of the Input}
-Under the assumption that the measured signal from the resonator will be Gaussian in the IQ plane, the points at different times are uncorrelated and symmetric \cite{magesan_machine_2015}  it is possible to derive optimal linear weights. To do this, we first allow for a weighting parameters at each time step in each quadrature. The signal takes the form of $\sum_{x = I, Q}\sum_t k_{x, t} \cdot x_t$. And defining the signal as the difference between the signal from $\ket{0}$ and $\ket{1}$ we have:
+Under the assumption that the measured signal from the resonator will be Gaussian in the IQ plane and that points at different times are uncorrelated \cite{magesan_machine_2015}  it is possible to derive optimal linear weights. To do this, we first allow for a weighting parameters at each time step in each quadrature. The signal takes the form of $\sum_{x = I, Q}\sum_t k_{x, t} \cdot x_t$. And defining the signal as the difference between the signal from $\ket{0}$ and $\ket{1}$ we have:
 \begin{equation}
     \Delta S = \sum_X \sum_t k_{x, t} (\expval{X_0 - X_1} + \xi_t)
 \end{equation}
@@ -164,13 +210,13 @@ where we can find the mean and variance of the signal as:
     \expval{\Delta S} &= \sum_X \sum_t k_{x, t} (\expval{X_0 - X_1} \\
     \Var(\Delta S) &= \sum_X \sum_t k_{x, t}^2 \left( \Var(\expval{X_0 - X_1}) + \Var(\xi) \right)
 \end{align}
-The SNR can be maximized by differentiating with respect to the weights and setting the derivative equal to $0$: $\partial / \partial k_{x, t} \SNR = 0$. The weights that maximize the signal is found by  setting:
+The SNR can be maximized by differentiating with respect to the weights and setting the derivative equal to $\partial k_{x, t} \SNR = 0$. The weights that maximize the signal is found by  setting:
 \begin{equation}
     k_{x, t} = \frac{\expval{X_0 - X_1}}{\Var(\Delta S)}
 \end{equation}
 Where we will determine the variance and average expected difference experimentally by performing a set of measurement and calculating the mean difference and variance to determine the weights \cite{ryan_tomography_2015}.
 
-In the lower row in figure \ref{fig:readout_process} the experiment is repeated but with calculated linear weights before rotating. As we can see the readout fidelity is now:
+In the lower row in figure \ref{fig:readout_process} the experiment is repeated but with calculated linear weights. With these weights, we improve the readout fidelity to:
 \begin{equation}
     F_{\text{readout}} = 0.620 \pm 0.017
 \end{equation}
@@ -178,27 +224,27 @@ This is very close to readout fidelity of the simple weights. While it appears t
 
 
 \subsection{Non-Linear Classification Schemes}
-The classification scheme above is very common, since it can be combined with the demodulation (both linear operation) and is able to be run in most FPGA processors like the one installed in the OPX control in our laboratory. This allows for fast executions and easy to calibration. However, the assumptions for assumption are not entirely realistic. 
+The classification scheme above is very common, since it can be combined with the demodulation (since both are linear operation) and is able to be run on FPGAs like the one installed in the OPX. This allows for fast executions and easy calibrations. However, the assumptions are not entirely realistic and the signal is both non-Gaussian and are not uncorrelated  at different times.
 
-One example is in a relaxation during the readout. If the qubit state halfway through changes from $\ket{1}\to \ket{0}$ our measurement record will then start to follow the trajectory of the ground state. In this case, we should weigh the points differently depending on the information provided by the rest of the trajectories. We can do such a generalization either by allowing for a covariant weights\cite{gambetta_protocols_2007} or by applying machine learning methods like neural networks \cite{lienhard_deep-neural-network_2022}.
+One example is relaxation during the readout. If the qubit state halfway through the process changes from $\ket{1}\to \ket{0}$ our measurement record will then start to follow the trajectory of the ground state. In this case, we should weigh the points differently depending on the information provided by the rest of the trajectories. We can do such a generalization either by allowing for a covariant weights\cite{gambetta_protocols_2007} or by applying machine learning methods like neural networks \cite{lienhard_deep-neural-network_2022}.
 
 % This becomes very clear, when we think about the effects of $T_1$ which splits ... \todo{Is $T_1$ a good example? What else do we violate}. One could setup allow for covariance between measurements or nonlinear kernels. Or a different method is to use Machine Learning methods to distinguish the trajectories. This allows for the possibility of weighting the inputs differently depending on the beginning of the signal beyond the average behaviour.\todo{Do we want to try this quick? Otherwise, we can reduce this to a comment in the above section.}
 
 
 
 \section{Postselection}\label{sec:postselection}
-In some instances, we do not mind running with a large overhead in order to increase our readout fidelity. In these cases, we can instead associate a probability of a given trajectory belonging to the $0$ or $1$ group and then pick the fraction $f$ with the most certain classifications. Since $T_1$ decay tends to happen somewhere during the measurement, the points will often be placed in some tail going from $1 \to 0$. Furthermore, the overlap between the two distributions will be in between them. So by sacrificing the middle points, the leftover errors are mainly due to inseparable distributions. 
+In some instances, we do not mind running with a large overhead in order to increase our readout fidelity. In these cases, we can instead associate a probability of a given trajectory belonging to the $0$ or $1$ group and then pick the fraction $f$ with the most certain classifications. Since $T_1$ decay tends to happen somewhere during the measurement, the points will often be placed in some tail going from $1 \to 0$. Furthermore, the overlap between the two distributions will be in between them. By sacrificing points in the middle, we suspect the leftover errors are mainly due to inseparable distributions. 
 
-Wrong initialization gives a mixed state, which will lead to a part of the distribution identitical to the other initialization. For this reason, the state initialization fidelity can be cruedly approximated by taking the fidelity from SPAM in the limit where $f\to 0$. In figure \ref{fig:postselection_plot}, we have done this post selection with the samples used in figure \ref{fig:readout_process}. By fitting a polynomial, here 3rd order, we can approximate the limit for the fraction of data going to 0 as:
+Wrong initialization gives a mixed state, which will lead to a certain part of "ground state" measurement following the distribution of the excited state. For this reason, the state initialization fidelity can be crudely approximated by taking the fidelity from SPAM in the limit where $f\to 0$. In figure \ref{fig:postselection_plot}, we have done the postselection with the samples used in figure \ref{fig:readout_process}. By fitting a polynomial, here 3rd order, we can approximate the limit for the fraction of data going to 0 as:
 \begin{equation}
     F_{\text{init}} \approx \lim_{f \to 0} F_{\text{SPAM}} = 0.82 \pm 0.02
 \end{equation}
-which should not be taken as a direct measure, but more one that we can return to in a discussion after some more work.\todo{Return to this statistic at some point to conclude.}
+Since the errors on the lower included fractions are large and the points are not uncorrelated, this should just be seen an estimate of the initialization fidelity, but  not much weight should be put on it. 
 
 
 \begin{figure}[b]
     \centering
-    \includegraphics[width = 0.75 \textwidth]{Readout/Figs/fidelity_vs_included_fraction.pdf}
+    \includegraphics[width = 0.70 \textwidth]{Readout/Figs/fidelity_vs_included_fraction.pdf}
     \caption{The Fidelity of an initialize and measure experiment depending on the fraction of most certain points, we include. The curve is fitted with a second order polynomial to estimate the limit for the fraction going to $0$.}
     \label{fig:postselection_plot}
 \end{figure}
