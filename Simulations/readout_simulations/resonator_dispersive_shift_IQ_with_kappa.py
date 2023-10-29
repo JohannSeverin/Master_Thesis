@@ -74,12 +74,20 @@ for kap in [kappa]:
         func, (start, end), y0=[0 + 0j], args=(1, omega_r, kap), t_eval=times
     )
 
+    results_second = solve_ivp(
+        func, (start, end), y0=[0 + 0j], args=(2, omega_r - chi, kap), t_eval=times
+    )
+
     alpha = 0.5 if kap == 0 else 1
     ax[0].plot(
         results_ground.y[0].real, results_ground.y[0].imag, alpha=alpha, color="C0"
     )
     ax[0].plot(
         results_excited.y[0].real, results_excited.y[0].imag, alpha=alpha, color="C1"
+    )
+
+    ax[0].plot(
+        results_second.y[0].real, results_second.y[0].imag, alpha=alpha, color="C2"
     )
 
     from matplotlib.patches import Circle
@@ -179,7 +187,7 @@ ax[1].set(
     xlabel="I (photon count)",
 )
 
-fig.savefig("IQ_movement_with_kappa.pdf", bbox_inches="tight")
+# fig.savefig("IQ_movement_with_kappa.pdf", bbox_inches="tight")
 
 
 # Distance between circles
@@ -213,7 +221,7 @@ fig.savefig("IQ_movement_with_kappa.pdf", bbox_inches="tight")
 # )
 
 
-fig.tight_layout()
+# fig.tight_layout()
 
 # from qubit_builder import build_qubit, build_resonator
 # from analysis.auto import automatic_analysis
