@@ -1,8 +1,10 @@
 \chapter{Measurements}\label{chap:measurements}
-In the previous section, we described the effects of a system coupled to its environment. In most cases the interactions of our system is unwanted, but in one case it is necessary: readout. Without interacting with the system, there is no way to gather information about it. Often measurements are portrayed as instantaneous and projective. In reality, it is not instant. In this chapter, we will introduce the idea of a generalized measurement using a Positive Operator-Value Measure and see how this effects the evolution of a state. This will allow us to modify the master equation to include terms representing backaction and correlate that with our measurement record. Finally we will see how the dynamics of a qubit/resonator system is altered during measurement. Most of this chapter is based on the excellent introduction to continous quantum measurements by Jacobs and Steck \cite{jacobs_straightforward_2006}.
+In the previous section, we described the effects of a system coupled to its environment. In most cases the interactions of our system is unwanted, but in one case it is necessary: readout. Without interacting with the system, there is no way to gather information about it. Often measurements are portrayed as instantaneous and projective, but the reality is more complicated. 
+
+In this chapter, we will introduce the idea of a generalized measurement using a Positive Operator-Value Measure. This will allow us to modify the master equation to include terms representing backaction and measurements. Most of this chapter is based on the excellent introduction to continuous quantum measurements by Jacobs and Steck \cite{jacobs_straightforward_2006}.
 
 \section{Generalized Measurement}
-When one first encounter quantum mechanics, a measurement is an instantaneous and complete projection of a state onto the measured quantity. Measuring an observable given by the hertmitan operator in its eigenbasis, $\mathcal{O} = \sum_n O_n \ket{n}\bra{n}$ (with $\ket{n}$ the eigenstates of O) would thus result in a projection of a state $\ket{\psi}$ onto the state $\ket{n}$ with probability $|\braket{n}{\psi}|^2$. In our measurement record, we would find the corresponding value $O_n$. \footnote{In the formalism of density matrices the probability is $\mel{n}{\rho}{n}$ and the projected state would be $\ket{n}\bra{n}$.} This is indeed a possible measurement, but this \textit{von Neumann} measurement is just a small set of possibilities which can not explain what happens if we only extract partial information from the system. We will here describe a more general description of measurements. 
+When one first encounter quantum mechanics, a measurement is an instantaneous and complete projection of a state onto the measured quantity. Measuring an observable given by the hermitian operator in its eigenbasis, $\mathcal{O} = \sum_n O_n \ket{n}\bra{n}$ (with $\ket{n}$ the eigenstates of O) would result in a projection of a state $\ket{\psi}$ onto the state $\ket{n}$ with probability $|\braket{n}{\psi}|^2$. In our measurement record, we would find the corresponding value $O_n$. \footnote{In the formalism of density matrices the probability is $\mel{n}{\rho}{n}$ and the projected state would be $\ket{n}\bra{n}$.} This is indeed a possible measurement, but this \textit{von Neumann} measurement is just a small set of possibilities which can not explain what happens if we only extract partial information from the system. We will here describe a more general description of measurements. 
 % Furthermore, if we want to measure the I-quadrature, a contious variable, it would be tough to do with a delta function. Therefore, we also need a framework, which represents contious measurements. \todo{Clean up this transition}\todo{The content of this section is based on the excellent review of continuous measurement by Jacobs and Stech \cite{straightforward_introduction}} 
 
 \subsection{Positive Operator-Valued Measure (POVM)}
@@ -10,25 +12,25 @@ If we were to start with a state $\rho$ and perform a von Neumann measurement wi
 \begin{equation}\label{eq:projection_measurement}
     \rho_f = \ket{n}\bra{n}= \frac{P_n \rho P_n}{\Tr(P_n \rho P_n)}, \text{with probability: } \Tr(P_n \rho P_n) = \rho_{nn}
 \end{equation}
-In describing this projection, we often consider the output $n$ with probability $\rho_{nn}$ but not always recognize that it equally gives us the value $\neq n$ with probability $1 - \rho_{nn}$. In this case the state will be proportional to $\rho_f \propto \rho - \rho_{nn}\ket{n}\bra{n}$. If we were to also represent this with an operator $P_{\text{not n}} = \identity - P_n$, we could think of the measurement as applying  a set of the operators $\{P_n, P_{\text{not n}}\}$ and applying the operator depending on the outcome.
+In describing this projection, we often consider the output $n$ with probability $\rho_{nn}$ but not always recognize that it equally gives us a different value $\neq n$ with probability $1 - \rho_{nn}$. In this case the state will be proportional to $\rho_f \propto \rho - \rho_{nn}\ket{n}\bra{n}$. If we were to also represent this with an operator $P_{\text{not n}} = \identity - P_n$, we could think of the measurement as applying  a set of the operators $\{P_n, P_{\text{not n}}\}$ and applying the operator depending on the outcome.
 
 By expanding this set from two to more operators, we can generalize measurements. The generalization comes as a set of operators $\{\Omega_m\}$ that satisfy:
 \begin{equation}\label{eq:sum_requirement_POVM}
     \sum_m \Omega_m^\dagger \Omega_m = \identity
 \end{equation}
-Applying an operator from this set alter the state according to ( \ref{eq:projection_measurement}):
+Applying an operator from this set alter the state according to (generalizing equation \ref{eq:projection_measurement}):
 \begin{equation}\label{eq:POVM_collapse}
         \rho_f = \frac{\Omega_m \rho  \Omega_m^\dagger}{\Tr(\Omega_m \rho \Omega_m^\dagger)}, \text{with probability: } \Tr(\Omega_m \rho \Omega_m^\dagger)
 \end{equation}
-Here we are allowed to combine multiple measurements into one question. An example could be, what is the probability of measuring the operator in an interval $m\in[a, b]$. This will of course just be sum of probabilities: 
+Here we are allowed to combine multiple measurements into single questions. An example could be: what is the probability of measuring the operator in an interval $m\in[a, b]$? This will be sum of probabilities: 
 \begin{equation}
     P(m \in [a, b]) = \sum_{m = a}^b \Tr(\Omega_m\rho\Omega_m^\dagger)
 \end{equation}
-Or rearranging using linearity and cyclic properties of the trace:
+Or rearranging by using linearity and cyclic properties of the trace:
 \begin{equation}
     P(m \in [a, b]) = \Tr( \sum_{m = a}^b \Omega_m^\dagger \Omega_m\rho) = \Tr(M \rho)
 \end{equation}
-where the operator $M = \sum_{m = a}^b \Omega_m^\dagger \Omega_m$ is the Positive Operator Value Measure (POVM). In this formalism, we can define any $M$ to give a probability of getting a result in any subset of $\{\Omega_m\}$ \cite{jacobs_straightforward_2006}. 
+where the operator $M = \sum_{m = a}^b \Omega_m^\dagger \Omega_m$ is the Positive Operator Value Measure (POVM). In this formalism, we can define an $M$ on any subset of $\{\Omega_m\}$ \cite{jacobs_straightforward_2006}. 
 
 \subsection{Continuous set of Gaussian POVMs}
 We can further extend this from a finite set of operators, to operators measuring a continuous variable. If we imagine a continuous variable, $x$, that we can measure with a Gaussian precision, then we can formulate the set of POVMS by creating a set of Gaussian measures $\{\Omega_\alpha\}$ with width $\sigma$ and mean $\alpha$. The operators take the form:
@@ -71,50 +73,21 @@ Narrowing the state to be Gaussian around the measured variable and the probabil
 \begin{equation}
      \Tr(\Omega(\alpha) \rho \Omega^\dagger(\alpha)) = \frac{1}{\mathcal{N}}
 \end{equation}
-since it is completely mixed. The takeaway from these examples are that if we have a pure state and measure in that basis, then we will close in on the value around it and our measurement record will values distributed around the variable. If instead, the state is mixed then the measurement will force the state to be only a subsection. With the measurement record of $\alpha$ the state will go into a more concentrated distribution decided by our knowledge of the system.
+since it is completely mixed. 
 
-% Where we have used the cyclic properties of the trace, and that $\Omega^\dagger(\alpha)\Omega(\alpha) =  \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}$
-
-% \begin{equation}
-%     \Omega^\dagger(\alpha)\Omega(\alpha) =  \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}
-% \end{equation}
-% And $\rho = \ket{x_0}\bra{x_0}$:
-% \begin{align}
-%     \Omega^\dagger(\alpha)\Omega(\alpha) \ket{x_0}\bra{x_0} &= \frac{1}{\sqrt{\sigma^2\pi}} \int dx \exp\left(-\frac{(x- m)^2}{\sigma^2}\right) \ket{x}\bra{x}\ket{x_0}\bra{x_0} \nonumber \\
-%     \Tr(\Omega^\dagger(\alpha)\Omega(\alpha) \ket{x_0}\bra{x_0}) &= \frac{1}{\sqrt{\sigma^2\pi}} \exp\left(-\frac{(x_0- m)^2}{\sigma^2}\right)
-% \end{align}
-% We see that with this gaussian measurement POVM, we will measure a value of $m$ with the probability of Gaussian around $x_0$ with probability a gaussian probability with standard deviation $\sigma$. After, the wave function is no longer localized, but will instead be of a Gaussian shape around the value $m$ determined by the outcome of our measurement. See figure \ref{fig:illustration_measurement_with_gaussian} for illustration. If we were to reduce the value of $\sigma$ we would both have a smaller peak after, but the probability to measure the localized state will fall faster. 
-
-% \begin{marginfigure}[-6 cm]
-%     \centering
-%     \missingfigure{Measurement probabilities.}
-%     \caption{Illustration of the probability of measuring $x=m$ around the localized $x_0$ along with the wavefunction after the measurement.}
-%     \label{fig:illustration_measurement_with_gaussian}
-% \end{marginfigure}
-
-
-% \begin{equation}
-%     \frac{\Omega(\alpha) \ket{x'}\bra{x'}  \Omega^\dagger(\alpha)}{\Tr(\Omega(\alpha) \ket{x'}\bra{x'} \Omega^\dagger(\alpha))} =     
-% \end{equation}
-% \begin{equation}
-%     \Tr(\Omega(\alpha) \ket{x'}\bra{x'} \Omega^\dagger(\alpha)) = \Tr\left(\frac{1}{\sqrt{\pi}\sigma} \exp\left(\imy\frac{(x'- m)^2}{\sigma^2}\right)\right)
-% \end{equation}
-% And the state will be:
-% \begin{equation}
-%     \frac{\Omega(\alpha) \ket{x'}\bra{x'}  \Omega^\dagger(\alpha)}{\Tr(\Omega(\alpha) \ket{x'}\bra{x'} \Omega^\dagger(\alpha))} = 
-% \end{equation}
+%The takeaway from these examples are that if we have a pure state and measure in that basis, then we will close in on the value around it and our measurement record will values distributed around the variable. If instead, the state is mixed then the measurement will force the state to be only a subsection. With the measurement record of $\alpha$ the state will go into a more concentrated distribution decided by our knowledge of the system.
 
 \subsection{Continuous Weak Measurement}\label{sec:continuous_weak_measurement}
-We will in this section lay the foundation for making the continuous weak measurement, where information is extracted from the system at some rate. We can construct this formalism by dividing the time into multiple steps of $\Delta t$ and applying the Gaussian POVM at each time interval. We wish to formulate this in a way, where no information should be extracted from the system if the duration goes to $0$. At small times, we assume the strength of the measurement\footnote{We can think off the strength as the concentration of the gaussian proportional to $1/\sigma^2$.} to be linear in $\Delta t$, such that the strength is determined by$k\Delta t$, where $k$ is the rate with which we extract the information. The operator applied in one time step will then be of the form:
+We will in this section lay the foundation for making the continuous weak measurement, where information is extracted from the system at some rate. We can construct this process by dividing the time into multiple steps of $\Delta t$ and applying the Gaussian POVM at each time interval. We wish to formulate this in a way, where no information should be extracted from the system if the duration goes to $0$. At small times, we assume the strength of the measurement\footnote{We can think off the strength as the concentration of the gaussian proportional to $1/\sigma^2$.} to be linear in $\Delta t$, such that the strength is determined by $k\Delta t$, where $k$ is the rate with which we extract the information. The operator applied in one time step will then be of the form:
 % In a continuous measurement, information is extracted over time. No information is gained at $t=0$ and more information is acquired the longer the duration is. We will here assume Gaussian measurements and the variance decrease as more time goes according to $\frac{1}{\sigma^2} = k \Delta t$\todo{Comment on the weak measurement part and assumption that allow us to do this.}, where $k$ is some information gathering rate. This is not just a random equation, but it resembles the central limit theorem, where the amount of samples can be found from the rate of samples multiplied by the time. The operator applied in one time step will then be of the form:
 \begin{equation}
     \Omega(\alpha) = \left(\frac{4 k \Delta t}{\pi}\right)^\frac14 \int dx e^{-2k\Delta t (x - \alpha)^2} \ket{x}\bra{x}
 \end{equation}
-where $\alpha$ is the continuous label. If the state of the system is $\rho$ the probability of measuring the operator $\Omega_\alpha$ is then: $P(\alpha) = \Tr\left(\Omega^\dagger(\alpha) \Omega(\alpha) \rho \right)$. We find %\footnote{Now $\rho$ will be continuous and the will take the form $\rho = \int dx \int dx' \rho(x, x')\ket{x}\bra{x'}$ where the diagonal will be the wave function argument $|\psi(x)|$ such that the trace gives $\rho \int dx |\psi_x|^2 = 1$}
+where $\alpha$ is the continuous label. If the state of the system is $\rho$ the probability of measuring the operator $\Omega_\alpha$ is then: $P(\alpha) = \Tr\left(\Omega^\dagger(\alpha) \Omega(\alpha) \rho \right)$. We find 
 \begin{align}
     P(\alpha) = \sqrt{\frac{4 k \Delta t}{\pi}} \int_{-\infty}^{\infty} dx |\psi(x)|^2 e^{-4k\Delta t (x - \alpha)^2}
 \end{align}
-We will now let the amount of sub-intervals go to $\infty$ such that $\Delta t \to dt$ while keeping the product constant. In this limit, the Gaussian will be much wider than the wave function\footnote{If we assume the wave function to be somewhat localized $\expval{X^2} - \expval{X}^2 \ll 1 / k dt$}. Under the integral, we can the approximate the wave function as being completely localized $|\psi(x)|^2 \approx \delta(x-\expval{x})$, such that the probability of the instantaneous measurement yielding a specific $\alpha$ gives:
+We will now let the amount of sub-intervals go to $\infty$ such that $\Delta t \to dt$ while keeping the product constant. In this limit, the Gaussian will be much wider than the wave function\footnote{If we assume the wave function to be somewhat localized such that the variance of position is much smaller than the variance of an infinitesimal measurement $\expval{X^2} - \expval{X}^2 \ll 1 / k dt$}. Under the integral, we can the approximate the wave function as being localized $|\psi(x)|^2 \approx \delta(x-\expval{x})$, such that the probability of the instantaneous measurement yielding a specific $\alpha$ gives:
 \begin{equation}\label{eq:probability_of_alpha_gaussian}
     P(\alpha) = \sqrt{\frac{4 k \Delta t}{\pi}}  e^{-4k\Delta t (\expval{X} - \alpha)^2}
 \end{equation}
@@ -125,7 +98,7 @@ In anticipation for the next section, we will write an $\alpha$ drawn from the d
 \begin{equation}
     \alpha_s = \expval{X} + \frac{\Delta W}{\Delta t \sqrt{8k}}
 \end{equation}
-Where $\Delta W$ is a process producing a normal distributed parameter from a Gaussian with variance $\Delta t$ and is a formulation which often appears in random walks like in Brownian motion\cite{jacobs_straightforward_2006}.
+Where $\Delta W$ is a \textit{Wiener process} which produces a normal distributed parameter with variance $\Delta t$ and mean $0$. This formulation often appears in random walks like in Brownian motion\cite{jacobs_straightforward_2006}.
 
 % Another way of formulating this, is that if we were to measure with the set of POVMs defined by the set $\{\Omega(\alpha)\}$ the measured value $\alpha$ would be drawn from a Gaussian distribution with mean $\expval{x}$ and variance $1 / (8k\Delta t)$. For a single trajectory, the dynamics would however not be determined by the distrution, but just a single stochastic variable. If we introduce the Gaussian stochastic variable $\Delta W$ with mean $0$ and variance $\Delta t$, we can write the stochastic value of $\alpha$ as \footnote{Argue for this form of alpha. Maybe just do a rewriting of the probability density function}
 % which would also be the variable stored in our measurement record. The list of stochastic variables is called a \textit{trajectory} and it comes from \textit{unraveling}\todo{Explain unraveling} the measurement equations 
@@ -133,16 +106,16 @@ Where $\Delta W$ is a process producing a normal distributed parameter from a Ga
 % If one were to "draw" an $\alpha$ from this Gaussian distribution, we will the mean value $\expval{X}$ plus some random contribution from a gaussian with variance $1 / (8k\Delta t)$. We write this as:
 
 \section{Stochastic Master Equation}
-We are almost at the homestretch, but before arriving at the stochastic master equation, we will have to cover some basics of stochastic calculus.
+Before arriving at the stochastic master equation, we will introduce some basics of stochastic calculus.
 
-\subsection{Itos Rules}
-In stochastic calculus, we do not only have the limit of $\Delta t \to dt$, but we also need to consider what happens for $\Delta W$. While the properties come from a large field of stochastic calculus which is used in fields from finance to diffusive processes, we will just cover the fundamentals from Ito calculus. The first rules come from regular calculus, which states that in the limit of $\Delta t \to dt$, we ignore terms of order $dt^2$ or higher. 
+\subsection{Ito's Rules}
+In stochastic calculus, we do not only have the limit of $\Delta t \to dt$, but we also need to consider what happens for $\Delta W$. While the properties come from a large field of stochastic calculus which is used in fields from finance to diffusive processes, we will just cover some fundamental rules from Ito calculus. The first rule comes from regular calculus, which states that in the limit of $\Delta t \to dt$ we ignore terms of order $dt^2$ or higher. 
 
 Secondly, if we have a time interval of some duration $t_2 - t_1$, where some dynamical variable $W$ changes. We split the interval in $n = (t_2 - t_1)/\Delta t$ substeps and sum the contributions from $\Delta W$. This gives us:
 \begin{equation}
     \sum_{i=1}^n \Delta W
 \end{equation}
-Here we sum an identical variables from a Gaussian distribution with mean $0$ and variance $\Delta t$. By the central limit theorem, the sum will converge to a normal distribution with mean $0$ and variance $n \Delta{t} = t_2 - t_1$. In taking the limit for $n \to \infty$ and correspondingly $\Delta t \to dt$ such that their product is constant, this will not only approximate the Gaussian but will be:
+Here we sum an identical variables from a Gaussian distribution with mean $0$ and variance $\Delta t$. By the central limit theorem, the distribution of the sum will converge to a normal distribution with mean $0$ and variance $n \Delta{t} = t_2 - t_1$. In taking the limit for $n \to \infty$ and correspondingly $\Delta t \to dt$ such that their product is constant, this will not only approximate the Gaussian but will be:
 \begin{equation}
     \lim_{n \to \infty} \sum_{i=1}^n \Delta W = \int_{t = t_1}^{t = t_2} dW = \mathcal{N}(\mu = 0, \Var = t_2 - t_1)
 \end{equation}
@@ -154,115 +127,12 @@ Meaning that the variance of the random process will not itself be random but be
 \begin{equation}
     dW^2 = dt
 \end{equation}
-The last thing to remark is that we now also neglect terms of $dWdt$. One way to think about this, is that a normal distributed variable will be of the order given by the standard deviation. In a maybe exploitative notation, this can be written as $\sqrt{dt}$ meaning that $dWdt$ is of order $dt^\frac32$ and in the limit be much smaller than terms of order $dW, dt$ and $dW^2$ \cite{gheorghiu_ito_nodate}.
-
-
-% The introduction of a stochastic variable forces us to cover some of the fundamental results from stochastic calculus. Most importantly, we use Ito's rules, which governs how to think about the dynamics in an infinitesimal time interval: $dt$ and $dW$.
-% \begin{enumerate}
-%     \item $dt^2 \to 0$ - For small timesteps, we disregards second order behaviour. 
-%     \item $(dW)^2 = dt$. This comes as $dW$ is normally distributed with standard deviation $\sqrt{dt}$ and mean $0$. 
-%     \item everything of higher order is neglected, such as $dW^3 = dt dW$.
-% \end{enumerate}
-% With the above in mind, we can now start analyzing the transformation from $t \to t + dt$, where we need to keep terms of $dt, dW$ and importantly $dW^2 = dt$.
-
-
-
-% For an ordinary differential equation of one variable, if it satisfies:
-% \begin{equation}
-%     dy = f(x)dx 
-% \end{equation}
-% where $f(x, y)$ is some function and we can find $y$ by integrating both sides to obtain $y = \int dx f(x) + C_0$ where the arbitrary constant $C_0$ could be found by having an initial condition. For a stochastic differential equation, we could have another stochastic contribution:
-% \begin{equation}
-%     dy = f(x)dx + \sigma dW
-% \end{equation}
-% where $dW$ is a random variable with variance $\Var(dW) = dt$ and mean $0$. 
-
-% To treat stochastic equation, we will begin introducing Itó's rules. With $\Delta W$ a normal distributed variable with standard deviation $\sqrt{\Delta t}$. In any finite time interval, this variable will add up:
-% \begin{equation}
-%     W(t + \Delta t) - W(t) = \sum_N \delta W
-% \end{equation}
-% Where $\delta W$ is drawn from a normal distribution with variance $\sqrt{\Delta t / N}$.
-
-
-% \begin{equation}
-%     \Var(\Delta W) = (\Delta W)^2
-% \end{equation}
-
-% Taking the sum of multi increments:
-% \begin{equation}
-%     \sum
-% \end{equation}
-
-
-% In regular calculus, a differential equation comes from the relation between the differentials. If we consider a variable $z$ which is dependent on $x$, the equation could take the form:
-% \begin{equation}
-%     dz = f(z, x)dx 
-% \end{equation}
-% A typical goal is now to find the a function solving the differential equation. 
-
-% If we were to define a variable $z = e^{\alpha x}$ its differential comes from take a step $z + \Delta z = e^{\alpha(x + \Delta x)}$. By taking the infinitesimal limit of $\Delta x \to dx$ and $\Delta z \to dz$ we neglect higher order terms of $dx^2, dx^3 \dots$.  So by expanding $e^{x + dx}$, we would find:
-% \begin{equation}
-%     dz = e^{\alpha(x + \Delta x)} - e^{\alpha(x)} = e^{\alpha x}(e^{dx} - 1) = e^{\alpha x} (\alpha dx + \alpha^2\frac12 dx^2 + \dots) 
-% \end{equation}
-% Or by neglecting terms of $dt^2$ and higher, we can find: 
-% \begin{equation}
-%     dz = z dx \quad \text{or} \quad \frac{dz}{dx} = e^{\alpha x}
-% \end{equation}
-% Such that we can either formulate as a differential equation or the differential of z. If we expand the same idea to solve stochastic differential equations, we will again have to neglect terms of higher order in $dt$. 
-
-% When thinking about a stochastic variable from a Gaussian distribution with variance $dt$ the variable will be of order $\sqrt{dt}$ since the probability is exponentially suppressed in $dt$ and will quickly decay. Multiplying two such variables, will give a contribution of order $dW^2 \approx dt$. So in stochastic differentials, we will now neglect terms of order $dt^\frac32$ and higher like $dWdt^2$, $dW^3$ or $dt^2$.
-
-% Returning to the exponential and including a stochastic differential, we have:
-% % \begin{equation}
-% %     e^{\alpha(x + \beta dx + \gamma dW)} - e^{\alpha x} = e^{\alpha x}(\alpha \beta dx + \alpha \gamma dW + \frac12 \alpha^2(\beta^2 dx^2 + \gamma\beta dx dW + \gamma^2 dW^2) 
-% % \end{equation}
-% If we only keep the terms mentioned above, we have: 
-% \begin{equation}
-%     dz = \alpha \beta dx + \alpha \gamma dW + \frac12 \alpha^2\gamma^2 dW^2 
-% \end{equation}
-% Which is the stochastic differential equation. 
-
-% Before integrating, we will consider what happens with $dW$ and $dW^2$ when we sum them up: / split in N pieces of $\Delta t$
-% \begin{align}
-%     W(t_2 - t_1) &= \sum_0^N \Delta W = \mathcal{N}(\mu = 0; \sigma \to \sqrt{N(t_2 - t_1)}) \\
-%     \Var(t_2 - t_1) &\to N\sqrt{\sigma^2} = (t_2 - t_1)^2   
-% \end{align}
-% That is from the central limit theorem, saying that the sum of N identifacal and idenpendent variables drawn from a distribution will have variance $N \sigma^2$. 
-
-% Translate this to $dW^2 = dt$ under an integral. 
-
-% Such that the matrix from above can be written as:
-% \begin{equation}
-%     dz = \alpha (\beta  + \alpha \frac{\gamma^2}{2}) dt + \alpha \gamma dW 
-% \end{equation}
-
-
-% \subsection{Stochastic Calculus}\todo{Reformat this section, I'll just write the coclusions/parts now.}
-
-
-
-% As a start, let us first consider the Taylor expansion: 
-% \begin{equation}
-%     f(x) = f(x_0) + \left.\frac{df}{dx}\right\vert_{x=x_0} (x - x_0) + \frac{1}{2} \left.\frac{d^2f}{dx^2}\right\vert_{x=x_0} (x - x_0)^2 + \dots  
-% \end{equation}
-
-
-% To study the behaviour of a stochastic differential, we can 
-% start by thinking about normal calculus. If we are to differentiate a function with respect to a variable, we wou
-
-
-% The introduction of a stochastic variable forces us to cover some of the fundamental results from stochastic calculus. Most importantly, we use Ito's rules, which governs how to think about the dynamics in an infinitesimal time interval: $dt$ and $dW$.
-% \begin{enumerate}
-%     \item $dt^2 \to 0$ - For small timesteps, we disregards second order behaviour. 
-%     \item $(dW)^2 = dt$. This comes as $dW$ is normally distributed with standard deviation $\sqrt{dt}$ and mean $0$. 
-%     \item everything of higher order is neglected, such as $dW^3 = dt dW$.
-% \end{enumerate}
-% With the above in mind, we can now start analyzing the transformation from $t \to t + dt$, where we need to keep terms of $dt, dW$ and importantly $dW^2 = dt$.
+The last thing to remark is that we now also neglect terms of $dWdt$. One way to think about this, is that a normal distributed variable will be of the order given by the standard deviation. In a maybe exploitative notation, this can be written as $\sqrt{dt}$ meaning that $dWdt$ is of order $dt^\frac32$ and in the infinitesimal limit be much smaller than terms of order $dW, dt$ and $dW^2$ \cite{gheorghiu_ito_nodate}.
 
 \subsection{Stochastic Evolution of a Pure State}
 With Ito's rules, we are now ready to see how a quantum state evolves while we extract information from it. We will do this in two steps, first we will look how a pure state evolves $\rho = \ket{\psi(t)}\bra{\psi(t)} \to \rho(t+dt)$, if its subject to the continuous Gaussian measurement of a hermitian operator $X$ described in section \ref{sec:continuous_weak_measurement}. To generalize this form, we will try to derive it using the Kraus operators but inevitable fail since measurements are not linear and we will instead force trace preservation.
 
-We will here consider a state $\ket{\psi(x)}\bra{\psi(x)}$ which is pure. We split the process of extracting information out in many substeps and let them go be infinitesimal $\Delta t \to dt$. This will correspond to applying the POVM based on ${\Omega(\alpha)}$ with $\Delta t \to dt$. At each application the process will be stochastic, and will correspond to picking a stochastic variable $\alpha_s =\expval{X} + {dW}/{dt \sqrt{8k}}$ determining which operator and thereby which trajectory to follow. After a step of $dt$, the state will then be:
+We will here consider a state $\ket{\psi(x)}\bra{\psi(x)}$ which is pure. We split the process of extracting information out in many substeps and let them be infinitesimal $\Delta t \to dt$. This will correspond to applying the POVM based on ${\Omega(\alpha)}$ with $\Delta t \to dt$. At each application the process will be stochastic, and will correspond to picking a stochastic variable $\alpha_s =\expval{X} + {dW}/{dt \sqrt{8k}}$ determining which operator and thereby which trajectory to follow. After a step of $dt$, the state will then be:
 \begin{equation}
     \rho(t+dt) = \frac{\Omega(\alpha_s) \rho(t)  \Omega^\dagger(\alpha_s)}{P(\alpha_s)} = \frac{\Omega(\alpha_s) \ket{\psi}\bra{\psi}  \Omega^\dagger(\alpha_s)}{P(\alpha_s)} 
 \end{equation}
@@ -299,7 +169,7 @@ By using $dW^2 = dt$ and writing $\rho(t +dt) = \rho(t) + d\rho(t)$ we find the 
     d\rho(t) &=  2k\left(2 X\rho X - X^2\rho - \rho X^2\right)dt \\
                           &+ 2\sqrt{k}(X\rho + \rho X - 2 \expval{X}\rho)dW
 \end{align}
-When comparing this equation with the Lindblad Equation (equation \ref{eq:lindblad_master_equation}) we see, that the first term is exactly $\mathcal{D}[\sqrt{k}X]$. Thus, a continuous measurement gives a contribution which dissipates the system with the applied operator. Further, there is the stochastic contribution, which is dependent on the stochastic variable at each time step.  The state is changed by $\mathcal{H}[\sqrt{k}(X)]=2\sqrt{k}(X\rho + \rho X - 2 \expval{X}\rho)$ and the measurement record of drawn variables will be:
+Comparing this equation with the Lindblad Equation (equation \ref{eq:lindblad_master_equation}) we see, that the first term is exactly $\mathcal{D}[\sqrt{k}X]$. Thus, a continuous measurement gives a contribution which dissipates the system with the applied operator. Further, there is a stochastic contribution, which is dependent on the stochastic variable at each time step.  The state is changed by $\mathcal{H}[\sqrt{k}(X)]=2\sqrt{k}(X\rho + \rho X - 2 \expval{X}\rho)$ and the measurement record of drawn variables will be:
 \begin{equation}
     dX = \expval{X}dt + \frac{dW}{\sqrt{8k}}
 \end{equation}
@@ -402,7 +272,7 @@ Expanding:
 \begin{equation}\label{eq:trace_conservation}
     M^\dagger M  = \identity + 2K dt +  (c^\dagger + c)dW + c^\dagger c dW^2
 \end{equation}
-By setting $dW^2 = dt$, we get two constraints, one for $dt$ and one for $dW$. The first we can easily solve by determining $K$ as:
+By setting $dW^2 = dt$, we get two constraints, one for $dt$ and one for $dW$. The first can easily be solved by determining $K$ as:
 \begin{equation}
     2K = -c^\dagger c \Rightarrow K = -\frac12 c^\dagger c 
 \end{equation}
@@ -411,7 +281,7 @@ If we were to do the same for the $dW$ expression, we would have:
     0 &= c + c^\dagger
       % &= \expval{c + c^\dagger} + \expval{L^\dagger L}
 \end{align}
-To preserve the trace, we would need to have $c + c^\dagger = 0$. We could see this as a condition on $c$, where $c$ is taken to be anti-hermitian \cite{adler_derivation_2000}, or we can do as \cite{jacobs_straightforward_2006} and accept the non-linearity in the renormalization step, and actively renormalize at each time step to preserve the trace by subtracting $\expval{c + c^\dagger}dW$. If we do this, we  can write the mapping from $\rho(t)$ into $\rho(t+dt)$:
+To preserve the trace, we would need to have $c + c^\dagger = 0$. We could see this as a condition on $c$, where $c$ is taken to be anti-hermitian \cite{adler_derivation_2000}, or we can do as \cite{jacobs_straightforward_2006} and accept the non-linearity in the re-normalization step, and actively renormalize at each time step to preserve the trace by subtracting $\expval{c + c^\dagger}dW$. If we do this, we  write the mapping from $\rho(t)$ into $\rho(t+dt)$:
 \begin{align}
     \rho(t+dt) &= M \rho(t) M^\dagger \\
                &= \left(-i \comm{H}{\rho(t)} + K\rho(t) + \rho(t)K + c\rho(t)c^\dagger \right) dt \\
@@ -426,7 +296,7 @@ with:
     \mathcal{D}[c] \rho &= c\rho c^\dagger - \frac12 \left(c^\dagger c \rho + \rho c^\dagger c\right) \\ 
     \mathcal{H}[c] \rho &= c\rho + \rho c^\dagger - \expval{c + c^\dagger}\rho
 \end{align}
-The $\mathcal{D}[c]$ is exactly the one we found in the Lindblad equation and describes some dissipation or backaction from measuring the system\footnote{In the Lindblad equation, we allowed for multiple dissipation operators, this could also easily introduced here by having multiple $c_\alpha$ and a corresponding $L_\alpha$ for each. The we would just get a set of $\mathcal{D}$ and $\mathcal{H}$ for each $c_\alpha$}. The second term is defined by our current trajectory and is how the system changes based on what we learn about it. When comparing with the pure state from above, the stochastic equation can be found from this stochastic master equation by setting $c = \sqrt{2k}X$. If we generalize the measurement record, we have\cite{jacobs_straightforward_2006}:
+The $\mathcal{D}[c]$ is exactly the one we found in the Lindblad equation and describes some dissipation or backaction from measuring the system\footnote{In the Lindblad equation, we allowed for multiple dissipation operators, this could also easily introduced here by having multiple $c_\alpha$ and a corresponding $L_\alpha$ for each. The we would just get a set of $\mathcal{D}$ and $\mathcal{H}$ for each $c_\alpha$}. The second term is defined by our current trajectory and is how the system changes based on what we learn about it. When comparing with the pure state from above, we see that it can be retrieved by setting $c = \sqrt{2k}X$ in the general form. If we generalize the measurement record from this, we have\cite{jacobs_straightforward_2006}:
 \begin{equation}
     dr(t) = \frac{\expval{c + c^\dagger}}{2}dt + \frac{dW}{\sqrt{4}}
 \end{equation}
@@ -484,19 +354,19 @@ The $\mathcal{D}[c]$ is exactly the one we found in the Lindblad equation and de
 %     dr(t) = \frac{\expval{c + c^\dagger}}{2}dt + \frac{dW}{\sqrt{4}}
 % \end{equation}
 
-\subsection{Multiple Observers and Inefficienct Measurement}\label{sec:sme_inefficient}
+\subsection{Multiple Observers and Inefficient Measurement}\label{sec:sme_inefficient}
 If we consider two observers of a system measuring one operator each $c_A$ and $c_B$ then the full stochastic master equation gets contributions from each:
 \begin{align*}
     d\rho(t) = -i[H, \rho] &+ \mathcal{D}[c_A]\rho(t) dt + \mathcal{H}[c_A]\rho(t) dW \\
                            &+ \mathcal{D}[c_B]\rho(t) dt + \mathcal{H}[c_B]\rho(t) dW
 \end{align*}
-But observer $A$ has no knowledge about the measurements from observer $B$. Therefore she must average over them. Averaging over all $dW$ gives $0$. And observer $A$ will just see the backaction term: $\mathcal{D}[c_B] \rho(t) dt$. 
+But observer $A$ has no knowledge about the measurements from observer $B$. Therefore she must average over them. Averaging over all $dW$ gives $0$, and observer $A$ will just see the backaction term: $\mathcal{D}[c_B] \rho(t) dt$. 
 
-Inefficient measurements leads to simlar results. If an observer were to apply some measurement $c$, but only receive a fraction of the information $\eta\in[0, 1]$. The system would still exhibit the full backaction but less information will go into the stochastic update of the density matrix. With inefficient measurement, the stochastic master equation takes the form:
+Inefficient measurements leads to similar results. If an observer were to apply some measurement $c$, but only receive a fraction of the information $\eta\in[0, 1]$. The system would still exhibit the full backaction but less information will go into the stochastic update of the density matrix. With inefficient measurement, the stochastic master equation takes the form:
 \begin{equation}
     d\rho = -i \comm{H}{\rho}dt + \mathcal{D}[c]\rho dt + \eta \mathcal{H}[c] \rho dW
 \end{equation}
-And the record will have its signal scaled by a factor $\sqrt{\eta}$. Or if we normalize the record such that it averages to the expectation value, then we get a noise scaling:
+And the record will have its signal scaled by a factor $\sqrt{\eta}$.  If we instead normalize the record such that it averages to the expectation value, then we get the scaling on the noise term:
 \begin{equation}
     dr(t) = \frac{\expval{c + c^\dagger}}{2}dt + \frac{dW}{\sqrt{4\eta}}
 \end{equation}
@@ -534,11 +404,11 @@ The corresponding operators to this process, can be thought of by splitting the 
 \begin{equation}
     c_0 = \sqrt{\frac{\kappa}{2}}\; a, \quad c_{\frac{\pi}{2}} = i \sqrt{\frac{\kappa}{2}} \; a
 \end{equation}
-Which we can model as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
+We can model this as two inefficient observers, where we keep the information of both of them. Combining the two records into a complex number leads to
 \begin{equation}
     dr_{\text{heterodyne}}(t) = \left(\expval{I} + i\expval{Q}\right)dt  + \frac{1}{\sqrt{2\eta\kappa}}(dW_I + i dW_Q)
 \end{equation}
-Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$ such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. This also makes sense since it is the same signal we look at, we just split it in two \cite{campagne-ibarcq_measurement_nodate}. 
+Where we have associated the two quadratures with $I$ and $Q$. Both of which come with a noise process. However, we should still notice that $\mathcal{D}[a] = \mathcal{D}[ia]$ such that applying the hetereodyne measurement leads to the same dissipation as in the homodyne case. Physically, this should also make sense since it is the same signal we look at, we just split it in two \cite{campagne-ibarcq_measurement_nodate}. 
 % We are now in a position to look at, how the qubit is actually measured. The first thing to remark is that the we are actually not measuring the qubit but the resonator as described in earlier section. While driving the resonator with a pulse, we measure the absorption/transmission from the feed line. In terms of the system it means that we measure the the operator $a$ of the system since photon leaking from the resonator will be visible to us. While the photons escape with a rate of $\kappa$ we only see a fraction of them. Further, we have to amplify the signal from a countable amount of photons to something that still has signal at room temperature. This amplification chain introduces a lot of noise to the signal and we lose information here as well. We will return to determine the efficiency $\eta$ again in section \ref{sec:efficiency_calibration}, but for now, we can consider measurement of the resonator to be of the form $\sqrt{\kappa}a$ up to some phase, where a fraction $\eta$ of the information is collected by us.
 
 
@@ -594,7 +464,7 @@ Where we have associated the two quadratures with $I$ and $Q$. Both of which com
 The section above, does not directly measure the qubit, but is indirectly measuring it by determining the state of the resonator. It is however possible\footnote{but difficult} to see how the measurements interact with the qubit, if we trace the out the resonator. In section \ref{sec:driving_resonator_iq_plane}, we considered how the resonator coherent states: $\alpha_g, \alpha_e$ associated with $\ket{0}$ and $\ket{1}$ behaves under dispersive readout. 
 
 The idea is to use the transformation $P = \ket{g}\bra{g}D(\alpha_g) + \ket{e}\bra{e}D(\alpha_e)$ where $D(\alpha)$ is the displacement operator moving the coherent state with an amount $\alpha$ in phase space. By applying this transformation, the dynamics are moved from the resonator and unto the qubit such that we can trace out the resonator and see how the qubit is affected \cite{gambetta_quantum_2008}. 
-By transforming the Hamiltoninan, and tracing out the resonator, before doing the inverse transformation of the qubit. Gambetta et al. finds that the qubit experiences an effective frequency shift by:
+By transforming the Hamiltonian, and tracing out the resonator, before doing the inverse transformation of the qubit. Gambetta et al. finds that the qubit experiences an effective frequency shift by:
 \begin{equation}
     \omega_Q \to \omega_Q + 2 \chi \Re[\alpha_g(t)\alpha_e^*(t)]
 \end{equation}
@@ -606,4 +476,4 @@ Where the corresponding backaction from the measurement will take the form of \c
 \begin{equation}
     \eta\mathcal{H}(\sqrt{\kappa} a) \to \eta \sqrt{2 \chi \Im[\alpha_g(t)\alpha_e^*(t)]} \mathcal{H}[\sigma_z]
 \end{equation}
-The equation allow us to see how the qubit is dephased by our measurements. Further, we get an additional approximation, where we can average out the resonator in the dispersive limit, under the further assumption that both the state of the resonator will be coherent when starting from a both $\ket{0}$ and $\ket{1}$. While this significantly reduces the complexity of the simulation\footnote{since the resonator accounts for the largest part of the Hilbert Space}. An example is is that $T_1$ is not modelled well by these equations \footnote{In \cite{gambetta_quantum_2008} the transformation is done with the assumption that $T_1 \gg 1 / \kappa$}. 
+The equation allow us to see how the qubit is dephased by our measurements. Further, we get an additional approximation, where we can average out the resonator in the dispersive limit, under the further assumption that both the state of the resonator will be coherent when starting from a both $\ket{0}$ and $\ket{1}$. While this significantly reduces the complexity of the simulation since the resonator accounts for the largest part of the Hilbert Space, some of the assumption are very restrictive. An example is that $T_1$-decay is not modelled well by these equations \footnote{In \cite{gambetta_quantum_2008} the transformation is done with the assumption that $T_1 \gg 1 / \kappa$}. 

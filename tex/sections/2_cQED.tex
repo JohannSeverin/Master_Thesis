@@ -1,7 +1,7 @@
 \begin{fullwidth}
 \chapter{Circuit Quantum Electrodynamics}\label{chap:cQED}
 \end{fullwidth}
-While many platforms can be used as quantum processors, our focus will be on circuits consisting of superconducting materials. In this chapter, we will go through how these qubits are designed to create qubits and how we can model these numerically. \\
+While many platforms can be used as quantum processors, our focus will be on circuits consisting of superconducting materials. In this chapter, we will go through how these qubits are designed to create qubits and how we can model them numerically. \\
 
 \section{Circuit QED}
 \begin{marginfigure}[5 cm]
@@ -45,7 +45,7 @@ Which is of particular interest since $Q$ is a canonical momentum to the coordin
 % And from this the Hamiltonian:\footnote{By defining a canonical momentum $Q = \partial \mathcal{L} / \partial \dot{\Phi}$ and doing the legendre transformation $\mathcal{H} = Q\dot{\Phi} - \mathcal{L}$.} \cite{krantz_quantum_2019}:
 
 \subsection{Going quantum}
- Usually, classical circuits exhibit energy loss due to the resistance in the material. By utilizing the superconducting phase of materials where they exhibit no loss at cold temperatures, circuits can have no energy dissipation\footnote{at least not through resistance. Many other outside factors can still interact with the qubit. The limited coherence is still a big obstacle for superconducting qubit.}. This allows us to quantize the variables and use the superconducting circuit as a type of artificial atom. \cite{gennes_superconductivity_1966}
+ Usually, classical circuits exhibit energy loss due to the resistance in the material. However, by utilizing the superconducting phase at cold temperatures, where electrons pair up as Cooper Pairs to travel through materials with no loss, circuits can achieve no energy dissipation\footnote{at least not through resistance. Many other outside factors can still interact with the qubit. The limited coherence is still a big obstacle for superconducting qubit.}. This allows us to quantize the variables and use the superconducting circuit as a type of artificial atom. \cite{gennes_superconductivity_1966}
 
 Since $\Phi$ and $Q$ are conjugate variables, they satisfy the classical Poisson bracket equation:
 \begin{equation}
@@ -53,12 +53,12 @@ Since $\Phi$ and $Q$ are conjugate variables, they satisfy the classical Poisson
 \end{equation}
 Quantizing these parameters are done by replacing the variables with the corresponding operators: $Q \to \hat{Q}$ and $\Phi \ \to \phi$, and applying the correspondence principle. Here we replace the Poisson brackets with the commutator $\{., .\} \to i\hbar[., .]$, such that operators satisfy \cite{krantz_quantum_2019}:
 \begin{equation}
-    [\phi, \hat{Q}] = i\hbar
+    [\hat{\phi}, \hat{Q}] = i\hbar
 \end{equation}
 The rest of this thesis will concern quantum mechanics, so we drop the hats from the operators and set $\hbar = 1$. We can reintroduce it later if we need to determine physical quantities. However, we will often refer to energies in terms of the associated frequency $f = \omega/2\pi = E / h$. 
 
 \subsection{Solving the LC Circuit}\label{sec:forming_qubits}
-Since $Q$ and $\Phi$ are conjugate variables like position $x$ and momentum $p$, we can choose to represent it in the flux basis. Here $Q$ takes a differential form:
+Since $Q$ and $\Phi$ are conjugate variables like position $x$ and momentum $p$, we can equally choose to represent it in the flux basis or the charge basis. If we picking the flux basis $Q$ takes a differential form:
 \begin{equation}
     Q = i\frac{\partial}{\partial \Phi}
 \end{equation}
@@ -75,11 +75,11 @@ Where $\omega = \sqrt{8 E_C E_L}$ can be found by comparing the Hamiltonian with
 While the harmonic oscillator has many useful properties, a major problem is its equidistant energy levels. When driving transitions with a pulse of frequency $\omega$, we will not only drive transitions in the computational basis $\ket{0} \leftrightarrow\ket{1}$, but also to the higher order states. To find a circuit, we can control without going out of the computational basis, we must search for an anharmonic potential \cite{krantz_quantum_2019}.
 
 \section{Building Qubits}
-The solution lies in another component, which is exists in the realms of superconducting circuits. By separating two superconductors by a semiconducting material, the Cooper pairs\footnote{Superconductivity is often modelled by creating electron pairs which then have spin 1 and behave like bosons. These pairs are called Cooper pairs. \cite{gennes_superconductivity_1966}} will no longer travel without resistance through the semi conductor but instead tunnel through. The probability of tunneling is dependent on the distance, material and most importantly the phase difference between the two superconductors. The probability for tunneling through the superconducting phase is given as $\sin(2e\phi(t))$, where $\phi(t)$ is the time-dependent difference in phase between the two superconductors. Using the flux-quantum $\phi_0 = h / 2e$ and adding an external flux, the current through the Josephson Junction is:
+The solution lies in another component, which exists in the realm of superconducting circuits. By separating two superconductors by a semiconducting material, the Cooper pairs\footnote{Superconductivity is often modelled by creating electron pairs which then have spin 1 and behave like bosons. These pairs are called Cooper pairs. \cite{gennes_superconductivity_1966}} will no longer travel without resistance through the semi conductor but instead tunnel through. The probability of tunneling is dependent on the distance, the semi-conducting material and most importantly the phase difference between the two superconductors. The probability for tunneling through the superconducting phase is given as $\sin(2e\phi(t))$, where $\phi(t)$ is the time-dependent difference in phase between the two superconductors. Using the flux-quantum $\phi_0 = h / 2e$ and adding an external flux, the current through the Josephson Junction is:
 \begin{equation}
     I(t) = I_0 \sin \left( \frac{\phi(t) + \phi_{ext}}{\phi_0} \right)
 \end{equation}
-The energy of the Josephson Junction can now be found to\cite{krantz_week_2019}: 
+The energy of the Josephson Junction can now be found as\cite{krantz_week_2019}: 
 \begin{equation}
     E_{\text{Josephson Junction}} = - E_J \cos \left[ \frac{\phi(t) + \phi_{ext}}{\phi_0} \right]
 \end{equation}
@@ -96,21 +96,21 @@ Replacing the inductor in the LC circuit with a Josephson Junction, we get a cir
 \begin{equation}
     H(t) =  4 E_C (n - n_g)^2 -  E_J \cos \left[ \frac{\phi(t) + \phi_{ext}}{\phi_0} \right]
 \end{equation}
-where $n = Q/2e$ is a amount of cooper pairs on the "island" and $E_C = e^2/2C$\footnote{The factor of 4 would disappear if we counted electrons instead of pairs which was historically done}. Like flux and charge, the Cooper Pair number $n$ and the superconducting phase difference $\phi$ form a canonical commutation pair: $\comm{n}{\phi} = i$. In the Cooper Pair Box the energy scales of the two contributions are approximately equal $E_C \approx E_L$ \cite{blais_circuit_2021}. 
+where $n = Q/2e$ is a amount of cooper pairs on the "island" and $E_C = e^2/2C$\footnote{The factor of 4 would disappear if we counted electrons instead of pairs which was historically done}. Like flux and charge, the Cooper Pair number $n$ and the superconducting phase difference $\phi$ form a canonical commutation pair: $\comm{n}{\phi} = i$. In the Cooper Pair Box the energy scales of the two contributions are approximately equal $E_C \approx E_J$ \cite{blais_circuit_2021}. 
 
 
 \begin{figure}
     \centering
     \includegraphics[width=0.80\linewidth]{Figs/Theory/CPB_potential.pdf}
-    \caption{The flux-potential of the cooper pair box along with the three lowest energy eigenstates. The eigenstates are shifted according to the theiry energy and scaled to improve readability. The energy level $E_0 + 2E_{01}$ is shown for comparison. The anharmonicity will be the difference between that line and the $E_2$}
+    \caption{The flux-potential of the cooper pair box along with the three lowest energy eigenstates. The eigenstates are shifted according to the their energy and scaled to improve readability. The energy level $E_0 + 2E_{01}$ is shown for comparison. The anharmonicity will be the difference between that line and the $E_2$}
     \label{fig:cooper_pair_box_energy_levels}
 \end{figure}
 
 
-This allows us to think about $\phi$ as a coordinate where the Josephson Junction energy defines a potential and the charge a kinetic energy. Solving the eigenvaue problem $H\psi(\phi) = E \psi(\phi)$, we can find the eigenenergies and the eigenvectors of the Cooper Pair Island in $\phi$-space. A solution to this problem with $E_C = E_L$ can be seen in figure \ref{fig:cooper_pair_box_energy_levels}. Most importantly, we note that the that the energy $E_2-E_1 \neq E_1 - E_0$. This difference is called \textit{anharmonicity} and is defined by $\alpha = (E_2 - E_1) - (E_1 - E_2)$ \cite{krantz_week_2019}.
+This allows us to think about $\phi$ as a coordinate where the Josephson Junction energy defines a potential and the charge a kinetic energy. Solving the eigenvaue problem $H\psi(\phi) = E \psi(\phi)$, we can find the eigenenergies and the eigenvectors of the Cooper Pair Island in $\phi$-space. A solution to this problem with $E_C = E_J$ can be seen in figure \ref{fig:cooper_pair_box_energy_levels}. Most importantly, we note that the that the energy $E_2-E_1 \neq E_1 - E_0$. This difference is called \textit{anharmonicity} and is defined by $\alpha = (E_2 - E_1) - (E_1 - E_2)$ \cite{krantz_week_2019}.
 
 \subsection{The Transmon}
-With $E_J / E_C \approx 1$ the circuit is susceptible to charge noise, where small variations change the energy significantly. Charge noise is is harder to control than flux noise, so the superconducting community has moved toward higher ratios for $E_J / E_C$. Most commonly the ratio is somewhere between 50 and 100. By plotting the energy levels of the cooper pair box and the Transmon as function of $n_g$, we can see the difference (see figure \ref{fig:transmon_charge_sensitivity}. The insensitivity to charge noise does not come for free but reduces the anharmonicity. With lower anharmonicity, we need longer pulses to make sure, we do not accidental have components of the $E_2 - E_1$ frequency in our pulse, but the wide use of the Transmon indicates that it strikes a good balance \cite{koch_charge_2007}. 
+With $E_J / E_C \approx 1$ the circuit is susceptible to charge noise, where small variations change the energy significantly. Charge noise is harder to control than flux noise, so the superconducting community has moved toward higher ratios for $E_J / E_C$. Most commonly the Transmon has a ratio somewhere between 50 and 100. By plotting the energy levels of the cooper pair box and the Transmon as function of $n_g$, we can see the difference (see figure \ref{fig:transmon_charge_sensitivity}). The insensitivity to charge noise does not come for free but reduces the anharmonicity. With lower anharmonicity, we need longer pulses to make sure, we do not accidental have components of the $E_2 - E_1$ frequency in our pulse, but the wide use of the Transmon indicates that it strikes a good balance \cite{koch_charge_2007}. 
 \begin{marginfigure}
     \centering
     \includegraphics[width = 1.00 \linewidth]{Figs/Theory/Transmon_energy_vs_ng.pdf}
@@ -123,12 +123,12 @@ Multiple additions can be made to the Transmon to make its energy tuneable. A po
 
 
 \section{Numerical cQED}
-To simulate the devices considered in this thesis, we will in this section introduce how the problems at hand can be represented in a suitable way for solving numerically. As mentioned in the previous sections, the Hamiltonian is made out of the two conjugate operators $\phi$ and $n$ satisfying the commutation relation $\comm{\phi}{n} = i$. Like the position and momentum, we now have a choice of which basis to represent the system in. In mechanical quantum problem, we would for example consider the position basis ${x}$ and the momentum $p$. These two basis are related by Fourier transformations, and we get\footnote{This is very similar to the relation between $x$ and $p$, but with the extra detail that $n$ is discrete and $\phi\in[0, 2\pi]$}  \cite{langford_circuit_2013}:
+To simulate the devices considered in this thesis, we will in this section introduce how the problems at hand can be represented in a suitable way for solving numerically. As mentioned in the previous sections, the Hamiltonian is made out of the two conjugate operators $\phi$ and $n$ satisfying the commutation relation $\comm{\phi}{n} = i$. Like the position and momentum, we now have a choice of which basis to represent the system in. The two basis are related by the Fourier-like transformations\footnote{This is very similar to the relation between $x$ and $p$, but with the extra detail that $n$ is discrete and $\phi\in[0, 2\pi]$}  \cite{langford_circuit_2013}:
 \begin{align}
     \ket{\phi} &= \sum_{n=-\infty}^\infty e^{in\phi}\ket{n} \\
     \ket{n} &= \frac{1}{2\pi} \int_0^{2\pi}d\phi e^{-in\phi}\ket{\phi}
 \end{align}
-Often the problem at hand is easier to formulate in one basis rather than the other. For the transmon, the charge is often localized around $0$ since higher $n- n_g$ values give very high energies. Since the occupation in the higher levels will be negligible if we control the system properly and keep it at low temperatures, we can set a value for $n_{\text{cutoff}}$ to have a finite size of the Hilbert Space. The charge basis is proportional to $n$, so we can use that as basis, where $n$ becomes:
+Often the problem at hand is easier to formulate in one basis rather than the other. For the transmon, the charge is often localized around $0$ since higher $n- n_g$ values give high energies. Since the occupation in the higher levels will be negligible if we control the system properly and keep it at low temperatures, we can set a value for $n_{\text{cutoff}}$ to have a finite size of the Hilbert Space. The charge basis is proportional to $n$, so we can use that as basis, where $n$ becomes:
 \begin{equation}
     \hat{n} = \begin{pmatrix}
 -n_{\text{cutoff}} & 0 &  & \ldots &  \\
@@ -148,7 +148,7 @@ Since it is true for all states that the operator $e^{i\phi}$ takes a state $\ke
 \begin{equation}
     e^{i\phi} = \sum_n \ket{n}\bra{n+1}; \quad e^{-i\phi} = \sum_n  \ket{n}\bra{n-1}
 \end{equation}
-Just rewriting cosine in terms of the Euler into complex exponentials, we find 
+By writing cosine in terms of the complex exponentials, we now find:
 % \begin{fullwidth}
 \begin{align}
     \cos(\phi/\phi_0 + \phi_{ext}) &= \frac12 \left(e^{-i(\phi/\phi_0 + \phi_{ext})} + e^{i(\phi/\phi_0 + \phi_{ext}}))\right) \nonumber\\
@@ -164,9 +164,9 @@ Just rewriting cosine in terms of the Euler into complex exponentials, we find
 % \end{fullwidth}
 With no external flux, $\phi_{ext} = 0$, this reduces to a matrix with $\frac12$ on the off-diagonals.
 
-Some problems are more convenient to represent in the flux basis. Here we would take the flux to be the diagonal representation, where the diagonal is $(-\pi, -\pi + \delta \dots, \pi)$. $n$ would take a discrete form of the differential $i\pfrac{}{\phi} \approx \frac{i}{2\delta} \sum_k (\ket{-\pi + k\delta}\bra{\pi} + \ket{\pi}\bra{-\pi + k\delta})$ \cite{aumann_circuitq_2022}.
+Some systems are more convenient to represent in the flux basis. Again, we would need to find a discrete basis. One could take the $[-\pi, \pi]$ interval and split it in $N$ smaller steps, such that the step size is $\delta = 2\pi/N$. This would give a diagonal representation of $\phi$ with the elements from $-\pi, -\pi + \delta \dots$, and we could represent the number basis as a differential between the elements using the finite difference method \cite{aumann_circuitq_2022}.
 
-With a Hamiltonian represented in a discrete basis, we can calculate the eigenvalues and eigenvectors numerically. We can further reduce the size of the Hilbert space, by representing it in the energy eigenbasis. Here we just include the few lowest energy levels, and can calculate the representation of for example $n$ by $\mel{k}{q}{k}$. % By limiting us to the few lowest energy eigenstates because of the low temperature, we can reduce the basis significantly to the energy representation, where the Hamiltonian is diagonal: $H = \sum_k^{k_{max}} \hbar \omega_k \ket{k}\bra{k}$ where $k$ refers to the k'th lowest energy eigenvalue of the Hamiltonian. We can then further find the charge matrix as 
+With a Hamiltonian represented in a discrete basis, we can calculate the eigenvalues and eigenvectors numerically. We can further reduce the size of the Hilbert space, by representing it in the energy eigenbasis. Here we just include the few lowest energy levels, and can recover the number generator in this basis by $\mel{k}{\hat{n}}{k}$. % By limiting us to the few lowest energy eigenstates because of the low temperature, we can reduce the basis significantly to the energy representation, where the Hamiltonian is diagonal: $H = \sum_k^{k_{max}} \hbar \omega_k \ket{k}\bra{k}$ where $k$ refers to the k'th lowest energy eigenvalue of the Hamiltonian. We can then further find the charge matrix as 
 
 
 % \textbf{Rambling now. Tighten the following: from . The part with }
