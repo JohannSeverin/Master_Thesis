@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import xarray as xr
 import sys, os
 
-plt.style.use("../code/matplotlib_style/inline_figure.mplstyle")
+plt.style.use("../code/matplotlib_style/margin_figure.mplstyle")
 
 from matplotlib.colors import LinearSegmentedColormap
 
@@ -103,7 +103,7 @@ ax.errorbar(
     100 * thresholds_to_include,
     fidelities,
     fidelities_err,
-    marker="o",
+    marker=".",
     linestyle="none",
     capsize=2,
     elinewidth=2,
@@ -128,9 +128,9 @@ minimizer.migrad()
 x = np.linspace(0, 1, 1000)
 y = parabola(x, *minimizer.values)
 
-ax.plot(x * 100, y, "k--", label="3. Order Polynomial")
+ax.plot(x * 100, y, "k--", label="3. order polyfit")
 
-ax.legend()
+ax.legend(loc="upper right", fontsize=18)
 
 
 fig.savefig("Figs/fidelity_vs_included_fraction.pdf", bbox_inches="tight")

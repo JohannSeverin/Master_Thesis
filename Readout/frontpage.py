@@ -37,17 +37,35 @@ plt.style.use("../code/matplotlib_style/inline_figure.mplstyle")
 
 fig, ax = plt.subplots(figsize=(8.268, 11.693))
 
-I_ground = data["I_ground"].coarsen({"adc_timestamp": 5}, boundary="pad").sum().values
-Q_ground = data["Q_ground"].coarsen({"adc_timestamp": 5}, boundary="pad").sum().values
-I_excited = data["I_excited"].coarsen({"adc_timestamp": 5}, boundary="pad").sum().values
-Q_excited = data["Q_excited"].coarsen({"adc_timestamp": 5}, boundary="pad").sum().values
+I_ground = data["I_ground"].coarsen({"adc_timestamp": 2}, boundary="pad").sum().values
+Q_ground = data["Q_ground"].coarsen({"adc_timestamp": 2}, boundary="pad").sum().values
+I_excited = data["I_excited"].coarsen({"adc_timestamp": 2}, boundary="pad").sum().values
+Q_excited = data["Q_excited"].coarsen({"adc_timestamp": 2}, boundary="pad").sum().values
 
 for s in range(100):
-    ax.plot(I_ground[s].cumsum(), Q_ground[s].cumsum(), color="C0", alpha=0.30)
-    ax.plot(I_excited[s].cumsum(), Q_excited[s].cumsum(), color="C1", alpha=0.30)
+    ax.plot(I_ground[s].cumsum(), Q_ground[s].cumsum(), color="C0", alpha=0.15)
+    ax.plot(I_excited[s].cumsum(), Q_excited[s].cumsum(), color="C1", alpha=0.20)
 
-ax.scatter(I_ground.sum(axis=1), Q_ground.sum(axis=1), color="C0", alpha=0.45, s=40)
-ax.scatter(I_excited.sum(axis=1), Q_excited.sum(axis=1), color="C1", alpha=0.45, s=40)
+ax.scatter(
+    I_ground.sum(axis=1),
+    Q_ground.sum(axis=1),
+    color="C0",
+    alpha=0.35,
+    s=40,
+    zorder=10,
+    edgecolors="k",
+    linewidths=0.5,
+)
+ax.scatter(
+    I_excited.sum(axis=1),
+    Q_excited.sum(axis=1),
+    color="C1",
+    alpha=0.35,
+    s=40,
+    zorder=10,
+    edgecolors="k",
+    linewidths=0.5,
+)
 
 
 # transformed_sim["tra"]
