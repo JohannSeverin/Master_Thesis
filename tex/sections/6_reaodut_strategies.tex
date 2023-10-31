@@ -3,7 +3,7 @@ We will now determine how well readout can be done on our experimental setup. In
 % With the knowledge of how readout are carried out, we are now ready to take on the actual readout process. In this chapter, we will be performing the analysis of a readout process from the laboratory to determine how good it is.
 
 \section{Experimental Setup}
-We will first provide an overview of the experimental setup consisting of three main parts: the quantum device, where the qubit is, the control hardware at room temperature and how it is connected as well as cooled.
+We will first provide an overview of the experimental setup consisting of three main parts: the quantum device, the control hardware at room temperature, and how it is connected as well as cooled.
 
 % While most of the work in this thesis will be theoretical and computational, we will try to understand, calibrate and model a physical system. This section will serve as a short overview of the setup.
 % \todo{Write this section properly.}
@@ -12,26 +12,20 @@ We will first provide an overview of the experimental setup consisting of three 
 The experiments are run on the Soprano Chip with 6 qubits. We run all experiment on qubit 2 (see figure \ref{fig:soprano}) and will effectively think of the whole system as a one qubit system. Qubit 2 is a flux tuneable transmon which is connected to a resonator, a control line and flux line used to tune the frequency. The resonator is connected to a feed line which is further connected to the five other resonators. While the qubit is flux tuneable, we will throughout all experiments have it set to the sweet spot,  where we are the least sensitive to flux noise. 
 
 \begin{figure}[h]
-    \begin{minipage}{0.50\textwidth}
-        \centering
-        \includegraphics[height = 5 cm]{Figs/hardware/layout.png}
-    \end{minipage}
-        \begin{minipage}{0.50\textwidth}
-        \centering
-        \includegraphics[height = 5 cm]{Figs/hardware/layout_photo.png}
-    \end{minipage}
-    \caption{The Soprano Chip layout and a picture of the chip. Experiments are run on Qubit 2 labeled "q2" in the schematic.}
+    \centering
+    \includegraphics[width = \textwidth]{Figs/hardware/qubit.png}
+    \caption{The Soprano Chip layout without indicated feed lines and couplings to qubit 2 which is used.}
     \label{fig:soprano}
 \end{figure}
 
 \subsection{Control Hardware}
 In order to control the qubit and drive the resonator, we need to be able to create pulses with the right frequency and envelope. For this, we use an arbitrary waveform generator and data processing device. In this experiment, this is done with an OPX \cite{noauthor_opx_nodate}. The OPX outputs two signals to drive the qubit and two to the readout line corresponding to the $I$ and $Q$ signal. And has two input channels for readout signal. The envelope of the pulses can be made with a resolution of 1 GS/s and can process waves with a frequency of 400 MHz. In addition, it has an on-board Field-programmable gate array (FPGA) which is used to compile pulses and demodulate the signal. 
 
-Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and down-conversion is needed. In our experiment, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has multiple local oscillators for down converting signal one of which support up conversion as well. The upconversion is used for the readout line while another local oscillator is used to generate pulses for qubit control. A schematic of the control hardware setup can be seen to the left in figure \ref{fig:Fridge_control_hardware_setup}.
+Since the signal needed for qubit and resonator control is of order 5-10 GHz, another device for up- and down-conversion is needed. In our experiment, we make use of the Octave \cite{noauthor_octave_nodate}. The Octave has three local oscillators for down converting signal one of which support up conversion as well. The upconversion is used for the readout line while another local oscillator is used to generate pulses for qubit control. A schematic of the control hardware setup can be seen to the left in figure \ref{fig:Fridge_control_hardware_setup}.
 
-The two control devices are controlled by using accessing an API using Python. For this thesis the higher level module OPX\_Control was used which simplifies writing and running experiment using the OPX and Octave \cite{hastrup_cqed_nodate}. 
+The two control devices are controlled by using QUA  an API using Python. For this thesis the higher level module OPX\_Control\cite{hastrup_cqed_nodate}. , an in-house developed module based on QUA which   was used which simplifies writing and running experiment using the OPX and Octave 
 
-In addition to the driving lines, a DC line is also coupled directly from the OPX to the fridge to adjust the flux in the qubit. This will be constant for all experiments in the qubit sweet spot, so we will for the most part ignore it for now. 
+In addition to the driving lines, a line from the OPX is also coupled directly to the fridge which is used to adjust the flux in the qubit and thereby its frequency. This will be constant for all experiments at the qubit sweet spot, so we will for the most part ignore it for now. 
 
 
 \begin{figure*}[t]
@@ -43,15 +37,15 @@ In addition to the driving lines, a DC line is also coupled directly from the OP
 
 
 \subsection{Cooling and Amplifiation}
-To keep the soprano chip just above the absolute zero, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$. In the right side of  figure \ref{fig:Fridge_control_hardware_setup}, we have illustrated the qubit and resonator drive line from room temperature to the chip, and the returning signal from the resonator and up to room temperature again. For simplicity, we have only illustrated one microwave control line, one readout drive line and one readout signal line\footnote{There are many others which share similar ideas. These consists of other qubit conotrl lines, flux lines and a line for a local oscillator to drive the TWPA}.
+To keep the soprano chip as close to the absolute zero as possible, it is places in a Cryostate capable of cooling to $\approx 30 \text{mK}$. In the right side of  figure \ref{fig:Fridge_control_hardware_setup}, we have illustrated the qubit and resonator drive line from room temperature to the chip, and the returning signal from the resonator and up to room temperature again. For simplicity, we have only illustrated one microwave control line, one readout drive line and one readout signal line\footnote{There are many others which share similar ideas. These consists of other qubit conotrl lines, flux lines and a line for a local oscillator to drive the TWPA}.
 
 The down conversion lines receive signal from the Octave and decreases the amplitude of the signal at multiple stages. At low temperatures high frequency signals are filtered out before the signal is applied to the qubit or to the resonator through the drive line.
 
-Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{mac}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
+Since the output signal is of order of 10-100 photons, it is a high risk to be lost to thermal noise in the upconversion line. Therefore, multiple highly sophisticated amplification are needed. The first of which is Traveling Wave Parametric Amplifier (TWPA) \cite{macklin_nearquantum-limited_2015}. The TWPA amplifies at low temperature and adds noise close to that of theoretical minimum. After the TWPA two other amplification are performed, before the signal exits the fridge and reenters the octave for IQ mixing. 
 
 
 \subsection{Demodulation of Readout Signal}\label{sec:demodulation}
-To do a readout of the resonator, a pulse is send at an intermediafe frequency, $\omega_{IF}$ from the waveform generator to the octave where it is mixed with a local oscillator signal, $\omega_{LO}$. This results in a high frequency pulse send to the fridge at the readout frequency.
+To do a readout of the resonator, a pulse is send at an intermediate frequency, $\omega_{IF}$ from the waveform generator to the octave where it is mixed with a local oscillator signal, $\omega_{LO}$. This results in a high frequency pulse send to the fridge at the readout frequency.
 
 After interacting with the resonator it is amplified and it enters the Octave with the form:
 \begin{equation}
@@ -172,7 +166,7 @@ To determine the readout fidelity of our superconducting qubit, we will now do t
     \item We now apply a rectangular\footnote{We have a 10 $ns$ ramp-up and ramp-down period to avoid "kicking" the system". This is neglected in our analysis and later in simulations} resonator pulse at frequency $f_d = f_r$ (in between the two states shift) lasting $600 \text{ns}$. This starts movement in the IQ plane  analogous to what was described in section \ref{sec:resonator_decays}. The feed line output signal is monitored using a heterodyne measurement-scheme which we described in section \ref{sec:demodulation}. This leads to I and Q signal which is tracked digitized every $ns$ and stored for post processing.
     \item Steps 1-3 are repeated 1000 times for initialization $\rho_0$ and for initialization $\rho_1$.
 \end{enumerate}
-In the post processing (which is visualized in the top row of figure \ref{fig:readout_process}), we have the initialization label and the I and Q trajectories of the readout pulse. By demodulating them at the intermediate frequency and integrating the signal we arrive at one value set for $(I, Q)$. Plotting the distribution, we can find the projection line with the largest separation using Linear Discriminant Analysis. This is done by using the implementation in SKLearn \cite{predregoske_sklearn}. This allows us to project all points onto the axis resulting in a 1D histogram. By picking the threshold which maximizes the fidelity, we have a measure for the fidelity of this readout protocol. In our experiment this lead to the fidelity.
+In the post processing (which is visualized in the top row of figure \ref{fig:readout_process}), we have the initialization label and the I and Q trajectories of the readout pulse. By demodulating them at the intermediate frequency and integrating the signal we arrive at one value set for $(I, Q)$. Plotting the distribution, we can find the projection line with the largest separation using Linear Discriminant Analysis. This is done by using the implementation in SKLearn \cite{pedregosa_scikit-learn_nodate}. This allows us to project all points onto the axis resulting in a 1D histogram. By picking the threshold which maximizes the fidelity, we have a measure for the fidelity of this readout protocol. In our experiment this lead to the fidelity.
 \begin{equation}
     F_{\text{SPAM}} = 0.613\pm 0.018
 \end{equation}
