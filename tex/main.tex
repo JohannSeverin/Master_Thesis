@@ -11,11 +11,12 @@
 % \subfile{TODO.tex}
 % Make title page
 % \BgThispage
+\pagenumbering{roman}
 \maketitlepage
 
 % To do notes
 \chapter*{\centering Abstract}
-For superconducting qubits to be a viable platform for large scale quantum information processing, high-fidelity readout is required. State Preparation and Measurements (SPAM) errors are however inseparable in quantum algorithms. This thesis will look into the underlying physics describing the system and time evolution in an initialization and readout sequence to closer study, how different physical parameters contribute to the SPAM errors. By calibrating a single superconducting qubit, a simulation model is built using the stochastic master equation to simulate the dispersive approximation of a qubit-resonator system. The model is capable of producing realistic plots of IQ measurements which have similar distributions and SPAM fidelity as measured in the laboratory. The model is used to estimate the contribution to the infidelity from three factors: non-zero temperature, energy decay during measurement and inefficient measurement concluding that non-zero temperature is the biggest contributor in the system. The model is further used to simulate the system with marginal improvements which serves as a basis for discussing improvements of superconducting qubit readout.
+For superconducting qubits to be a viable platform for large scale quantum information processing, high-fidelity readout is required. This thesis will look into the underlying physics describing the system and time evolution in an initialization and readout sequence in order to study, how different physical parameters contribute to the State Preparation and Measurements (SPAM) errors. By calibrating a single superconducting qubit, a simulation model is built using the stochastic master equation to simulate the dispersive approximation of a qubit-resonator system. The model is capable of producing realistic plots of IQ measurements which have similar distributions and SPAM fidelity as measured in the laboratory. The model is used to estimate the contribution to the infidelity from three factors: non-zero temperature, energy decay during measurement and inefficient measurement. We conclude that non-zero temperature is the biggest contributor in the analyzed system. The model is further used to simulate the system with marginal improvements . This serves as a basis for discussing improvements of superconducting qubit readout.
 
 
 % To implement large scale quantum information protocols on superconducting qubits, high-fidelity readout is required. 
@@ -46,18 +47,27 @@ For superconducting qubits to be a viable platform for large scale quantum infor
 % Furthermore, the model serves as a platform for estimating SPAM-fidelity enhancements through marginal improvements in efficiency, temperature, or coherence time. These estimates serve as a foundation for discussing strategies for initialization and readout sequences, offering insights into mitigating the impact of low efficiency, elevated temperature, or diminished coherence, provided that other parameters are optimized.
 
 \chapter*{Acknowledgements}
-\thispagestyle{empty}
+This thesis would not have been, if were it not for my two truly fantastic supervisors, Jacob Hastrup and Morten Kjaergaard. I deeply appreciate the advice, cooperation and fruitful discussions, we have had along the way. 
+
+I also want to extend a special thanks to the competent and kindhearted people at SquidLab, who have provided me with technical support, theoretical discussion and a perhaps unhealthy amount of coffee breaks. A particular thanks should go to Malthe Nielsen, who has been my guide in the laboratory and have been building the software to support whatever experiment I wanted to do.
+
+In the would outside the laboratory, I want to thank friends, family and my girlfriend who have been encouraging, supporting and overbearing while I immersed myself in the field of Superconducting Qubits.
+
+With the submission of this thesis, I now conclude five amazing years learning physics at the Niels Bohr Institute. I am grateful for all the people I met along the way, I could never have hoped for such amazing people to work, study, laugh, live and be myself among. 
+
+
 
 % Setup TOC and proper page numbers
 \newpage
-\setcounter{page}{0}
 \tableofcontents
-\pagestyle{empty}
 
 %%% Include files
 % Introduction
 \pagestyle{fancy}
-\setcounter{page}{0}
+\newpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
 \subfile{sections/1_introduction.tex}
 
 \subfile{sections/2_cQED.tex}
@@ -80,6 +90,8 @@ For superconducting qubits to be a viable platform for large scale quantum infor
 
 
 \begin{fullwidth}
+\newpage
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibliographystyle{unsrtnat}
 \bibliography{tex/Master_Thesis.bib}
 % \bibliography{\jobname}

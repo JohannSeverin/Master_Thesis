@@ -1,5 +1,5 @@
 \chapter{Calibration Methods}\label{chap:calibration}
-To simulate qubit-resonator trajectories of a readout, we will have to create a model of our system. Throughout chapter \ref{chap:cQED}-\ref{chap:measurements}, we introduced new theory to describe the system, however, this also come with many parameters, we are still left to determine. Estimating these parameters from the qubit in the Laboratory will be  the focus in this chapter. Throughout the process, we will perform multiple fits and only present the important outcomes in the main text. A list of goodness of fit and fit parameters can be found in Appendix \ref{chap:fit_params}.
+To simulate qubit-resonator trajectories of a readout, we will have to create a model of our system. Throughout chapter \ref{chap:cQED}-\ref{chap:measurements}, we introduced theory to describe the system, however, this also came with many parameters, we are still left to determine. Estimating these parameters from the qubit in the laboratory will be  the focus in this chapter. Throughout the process, we will perform multiple fits and only present the important outcomes in the main text. A list of fit parameters and goodness of fit metrics can be found in Appendix \ref{chap:fit_params}.
 
 
 % In order to use a qubit and in particular if we want to simulate said qubit, we need to learn the most important parameters. In this section, we will go through the different methods used for calibrating a qubit and the connected resonator in order to have a useful qubit along with the possibilities of simulating the system.
@@ -9,9 +9,9 @@ To simulate qubit-resonator trajectories of a readout, we will have to create a 
 We will start with a calibration of the Transmon. While we could solve the system by finding the values of $E_C$ and $E_J$, we will instead model the Transmon as a three level system and simulate the charge matrix as $\mel{k}{n}{k} = a + a^\dagger$\footnote{This gives us the right correlation between $\ket{0}\leftrightarrow \ket{1}$ and a close to correct connection from $\ket{1}\leftrightarrow\ket{2}$}. This leaves us to determine the frequency $f_{01}$ and the anharmonicity $\alpha$. Furthermore, in order to perform gates, we will calibrate a Rabi pulse. In addition to these parameters, we will determine the characteristic time for energy decay and dephasing  $T_1$ and $T_2$.
 
 \subsection{Spectroscopy}\label{sec:qubit_spectroscopy}
-To control the qubit and to simulate its Hamiltonian, perhaps the most important quantity is the frequency. The frequency is found by doing spectroscopy, where a pulse is sent to the qubit at different frequencies. The qubit is then measured to see if it has changed states. The qubit frequency $f_{01}$ will now be the center of a Lorentzian distribution \cite{hucul_spectroscopy_2017}. Thus we can determine $f_{01}$ by fitting such a curve. This is done in the left panel in figure \ref{fig:qubit_spectroscopy}.
+To control the qubit and to simulate its Hamiltonian, perhaps the most important quantity is the frequency. The frequency is found by doing spectroscopy, where a pulse is sent to the qubit at different frequencies. The qubit is then measured to see if it has changed states. The qubit frequency $f_{01}$ will now be the center of a Lorentzian distribution \cite{hucul_spectroscopy_2017}. Thus, we can determine $f_{01}$ by fitting such a curve. This is done in the left panel in figure \ref{fig:qubit_spectroscopy}.
 
-Since the design of the transmon gives a negative anharmonicty, we can extend the qubit spectroscopy, to also look for a transition from $\ket{0}\to \ket{2}$. This can be done either with $f_{02}$ or to stay in the frequency regime, we can instead look for a transition from absorption of two photons. Here the two photon will have frequency $f_{02} / 2$. Or formulating it in terms of the anharmonicity at $f_{01} - \alpha / 2$. A fit with two Lorenzians can be found in the right panel in figure \ref{fig:qubit_spectroscopy}. 
+Since the design of the transmon gives a negative anharmonicty, we can extend the qubit spectroscopy, to also look for a transition from $\ket{0}\to \ket{2}$. This can be done either with $f_{02}$ or to stay in the frequency regime, we can instead look for a transition from absorption of two photons, where the photon will will have frequency $f_{02} / 2$.  We can write it in terms of the anharmonicity at $f_{01} - \alpha / 2$. A fit with two Lorenzians can be found in the right panel in figure \ref{fig:qubit_spectroscopy}. 
 % \begin{margintable}
 %     \caption{Goodness of Fit for the spectroscopy and anharmonicity experiments.}
 %     \centering
@@ -65,7 +65,7 @@ The amplitude is determined by an experiment, where we initialize the qubit in s
 
 One could further improve the transition from $\ket{0}\to\ket{2}$ by applying envelopes derived from the DRAG scheme \cite{motzoi_simple_2009}. While these experiments are necessary to create an X-pulse and initilize our qubit in the $\ket{1}$ state, this calibration is not necessary for making the initialization in simulation, since we can just apply the x-gate directly. 
 
-It is possible to determine the average fidelity of gates by a randomized benchmarking scheme \cite{knill_randomized_2008}. Without going into much depth, this was done to find an average gate fidelity of $F_{\text{gate}} = 0.9913 \pm 0.0003$. The infidelity contribution here will however be much lower than the other contributions from example temperature, so we will assume that we do a perfect X-gate in experiment. 
+It is possible to determine the average fidelity of gates by a randomized benchmarking scheme \cite{knill_randomized_2008}. Without going into much depth, this was done to find an average gate fidelity of $F_{\text{gate}} = 0.9913 \pm 0.0003$. The infidelity contribution here will however be much lower than the other contributions like temperature, so we will assume that we do a perfect X-gate in experiment. 
 
 
 \subsection{Decay Calibration}\label{sec:calibration_t1}
@@ -104,7 +104,7 @@ The $T_1$ comes from interaction between qubit and environment which unfortunate
     \caption{Ramsey experiment schematic. Two $X_{\pi/2}$ pulses intentionally detuned from the qubit frequency are applied with a wait time in between them. Afterwards the qubit is measured by performing a readout pulse on the resonator.}
     \label{fig:enter-label}
 \end{marginfigure}
-The dephasing of the qubit is not as important a parameter when we look at readout. For completeness and because we also make use of dephasing in the efficiency calibration in section \ref{sec:readout_efficiency}, we will still do a calibration. To measure $T_2$, one does a Ramsey style experiment, where a pulse with a frequency slightly offset from the qubit frequency (in our case $5 \text{ MHz}$ is applied to perform an $X_{\pi/2}$ pulse. This state will now start to precess around the $z$-axis. After some time the pulse is performed again. This leads time-dependent oscillations which are dependent on the state of the qubit when performing the second pulse. In addition, the qubit will experience dephasing while at the equator of the Bloch sphere, leading it to a mixed state. This gives an almost exponential envelope of the oscillations where the exponential coefficient is determined by the $T_2$ time \cite{krantz_quantum_2019}.
+The dephasing of the qubit is not as important a parameter when we look at readout. For completeness and because we also make use of dephasing in the efficiency calibration in section \ref{sec:readout_efficiency}, we will still do a calibration. To measure $T_2$, one does a Ramsey style experiment, where a pulse with a frequency slightly offset from the qubit frequency (in our case $5 \text{ MHz}$) is applied to perform an $X_{\pi/2}$ pulse. This state will now start to precess around the $z$-axis. After some time the pulse is performed again. This leads time-dependent oscillations which are dependent on the state of the qubit when performing the second pulse. In addition, the qubit will experience dephasing while at the equator of the Bloch sphere, ultimately resulting in a mixed state. This gives an almost exponential envelope of the oscillations where the exponential coefficient is determined by the $T_2$ time \cite{krantz_quantum_2019}.
 
 \begin{figure*}[t]
     \begin{minipage}{0.50\linewidth}
@@ -141,7 +141,7 @@ Where we again should be careful about using this as more than an estimate becau
 With the qubit calibrated, we will move on to the resonator. The resonator is modelled as a quantum harmonic oscillator, so the non-interacting Hamilton is completely determined by its frequency, $f_r$. However, the interaction with the qubit required us to calibrate the dispersive shift and the coupling strength $g$. To model the coupling to its environment we determine the photon dissipation rate $\kappa$,  and lastly we will estimate steady state photon number, $\Bar{n}_{\text{ss}}$ which is closely related to the amplitude of the drive pulse, $\epsilon$.
 
 \subsection{Spectroscopy}
-Like the qubit, we can perform resonator spectroscopy to find the frequency. Because of the dispersive interaction (described in section \ref{sec:dispersive_regime}, we will get a different frequency when the qubit is in $\ket{0}$ or in $\ket{1}$ and we will have to do the experiment with both initialization. Since the the photons in the resonator have an exponential lifetime, the frequency spectrum will have Lorentzian curve around the resonance frequency. The experiment and the associated fits can be seen in figure \ref{fig:spectroscopy_resonator}. Since $\ket{1}$ decays to $\ket{0}$ in many cases, we have added a second Lorentzian to the fit of resonator when the qubit is excited state. In addition, we have limited the fitting points to be around the peak, since the background is not constant but also have some oscillations which we contribute to a finite-size demodulation window \cite{krantz_quantum_2019}.
+Like the qubit, we can perform resonator spectroscopy to find the frequency. Because of the dispersive interaction, we will get a different frequency when the qubit is in $\ket{0}$ or in $\ket{1}$ and we will have to do the experiment with both initialization. Since the photons in the resonator have an exponential lifetime, the frequency spectrum will have Lorentzian curve around the resonance frequency. The experiment and the associated fits can be seen in figure \ref{fig:spectroscopy_resonator}. Since $\ket{1}$ decays to $\ket{0}$ in many cases, we have added a second Lorentzian to the fit of resonator when the qubit is excited state. In addition, we have limited the fitting points to be around the peak, since the background is not constant but also have some oscillations which we contribute to a finite-size demodulation window \cite{krantz_quantum_2019}.
 \begin{figure}
     \centering
     \includegraphics{Calibrations/Figures/Resonator Spectroscopy.pdf}
@@ -152,7 +152,7 @@ The two frequencies come out to be:
 \begin{equation}
      f_{r0} = 7.55590 \text{ GHz} \pm 3 \text{ KHz} ;\quad f_{r1} =  7.55439 \text{ GHz} \pm 7 \text{ KHz}
 \end{equation}
-For these parameters, we can extract the resonator frequency $f_r$ and the dispersive shift $\chi$. This can further be used together with the resonator-qubit detuning to calculate the coupling between qubit and resonator in the dispersive approximation using equation \ref{eq:chi}:
+For these parameters, we can extract the resonator frequency $f_r$ and the dispersive shift $\chi$. This can further be used together with the resonator-qubit detuning and anharmonicity to calculate the coupling between qubit and resonator in the dispersive approximation using equation \ref{eq:chi}:
 \begin{align}
     f_r  = (f_{r0} + f_{r1}) / 2 &= 7.555130 \text{ GHz} \pm 4 \text{ KHz} \\
     \chi = (f_{r0} - f_{r1}) / 2 &= (763.5 \pm 4) \text{ Khz}  \label{eq:dispersive_shift}\\
@@ -178,9 +178,9 @@ We can also compare this to the width of the resonator dips. With the Lorentzian
 To recreate the simulation, we will now need to calibrate the pulse as well. In the experiment, it is determined by some voltage, which we will have to convert to coupling operator going into the Hamiltonian with units of energy. To do this, we will calibrate the amount of photons present in the steady state. This will be done using the two properties:
 \begin{enumerate}
     \item In section \ref{sec:resonator_decays}, we described how the resonator goes into a steady state when driven. In the IQ plot, the mean photon number was proportional to the driving amplitude. 
-    \item Like the qubit state shifts the resonator frequency, the qubit frequency is also shifted in we were to fill the resonator with photons. We can use this to rewrite equation \ref{eq:dispersive_shift_tls} to the convenient form: $H = \Tilde{\omega}_r a^\dagger a  + \left(\frac12 \Tilde{\omega}_{01} + \chi a^\dagger a\right)  \sigma_z$
+    \item Like the qubit state shifts the resonator frequency, the qubit frequency is also shifted if we were to fill the resonator with photons. We can use this to rewrite equation \ref{eq:dispersive_shift_tls} to the convenient form: $H = \Tilde{\omega}_r a^\dagger a  + \left(\frac12 \Tilde{\omega}_{01} + \chi a^\dagger a\right)  \sigma_z$
 \end{enumerate}
-We can now calibrate the photon count in its steady state by driving the resonator until the steady state is reached. Then we do a qubit spectroscopy experiment like the one in \ref{sec:qubit_spectroscopy} to determine the effective qubit frequency. We then repeat the experiment at multiple amplitudes of resonator pulse and multiple frequencies for the qubit pulse. By fitting a second order polynomial we can interpolate the shift at the driving strength $\epsilon$ and divide it with the dispersive shift to estimate the mean photon number in the resonator steady state. The experiment is visualized in figure \ref{fig:photon_counting_circuit}. The results for the scan can be seen in the top panel of figure \ref{fig:calibration_photon_counting_scan}, whereas the lower panel shows the calculation of mean photon number at different amplitudes.  
+We can now calibrate the photon count in its steady state by driving the resonator until the steady state is reached. Then we do a qubit spectroscopy experiment like the one in \ref{sec:qubit_spectroscopy} to determine the effective qubit frequency. We then repeat the experiment at multiple amplitudes of resonator pulse and multiple frequencies for the qubit pulse. By fitting a second order polynomial we can interpolate the shift at the driving strength $\epsilon$ and divide it with the dispersive shift to estimate the mean photon number in the resonator steady state. The experiment is visualized in figure \ref{fig:photon_counting_circuit}. The results for the scan can be seen in the left panel of figure \ref{fig:calibration_photon_counting_scan}, whereas the right panel shows the calculation of mean photon number at different amplitudes.  
 \begin{marginfigure}[-4 cm]
     \centering
     \includegraphics{Figs/circuits/photon_counting.png}
@@ -204,7 +204,6 @@ From this analysis, we extract the mean photon number as:
 \begin{equation}
     \Bar{n}_{\text{ss}} = 21 \pm 1
 \end{equation}
-
 Which we can use to extract the driving strength seen by the resonator from equation \ref{eq:steady_state_amplitude}
 \begin{equation}
     \epsilon = \Bar{n} \sqrt{\left(\frac{\kappa}{2}\right)^2 + (\chi)^2} = 6.4 \text{ MHz}
@@ -261,11 +260,11 @@ When driving the resonator at its frequency $f_r$.
 % \end{itemize}
 
 \section{System Parameters}
-Lastly, the dynamics of the combined system are subject to two additional outside forces: the temperature $\tau$ and the efficiency of the amplification chain $\eta$.
+Lastly, the dynamics of the combined system are subject to two additional outside forces: the temperature, $\tau$, and the efficiency of measurements, $\eta$.
 
 
 \subsection{Temperature and $T_1$ Calibration in Continuous Time}\label{sec:continuous_calibratino}
-In section \ref{sec:theory_t1}, we covered how $T_1$ and $\tau$ has effects on the dynamics and equilibrium positions of the density matrix. In this section, we have developed a method (very similar to the $T_1$ calibration from section \ref{sec:calibration_t1}) that uses continuous time-traces to determine these parameters. It should be noted that the experiment run here is made a few months before the other calibration schemes at a time where $T_1$ was significantly higher. The temperature is however still representative of the state of the qubit when the readout experiment in chapter \ref{chap:readout} was made.
+In section \ref{sec:theory_t1}, we covered how $T_1$ and $\tau$ affect the dynamics and equilibrium positions of the density matrix. In this section, we do a similar method to the $T_1$ calibration, but instead use continuous time-traces. It should be noted that the experiment run here is made a few months before the other calibration schemes at a time where $T_1$ was significantly higher. The temperature is however still representative of the state of the qubit when the readout experiment in chapter \ref{chap:readout} was made.
 
 
 
@@ -302,7 +301,7 @@ In this experiment, we will do a long continuous readout pulse of the resonator.
 %     \end{tabular}
 %     \label{tab:continous_calibration_decays_results}
 % \end{margintable}
-From the results of the fit, we can extract the decay time, the initial fraction and the steady state fraction of occupancy in the excited state $\ket{1}$. We initialized both in $\ket{1}$ and $\ket{0}$, but since the state ground state initialization is already in steady state, we will not trust the fit parameters. While the idea of the method originally was to determine $T_1$ with a fast scheme, the important aspect for this thesis is to extract the temperature from the steady state fraction. We find the temperature from the Boltzmann factor in the steady state:
+From the results of the fit, we can extract the decay time, the initial fraction and the steady state fraction of occupancy in the excited state $\ket{1}$. We initialized both in $\ket{1}$ and $\ket{0}$, but since the state ground state initialization is already in steady state, we will not trust the fit from the exponential model. While the idea of the method originally was to determine $T_1$ with a fast scheme, the important aspect for this thesis is to extract the temperature from the steady state fraction. We find the temperature from the Boltzmann factor in the steady state:
 \begin{fullwidth}
 \begin{equation}
     \frac{\rho_{00}(t=\infty)}{\rho_{11}(t=\infty)} = e^{(E_1 - E_0) / k_b \tau} \Rightarrow \tau = - \frac{\hbar \omega_{01}}{k_b} / \log\left(\frac{\rho_{00}(t=\infty)}{\rho_{11}(t=\infty)}\right)  =  (0.13 \pm 0.04) \text{ K}
@@ -336,9 +335,9 @@ From these parameters, the readout efficiency can then be calculated as \cite{bu
 \begin{equation}
     \eta = a^2\sigma^2
 \end{equation}
-where our equation deviates from the one in \cite{bultink_general_2018} by a factor $2$, since they define $\SNR$ with respect to the variance of a single trajectory\footnote{assuming that the trajetory for the ground and excited state has the same variance.}, whereas we combine the two $\text{Var} = \text{Var}_{\ket{0}} + \text{Var}_{\ket{0}}$ reducing the SNR with $1/\sqrt{2}$ compared to their definition.
+where our equation deviates from the one in \cite{bultink_general_2018} by a factor $2$, since they define $\SNR$ with respect to the variance of a single trajectory\footnote{assuming that the trajetory for the ground and excited state has the same variance.}. We combine the two $\text{Var} = \text{Var}_{\ket{0}} + \text{Var}_{\ket{0}}$ reducing the SNR with $1/\sqrt{2}$ compared to their definition.
 
-\paragraph{Amplitude Dependence of SNR - }
+\paragraph{Amplitude Dependence of SNR }
 To determine the Signal to Noise ratio from the readout pulse, we do a readout experiment like the one in chapter \ref{chap:readout}: by initializing the qubit in $\ket{0}$ and then performing an $X$-gate to every other initialization before reading it out, one can see determine the separation between $\ket{0}$ and $\ket{1}$. We make sure to use optimal weights, to make sure all the available information is used.
 
 % \begin{marginfigure}
@@ -348,7 +347,7 @@ To determine the Signal to Noise ratio from the readout pulse, we do a readout e
 %     \label{fig:efficiency_SNR_experiment}
 % \end{marginfigure}
 
-By repeating the experiment for drives with different fractions of the readout amplitude $\epsilon$ and calculating the SNR from the measurement distributions, we obtain the results in the left panel of figure \ref{fig:effiiency_results_SNR}. To the right, the histogram is shown for the $I$ for $\epsilon / 4$. The SNR is calculated by taking $\sqrt{\SNR_I^2 + \SNR_Q^2}$. Fitting a linear equation to the results, we obtain $a = (2.43 \pm 0.15) / \epsilon$. 
+By repeating the experiment for drives with different fractions of the readout amplitude $\epsilon$ and calculating the SNR from the measurement distributions, we obtain the results in the left panel of figure \ref{fig:effiiency_results_SNR}. To the right, the histogram is shown for the $I$ quadrature with amplitude for $\epsilon / 4$. The SNR is calculated by taking $\sqrt{\SNR_I^2 + \SNR_Q^2}$. Fitting a linear equation to the results, we obtain $a = (2.43 \pm 0.15) / \epsilon$. 
 
 \begin{figure}
     \raggedleft
@@ -379,10 +378,12 @@ the readout drive will now be applied\footnote{Just as pulse because we're not i
     \label{fig:efficiency_dephasing_result}
 \end{figure*}
 
-By comparing the readout signal for different angles of $\phi$, we expect a cosine shape: $\expval{\sigma_z} = 2 |\rho_{01}(t= T)| \cos(\phi+\phi_0)$. Repeating this for different fractions of the readout amplitude, we can fit a Gaussian distribution to determine $\sigma$. Here the $T_2$ dephasing will just contribute to an overall dephasing, which will be constant throughout all the experiment. However,  this does not affect the width of the Gaussian, which we are interested in. The outcome of the distributions can be seen in figure \ref{fig:efficiency_dephasing_result} where we find a value for $\sigma = (7.42 \pm 0.17)\; 10^{-2} \; \epsilon$.
+By comparing the readout signal for different angles of $\phi$, we expect a cosine shape: $\expval{\sigma_z} = 2 |\rho_{01}(t= T)| \cos(\phi+\phi_0)$. The phase and frequency of the cosine shape is fitted in the case where most signal is present (at 0 amplitude) and kept constant for all other amplitudes.
+
+By fitting the amplitude for different fractions of the readout amplitude, we can fit a Gaussian distribution to determine $\sigma$. Here the $T_2$ dephasing will just contribute to an overall dephasing, which will be constant throughout all the experiment and will scale the amplitude of the Gaussian. However,  this does not affect the width, which we are interested in. The outcome of the distributions can be seen in figure \ref{fig:efficiency_dephasing_result} where we find a value for $\sigma = (7.42 \pm 0.17)\; 10^{-2} \; \epsilon$.
 % And repeating for different readout amplitudes the dephasing due to back action can be separated from the one due to $T_2$-dephasing which only has an effect of the amplitude. The results of the experiment can be seen in figure \ref{fig:efficiency_dephasing_experiment}, where the parameter from the important parameter for the Gaussian fit is the standard deviation: $\sigma = (7.42 \pm 0.17) \times 10^{-2} \; \epsilon$. \marginnote{Write the $\chi^2$ and $p-val$ for the fit in the marginnote.}
 
-We note that there is some problem along a specific rotation axis. When using the OPX, there is sometimes an accumulation of phases, which can give specific errors, so we will here ignore data along that axis. The phase and frequency of the cosine shape is fitted in the case where the amplitude of the applied readout pulse i 0. And is kept fixed for all other amplitudes.
+We note that there is some problem along a specific rotation axis. When using the OPX, there is sometimes an accumulation of phases, which can give specific errors, so we will here ignore data along that axis. 
 
 \paragraph{Calculating the Efficiency}
 In the last two experiment we have extracted $a$ and $\sigma$. By combining them, we can find the efficiency of the readout chain:

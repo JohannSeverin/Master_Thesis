@@ -1,10 +1,10 @@
 % \todo{Rewrite Introduction to match the conclusion and abstract}
 \chapter{Introduction}\label{chap:Introduction}
-The demand for power to run computational tasks is accelerating. To overcome the increasing complexity, the transistors which do the heavy lifting of storing and computing the singular 0's and 1's, have been stacked closer and closer. Now, they span only few nanometer, a size where they are susceptible to quantum effects, creating new challenges. \cite{morton_embracing_2011}. The same quantum effects also prove a hope, since they can be utilized in a new form of computing on different devices, quantum computers. 
+The demand for power to run computational tasks is accelerating. To overcome the increasing complexity, the transistors which do the heavy lifting of storing and computing the singular 0's and 1's, have been stacked closer and closer. Now, they span only few nanometers, a size where they are susceptible to quantum effects leading to new challenges. \cite{morton_embracing_2011}. The same quantum effects also prove a hope, since they can be utilized in a new form of computing on different devices, quantum computers. 
 
-By considering quantum bits with the ability of being in a super position of 0 and 1, some large problems can be formulated compactly and run efficiently \cite{preskill_quantum_2018}. That is, if one has a working quantum computer. Many different implementations of quantum computers are well on their way, taking on many forms. Some promising candidates are  singular atoms trapped in electric fields and controlled by lasers \cite{brown_co-designing_2016}, single photons capable of storing quantum information \cite{obrien_optical_2007}, or superconducting circuits which are controlled by microwave pulses at temperatures just above the absolute zero \cite{krantz_quantum_2019}. The latter will be the focus of this thesis. 
+By considering quantum bits with the ability of being in a super position of 0 and 1, some large problems can be formulated compactly and run efficiently \cite{preskill_quantum_2018}. That is, if one has a working quantum computer. Many different implementations of quantum computers are well on their way They take many very different forms. Some promising candidates are  singular atoms trapped in electric fields and controlled by lasers \cite{brown_co-designing_2016}, single photons capable of storing quantum information \cite{obrien_optical_2007}, or superconducting circuits which are controlled by microwave pulses at temperatures just above the absolute zero \cite{krantz_quantum_2019}. The latter will be the focus of this thesis. 
 
-Superconducting qubits are rapidly developing and has seen multiple big accomplishments in the last few decades: the design and fabrication of superconducting circuits capable of processing quantum information \cite{koch_charge_2007, manucharyan_fluxonium_2009}, microwave pulses that can control and read it out with high precision \cite{motzoi_simple_2009, walter_rapid_2017} and schemes to entangle qubits with their neighbors \cite{yan_tunable_2018}. Recent progress has improved the ability to do operations on a single superconducting qubits \cite{barends_superconducting_2014} and multi qubit gates have surpassed the 99.9 \% fidelity mark\cite{ding_high-fidelity_2023}. Improvements have also been made for qubit initialization and readout\cite{walter_rapid_2017, swiadek_enhancing_2023}, but this is still a challenge. The State Preparation and Measurement errors (SPAM) are inherent parts of the quantum algorithm and hard if not impossible to separate in tomography\cite{lin_independent_2021}. In this thesis, we will instead take address the physics behind the measurement process allowing us to build a model of our system in simulation, where we investigate the effect physical parameters have on the SPAM errors. 
+Superconducting qubits are rapidly developing and has seen multiple big accomplishments in the last few decades: the design and fabrication of superconducting circuits capable of processing quantum information \cite{koch_charge_2007, manucharyan_fluxonium_2009}, microwave pulses that can control and measure it with high precision \cite{motzoi_simple_2009, walter_rapid_2017} and schemes to entangle qubits with their neighbors \cite{yan_tunable_2018}. Recent progress has significantly improved the ability to do operations on a single superconducting qubits \cite{barends_superconducting_2014} and multi qubit gates have surpassed the 99.9 \% fidelity mark \cite{ding_high-fidelity_2023}. Improvements have also been made for qubit initialization and readout \cite{walter_rapid_2017, swiadek_enhancing_2023}, but this is still a challenge. The State Preparation and Measurement errors (SPAM) are inherent parts of the quantum algorithm and hard if not impossible to separate in tomography \cite{lin_independent_2021}. In this thesis, we will instead take the physics behind the measurement process. This will allow us to build a model of our system in simulation, where we investigate the effect physical parameters have on SPAM errors. 
 
 
 % State preparation and measurement errors (or SPAM for short) are difficult to separate and is limiting the ability to run larger quantum circuits. By first understanding the physics of a superconducting qubit readout, we will in this thesis built models allowing us to dive deep in how different physical parameters contribute to the SPAM errors.
@@ -13,9 +13,9 @@ Superconducting qubits are rapidly developing and has seen multiple big accompli
 
 % \newpage
 \section{Outline of Thesis}
-The thesis is built up in the following way. The first few chapter will mainly be theoretical. In the rest of chapter \ref{chap:Introduction}, we will cover some fundamentals of quantum mechanics and in chapter \ref{chap:cQED} we will focus in particular on the theory of circuit Quantum Electrodynamics (cQED). Chapter \ref{chap:computations_and_readout} will go into more depth of how the qubit can be connected with control hardware to allow control and readout of the qubit. Furthermore, we will investigate how interactions with the environment affects our qubit. This is done by discussing open quantum systems in chapter \ref{chap:open_quantum_systems} and weak continuous measurements in chapter \ref{chap:measurements}.
+The thesis is built up in the following way. The first few chapter will mainly be theoretical. In the rest of chapter \ref{chap:Introduction}, we will cover some fundamentals of quantum mechanics and in chapter \ref{chap:cQED}, we will focus in particular on the theory of circuit Quantum Electrodynamics (cQED). Chapter \ref{chap:computations_and_readout} will go into more depth of how superconducting qubits can be connected with control hardware and resonators to allow control and readout of the qubit. Furthermore, we will investigate how interactions with the environment affects our qubit. This is done by discussing open quantum systems in chapter \ref{chap:open_quantum_systems} and weak continuous measurements in chapter \ref{chap:measurements}.
 
-The second half of the thesis will focus on readout in experiment and our efforts to recreate it in simulation. We will in chapter \ref{chap:readout} present the experiment to investigate the performance of readout in our system. In chapter \ref{chap:calibration} we will calibrate it to determine the necessary parameters for simulating it. The simulation is created and discussed in \ref{chap:model}. Finally, we will in chapter \ref{chap:budget} use our model to investigate how different parameters contribute the readout and state preparation infidelity in our system by changing them in our model.  
+The second half of the thesis will focus on readout in experiment and our efforts to recreate it in simulation. We will in chapter \ref{chap:readout} present the experiment to investigate the performance of readout in our system. In chapter \ref{chap:calibration} we will calibrate our device to determine the necessary parameters for simulating it. The simulation is created and discussed in \ref{chap:model}. Finally, we will in chapter \ref{chap:budget} use our model to investigate how different parameters contribute the readout and state preparation infidelity in our system by changing them in our model.  
 
 
 
@@ -31,20 +31,20 @@ The second half of the thesis will focus on readout in experiment and our effort
 % \end{itemize}
 
 \section{Qubits}
-Improving classical computer hardware can take many shapes: more processing power, bigger memory size, or faster data transfers. Ultimately, these improvements increase our capability of storing, messaging, or manipulating single entities, bits. Bits the smallest piece of information corresponding to an on/off switch. Often they are represented with binary numbers, such that "1" is on and "0" is off. Combining billions or even trillions of bits, we can store data, media or even programs.
+Improving classical computer hardware can take many shapes: more processing power, bigger memory size, or faster data transfers. Ultimately, these improvements increase our capability of storing, transferring, or manipulating single entities, bits. Bits are the smallest piece of information in classical computers corresponding to an on/off switch. Often they are represented with binary numbers, such that "1" is on and "0" is off. Combining billions or even trillions of bits, we can store data, media or even programs.
 
-While most everyday computing tasks can easily be done using classical computers, some problems scale exponentially and unforgivably when the size of the problem is increased. Among these problems, we find prime factorization and simulation of quantum mechanical systems, a challenge which will hunt us through this thesis. Instead of building classical computers of exponentially increasing size, quantum mechanics provides a hope to solve these problems by replacing the bit with the quantum bit (qubit). The qubit is not bound by the discreteness of the classical bit but can be in a superposition of "0" and "1" at the same time \cite{krantz_week_2019}.
+While most everyday computing tasks can easily be done using classical computers, some problems scale exponentially and unforgivably when the size of the problem is increased. Among these problems, we find prime factorization and simulation of quantum mechanical systems, a challenge which will hunt us throughout this thesis. Instead of building classical computers of exponentially increasing size, quantum mechanics provides a hope to solve these problems by replacing the bit with the quantum bit (qubit). The qubit is not bound by the discreteness of the classical bit but can be in a superposition of "0" and "1" at the same time \cite{krantz_week_2019}.
 
 \subsection{A Quantum Mechanical State}
-In quantum mechanics, the properties of our system can be of continuous like the position of a particle or discrete like the spin of an electron, pointing either up or down. When considering a quantum mechanical object, all possible physical configurations span a Hilbert Space of finite or infinite dimensions. A set of configurations which completely describes all information one could measure of an object is an element in the Hilbert space and is called a quantum mechanical state. Mathematically, we represent it with a ket: $\ket{\psi}$ where $\psi$ is just a label \cite{sakurai_modern_2021}.
+In quantum mechanics, the properties of our system can be continuous like the position of a particle or discrete like the spin of an electron, pointing either up or down. When considering a quantum mechanical object, all possible physical configurations span a Hilbert Space of finite or infinite dimensions. A set of configurations which completely describes all information one could measure of an object is an element in the Hilbert space and is called a quantum mechanical state. Mathematically, we represent it with a ket: $\ket{\psi}$ where $\psi$ is a label which could refer to some characteristic information about the configuration. \cite{sakurai_modern_2021}.
 
-The observable information about the state of the system can be found by applying operators to it. Applying an operator is represented as multiplication from the left: $A\ket{\psi}$, which illustrates the linearity of quantum mechanics. Of special interest are eigenstates to an operator, which are states satisfying $A\ket{a} = a \ket{a}$, where $a$ is the eigenvalue and $\ket{a}$ is the eigenstate. Most importantly is perhaps the energy of the system and the corresponding energy eigenstates. These are states associated with Hamiltonian operator which like in classical mechanics generates the equation of motions in quantum mechanics \cite{sakurai_modern_2021}.
+The observable information about the state of the system can be found by applying operators to it. Applying an operator is represented as multiplication from the left: $A\ket{\psi}$, which illustrates the linearity of quantum mechanics. Of special interest are eigenstates to an operator, which are states satisfying $A\ket{a} = a \ket{a}$, where $a$ is the eigenvalue and $\ket{a}$ is the eigenstate. Most importantly is perhaps the energy of the system and the corresponding energy eigenstates. These are states associated with Hamiltonian operator which like in classical mechanics is a generator the equations of motion in quantum mechanics \cite{sakurai_modern_2021}.
 
 \subsection{The Two Level System}\label{sec:tls}
 To create a qubit, one needs a quantum mechanical system with two levels. There are multiple ways of achieving this. A straightforward approach is by using an observable in a 2-dimensional Hilbert space like the spin of an electron.  
 
-Another approach is to limit ourselves to only a subspace of a larger Hilbert space. If the quantum mechanical states is connected to an environment, they are subject to Boltzmann statistics \footnote{That is the relative probability of finding a qubit in two different states (say $\ket{1}$ and $\ket{0}$) can be found as the fraction between their Boltzmann factor: $e^{-E_1 / k_b  T} / e^{- E_0 / k_b  T}$.}. At low enough temperatures where the energy different is much larger than the temperature $\Delta E \gg k_b T$, the system will occupy the ground state unless we change it. By limiting our operation to the subspace of "0" and "1", we will effectively have a qubit.
-After choosing a two level system, the states of the system can be described as $\ket{0}, \ket{1}$ and can be combined to construct superpositional states:
+Another approach is to limit ourselves to only a subspace of a larger Hilbert space. If the quantum mechanical states is connected to an environment, they are subject to Boltzmann statistics \footnote{That is the relative probability of finding a qubit in two different states (say $\ket{1}$ and $\ket{0}$) can be found as the fraction between their Boltzmann factor: $e^{-E_1 / k_b  T} / e^{- E_0 / k_b  T}$.}   \cite{kittel_thermal_1980}. At low enough temperatures where the energy difference is much larger than the temperature $\Delta E \gg k_b T$, the system will occupy the ground state unless we change it. By limiting our operation to the subspace of "0" and "1", we will effectively have a qubit.
+After choosing a two level system, the states of the system can be described with $\ket{0}, \ket{1}$ and can be combined to construct superpositional states:
 \begin{equation}
     \ket{\psi} = a \ket{0} + b \ket{1}
 \end{equation}
@@ -55,7 +55,7 @@ where $a$ and $b$ are complex numbers and $|a|^2, |b|^2$ are the respective prob
 where our description have two angles $\theta$ and $\phi$ which determine the relative occupation in these two states and a phase between them. With these two angles, the state of a qubit can be visualized geometrically \cite{krantz_quantum_2019}.
 
 \subsection{The Bloch Sphere}
-A perfect place to visualize two angles $\theta$ and $\phi$ and a length of 1 is a point on the unit sphere. The depiction of a qubit state on a sphere is called a Bloch Sphere and an example can be seen in \ref{fig:bloch_sphere}. On the Bloch Sphere, the state $\ket{0}$ will be on the north (positive) pole along the z-axis and $\ket{1}$ at the south pole (negative). With this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively and the phase difference is mapped unto the x-y plane  \cite{krantz_week_2019}.
+With two angles $\theta$ and $\phi$ and a vector with magnitude 1, the perfect place for visualization is the unit sphere. The depiction of a qubit state on a sphere is called a Bloch Sphere and an example can be seen in \ref{fig:bloch_sphere}. On the Bloch Sphere, the state $\ket{0}$ will be on the north (positive) pole along the z-axis and $\ket{1}$ at the south pole (negative). With this mapping the projection of the state vector unto the z-axis gives the probabilities of finding $\ket{0}$ or $\ket{1}$ respectively and the phase difference is mapped unto the x-y plane  \cite{krantz_week_2019}.
 
 \begin{marginfigure}[- 7 cm]
     \centering
@@ -103,10 +103,12 @@ A perfect place to visualize two angles $\theta$ and $\phi$ and a length of 1 is
 % \textbf{Maybe introduce like this instead} \\ \noindent
 \section{Time Evolution of a Quantum System}\label{sec:scroedinger}
 Let us now take a look at the dynamics of a quantum system. A process which transforms a state into another must leave the inner product unchanged to keep the normalization. By applying unitary transformation this is guaranteed\footnote{For unitary transformations we have: $\unitary^{-1} = \unitary^\dagger$ or equally $\unitary^\dagger\unitary = \identity$}. Quantum dynamics can then be described by a unitary transformation taking a state at some time $t = t_0$ into a the state at a later time $t = t_0 + \Delta t$. At the later time the inner product should be conserved:
+\begin{fullwidth}
 \begin{equation}
-    \braket{\psi; t_0}{\psi; t_0} = \braket{\psi; t_0 .. \Delta t}{\psi; t_0 .. \Delta t} = \mel{\psi; t_0}{\unitary^\dagger (\Delta t) \unitary(\Delta t)}{\psi; t_0} 
+    \braket{\psi; t_0}{\psi; t_0} = \braket{\psi; t_0 .. \Delta t}{\psi; t_0 .. \Delta t} = \mel{\psi; t_0}{\unitary^\dagger (t_0, t_0 +\Delta t) \unitary(t_0, t_0 +\Delta t)}{\psi; t_0} 
 \end{equation}
-which is satisfied since $\unitary$ is unitary. An additional requirement is that the transformation should reduce to identity if no time has passed: $\unitary(\Delta t) \to \identity$ when $\Delta t \to 0$. Expanding the transformation in the infinitesimal timestep, $dt$, the unitary transformation is described by:
+\end{fullwidth}
+which is satisfied since $\unitary$ is unitary. An additional requirement is that the transformation should reduce to identity if no time has passed: $\unitary(t_0, t_0+\Delta t) \to \identity$ when $\Delta t \to 0$. Expanding the transformation to first order in the infinitesimal timestep, $dt$, the unitary transformation is described by:
 \begin{equation}\label{eq:infinitesimal_time_evolution}
     \unitary(dt) = \identity - i \Omega dt
 \end{equation}
@@ -121,29 +123,29 @@ This is known as the Schrödinger's equation and governs unitary time evolution 
 
 Depending on the Hamiltonian, we can express the time-evolution operator. If the Hamiltonian is independent of time, we can solve the equation above to find:
 \begin{equation}
-    \unitary(\Delta t) = e^{-iH\Delta t/\hbar}
+    \unitary(t_0, t_0 + \Delta t) = e^{-iH\Delta t/\hbar}
 \end{equation}
 which entirely removes the time-dependence from the state such that $\ket{\psi; t} = \unitary(t)\ket{\psi; t = 0}$. If on the contrary, the Hamiltonian is dependent on time and commutes at different times, we can write it as:
 \begin{equation}
-    \unitary(\Delta t)\ket{\psi; t_0} = \exp\left(-\frac{i}{\hbar}\int_{t_0}^{t_0 + \Delta t} dt H(t)\right)\ket{\psi; t_0}
+    \unitary(t_0, t_0 + \Delta t)\ket{\psi; t_0} = \exp\left(-\frac{i}{\hbar}\int_{t_0}^{t_0 + \Delta t} dt H(t)\right)\ket{\psi; t_0}
 \end{equation}
 If the Hamiltonian at different times do not commute with itself, one could introduce the Dyson series\cite{sakurai_modern_2021}. Another approach is to solve the differential equation numerically.
 
 \subsection{Numerical Implementations}\label{sec:numerical_implementations}
-Schrödinger's Equation gives a simple linear relation between the time derivative of a state and the Hamiltonian. If we can represent the states as vectors and the Hamiltonian as matrix, we can naively solve the differential equation by doing finite size step. With $dt\to\Delta t$ The state at $t+\Delta$ will approximately be:
+Schrödinger's Equation gives a simple linear relation between the time derivative of a state and the Hamiltonian. If we can represent the states as vectors and the Hamiltonian as a matrix, we can naively solve the differential equation by doing finite size step. With $dt\to\Delta t$ The state at $t+\Delta t$ will approximately be:
 \begin{equation}
     \Vec{\psi}(t + \Delta t) =  \Vec{\psi}(t) - \frac{i\Delta t}{\hbar}\boldsymbol{H} \Vec{\psi}(t)
 \end{equation}
-Of course this is a crude approximation which improves as $\Delta t$ is reduced and the equation is repeated more. While this method, known as Euler integration \cite{butcher_numerical_2000}, is simple to implement, it quickly loses precision if the time steps become large (see example in figure \ref{fig:euler_integration}). Instead of improving accuracy by increasing the amount of steps, we instead look at a more sophisticated algorithm.
+Of course this is a crude approximation which improves as $\Delta t$ is reduced and the equation is repeated iteratively. While this method, known as Euler integration \cite{butcher_numerical_2000}, is simple to implement, it quickly loses precision if the time steps become large (see example in figure \ref{fig:euler_integration}). Instead of improving accuracy by increasing the amount of steps, we instead look at a more sophisticated algorithm.
 \begin{marginfigure}
     \centering
     \includegraphics[]{Figs/Theory/euler_integration.pdf}
-    \caption{Example of Euler integration $x'(t) = x$}
+    \caption{A visualized example of Euler integration for the differential equation $x'(t) = x$}
     \label{fig:euler_integration}
 \end{marginfigure}
 
 
-In this thesis, integration will primarily be performed using the Qutip Library\cite{johansson_qutip_2012}, where the Schrödinger equation is integrated by the Adams method. In this method we the last $n$ points in order to  approximate the higher order differentials of the function. If we have a differential equation:
+In this thesis, integration will primarily be performed using the Qutip Library\cite{johansson_qutip_2012}, where the Schrödinger equation is integrated by the Adams method. In this method the last $n$ calculations are used in order to  approximate the higher order differentials of the function. If we have a differential equation:
 \begin{equation}
     y'(t) = f(y(t))
 \end{equation}
@@ -162,12 +164,12 @@ And the third order differential by:
 \begin{marginfigure}
     \centering
     \includegraphics[width = 1.2 \linewidth]{Figs/Theory/adams_intergation.pdf}
-    \caption{How the Adams algorithm works. Here the second order derivative is found by the finite difference method to be $f'(x_i) = (f(x_i) - f(x_{i-1}))/\Delta t$}
+    \caption{A visualization of the second order Adams algorithm. Here the second order derivative is found by the finite difference method to be $f'(x_i) = (f(x_i) - f(x_{i-1}))/\Delta t$}
     \label{fig:Adams integration}
 \end{marginfigure}
 and on wards. A visualization of the second order method can be seen in figure \ref{fig:Adams integration}. The computation of the Adams algorithm is more precise since it considers higher order terms and it runs fast since it reuses the old calculations. 
 
-One challenge is that the algorithm requires $n$ points to get started. Before the $n$ points, we can assume no higher order differentials, such that we effectively perform Euler integration for the first step and a second order Adams for the second and so on. Alternatively, we can use another algorithm which moves forward in time to approximate the higher order differentials. An example of such an algorithms is the Runge-Kutta method, which is used in most modern solvers for ordinary differential equations \cite{butcher_numerical_2000}. 
+One challenge is that the algorithm requires $n$ points to get started. Until  $n$ points are calculated, we can assume no higher order differentials, such that we effectively perform Euler integration for the first step and a second order Adams for the second and so on. Alternatively, we can use another algorithm which moves forward in time to approximate the higher order differentials. An example of such an algorithms is the Runge-Kutta method, which is used in most modern solvers for ordinary differential equations \cite{butcher_numerical_2000}. 
 
 % \todo{Check with source here: \url{https://link.springer.com/book/10.1007/978-3-540-78862-1} should be accessible within KU }
 % \textit{The Runge-Kutta method goes forward in time to find intermediate time steps, where the differential equation again is evaluated. When summing the different paths, the errors cancel out up the order $n$, where $n$ is the amount of intermediate steps. To second order, the Runge-Kutta algorithm calculates half a time step: $k_1 = \Delta t / 2 \psi$ and averages the slope of the slope of the given point and the next. 
@@ -192,5 +194,5 @@ An overview of the module is shown in figure \ref{fig:module_overview}. In gener
 \begin{itemize}
     \item \textbf{Devices} are the physical devices placed in the system. This includes different qubits, resonators and pulses.
     \item \textbf{Systems} are combinations of devices along with descriptions of how they interact.
-    \item \textbf{Experiments} are organizing the different sweeps of parameters and applying the proper integration technique. 
+    \item \textbf{Experiments} are organizing the different sweeps of parameters and apply the proper integration technique. 
 \end{itemize}
